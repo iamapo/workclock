@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WorkClock Mockup</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="stage" aria-label="WorkClock Mockup">
+      <section class="phone" aria-label="Mobile App Dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Dienstag, 7. Juli</p>
+            <h1>WorkClock</h1>
+          </div>
+          <button class="icon-button" aria-label="Einstellungen">⚙</button>
+        </header>
+
+        <section class="status-panel" aria-label="Aktueller Arbeitstag">
+          <div class="status-row">
+            <span class="status-dot"></span>
+            <span>Arbeite seit 08:42</span>
+          </div>
+          <p class="big-time">5 h 12 min</p>
+          <p class="muted">Noch ca. <strong>2 h 48 min</strong> bis zum Ziel</p>
+          <div class="end-card" aria-label="Voraussichtlicher Feierabend">
+            <div>
+              <p class="label">Du arbeitest bis</p>
+              <p class="end-time">17:34 Uhr</p>
+            </div>
+            <p>inkl. 45 min Pflichtpause</p>
+          </div>
+          <div class="progress-shell" aria-label="Fortschritt Tagesziel">
+            <span style="width: 65%"></span>
+          </div>
+          <div class="primary-actions">
+            <button class="primary">Pause starten</button>
+            <button class="secondary">Tag beenden</button>
+          </div>
+        </section>
+
+        <section class="target-strip" aria-label="Tagesziel">
+          <div>
+            <p class="label">Arbeiten bis</p>
+            <p class="value">17:34</p>
+          </div>
+          <div>
+            <p class="label">Soll heute</p>
+            <p class="value">8 h</p>
+          </div>
+          <div>
+            <p class="label">Pflichtpause</p>
+            <p class="value">45 min</p>
+          </div>
+        </section>
+
+        <section class="grid" aria-label="Tages- und Wochenwerte">
+          <article class="metric">
+            <p class="label">Pause heute</p>
+            <p class="metric-value">32 min</p>
+            <p class="hint">13 min fehlen noch</p>
+          </article>
+          <article class="metric">
+            <p class="label">Diese Woche</p>
+            <p class="metric-value">21 h 40</p>
+            <p class="hint">von 40 h</p>
+          </article>
+          <article class="metric">
+            <p class="label">Überstunden</p>
+            <p class="metric-value neutral">+ 20 min</p>
+            <p class="hint">inkl. heute</p>
+          </article>
+          <article class="metric">
+            <p class="label">Letzte Pause</p>
+            <p class="metric-value">12:26</p>
+            <p class="hint">24 min lang</p>
+          </article>
+        </section>
+
+        <section class="timeline" aria-label="Heutige Timeline">
+          <div class="section-title">
+            <h2>Heute</h2>
+            <button>Bearbeiten</button>
+          </div>
+          <ol>
+            <li>
+              <span class="time">08:42</span>
+              <span class="line start"></span>
+              <span>Arbeitsbeginn</span>
+            </li>
+            <li>
+              <span class="time">12:02</span>
+              <span class="line pause"></span>
+              <span>Pause gestartet</span>
+            </li>
+            <li>
+              <span class="time">12:26</span>
+              <span class="line start"></span>
+              <span>Weitergearbeitet</span>
+            </li>
+            <li>
+              <span class="time">17:34</span>
+              <span class="line target"></span>
+              <span>Geplanter Feierabend</span>
+            </li>
+          </ol>
+        </section>
+      </section>
+
+      <aside class="side" aria-label="Einstellungen und Apple Watch Mockup">
+        <section class="settings-panel">
+          <h2>Schnelle Vorgaben</h2>
+          <label>
+            Tägliches Ziel
+            <span class="input-like">8:00 h</span>
+          </label>
+          <label>
+            Pflichtpause
+            <span class="input-like">45 min</span>
+          </label>
+          <label>
+            Wochenziel
+            <span class="input-like">40:00 h</span>
+          </label>
+        </section>
+
+        <section class="calendar-panel" aria-label="Kalenderansicht Juli">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Kalender</p>
+              <h2>Juli 2026</h2>
+            </div>
+            <button>Monat</button>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>Mo</span>
+            <span>Di</span>
+            <span>Mi</span>
+            <span>Do</span>
+            <span>Fr</span>
+            <span>Sa</span>
+            <span>So</span>
+          </div>
+          <div class="calendar-grid">
+            <span class="calendar-day muted-day">29</span>
+            <span class="calendar-day muted-day">30</span>
+            <span class="calendar-day done">1<small>8:04</small></span>
+            <span class="calendar-day done">2<small>7:56</small></span>
+            <span class="calendar-day done">3<small>8:10</small></span>
+            <span class="calendar-day weekend">4</span>
+            <span class="calendar-day weekend">5</span>
+            <span class="calendar-day done">6<small>8:18</small></span>
+            <span class="calendar-day today">7<small>bis 17:34</small></span>
+            <span class="calendar-day planned">8<small>8:00</small></span>
+            <span class="calendar-day planned">9<small>8:00</small></span>
+            <span class="calendar-day planned">10<small>8:00</small></span>
+            <span class="calendar-day weekend">11</span>
+            <span class="calendar-day weekend">12</span>
+          </div>
+          <div class="week-summary">
+            <div>
+              <p class="label">Diese Woche geplant</p>
+              <strong>40:00 h</strong>
+            </div>
+            <div>
+              <p class="label">Aktuell erreicht</p>
+              <strong>21:40 h</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="watch" aria-label="Apple Watch App">
+          <div class="watch-screen">
+            <p class="watch-label">WorkClock</p>
+            <p class="watch-state">Aktiv</p>
+            <p class="watch-time">2:48</p>
+            <p class="watch-caption">noch bis 17:34</p>
+            <div class="watch-actions">
+              <button>⏸</button>
+              <button>■</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="notes">
+          <h2>Interaktionsidee</h2>
+          <p>Die Hauptaktion wechselt kontextabhängig zwischen „Tag starten“, „Pause starten“ und „Weiterarbeiten“. Änderungen von Zielzeit und Pflichtpause wirken sofort auf Restzeit, konkrete Ziel-Uhrzeit und Kalender-Summen.</p>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>
