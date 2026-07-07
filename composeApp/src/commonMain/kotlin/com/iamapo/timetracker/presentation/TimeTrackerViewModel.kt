@@ -2,9 +2,12 @@ package com.iamapo.timetracker.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iamapo.timetracker.data.NoOpWorkDayStore
+import com.iamapo.timetracker.data.WorkDayStore
 import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
+import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.ui.state.TimeTrackerUiState
 import kotlinx.coroutines.delay
@@ -18,17 +21,28 @@ import kotlinx.coroutines.launch
 
 class TimeTrackerViewModel(
     private val timeProvider: TimeProvider = SystemTimeProvider(),
-    initialDay: WorkDay = WorkDay()
+    private val workDayStore: WorkDayStore = NoOpWorkDayStore,
+    initialSnapshot: TimeSnapshot = timeProvider.now(),
+    initialHistory: WorkHistory = workDayStore.loadHistory(initialSnapshot.date)
 ) : ViewModel() {
-    private val day = MutableStateFlow(initialDay)
+    private val history = MutableStateFlow(initialHistory)
     private val ticker = MutableStateFlow(0)
 
-    val uiState: StateFlow<TimeTrackerUiState> = combine(day, ticker) { workDay, _ ->
-        TimeTrackerUiStateMapper.map(workDay, timeProvider.now())
+    val uiState: StateFlow<TimeTrackerUiState> = combine(history, ticker) { savedHistory, _ ->
+        val snapshot = timeProvider.now()
+        TimeTrackerUiStateMapper.map(
+            day = savedHistory.dayWithWeeklySummary(snapshot.date),
+            snapshot = snapshot,
+            history = savedHistory.days
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = TimeTrackerUiStateMapper.map(initialDay, timeProvider.now())
+        initialValue = TimeTrackerUiStateMapper.map(
+            day = initialHistory.dayWithWeeklySummary(initialSnapshot.date),
+            snapshot = initialSnapshot,
+            history = initialHistory.days
+        )
     )
 
     init {
@@ -41,7 +55,7 @@ class TimeTrackerViewModel(
     }
 
     fun onPrimaryAction() {
-        when (day.value.status) {
+        when (currentDay().status) {
             WorkStatus.NotStarted -> onAction(TimeTrackerAction.StartDay)
             WorkStatus.Working -> onAction(TimeTrackerAction.StartBreak)
             WorkStatus.Paused -> onAction(TimeTrackerAction.ResumeWork)
@@ -54,16 +68,24 @@ class TimeTrackerViewModel(
     }
 
     fun onAction(action: TimeTrackerAction) {
-        val now = timeProvider.now().minuteOfDay
-        day.update { current ->
-            when (action) {
-                TimeTrackerAction.StartDay -> current.start(now)
-                TimeTrackerAction.StartBreak -> current.startBreak(now)
-                TimeTrackerAction.ResumeWork -> current.resume(now)
-                TimeTrackerAction.EndDay -> current.finish(now)
-                TimeTrackerAction.StartNewDay -> WorkDay(config = current.config).start(now)
-            }
+        val snapshot = timeProvider.now()
+        val current = history.value.dayWithWeeklySummary(snapshot.date)
+        val updated = when (action) {
+            TimeTrackerAction.StartDay -> current.start(snapshot.minuteOfDay)
+            TimeTrackerAction.StartBreak -> current.startBreak(snapshot.minuteOfDay)
+            TimeTrackerAction.ResumeWork -> current.resume(snapshot.minuteOfDay)
+            TimeTrackerAction.EndDay -> current.finish(snapshot.minuteOfDay)
+            TimeTrackerAction.StartNewDay -> WorkDay(config = current.config).start(snapshot.minuteOfDay)
         }
+        val updatedHistory = history.value.withDay(snapshot.date, updated)
+
+        history.value = updatedHistory
+        workDayStore.saveHistory(updatedHistory)
+    }
+
+    private fun currentDay(): WorkDay {
+        val snapshot = timeProvider.now()
+        return history.value.dayWithWeeklySummary(snapshot.date)
     }
 
     private fun WorkDay.start(now: Int): WorkDay = copy(

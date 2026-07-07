@@ -21,7 +21,11 @@ import kotlin.math.max
 import kotlin.math.min
 
 object TimeTrackerUiStateMapper {
-    fun map(day: WorkDay, snapshot: TimeSnapshot): TimeTrackerUiState {
+    fun map(
+        day: WorkDay,
+        snapshot: TimeSnapshot,
+        history: Map<LocalDate, WorkDay> = emptyMap()
+    ): TimeTrackerUiState {
         val workedMinutes = day.workedMinutes + activeWorkMinutes(day, snapshot.minuteOfDay)
         val breakMinutes = day.breakMinutes + activeBreakMinutes(day, snapshot.minuteOfDay)
         val remainingWorkMinutes = max(day.config.dailyTargetMinutes - workedMinutes, 0)
@@ -76,7 +80,7 @@ object TimeTrackerUiStateMapper {
             ),
             timeline = timeline(day, endMinute),
             monthTitle = monthTitle(snapshot.date),
-            calendarDays = calendarDays(snapshot.date, endMinute),
+            calendarDays = calendarDays(snapshot.date, endMinute, history),
             plannedWeek = formatClockLikeDuration(day.config.weeklyTargetMinutes),
             reachedWeek = formatClockLikeDuration(weeklyWorkedMinutes),
             settings = SettingsUiModel(
@@ -145,7 +149,11 @@ object TimeTrackerUiStateMapper {
             kind = TimelineKind.Target
         )
 
-    private fun calendarDays(date: LocalDate, endMinute: Int): List<CalendarDayUiModel> {
+    private fun calendarDays(
+        date: LocalDate,
+        endMinute: Int,
+        history: Map<LocalDate, WorkDay>
+    ): List<CalendarDayUiModel> {
         val firstOfMonth = LocalDate(date.year, date.month, 1)
         val startDate = firstOfMonth - DatePeriod(days = firstOfMonth.dayOfWeek.isoDayNumber - 1)
 
@@ -162,17 +170,31 @@ object TimeTrackerUiStateMapper {
             }
             CalendarDayUiModel(
                 day = current.day.toString(),
-                note = calendarNote(style, endMinute),
+                note = calendarNote(current, style, endMinute, history),
                 style = style
             )
         }
     }
 
-    private fun calendarNote(style: CalendarDayStyle, endMinute: Int): String = when (style) {
+    private fun calendarNote(
+        date: LocalDate,
+        style: CalendarDayStyle,
+        endMinute: Int,
+        history: Map<LocalDate, WorkDay>
+    ): String = when (style) {
         CalendarDayStyle.Muted,
         CalendarDayStyle.Weekend -> ""
-        CalendarDayStyle.Done -> "8:04"
-        CalendarDayStyle.Today -> "bis " + formatClock(endMinute)
+        CalendarDayStyle.Done -> history[date]
+            ?.let { formatCalendarDuration(it.workedMinutes) }
+            ?: "-"
+        CalendarDayStyle.Today -> {
+            val day = history[date]
+            if (day?.status == WorkStatus.Finished) {
+                formatCalendarDuration(day.workedMinutes)
+            } else {
+                "bis " + formatClock(endMinute)
+            }
+        }
         CalendarDayStyle.Planned -> "8:00"
     }
 
@@ -227,6 +249,13 @@ object TimeTrackerUiStateMapper {
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
         return hours.toString() + ":" + minutes.toString().padStart(2, '0') + " h"
+    }
+
+    private fun formatCalendarDuration(totalMinutes: Int): String {
+        val safeMinutes = max(totalMinutes, 0)
+        val hours = safeMinutes / 60
+        val minutes = safeMinutes % 60
+        return hours.toString() + ":" + minutes.toString().padStart(2, '0')
     }
 
     private fun formatWatchDuration(totalMinutes: Int): String {

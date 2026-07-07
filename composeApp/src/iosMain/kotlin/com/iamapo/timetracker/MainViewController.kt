@@ -1,6 +1,8 @@
 package com.iamapo.timetracker
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
+import com.iamapo.timetracker.data.IosWorkDayStore
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.components.TimeTrackerRoute
 import com.iamapo.timetracker.ui.components.TimeTrackerScreen
@@ -8,7 +10,8 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController = ComposeUIViewController {
-    TimeTrackerRoute()
+    val workDayStore = remember { IosWorkDayStore() }
+    TimeTrackerRoute(workDayStore = workDayStore)
 }
 
 fun PreviewViewController(): UIViewController = ComposeUIViewController {
