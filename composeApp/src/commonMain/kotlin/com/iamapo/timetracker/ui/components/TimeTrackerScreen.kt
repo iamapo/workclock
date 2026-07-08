@@ -21,25 +21,32 @@ object TimeTrackerScreen {
         state: TimeTrackerUiState,
         onPrimaryAction: () -> Unit,
         onSecondaryAction: () -> Unit,
+        onDecreaseRequiredBreak: () -> Unit,
+        onIncreaseRequiredBreak: () -> Unit,
+        onOpenCalendar: () -> Unit,
         modifier: Modifier = Modifier
     ) {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background)
-                .windowInsetsPadding(WindowInsets.safeDrawing),
-            contentPadding = PaddingValues(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .background(AppColors.Background),
+            contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             item { TopBarSection(state.dateLabel, state.title) }
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }
             item { TargetSummaryStrip(state.targets) }
             item { MetricGrid(state.metrics) }
             item { TimelineSection(state.timeline) }
-            item { SettingsPanel(state.settings) }
-            item { CalendarPanel(state.monthTitle, state.calendarDays, state.plannedWeek, state.reachedWeek) }
-            item { WatchCompanionCard(state.watchState, state.watchRemaining, state.watchCaption) }
-            item { NotesPanel() }
+            item {
+                CalendarPanel(
+                    monthTitle = state.monthTitle,
+                    days = state.calendarDays.take(14),
+                    plannedWeek = state.plannedWeek,
+                    reachedWeek = state.reachedWeek,
+                    onOpenCalendar = onOpenCalendar
+                )
+            }
         }
     }
 }

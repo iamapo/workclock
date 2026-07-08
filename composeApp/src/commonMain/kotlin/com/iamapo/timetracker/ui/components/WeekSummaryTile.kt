@@ -21,20 +21,21 @@ object WeekSummaryTile {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.PanelRaised,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Column(modifier = Modifier.padding(14.dp)) {
+            Column(modifier = Modifier.padding(12.dp)) {
                 Text(
                     text = label.uppercase(),
-                    color = AppColors.Muted,
+                    color = AppColors.Subtle,
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 Text(
                     text = value,
                     color = AppColors.Ink,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 6.dp)
                 )
             }

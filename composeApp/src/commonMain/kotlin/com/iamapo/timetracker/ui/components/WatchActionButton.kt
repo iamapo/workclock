@@ -16,15 +16,15 @@ object WatchActionButton {
     @Composable
     operator fun invoke(label: String, modifier: Modifier = Modifier) {
         Surface(
-            modifier = modifier.size(52.dp),
-            color = AppColors.Soft,
+            modifier = modifier.size(38.dp),
+            color = AppColors.SoftMuted,
             shape = CircleShape
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
                     text = label,
-                    color = AppColors.Ink,
-                    fontWeight = FontWeight.Black
+                    color = AppColors.Muted,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

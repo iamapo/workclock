@@ -14,12 +14,13 @@ object MetricGrid {
     operator fun invoke(metrics: List<MetricUiModel>, modifier: Modifier = Modifier) {
         Column(
             modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            metrics.chunked(2).forEach { rowMetrics ->
+            val rows = if (metrics.size <= 3) listOf(metrics) else metrics.chunked(2)
+            rows.forEach { rowMetrics ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     rowMetrics.forEach { metric ->
                         MetricCard(metric, modifier = Modifier.weight(1f))

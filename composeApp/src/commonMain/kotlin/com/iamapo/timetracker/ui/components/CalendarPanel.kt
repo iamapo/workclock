@@ -1,6 +1,7 @@
 package com.iamapo.timetracker.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,29 +25,33 @@ object CalendarPanel {
         days: List<CalendarDayUiModel>,
         plannedWeek: String,
         reachedWeek: String,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onOpenCalendar: (() -> Unit)? = null
     ) {
         Surface(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth()
+                .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Kalender",
-                    color = AppColors.Muted,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
+                    text = "KALENDER",
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 Text(
                     text = monthTitle,
                     color = AppColors.Ink,
                     fontSize = 22.sp,
-                    fontWeight = FontWeight.Black
+                    fontWeight = FontWeight.Bold
                 )
                 CalendarWeekdays()
                 days.chunked(7).forEach { week ->

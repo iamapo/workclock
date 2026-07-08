@@ -18,25 +18,38 @@ import com.iamapo.timetracker.ui.theme.AppColors
 
 object SettingsPanel {
     @Composable
-    operator fun invoke(settings: SettingsUiModel, modifier: Modifier = Modifier) {
+    operator fun invoke(
+        settings: SettingsUiModel,
+        onDecreaseRequiredBreak: () -> Unit,
+        onIncreaseRequiredBreak: () -> Unit,
+        modifier: Modifier = Modifier
+    ) {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Text(
-                    text = "Schnelle Vorgaben",
-                    color = AppColors.Ink,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Black
+                    text = "SCHNELLE VORGABEN",
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 SettingsRow("Tägliches Ziel", settings.dailyTarget)
-                SettingsRow("Pflichtpause", settings.requiredBreak)
+                SettingsRow(
+                    label = "Pflichtpause",
+                    value = settings.requiredBreak,
+                    onDecrease = onDecreaseRequiredBreak,
+                    onIncrease = onIncreaseRequiredBreak,
+                    canDecrease = settings.canDecreaseRequiredBreak,
+                    canIncrease = settings.canIncreaseRequiredBreak
+                )
                 SettingsRow("Wochenziel", settings.weeklyTarget)
             }
         }

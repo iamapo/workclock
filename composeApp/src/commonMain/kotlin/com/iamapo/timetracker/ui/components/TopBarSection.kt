@@ -1,6 +1,7 @@
 package com.iamapo.timetracker.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,23 +30,25 @@ object TopBarSection {
             Column {
                 Text(
                     text = dateLabel.uppercase(),
-                    color = AppColors.Muted,
+                    color = AppColors.Subtle,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 Text(
                     text = title,
                     color = AppColors.Ink,
-                    fontSize = 32.sp,
-                    lineHeight = 34.sp,
-                    fontWeight = FontWeight.Black
+                    fontSize = 22.sp,
+                    lineHeight = 26.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Box(
                 modifier = Modifier
-                    .size(44.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(AppColors.Soft),
+                    .size(38.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(AppColors.PanelRaised)
+                    .border(1.dp, AppColors.Line, RoundedCornerShape(12.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

@@ -1,6 +1,7 @@
 package com.iamapo.timetracker.presentation
 
 import com.iamapo.timetracker.domain.WorkDay
+import com.iamapo.timetracker.domain.WorkDayKind
 import com.iamapo.timetracker.domain.WorkEventKind
 import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.ui.state.CalendarDayStyle
@@ -51,31 +52,26 @@ object TimeTrackerUiStateMapper {
             primaryActionLabel = primaryActionLabel(day.status),
             secondaryActionLabel = secondaryActionLabel(day.status),
             targets = listOf(
-                TargetItemUiModel("Arbeiten bis", formatClock(endMinute)),
-                TargetItemUiModel("Soll heute", formatShortDuration(day.config.dailyTargetMinutes)),
-                TargetItemUiModel("Pflichtpause", formatDuration(day.config.requiredBreakMinutes))
+                TargetItemUiModel("Tagesziel", formatShortDuration(day.config.dailyTargetMinutes)),
+                TargetItemUiModel("Pflichtpause", formatDuration(day.config.requiredBreakMinutes)),
+                TargetItemUiModel("Wochenziel", formatShortDuration(day.config.weeklyTargetMinutes))
             ),
             metrics = listOf(
                 MetricUiModel(
-                    label = "Pause heute",
-                    value = formatDuration(breakMinutes),
-                    hint = if (missingBreakMinutes == 0) "Pflichtpause erfüllt" else formatDuration(missingBreakMinutes) + " fehlen noch"
+                    label = "Gearbeitet",
+                    value = formatCompactDuration(workedMinutes),
+                    hint = if (workedMinutes == 0) "noch nicht gestartet" else "heute erfasst",
+                    emphasized = workedMinutes > 0
                 ),
                 MetricUiModel(
-                    label = "Diese Woche",
-                    value = formatDuration(weeklyWorkedMinutes),
-                    hint = "von " + formatShortDuration(day.config.weeklyTargetMinutes)
+                    label = "Pause",
+                    value = formatCompactDuration(breakMinutes),
+                    hint = if (missingBreakMinutes == 0) "Pflichtpause erfüllt" else formatDuration(missingBreakMinutes) + " fehlen"
                 ),
                 MetricUiModel(
-                    label = "Rest heute",
-                    value = formatDuration(remainingWorkMinutes),
-                    hint = "bis " + formatClock(endMinute),
-                    emphasized = true
-                ),
-                MetricUiModel(
-                    label = "Letzte Pause",
-                    value = day.lastBreakMinutes?.let(::formatDuration) ?: "-",
-                    hint = if (day.lastBreakMinutes == null) "noch keine Pause" else "zuletzt gemacht"
+                    label = "Fehlt",
+                    value = formatCompactDuration(remainingWorkMinutes),
+                    hint = "bis " + formatClock(endMinute)
                 )
             ),
             timeline = timeline(day, endMinute),
@@ -86,6 +82,8 @@ object TimeTrackerUiStateMapper {
             settings = SettingsUiModel(
                 dailyTarget = formatClockLikeDuration(day.config.dailyTargetMinutes),
                 requiredBreak = formatDuration(day.config.requiredBreakMinutes),
+                canDecreaseRequiredBreak = day.config.requiredBreakMinutes > MinRequiredBreakMinutes,
+                canIncreaseRequiredBreak = day.config.requiredBreakMinutes < MaxRequiredBreakMinutes,
                 weeklyTarget = formatClockLikeDuration(day.config.weeklyTargetMinutes)
             ),
             watchState = watchState(day.status),
@@ -157,21 +155,29 @@ object TimeTrackerUiStateMapper {
         val firstOfMonth = LocalDate(date.year, date.month, 1)
         val startDate = firstOfMonth - DatePeriod(days = firstOfMonth.dayOfWeek.isoDayNumber - 1)
 
-        return (0 until 14).map { index ->
+        return (0 until CalendarVisibleDayCount).map { index ->
             val current = startDate + DatePeriod(days = index)
+            val calendarDay = history[current]
             val isWeekend = current.dayOfWeek.isoDayNumber >= 6
             val isOutsideMonth = current.month != date.month
+            val isToday = current == date
             val style = when {
                 isOutsideMonth -> CalendarDayStyle.Muted
-                current == date -> CalendarDayStyle.Today
+                calendarDay?.kind == WorkDayKind.Vacation -> CalendarDayStyle.Vacation
+                calendarDay?.kind == WorkDayKind.Sick -> CalendarDayStyle.Sick
+                isToday -> CalendarDayStyle.Today
                 isWeekend -> CalendarDayStyle.Weekend
                 current < date -> CalendarDayStyle.Done
                 else -> CalendarDayStyle.Planned
             }
             CalendarDayUiModel(
+                date = current,
                 day = current.day.toString(),
                 note = calendarNote(current, style, endMinute, history),
-                style = style
+                style = style,
+                isToday = isToday,
+                isCurrentMonth = !isOutsideMonth,
+                workedMinutes = calendarDay?.workedMinutes ?: 0
             )
         }
     }
@@ -184,6 +190,12 @@ object TimeTrackerUiStateMapper {
     ): String = when (style) {
         CalendarDayStyle.Muted,
         CalendarDayStyle.Weekend -> ""
+        CalendarDayStyle.Vacation -> history[date]
+            ?.let { "Urlaub " + formatCalendarDuration(it.workedMinutes) }
+            ?: "Urlaub"
+        CalendarDayStyle.Sick -> history[date]
+            ?.let { "Krank " + formatCalendarDuration(it.workedMinutes) }
+            ?: "Krank"
         CalendarDayStyle.Done -> history[date]
             ?.let { formatCalendarDuration(it.workedMinutes) }
             ?: "-"
@@ -245,6 +257,17 @@ object TimeTrackerUiStateMapper {
         return if (minutes == 0) "$hours h" else formatDuration(totalMinutes)
     }
 
+    private fun formatCompactDuration(totalMinutes: Int): String {
+        val safeMinutes = max(totalMinutes, 0)
+        val hours = safeMinutes / 60
+        val minutes = safeMinutes % 60
+        return when {
+            hours == 0 -> "$minutes min"
+            minutes == 0 -> "${hours}h"
+            else -> "${hours}h ${minutes}m"
+        }
+    }
+
     private fun formatClockLikeDuration(totalMinutes: Int): String {
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
@@ -278,4 +301,8 @@ object TimeTrackerUiStateMapper {
         WorkStatus.Paused -> "Pause"
         WorkStatus.Finished -> "Fertig"
     }
+
+    private const val MinRequiredBreakMinutes = 0
+    private const val MaxRequiredBreakMinutes = 120
+    private const val CalendarVisibleDayCount = 42
 }

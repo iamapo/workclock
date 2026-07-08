@@ -1,15 +1,20 @@
 package com.iamapo.timetracker.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -21,60 +26,96 @@ import com.iamapo.timetracker.ui.theme.AppColors
 
 object CalendarDayCell {
     @Composable
-    operator fun invoke(day: CalendarDayUiModel, modifier: Modifier = Modifier) {
+    operator fun invoke(
+        day: CalendarDayUiModel,
+        modifier: Modifier = Modifier,
+        selected: Boolean = false,
+        onClick: (() -> Unit)? = null
+    ) {
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(min = 58.dp),
+                .heightIn(min = 48.dp)
+                .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
             color = backgroundFor(day.style),
-            border = BorderStroke(1.dp, borderFor(day.style)),
-            shape = RoundedCornerShape(8.dp)
+            border = BorderStroke(if (selected) 1.5.dp else 1.dp, if (selected) AppColors.Ink.copy(alpha = 0.25f) else borderFor(day.style)),
+            shape = RoundedCornerShape(10.dp)
         ) {
             Column(
-                modifier = Modifier.padding(7.dp),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.padding(6.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = day.day,
-                    color = textFor(day.style),
+                    color = if (selected) AppColors.Ink else textFor(day.style),
                     fontSize = 13.sp,
-                    fontWeight = FontWeight.Black
+                    fontWeight = if (day.isToday || selected) FontWeight.Bold else FontWeight.Normal
                 )
-                Text(
-                    text = day.note,
-                    color = noteFor(day.style),
-                    fontSize = 9.sp,
-                    lineHeight = 10.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                if (showDot(day.style)) {
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                            .size(4.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Surface(
+                            modifier = Modifier.size(4.dp),
+                            color = dotFor(day.style),
+                            shape = CircleShape,
+                            content = {}
+                        )
+                    }
+                }
             }
         }
     }
 
     private fun backgroundFor(style: CalendarDayStyle): Color = when (style) {
         CalendarDayStyle.Done -> AppColors.Green.copy(alpha = 0.10f)
-        CalendarDayStyle.Today -> AppColors.Blue.copy(alpha = 0.22f)
-        CalendarDayStyle.Planned -> AppColors.Amber.copy(alpha = 0.10f)
+        CalendarDayStyle.Today -> AppColors.Blue.copy(alpha = 0.15f)
+        CalendarDayStyle.Planned -> Color.Transparent
+        CalendarDayStyle.Vacation -> AppColors.Purple.copy(alpha = 0.09f)
+        CalendarDayStyle.Sick -> AppColors.Rose.copy(alpha = 0.09f)
         CalendarDayStyle.Muted,
-        CalendarDayStyle.Weekend -> AppColors.Soft.copy(alpha = 0.42f)
+        CalendarDayStyle.Weekend -> Color.Transparent
     }
 
     private fun borderFor(style: CalendarDayStyle): Color = when (style) {
-        CalendarDayStyle.Done -> AppColors.Green.copy(alpha = 0.42f)
-        CalendarDayStyle.Today -> AppColors.Blue.copy(alpha = 0.72f)
-        CalendarDayStyle.Planned -> AppColors.Amber.copy(alpha = 0.40f)
+        CalendarDayStyle.Done -> AppColors.Green.copy(alpha = 0.20f)
+        CalendarDayStyle.Today -> AppColors.Blue.copy(alpha = 0.35f)
+        CalendarDayStyle.Planned -> Color.Transparent
+        CalendarDayStyle.Vacation -> AppColors.Purple.copy(alpha = 0.20f)
+        CalendarDayStyle.Sick -> AppColors.Rose.copy(alpha = 0.20f)
         CalendarDayStyle.Muted,
-        CalendarDayStyle.Weekend -> AppColors.Line
+        CalendarDayStyle.Weekend -> Color.Transparent
     }
 
     private fun textFor(style: CalendarDayStyle): Color = when (style) {
+        CalendarDayStyle.Done -> AppColors.Green
+        CalendarDayStyle.Today -> AppColors.Ink
+        CalendarDayStyle.Planned -> AppColors.Subtle
+        CalendarDayStyle.Vacation -> AppColors.Purple
+        CalendarDayStyle.Sick -> AppColors.Rose
         CalendarDayStyle.Muted,
-        CalendarDayStyle.Weekend -> AppColors.Muted.copy(alpha = 0.55f)
-        else -> AppColors.Ink
+        CalendarDayStyle.Weekend -> AppColors.Subtle
     }
 
-    private fun noteFor(style: CalendarDayStyle): Color = when (style) {
-        CalendarDayStyle.Today -> AppColors.Ink
-        else -> AppColors.Muted
+    private fun showDot(style: CalendarDayStyle): Boolean = when (style) {
+        CalendarDayStyle.Done,
+        CalendarDayStyle.Today,
+        CalendarDayStyle.Vacation,
+        CalendarDayStyle.Sick -> true
+        CalendarDayStyle.Planned,
+        CalendarDayStyle.Muted,
+        CalendarDayStyle.Weekend -> false
+    }
+
+    private fun dotFor(style: CalendarDayStyle): Color = when (style) {
+        CalendarDayStyle.Done -> AppColors.Green
+        CalendarDayStyle.Today -> AppColors.Blue
+        CalendarDayStyle.Vacation -> AppColors.Purple
+        CalendarDayStyle.Sick -> AppColors.Rose
+        else -> AppColors.Subtle
     }
 }

@@ -1,6 +1,7 @@
 package com.iamapo.timetracker.domain
 
 data class WorkDay(
+    val kind: WorkDayKind = WorkDayKind.Work,
     val status: WorkStatus = WorkStatus.NotStarted,
     val startMinute: Int? = null,
     val activeSessionStartMinute: Int? = null,
@@ -14,6 +15,7 @@ data class WorkDay(
 ) {
     companion object {
         fun preview(): WorkDay = WorkDay(
+            kind = WorkDayKind.Work,
             status = WorkStatus.Working,
             startMinute = 8 * 60 + 42,
             activeSessionStartMinute = 12 * 60 + 26,

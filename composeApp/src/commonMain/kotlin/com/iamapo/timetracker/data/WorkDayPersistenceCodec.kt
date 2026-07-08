@@ -14,6 +14,9 @@ object WorkDayPersistenceCodec {
 
     fun encodeHistory(history: WorkHistory): String = buildString {
         appendLine("historyVersion=$HistoryVersion")
+        appendLine("defaultDailyTargetMinutes=${history.defaultConfig.dailyTargetMinutes}")
+        appendLine("defaultRequiredBreakMinutes=${history.defaultConfig.requiredBreakMinutes}")
+        appendLine("defaultWeeklyTargetMinutes=${history.defaultConfig.weeklyTargetMinutes}")
         history.days.entries
             .sortedBy { (date, _) -> date.toString() }
             .forEach { (date, day) ->
@@ -23,6 +26,7 @@ object WorkDayPersistenceCodec {
 
     fun decodeHistory(raw: String): WorkHistory? = runCatching {
         var hasSupportedVersion = false
+        val values = mutableMapOf<String, String>()
         val days = mutableMapOf<LocalDate, WorkDay>()
 
         raw.lineSequence()
@@ -46,15 +50,24 @@ object WorkDayPersistenceCodec {
 
                         days[date] = day
                     }
+                    else -> values[key] = value
                 }
             }
 
         require(hasSupportedVersion)
-        WorkHistory(days = days)
+        WorkHistory(
+            defaultConfig = WorkDayConfig(
+                dailyTargetMinutes = values["defaultDailyTargetMinutes"]?.toInt() ?: WorkDayConfig().dailyTargetMinutes,
+                requiredBreakMinutes = values["defaultRequiredBreakMinutes"]?.toInt() ?: WorkDayConfig().requiredBreakMinutes,
+                weeklyTargetMinutes = values["defaultWeeklyTargetMinutes"]?.toInt() ?: WorkDayConfig().weeklyTargetMinutes
+            ),
+            days = days
+        )
     }.getOrNull()
 
     fun encode(day: WorkDay): String = buildString {
         appendLine("version=$Version")
+        appendLine("kind=${day.kind.name}")
         appendLine("status=${day.status.name}")
         appendLine("startMinute=${day.startMinute.encodeNullableInt()}")
         appendLine("activeSessionStartMinute=${day.activeSessionStartMinute.encodeNullableInt()}")
@@ -94,6 +107,7 @@ object WorkDayPersistenceCodec {
         require(values["version"] == Version)
 
         WorkDay(
+            kind = values["kind"]?.let { enumValueOf(it) } ?: WorkDay().kind,
             status = enumValueOf(values.getValue("status")),
             startMinute = values.getValue("startMinute").decodeNullableInt(),
             activeSessionStartMinute = values.getValue("activeSessionStartMinute").decodeNullableInt(),

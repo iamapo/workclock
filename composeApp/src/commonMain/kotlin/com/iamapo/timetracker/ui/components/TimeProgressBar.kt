@@ -13,20 +13,24 @@ import com.iamapo.timetracker.ui.theme.AppColors
 
 object TimeProgressBar {
     @Composable
-    operator fun invoke(progress: Float, modifier: Modifier = Modifier) {
+    operator fun invoke(
+        progress: Float,
+        modifier: Modifier = Modifier,
+        color: androidx.compose.ui.graphics.Color = AppColors.Green
+    ) {
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .height(10.dp)
+                .height(5.dp)
                 .clip(RoundedCornerShape(50))
-                .background(AppColors.Soft)
+                .background(AppColors.SoftMuted)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(progress.coerceIn(0f, 1f))
-                    .height(10.dp)
+                    .height(5.dp)
                     .clip(RoundedCornerShape(50))
-                    .background(AppColors.Green)
+                    .background(color)
             )
         }
     }

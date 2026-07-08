@@ -18,7 +18,10 @@ private fun AndroidTimeTrackerPreview() {
         TimeTrackerScreen(
             state = TimeTrackerPreviewData.uiState,
             onPrimaryAction = {},
-            onSecondaryAction = {}
+            onSecondaryAction = {},
+            onDecreaseRequiredBreak = {},
+            onIncreaseRequiredBreak = {},
+            onOpenCalendar = {}
         )
     }
 }

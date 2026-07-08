@@ -2,6 +2,7 @@ package com.iamapo.timetracker.data
 
 import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkDayConfig
+import com.iamapo.timetracker.domain.WorkDayKind
 import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
 import com.iamapo.timetracker.domain.WorkHistory
@@ -15,6 +16,7 @@ class WorkDayPersistenceCodecTest {
     @Test
     fun encodesAndDecodesWorkDay() {
         val day = WorkDay(
+            kind = WorkDayKind.Vacation,
             status = WorkStatus.Working,
             startMinute = 8 * 60 + 42,
             activeSessionStartMinute = 12 * 60 + 26,
@@ -67,6 +69,7 @@ class WorkDayPersistenceCodecTest {
             )
         )
         val history = WorkHistory(
+            defaultConfig = WorkDayConfig(requiredBreakMinutes = 35),
             days = mapOf(
                 LocalDate(2026, 7, 6) to monday,
                 LocalDate(2026, 7, 7) to tuesday

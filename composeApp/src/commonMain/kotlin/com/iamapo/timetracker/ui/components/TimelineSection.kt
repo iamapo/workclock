@@ -23,17 +23,18 @@ object TimelineSection {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Text(
-                    text = "Heute",
-                    color = AppColors.Ink,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Black
+                    text = "TIMELINE",
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 items.forEach { item ->
                     TimelineRow(item)

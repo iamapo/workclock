@@ -22,9 +22,9 @@ object CalendarWeekdays {
             listOf("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So").forEach { weekday ->
                 Text(
                     text = weekday,
-                    color = AppColors.Muted,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Black,
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(1f)
                 )

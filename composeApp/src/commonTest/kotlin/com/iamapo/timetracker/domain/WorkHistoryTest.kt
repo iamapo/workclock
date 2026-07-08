@@ -20,4 +20,15 @@ class WorkHistoryTest {
 
         assertEquals(7 * 60 + 30, day.weeklyWorkedBeforeTodayMinutes)
     }
+
+    @Test
+    fun usesDefaultConfigForNewDays() {
+        val history = WorkHistory(
+            defaultConfig = WorkDayConfig(requiredBreakMinutes = 35)
+        )
+
+        val day = history.dayFor(LocalDate(2026, 7, 7))
+
+        assertEquals(35, day.config.requiredBreakMinutes)
+    }
 }

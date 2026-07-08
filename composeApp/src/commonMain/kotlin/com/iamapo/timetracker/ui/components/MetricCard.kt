@@ -22,31 +22,34 @@ object MetricCard {
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(min = 112.dp),
+                .heightIn(min = 92.dp),
             color = AppColors.PanelRaised,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(14.dp)
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)) {
                 Text(
                     text = metric.label.uppercase(),
-                    color = AppColors.Muted,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 Text(
                     text = metric.value,
-                    color = if (metric.emphasized) AppColors.Cyan else AppColors.Ink,
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight.Black,
-                    modifier = Modifier.padding(top = 12.dp)
+                    color = if (metric.emphasized) AppColors.Green else AppColors.Ink,
+                    fontSize = 18.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp)
                 )
                 Text(
                     text = metric.hint,
-                    color = AppColors.Muted,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(top = 4.dp)
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    lineHeight = 12.sp,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(top = 3.dp)
                 )
             }
         }

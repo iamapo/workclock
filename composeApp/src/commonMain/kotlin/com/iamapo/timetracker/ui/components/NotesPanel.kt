@@ -21,14 +21,15 @@ object NotesPanel {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
                 Text(
-                    text = "Interaktionsidee",
-                    color = AppColors.Ink,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Black
+                    text = "INTERAKTIONSIDEE",
+                    color = AppColors.Subtle,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.sp
                 )
                 Text(
                     text = "Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pflichtpause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.",

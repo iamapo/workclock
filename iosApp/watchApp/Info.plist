@@ -14,11 +14,9 @@
     <string>$(MARKETING_VERSION)</string>
     <key>CFBundleVersion</key>
     <string>$(CURRENT_PROJECT_VERSION)</string>
-    <key>CFBundleDisplayName</key>
-    <string>WorkClock</string>
-    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <key>WKCompanionAppBundleIdentifier</key>
+    <string>com.iamapo.timetracker.iosApp</string>
+    <key>WKApplication</key>
     <true/>
-    <key>UILaunchScreen</key>
-    <dict/>
 </dict>
 </plist>

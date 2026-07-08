@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.state.TimelineItemUiModel
 import com.iamapo.timetracker.ui.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -29,27 +32,41 @@ object TimelineRow {
         ) {
             Text(
                 text = item.time,
-                color = AppColors.Muted,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.width(54.dp)
+                color = AppColors.Ink,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.width(50.dp)
             )
             Box(
                 modifier = Modifier
-                    .size(10.dp)
+                    .size(16.dp)
                     .clip(CircleShape)
-                    .background(colorFor(item.kind))
-            )
+                    .background(colorFor(item.kind).copy(alpha = if (item.kind == TimelineKind.Target) 0.16f else 1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                if (item.kind == TimelineKind.Target) {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .clip(RoundedCornerShape(99.dp))
+                            .background(colorFor(item.kind))
+                    )
+                }
+            }
             Text(
                 text = item.title,
-                color = AppColors.Ink,
-                fontWeight = FontWeight.Medium
+                color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Muted,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
 
     private fun colorFor(kind: TimelineKind): Color = when (kind) {
-        TimelineKind.Work -> AppColors.Blue
-        TimelineKind.Break -> AppColors.Rose
-        TimelineKind.Target -> AppColors.Cyan
+        TimelineKind.Work -> AppColors.Green
+        TimelineKind.Break -> AppColors.Amber
+        TimelineKind.Target -> AppColors.Subtle
     }
 }
