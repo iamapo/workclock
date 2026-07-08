@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.components.SettingsPanel
 import com.iamapo.timetracker.ui.components.TopBarSection
-import com.iamapo.timetracker.ui.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 

@@ -13,7 +13,7 @@ import com.iamapo.timetracker.domain.usecase.EditCalendarDayUseCase
 import com.iamapo.timetracker.domain.usecase.ObserveWorkHistoryUseCase
 import com.iamapo.timetracker.domain.usecase.TrackWorkDayUseCase
 import com.iamapo.timetracker.domain.usecase.UpdateWorkSettingsUseCase
-import com.iamapo.timetracker.ui.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

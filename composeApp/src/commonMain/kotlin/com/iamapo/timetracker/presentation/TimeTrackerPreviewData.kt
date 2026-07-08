@@ -2,7 +2,7 @@ package com.iamapo.timetracker.presentation
 
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.domain.WorkDay
-import com.iamapo.timetracker.ui.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 

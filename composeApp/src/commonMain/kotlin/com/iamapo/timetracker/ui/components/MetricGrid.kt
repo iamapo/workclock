@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.ui.state.MetricUiModel
+import com.iamapo.timetracker.presentation.state.MetricUiModel
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object MetricGrid {

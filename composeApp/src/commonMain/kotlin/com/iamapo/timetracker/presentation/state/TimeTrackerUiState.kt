@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.ui.state
+package com.iamapo.timetracker.presentation.state
 
 data class TimeTrackerUiState(
     val dateLabel: String,

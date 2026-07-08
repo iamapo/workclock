@@ -1,0 +1,65 @@
+package com.iamapo.timetracker.presentation
+
+import com.iamapo.timetracker.domain.TimeSnapshot
+import com.iamapo.timetracker.domain.WorkDay
+import com.iamapo.timetracker.domain.WorkStatus
+import kotlin.math.max
+import kotlin.math.min
+
+internal data class WorkDaySummary(
+    val workedMinutes: Int,
+    val breakMinutes: Int,
+    val remainingWorkMinutes: Int,
+    val missingBreakMinutes: Int,
+    val endMinute: Int,
+    val weeklyWorkedMinutes: Int,
+    val progress: Float
+)
+
+internal class WorkDaySummaryCalculator {
+    fun calculate(day: WorkDay, snapshot: TimeSnapshot): WorkDaySummary {
+        val workedMinutes = day.workedMinutes + activeWorkMinutes(day, snapshot.minuteOfDay)
+        val breakMinutes = day.breakMinutes + activeBreakMinutes(day, snapshot.minuteOfDay)
+        val remainingWorkMinutes = max(day.config.dailyTargetMinutes - workedMinutes, 0)
+        val missingBreakMinutes = max(day.config.requiredBreakMinutes - breakMinutes, 0)
+        val endMinute = when (day.status) {
+            WorkStatus.NotStarted -> snapshot.minuteOfDay + day.config.dailyTargetMinutes + day.config.requiredBreakMinutes
+            WorkStatus.Working,
+            WorkStatus.Paused -> snapshot.minuteOfDay + remainingWorkMinutes + missingBreakMinutes
+            WorkStatus.Finished -> snapshot.minuteOfDay
+        }
+        val weeklyWorkedMinutes = day.weeklyWorkedBeforeTodayMinutes + workedMinutes
+        val progress = min(workedMinutes.toFloat() / day.config.dailyTargetMinutes.toFloat(), 1f)
+
+        return WorkDaySummary(
+            workedMinutes = workedMinutes,
+            breakMinutes = breakMinutes,
+            remainingWorkMinutes = remainingWorkMinutes,
+            missingBreakMinutes = missingBreakMinutes,
+            endMinute = endMinute,
+            weeklyWorkedMinutes = weeklyWorkedMinutes,
+            progress = progress
+        )
+    }
+
+    private fun activeWorkMinutes(day: WorkDay, nowMinute: Int): Int =
+        if (day.status == WorkStatus.Working && day.activeSessionStartMinute != null) {
+            elapsedMinutes(day.activeSessionStartMinute, nowMinute)
+        } else {
+            0
+        }
+
+    private fun activeBreakMinutes(day: WorkDay, nowMinute: Int): Int =
+        if (day.status == WorkStatus.Paused && day.pauseStartedMinute != null) {
+            elapsedMinutes(day.pauseStartedMinute, nowMinute)
+        } else {
+            0
+        }
+
+    private fun elapsedMinutes(startMinute: Int, endMinute: Int): Int =
+        if (endMinute >= startMinute) endMinute - startMinute else MinutesPerDay - startMinute + endMinute
+
+    private companion object {
+        const val MinutesPerDay = 24 * 60
+    }
+}

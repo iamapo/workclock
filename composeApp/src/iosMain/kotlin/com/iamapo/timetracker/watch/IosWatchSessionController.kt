@@ -1,6 +1,6 @@
 package com.iamapo.timetracker.watch
 
-import com.iamapo.timetracker.ui.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSError
 import platform.WatchConnectivity.WCSession

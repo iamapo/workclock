@@ -20,7 +20,7 @@ import com.iamapo.timetracker.ui.components.StatusCard
 import com.iamapo.timetracker.ui.components.TargetSummaryStrip
 import com.iamapo.timetracker.ui.components.TimelineSection
 import com.iamapo.timetracker.ui.components.TopBarSection
-import com.iamapo.timetracker.ui.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 

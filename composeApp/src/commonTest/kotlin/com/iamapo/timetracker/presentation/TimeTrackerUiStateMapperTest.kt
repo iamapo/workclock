@@ -4,7 +4,7 @@ import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkDayKind
 import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.WorkStatus
-import com.iamapo.timetracker.ui.state.CalendarDayStyle
+import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals

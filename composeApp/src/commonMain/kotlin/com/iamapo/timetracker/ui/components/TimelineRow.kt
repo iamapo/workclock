@@ -19,8 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.state.TimelineItemUiModel
-import com.iamapo.timetracker.ui.state.TimelineKind
+import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
+import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
