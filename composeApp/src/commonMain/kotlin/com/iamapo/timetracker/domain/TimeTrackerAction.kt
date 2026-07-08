@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.presentation
+package com.iamapo.timetracker.domain
 
 sealed interface TimeTrackerAction {
     data object StartDay : TimeTrackerAction

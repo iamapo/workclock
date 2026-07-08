@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.presentation
+package com.iamapo.timetracker.domain
 
 fun interface TimeProvider {
     fun now(): TimeSnapshot

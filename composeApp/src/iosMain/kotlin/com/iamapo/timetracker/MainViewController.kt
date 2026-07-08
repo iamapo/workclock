@@ -8,6 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
 import com.iamapo.timetracker.data.IosWorkDayStore
+import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
+import com.iamapo.timetracker.domain.SystemTimeProvider
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
 import com.iamapo.timetracker.ui.screens.CalendarEditorScreen
@@ -18,7 +20,19 @@ import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController = ComposeUIViewController {
     val workDayStore = remember { IosWorkDayStore() }
-    val viewModel = remember { TimeTrackerViewModel(workDayStore = workDayStore) }
+    val timeProvider = remember { SystemTimeProvider() }
+    val repository = remember {
+        PersistedWorkHistoryRepository(
+            store = workDayStore,
+            today = timeProvider.now().date
+        )
+    }
+    val viewModel = remember {
+        TimeTrackerViewModel(
+            timeProvider = timeProvider,
+            repository = repository
+        )
+    }
     val watchSession = remember {
         IosWatchSessionController(onCommand = viewModel::onWatchCommand).also { it.activate() }
     }

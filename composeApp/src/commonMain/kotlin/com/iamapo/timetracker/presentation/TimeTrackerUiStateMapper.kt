@@ -4,6 +4,7 @@ import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkDayKind
 import com.iamapo.timetracker.domain.WorkEventKind
 import com.iamapo.timetracker.domain.WorkStatus
+import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.ui.state.CalendarDayStyle
 import com.iamapo.timetracker.ui.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.state.MetricUiModel

@@ -10,7 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.data.NoOpWorkDayStore
+import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
 import com.iamapo.timetracker.data.WorkDayStore
+import com.iamapo.timetracker.domain.SystemTimeProvider
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
 import com.iamapo.timetracker.ui.components.MainTab
@@ -23,11 +25,19 @@ object TimeTrackerRoute {
     @Composable
     operator fun invoke(
         workDayStore: WorkDayStore = NoOpWorkDayStore,
-        viewModel: TimeTrackerViewModel = remember {
-            TimeTrackerViewModel(workDayStore = workDayStore)
-        }
+        viewModel: TimeTrackerViewModel? = null
     ) {
-        val state by viewModel.uiState.collectAsState()
+        val resolvedViewModel = viewModel ?: remember(workDayStore) {
+            val timeProvider = SystemTimeProvider()
+            TimeTrackerViewModel(
+                timeProvider = timeProvider,
+                repository = PersistedWorkHistoryRepository(
+                    store = workDayStore,
+                    today = timeProvider.now().date
+                )
+            )
+        }
+        val state by resolvedViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
         var selectedCalendarDate by remember { mutableStateOf(state.calendarDays.firstOrNull { it.isToday }?.date) }
 
@@ -51,10 +61,10 @@ object TimeTrackerRoute {
                     MainTab.Today -> {
                         TimeTrackerScreen(
                             state = state,
-                            onPrimaryAction = viewModel::onPrimaryAction,
-                            onSecondaryAction = viewModel::onSecondaryAction,
-                            onDecreaseRequiredBreak = viewModel::decreaseRequiredBreak,
-                            onIncreaseRequiredBreak = viewModel::increaseRequiredBreak,
+                            onPrimaryAction = resolvedViewModel::onPrimaryAction,
+                            onSecondaryAction = resolvedViewModel::onSecondaryAction,
+                            onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
+                            onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
                             onOpenCalendar = {
                                 selectedCalendarDate = state.calendarDays.firstOrNull { it.isToday }?.date
                                     ?: state.calendarDays.firstOrNull()?.date
@@ -70,20 +80,20 @@ object TimeTrackerRoute {
                                 ?: state.calendarDays.firstOrNull { it.isToday }?.date
                                 ?: state.calendarDays.first().date,
                             onSelectDate = { selectedCalendarDate = it },
-                            onIncreaseDay = viewModel::increaseCalendarDay,
-                            onDecreaseDay = viewModel::decreaseCalendarDay,
-                            onVacation = viewModel::setCalendarDayVacation,
-                            onSick = viewModel::setCalendarDaySick,
-                            onClear = viewModel::clearCalendarDay,
+                            onIncreaseDay = resolvedViewModel::increaseCalendarDay,
+                            onDecreaseDay = resolvedViewModel::decreaseCalendarDay,
+                            onVacation = resolvedViewModel::setCalendarDayVacation,
+                            onSick = resolvedViewModel::setCalendarDaySick,
+                            onClear = resolvedViewModel::clearCalendarDay,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }
                     MainTab.Settings -> {
                         SettingsScreen(
                             state = state,
-                            onDecreaseRequiredBreak = viewModel::decreaseRequiredBreak,
-                            onIncreaseRequiredBreak = viewModel::increaseRequiredBreak,
-                            onDeleteAllEntries = viewModel::deleteAllEntries,
+                            onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
+                            onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
+                            onDeleteAllEntries = resolvedViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }

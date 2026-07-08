@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.presentation
+package com.iamapo.timetracker.domain
 
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
