@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -38,8 +37,6 @@ object WatchActionButton {
 @Composable
 private fun WatchActionButtonPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            WatchActionButton("II")
-        }
+        WatchActionButton("II")
     }
 }

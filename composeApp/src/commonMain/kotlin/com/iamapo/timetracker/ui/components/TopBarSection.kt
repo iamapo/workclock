@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -55,11 +54,9 @@ object TopBarSection {
 @Composable
 private fun TopBarSectionPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            TopBarSection(
-                dateLabel = TimeTrackerPreviewData.uiState.dateLabel,
-                title = TimeTrackerPreviewData.uiState.title
-            )
-        }
+        TopBarSection(
+            dateLabel = TimeTrackerPreviewData.uiState.dateLabel,
+            title = TimeTrackerPreviewData.uiState.title
+        )
     }
 }

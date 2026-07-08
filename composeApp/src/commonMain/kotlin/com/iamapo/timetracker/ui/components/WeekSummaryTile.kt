@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -50,11 +49,9 @@ object WeekSummaryTile {
 @Composable
 private fun WeekSummaryTilePreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            WeekSummaryTile(
-                label = "Aktuell erreicht",
-                value = "21:40 h"
-            )
-        }
+        WeekSummaryTile(
+            label = "Aktuell erreicht",
+            value = "21:40 h"
+        )
     }
 }

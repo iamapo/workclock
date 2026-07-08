@@ -17,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -78,14 +77,12 @@ object CalendarPanel {
 @Composable
 private fun CalendarPanelPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            CalendarPanel(
-                monthTitle = TimeTrackerPreviewData.uiState.monthTitle,
-                days = TimeTrackerPreviewData.uiState.calendarDays.take(14),
-                plannedWeek = TimeTrackerPreviewData.uiState.plannedWeek,
-                reachedWeek = TimeTrackerPreviewData.uiState.reachedWeek,
-                onOpenCalendar = {}
-            )
-        }
+        CalendarPanel(
+            monthTitle = TimeTrackerPreviewData.uiState.monthTitle,
+            days = TimeTrackerPreviewData.uiState.calendarDays.take(14),
+            plannedWeek = TimeTrackerPreviewData.uiState.plannedWeek,
+            reachedWeek = TimeTrackerPreviewData.uiState.reachedWeek,
+            onOpenCalendar = {}
+        )
     }
 }

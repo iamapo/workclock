@@ -14,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -63,18 +62,16 @@ object SettingsPanel {
 @Composable
 private fun SettingsPanelPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            SettingsPanel(
-                settings = SettingsUiModel(
-                    dailyTarget = "8:00 h",
-                    requiredBreak = "30 min",
-                    canDecreaseRequiredBreak = true,
-                    canIncreaseRequiredBreak = true,
-                    weeklyTarget = "40:00 h"
-                ),
-                onDecreaseRequiredBreak = {},
-                onIncreaseRequiredBreak = {}
-            )
-        }
+        SettingsPanel(
+            settings = SettingsUiModel(
+                dailyTarget = "8:00 h",
+                requiredBreak = "30 min",
+                canDecreaseRequiredBreak = true,
+                canIncreaseRequiredBreak = true,
+                weeklyTarget = "40:00 h"
+            ),
+            onDecreaseRequiredBreak = {},
+            onIncreaseRequiredBreak = {}
+        )
     }
 }

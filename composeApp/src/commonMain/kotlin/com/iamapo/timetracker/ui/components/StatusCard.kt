@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -202,12 +201,10 @@ object StatusCard {
 @Composable
 private fun StatusCardPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            StatusCard(
-                state = TimeTrackerPreviewData.uiState,
-                onPrimaryAction = {},
-                onSecondaryAction = {}
-            )
-        }
+        StatusCard(
+            state = TimeTrackerPreviewData.uiState,
+            onPrimaryAction = {},
+            onSecondaryAction = {}
+        )
     }
 }

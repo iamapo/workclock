@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.TimelineItemUiModel
 import com.iamapo.timetracker.ui.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -78,14 +77,12 @@ object TimelineRow {
 @Composable
 private fun TimelineRowPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            TimelineRow(
-                TimelineItemUiModel(
-                    time = "12:26",
-                    title = "Weitergearbeitet",
-                    kind = TimelineKind.Work
-                )
+        TimelineRow(
+            TimelineItemUiModel(
+                time = "12:26",
+                title = "Weitergearbeitet",
+                kind = TimelineKind.Work
             )
-        }
+        )
     }
 }

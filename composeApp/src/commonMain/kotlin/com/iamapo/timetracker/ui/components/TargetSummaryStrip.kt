@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.TargetItemUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -63,14 +62,12 @@ object TargetSummaryStrip {
 @Composable
 private fun TargetSummaryStripPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            TargetSummaryStrip(
-                listOf(
-                    TargetItemUiModel("Arbeiten bis", "17:21"),
-                    TargetItemUiModel("Soll heute", "8 h"),
-                    TargetItemUiModel("Pflichtpause", "30 min")
-                )
+        TargetSummaryStrip(
+            listOf(
+                TargetItemUiModel("Arbeiten bis", "17:21"),
+                TargetItemUiModel("Soll heute", "8 h"),
+                TargetItemUiModel("Pflichtpause", "30 min")
             )
-        }
+        )
     }
 }

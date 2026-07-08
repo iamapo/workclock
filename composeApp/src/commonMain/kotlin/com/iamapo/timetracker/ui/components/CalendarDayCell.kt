@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.CalendarDayStyle
 import com.iamapo.timetracker.ui.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -128,8 +127,6 @@ object CalendarDayCell {
 @Composable
 private fun CalendarDayCellPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            CalendarDayCell(TimeTrackerPreviewData.uiState.calendarDays.first { it.isToday })
-        }
+        CalendarDayCell(TimeTrackerPreviewData.uiState.calendarDays.first { it.isToday })
     }
 }

@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object WeekSummaryRow {
@@ -27,11 +26,9 @@ object WeekSummaryRow {
 @Composable
 private fun WeekSummaryRowPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            WeekSummaryRow(
-                plannedWeek = "40:00 h",
-                reachedWeek = "21:40 h"
-            )
-        }
+        WeekSummaryRow(
+            plannedWeek = "40:00 h",
+            reachedWeek = "21:40 h"
+        )
     }
 }

@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -43,8 +42,6 @@ object TimeProgressBar {
 @Composable
 private fun TimeProgressBarPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            TimeProgressBar(0.64f)
-        }
+        TimeProgressBar(0.64f)
     }
 }

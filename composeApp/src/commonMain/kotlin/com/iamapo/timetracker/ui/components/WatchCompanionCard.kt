@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -140,12 +139,10 @@ object WatchCompanionCard {
 @Composable
 private fun WatchCompanionCardPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            WatchCompanionCard(
-                state = "Aktiv",
-                remaining = "2:48",
-                caption = "noch bis 17:21"
-            )
-        }
+        WatchCompanionCard(
+            state = "Aktiv",
+            remaining = "2:48",
+            caption = "noch bis 17:21"
+        )
     }
 }

@@ -11,7 +11,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -40,8 +39,6 @@ object CalendarWeekdays {
 @Composable
 private fun CalendarWeekdaysPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            CalendarWeekdays()
-        }
+        CalendarWeekdays()
     }
 }

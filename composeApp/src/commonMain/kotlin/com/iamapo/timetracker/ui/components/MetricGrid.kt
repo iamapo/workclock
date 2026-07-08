@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.MetricUiModel
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -42,8 +41,6 @@ object MetricGrid {
 @Composable
 private fun MetricGridPreview() {
     TimeTrackerTheme {
-        PreviewFrame {
-            MetricGrid(TimeTrackerPreviewData.uiState.metrics)
-        }
+        MetricGrid(TimeTrackerPreviewData.uiState.metrics)
     }
 }
