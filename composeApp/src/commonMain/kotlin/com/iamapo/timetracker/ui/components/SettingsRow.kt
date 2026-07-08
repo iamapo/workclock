@@ -16,8 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object SettingsRow {
     @Composable
@@ -91,6 +94,21 @@ object SettingsRow {
             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp)
         ) {
             Text(label, fontWeight = FontWeight.Black)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun SettingsRowPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            SettingsRow(
+                label = "Pflichtpause",
+                value = "30 min",
+                onDecrease = {},
+                onIncrease = {}
+            )
         }
     }
 }

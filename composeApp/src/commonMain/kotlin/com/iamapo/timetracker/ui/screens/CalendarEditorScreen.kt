@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.ui.components
+package com.iamapo.timetracker.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -23,12 +23,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.components.CalendarDayCell
+import com.iamapo.timetracker.ui.components.CalendarWeekdays
 import com.iamapo.timetracker.ui.state.CalendarDayStyle
 import com.iamapo.timetracker.ui.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
@@ -54,9 +59,8 @@ object CalendarEditorScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background)
-                .windowInsetsPadding(WindowInsets.safeDrawing),
-            contentPadding = PaddingValues(20.dp),
+                .background(AppColors.Background),
+            contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             item {
@@ -305,5 +309,28 @@ object CalendarEditorScreen {
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
         return if (minutes == 0) "$hours h" else "$hours h $minutes min"
+    }
+}
+
+@Preview(
+    name = "Screen - Kalender",
+    showBackground = true,
+    backgroundColor = 0xFF07080D,
+    device = "spec:width=411dp,height=891dp,dpi=420"
+)
+@Composable
+private fun CalendarEditorScreenPreview() {
+    TimeTrackerTheme {
+        CalendarEditorScreen(
+            state = TimeTrackerPreviewData.uiState,
+            selectedDate = LocalDate(2026, 7, 7),
+            onSelectDate = {},
+            onBack = null,
+            onIncreaseDay = {},
+            onDecreaseDay = {},
+            onVacation = {},
+            onSick = {},
+            onClear = {}
+        )
     }
 }

@@ -10,9 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object WeekSummaryTile {
     @Composable
@@ -39,6 +42,19 @@ object WeekSummaryTile {
                     modifier = Modifier.padding(top = 6.dp)
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun WeekSummaryTilePreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            WeekSummaryTile(
+                label = "Aktuell erreicht",
+                value = "21:40 h"
+            )
         }
     }
 }

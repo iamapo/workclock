@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.remember
 import com.iamapo.timetracker.data.AndroidWorkDayStore
-import com.iamapo.timetracker.ui.components.TimeTrackerRoute
+import com.iamapo.timetracker.ui.TimeTrackerRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

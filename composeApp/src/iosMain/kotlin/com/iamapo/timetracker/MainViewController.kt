@@ -10,8 +10,8 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.iamapo.timetracker.data.IosWorkDayStore
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
-import com.iamapo.timetracker.ui.components.CalendarEditorScreen
-import com.iamapo.timetracker.ui.components.TimeTrackerScreen
+import com.iamapo.timetracker.ui.screens.CalendarEditorScreen
+import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.watch.IosWatchSessionController
 import platform.UIKit.UIViewController

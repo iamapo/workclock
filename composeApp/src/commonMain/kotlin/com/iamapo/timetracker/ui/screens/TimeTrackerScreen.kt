@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.ui.components
+package com.iamapo.timetracker.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,9 +11,18 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.components.CalendarPanel
+import com.iamapo.timetracker.ui.components.MetricGrid
+import com.iamapo.timetracker.ui.components.StatusCard
+import com.iamapo.timetracker.ui.components.TargetSummaryStrip
+import com.iamapo.timetracker.ui.components.TimelineSection
+import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.ui.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object TimeTrackerScreen {
     @Composable
@@ -48,5 +57,25 @@ object TimeTrackerScreen {
                 )
             }
         }
+    }
+}
+
+@Preview(
+    name = "Screen - Heute",
+    showBackground = true,
+    backgroundColor = 0xFF07080D,
+    device = "spec:width=411dp,height=891dp,dpi=420"
+)
+@Composable
+private fun TimeTrackerScreenPreview() {
+    TimeTrackerTheme {
+        TimeTrackerScreen(
+            state = TimeTrackerPreviewData.uiState,
+            onPrimaryAction = {},
+            onSecondaryAction = {},
+            onDecreaseRequiredBreak = {},
+            onIncreaseRequiredBreak = {},
+            onOpenCalendar = {}
+        )
     }
 }

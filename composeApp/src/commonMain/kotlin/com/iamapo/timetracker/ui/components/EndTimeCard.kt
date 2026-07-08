@@ -13,9 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object EndTimeCard {
     @Composable
@@ -53,6 +56,16 @@ object EndTimeCard {
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun EndTimeCardPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            EndTimeCard("17:21 Uhr", "inkl. 30 min Pflichtpause")
         }
     }
 }

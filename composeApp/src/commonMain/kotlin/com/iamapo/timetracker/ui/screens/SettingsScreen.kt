@@ -1,4 +1,4 @@
-package com.iamapo.timetracker.ui.components
+package com.iamapo.timetracker.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -24,10 +24,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.components.SettingsPanel
+import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.ui.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object SettingsScreen {
     @Composable
@@ -45,7 +50,7 @@ object SettingsScreen {
                 .fillMaxSize()
                 .background(AppColors.Background)
                 .windowInsetsPadding(WindowInsets.safeDrawing),
-            contentPadding = PaddingValues(start = 24.dp, top = 18.dp, end = 24.dp, bottom = 28.dp),
+            contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             item {
@@ -176,5 +181,23 @@ object SettingsScreen {
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
             )
         }
+    }
+}
+
+@Preview(
+    name = "Screen - Einstellungen",
+    showBackground = true,
+    backgroundColor = 0xFF07080D,
+    device = "spec:width=411dp,height=891dp,dpi=420"
+)
+@Composable
+private fun SettingsScreenPreview() {
+    TimeTrackerTheme {
+        SettingsScreen(
+            state = TimeTrackerPreviewData.uiState,
+            onDecreaseRequiredBreak = {},
+            onIncreaseRequiredBreak = {},
+            onDeleteAllEntries = {}
+        )
     }
 }

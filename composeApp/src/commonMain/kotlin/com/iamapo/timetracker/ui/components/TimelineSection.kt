@@ -11,10 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.TimelineItemUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object TimelineSection {
     @Composable
@@ -40,6 +44,16 @@ object TimelineSection {
                     TimelineRow(item)
                 }
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TimelineSectionPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            TimelineSection(TimeTrackerPreviewData.uiState.timeline)
         }
     }
 }

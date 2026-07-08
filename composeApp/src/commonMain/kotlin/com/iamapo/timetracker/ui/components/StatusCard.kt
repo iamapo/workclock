@@ -20,10 +20,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object StatusCard {
     @Composable
@@ -191,5 +195,19 @@ object StatusCard {
             progressColor = AppColors.Subtle,
             actionColor = AppColors.Green
         )
+    }
+}
+
+@Preview
+@Composable
+private fun StatusCardPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            StatusCard(
+                state = TimeTrackerPreviewData.uiState,
+                onPrimaryAction = {},
+                onSecondaryAction = {}
+            )
+        }
     }
 }

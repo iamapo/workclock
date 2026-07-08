@@ -15,9 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object TopBarSection {
     @Composable
@@ -43,20 +47,19 @@ object TopBarSection {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Box(
-                modifier = Modifier
-                    .size(38.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(AppColors.PanelRaised)
-                    .border(1.dp, AppColors.Line, RoundedCornerShape(12.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "⚙",
-                    color = AppColors.Ink,
-                    fontSize = 18.sp
-                )
-            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TopBarSectionPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            TopBarSection(
+                dateLabel = TimeTrackerPreviewData.uiState.dateLabel,
+                title = TimeTrackerPreviewData.uiState.title
+            )
         }
     }
 }

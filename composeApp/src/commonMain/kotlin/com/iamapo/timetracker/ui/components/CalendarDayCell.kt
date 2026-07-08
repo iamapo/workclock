@@ -18,11 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.state.CalendarDayStyle
 import com.iamapo.timetracker.ui.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object CalendarDayCell {
     @Composable
@@ -117,5 +121,15 @@ object CalendarDayCell {
         CalendarDayStyle.Vacation -> AppColors.Purple
         CalendarDayStyle.Sick -> AppColors.Rose
         else -> AppColors.Subtle
+    }
+}
+
+@Preview
+@Composable
+private fun CalendarDayCellPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            CalendarDayCell(TimeTrackerPreviewData.uiState.calendarDays.first { it.isToday })
+        }
     }
 }

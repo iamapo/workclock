@@ -17,9 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.iamapo.timetracker.ui.PreviewFrame
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object WatchCompanionCard {
     @Composable
@@ -130,5 +133,19 @@ object WatchCompanionCard {
         state.contains("bereit", ignoreCase = true) -> AppColors.Subtle
         state.contains("beendet", ignoreCase = true) -> AppColors.Blue
         else -> AppColors.Green
+    }
+}
+
+@Preview
+@Composable
+private fun WatchCompanionCardPreview() {
+    TimeTrackerTheme {
+        PreviewFrame {
+            WatchCompanionCard(
+                state = "Aktiv",
+                remaining = "2:48",
+                caption = "noch bis 17:21"
+            )
+        }
     }
 }
