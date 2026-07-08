@@ -3,6 +3,7 @@ package com.iamapo.timetracker.data
 import android.content.Context
 import com.iamapo.timetracker.domain.WorkHistory
 import kotlinx.datetime.LocalDate
+import androidx.core.content.edit
 
 class AndroidWorkDayStore(context: Context) : WorkDayStore {
     private val preferences = context.applicationContext.getSharedPreferences(
@@ -12,18 +13,18 @@ class AndroidWorkDayStore(context: Context) : WorkDayStore {
 
     override fun loadHistory(today: LocalDate): WorkHistory =
         preferences.getString(HistoryKey, null)
-            ?.let(WorkDayPersistenceCodec::decodeHistory)
+            ?.let(WorkHistorySerializer::decodeHistory)
             ?: loadLegacyWorkDay(today)
 
     override fun saveHistory(history: WorkHistory) {
-        preferences.edit()
-            .putString(HistoryKey, WorkDayPersistenceCodec.encodeHistory(history))
-            .apply()
+        preferences.edit {
+            putString(HistoryKey, WorkHistorySerializer.encodeHistory(history))
+        }
     }
 
     private fun loadLegacyWorkDay(today: LocalDate): WorkHistory {
         val day = preferences.getString(CurrentWorkDayKey, null)
-            ?.let(WorkDayPersistenceCodec::decode)
+            ?.let(WorkHistorySerializer::decode)
             ?: return WorkHistory()
 
         return WorkHistory(days = mapOf(today to day))

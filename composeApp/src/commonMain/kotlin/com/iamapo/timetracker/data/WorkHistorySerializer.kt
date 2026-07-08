@@ -7,7 +7,7 @@ import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
 import kotlinx.datetime.LocalDate
 
-object WorkDayPersistenceCodec {
+object WorkHistorySerializer {
     private const val Version = "1"
     private const val HistoryVersion = "1"
     private const val NullValue = "-"

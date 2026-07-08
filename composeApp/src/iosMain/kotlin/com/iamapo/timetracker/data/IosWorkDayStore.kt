@@ -9,19 +9,19 @@ class IosWorkDayStore(
 ) : WorkDayStore {
     override fun loadHistory(today: LocalDate): WorkHistory =
         defaults.stringForKey(HistoryKey)
-            ?.let(WorkDayPersistenceCodec::decodeHistory)
+            ?.let(WorkHistorySerializer::decodeHistory)
             ?: loadLegacyWorkDay(today)
 
     override fun saveHistory(history: WorkHistory) {
         defaults.setObject(
-            WorkDayPersistenceCodec.encodeHistory(history),
+            WorkHistorySerializer.encodeHistory(history),
             forKey = HistoryKey
         )
     }
 
     private fun loadLegacyWorkDay(today: LocalDate): WorkHistory {
         val day = defaults.stringForKey(CurrentWorkDayKey)
-            ?.let(WorkDayPersistenceCodec::decode)
+            ?.let(WorkHistorySerializer::decode)
             ?: return WorkHistory()
 
         return WorkHistory(days = mapOf(today to day))

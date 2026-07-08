@@ -12,7 +12,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class WorkDayPersistenceCodecTest {
+class WorkHistorySerializerTest {
     @Test
     fun encodesAndDecodesWorkDay() {
         val day = WorkDay(
@@ -37,14 +37,14 @@ class WorkDayPersistenceCodecTest {
             )
         )
 
-        val decoded = WorkDayPersistenceCodec.decode(WorkDayPersistenceCodec.encode(day))
+        val decoded = WorkHistorySerializer.decode(WorkHistorySerializer.encode(day))
 
         assertEquals(day, decoded)
     }
 
     @Test
     fun returnsNullForInvalidData() {
-        assertNull(WorkDayPersistenceCodec.decode("not persisted state"))
+        assertNull(WorkHistorySerializer.decode("not persisted state"))
     }
 
     @Test
@@ -76,8 +76,8 @@ class WorkDayPersistenceCodecTest {
             )
         )
 
-        val decoded = WorkDayPersistenceCodec.decodeHistory(
-            WorkDayPersistenceCodec.encodeHistory(history)
+        val decoded = WorkHistorySerializer.decodeHistory(
+            WorkHistorySerializer.encodeHistory(history)
         )
 
         assertEquals(history, decoded)
@@ -85,6 +85,6 @@ class WorkDayPersistenceCodecTest {
 
     @Test
     fun returnsNullForInvalidHistoryData() {
-        assertNull(WorkDayPersistenceCodec.decodeHistory("not persisted history"))
+        assertNull(WorkHistorySerializer.decodeHistory("not persisted history"))
     }
 }
