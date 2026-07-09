@@ -11,14 +11,14 @@ object TimeTrackerTheme {
     operator fun invoke(content: @Composable () -> Unit) {
         MaterialTheme(
             colorScheme = darkColorScheme(
-                primary = AppColors.Blue,
-                secondary = AppColors.Cyan,
-                tertiary = AppColors.Green,
+                primary = AppColors.Green,
+                secondary = AppColors.Blue,
+                tertiary = AppColors.Amber,
                 background = AppColors.Background,
                 surface = AppColors.Panel,
                 surfaceVariant = AppColors.PanelRaised,
                 outline = AppColors.Line,
-                onPrimary = AppColors.Ink,
+                onPrimary = AppColors.Background,
                 onSecondary = AppColors.Ink,
                 onBackground = AppColors.Ink,
                 onSurface = AppColors.Ink,
