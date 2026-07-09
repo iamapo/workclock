@@ -15,6 +15,7 @@ internal class CalendarMonthMapper {
     fun map(
         date: LocalDate,
         endMinute: Int,
+        dailyTargetMinutes: Int,
         history: Map<LocalDate, WorkDay>
     ): List<CalendarDayUiModel> {
         val firstOfMonth = LocalDate(date.year, date.month, 1)
@@ -38,7 +39,7 @@ internal class CalendarMonthMapper {
             CalendarDayUiModel(
                 date = current,
                 day = current.day.toString(),
-                note = calendarNote(current, style, endMinute, history),
+                note = calendarNote(current, style, endMinute, dailyTargetMinutes, history),
                 style = style,
                 isToday = isToday,
                 isCurrentMonth = !isOutsideMonth,
@@ -51,6 +52,7 @@ internal class CalendarMonthMapper {
         date: LocalDate,
         style: CalendarDayStyle,
         endMinute: Int,
+        dailyTargetMinutes: Int,
         history: Map<LocalDate, WorkDay>
     ): String = when (style) {
         CalendarDayStyle.Muted,
@@ -72,7 +74,7 @@ internal class CalendarMonthMapper {
                 "bis " + TimeTextFormatter.clock(endMinute)
             }
         }
-        CalendarDayStyle.Planned -> "8:00"
+        CalendarDayStyle.Planned -> TimeTextFormatter.calendarDuration(dailyTargetMinutes)
     }
 
     private companion object {

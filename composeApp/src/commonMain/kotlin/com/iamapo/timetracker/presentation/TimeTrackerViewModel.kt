@@ -125,6 +125,14 @@ class TimeTrackerViewModel(
         updateWorkSettings.setLockScreenStatusEnabled(enabled)
     }
 
+    fun increaseDailyTarget() {
+        updateWorkSettings.increaseDailyTarget()
+    }
+
+    fun decreaseDailyTarget() {
+        updateWorkSettings.decreaseDailyTarget()
+    }
+
     fun increaseCalendarDay(date: LocalDate) {
         editCalendarDay.increaseDay(date)
     }
@@ -141,12 +149,24 @@ class TimeTrackerViewModel(
         editCalendarDay.setSick(date)
     }
 
+    fun setCalendarDayForgottenWorkDay(date: LocalDate) {
+        editCalendarDay.setForgottenWorkDay(date)
+    }
+
     fun clearCalendarDay(date: LocalDate) {
         editCalendarDay.clearDay(date)
     }
 
     fun deleteAllEntries() {
         deleteWorkEntries()
+    }
+
+    fun increaseWeeklyTarget() {
+        updateWorkSettings.increaseWeeklyTarget()
+    }
+
+    fun decreaseWeeklyTarget() {
+        updateWorkSettings.decreaseWeeklyTarget()
     }
 
     private fun currentStatus(): WorkStatus {

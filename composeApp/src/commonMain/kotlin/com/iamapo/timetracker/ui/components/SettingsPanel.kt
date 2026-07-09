@@ -25,8 +25,12 @@ object SettingsPanel {
     @Composable
     operator fun invoke(
         settings: SettingsUiModel,
+        onDecreaseDailyTarget: () -> Unit,
+        onIncreaseDailyTarget: () -> Unit,
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
+        onDecreaseWeeklyTarget: () -> Unit,
+        onIncreaseWeeklyTarget: () -> Unit,
         onLockScreenStatusChanged: (Boolean) -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -47,7 +51,14 @@ object SettingsPanel {
                     fontWeight = FontWeight.Medium,
                     letterSpacing = 1.sp
                 )
-                SettingsRow("Tägliches Ziel", settings.dailyTarget)
+                SettingsRow(
+                    label = "Tägliches Ziel",
+                    value = settings.dailyTarget,
+                    onDecrease = onDecreaseDailyTarget,
+                    onIncrease = onIncreaseDailyTarget,
+                    canDecrease = settings.canDecreaseDailyTarget,
+                    canIncrease = settings.canIncreaseDailyTarget
+                )
                 SettingsRow(
                     label = "Pflichtpause",
                     value = settings.requiredBreak,
@@ -56,7 +67,14 @@ object SettingsPanel {
                     canDecrease = settings.canDecreaseRequiredBreak,
                     canIncrease = settings.canIncreaseRequiredBreak
                 )
-                SettingsRow("Wochenziel", settings.weeklyTarget)
+                SettingsRow(
+                    label = "Wochenarbeitszeit",
+                    value = settings.weeklyTarget,
+                    onDecrease = onDecreaseWeeklyTarget,
+                    onIncrease = onIncreaseWeeklyTarget,
+                    canDecrease = settings.canDecreaseWeeklyTarget,
+                    canIncrease = settings.canIncreaseWeeklyTarget
+                )
                 LockScreenStatusRow(
                     enabled = settings.lockScreenStatusEnabled,
                     onEnabledChange = onLockScreenStatusChanged
@@ -106,14 +124,22 @@ private fun SettingsPanelPreview() {
         SettingsPanel(
             settings = SettingsUiModel(
                 dailyTarget = "8:00 h",
+                canDecreaseDailyTarget = true,
+                canIncreaseDailyTarget = true,
                 requiredBreak = "30 min",
                 canDecreaseRequiredBreak = true,
                 canIncreaseRequiredBreak = true,
                 weeklyTarget = "40:00 h",
+                canDecreaseWeeklyTarget = true,
+                canIncreaseWeeklyTarget = true,
                 lockScreenStatusEnabled = true
             ),
+            onDecreaseDailyTarget = {},
+            onIncreaseDailyTarget = {},
             onDecreaseRequiredBreak = {},
             onIncreaseRequiredBreak = {},
+            onDecreaseWeeklyTarget = {},
+            onIncreaseWeeklyTarget = {},
             onLockScreenStatusChanged = {}
         )
     }

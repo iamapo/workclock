@@ -35,8 +35,12 @@ object SettingsScreen {
     @Composable
     operator fun invoke(
         state: TimeTrackerUiState,
+        onDecreaseDailyTarget: () -> Unit,
+        onIncreaseDailyTarget: () -> Unit,
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
+        onDecreaseWeeklyTarget: () -> Unit,
+        onIncreaseWeeklyTarget: () -> Unit,
         onLockScreenStatusChanged: (Boolean) -> Unit,
         onDeleteAllEntries: () -> Unit,
         modifier: Modifier = Modifier
@@ -59,8 +63,12 @@ object SettingsScreen {
             item {
                 SettingsPanel(
                     settings = state.settings,
+                    onDecreaseDailyTarget = onDecreaseDailyTarget,
+                    onIncreaseDailyTarget = onIncreaseDailyTarget,
                     onDecreaseRequiredBreak = onDecreaseRequiredBreak,
                     onIncreaseRequiredBreak = onIncreaseRequiredBreak,
+                    onDecreaseWeeklyTarget = onDecreaseWeeklyTarget,
+                    onIncreaseWeeklyTarget = onIncreaseWeeklyTarget,
                     onLockScreenStatusChanged = onLockScreenStatusChanged
                 )
             }
@@ -193,8 +201,12 @@ private fun SettingsScreenPreview() {
     TimeTrackerTheme {
         SettingsScreen(
             state = TimeTrackerPreviewData.uiState,
+            onDecreaseDailyTarget = {},
+            onIncreaseDailyTarget = {},
             onDecreaseRequiredBreak = {},
             onIncreaseRequiredBreak = {},
+            onDecreaseWeeklyTarget = {},
+            onIncreaseWeeklyTarget = {},
             onLockScreenStatusChanged = {},
             onDeleteAllEntries = {}
         )

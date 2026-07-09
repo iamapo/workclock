@@ -94,6 +94,7 @@ object TimeTrackerRoute {
                             onDecreaseDay = resolvedViewModel::decreaseCalendarDay,
                             onVacation = resolvedViewModel::setCalendarDayVacation,
                             onSick = resolvedViewModel::setCalendarDaySick,
+                            onForgottenWorkDay = resolvedViewModel::setCalendarDayForgottenWorkDay,
                             onClear = resolvedViewModel::clearCalendarDay,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
@@ -101,8 +102,12 @@ object TimeTrackerRoute {
                     MainTab.Settings -> {
                         SettingsScreen(
                             state = state,
+                            onDecreaseDailyTarget = resolvedViewModel::decreaseDailyTarget,
+                            onIncreaseDailyTarget = resolvedViewModel::increaseDailyTarget,
                             onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
                             onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
+                            onDecreaseWeeklyTarget = resolvedViewModel::decreaseWeeklyTarget,
+                            onIncreaseWeeklyTarget = resolvedViewModel::increaseWeeklyTarget,
                             onLockScreenStatusChanged = resolvedViewModel::setLockScreenStatusEnabled,
                             onDeleteAllEntries = resolvedViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)

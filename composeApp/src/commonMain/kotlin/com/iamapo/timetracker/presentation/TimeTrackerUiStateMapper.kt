@@ -57,20 +57,33 @@ object TimeTrackerUiStateMapper {
                 MetricUiModel(
                     label = "Fehlt",
                     value = TimeTextFormatter.compactDuration(summary.remainingWorkMinutes),
-                    hint = "bis " + TimeTextFormatter.clock(summary.endMinute)
+                    hint = if (day.status == WorkStatus.Finished) {
+                        "beendet um " + TimeTextFormatter.clock(summary.endMinute)
+                    } else {
+                        "bis " + TimeTextFormatter.clock(summary.endMinute)
+                    }
                 )
             ),
             timeline = timelineMapper.map(day, summary.endMinute),
             monthTitle = TimeTextFormatter.monthTitle(snapshot.date),
-            calendarDays = calendarMonthMapper.map(snapshot.date, summary.endMinute, history),
+            calendarDays = calendarMonthMapper.map(
+                date = snapshot.date,
+                endMinute = summary.endMinute,
+                dailyTargetMinutes = day.config.dailyTargetMinutes,
+                history = history
+            ),
             plannedWeek = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes),
             reachedWeek = TimeTextFormatter.clockLikeDuration(summary.weeklyWorkedMinutes),
             settings = SettingsUiModel(
                 dailyTarget = TimeTextFormatter.clockLikeDuration(day.config.dailyTargetMinutes),
+                canDecreaseDailyTarget = day.config.dailyTargetMinutes > MinDailyTargetMinutes,
+                canIncreaseDailyTarget = day.config.dailyTargetMinutes < MaxDailyTargetMinutes,
                 requiredBreak = TimeTextFormatter.duration(day.config.requiredBreakMinutes),
                 canDecreaseRequiredBreak = day.config.requiredBreakMinutes > MinRequiredBreakMinutes,
                 canIncreaseRequiredBreak = day.config.requiredBreakMinutes < MaxRequiredBreakMinutes,
                 weeklyTarget = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes),
+                canDecreaseWeeklyTarget = day.config.weeklyTargetMinutes > MinWeeklyTargetMinutes,
+                canIncreaseWeeklyTarget = day.config.weeklyTargetMinutes < MaxWeeklyTargetMinutes,
                 lockScreenStatusEnabled = lockScreenStatusEnabled
             ),
             watchState = watchState(day.status),
@@ -79,10 +92,11 @@ object TimeTrackerUiStateMapper {
             } else {
                 TimeTextFormatter.watchDuration(summary.remainingWorkMinutes)
             },
-            watchCaption = if (day.status == WorkStatus.NotStarted) {
-                "bereit zum Start"
-            } else {
-                "noch bis " + TimeTextFormatter.clock(summary.endMinute)
+            watchCaption = when (day.status) {
+                WorkStatus.NotStarted -> "bereit zum Start"
+                WorkStatus.Finished -> "beendet um " + TimeTextFormatter.clock(summary.endMinute)
+                WorkStatus.Working,
+                WorkStatus.Paused -> "noch bis " + TimeTextFormatter.clock(summary.endMinute)
             }
         )
     }
@@ -115,6 +129,10 @@ object TimeTrackerUiStateMapper {
         WorkStatus.Finished -> "Fertig"
     }
 
+    private const val MinDailyTargetMinutes = 60
+    private const val MaxDailyTargetMinutes = 16 * 60
     private const val MinRequiredBreakMinutes = 0
     private const val MaxRequiredBreakMinutes = 120
+    private const val MinWeeklyTargetMinutes = 60
+    private const val MaxWeeklyTargetMinutes = 80 * 60
 }

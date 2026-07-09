@@ -26,7 +26,7 @@ internal class WorkDaySummaryCalculator {
             WorkStatus.NotStarted -> snapshot.minuteOfDay + day.config.dailyTargetMinutes + day.config.requiredBreakMinutes
             WorkStatus.Working,
             WorkStatus.Paused -> snapshot.minuteOfDay + remainingWorkMinutes + missingBreakMinutes
-            WorkStatus.Finished -> snapshot.minuteOfDay
+            WorkStatus.Finished -> finishedMinute(day, snapshot.minuteOfDay)
         }
         val weeklyWorkedMinutes = day.weeklyWorkedBeforeTodayMinutes + workedMinutes
         val progress = min(workedMinutes.toFloat() / day.config.dailyTargetMinutes.toFloat(), 1f)
@@ -59,7 +59,11 @@ internal class WorkDaySummaryCalculator {
     private fun elapsedMinutes(startMinute: Int, endMinute: Int): Int =
         if (endMinute >= startMinute) endMinute - startMinute else MinutesPerDay - startMinute + endMinute
 
+    private fun finishedMinute(day: WorkDay, fallbackMinute: Int): Int =
+        day.events.lastOrNull { it.title == FinishedEventTitle }?.minuteOfDay ?: fallbackMinute
+
     private companion object {
+        const val FinishedEventTitle = "Arbeitstag beendet"
         const val MinutesPerDay = 24 * 60
     }
 }

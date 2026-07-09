@@ -46,6 +46,7 @@ object CalendarEditorScreen {
         onDecreaseDay: (LocalDate) -> Unit,
         onVacation: (LocalDate) -> Unit,
         onSick: (LocalDate) -> Unit,
+        onForgottenWorkDay: (LocalDate) -> Unit,
         onClear: (LocalDate) -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -81,6 +82,7 @@ object CalendarEditorScreen {
                     onDecreaseDay = onDecreaseDay,
                     onVacation = onVacation,
                     onSick = onSick,
+                    onForgottenWorkDay = onForgottenWorkDay,
                     onClear = onClear
                 )
             }
@@ -178,6 +180,7 @@ object CalendarEditorScreen {
         onDecreaseDay: (LocalDate) -> Unit,
         onVacation: (LocalDate) -> Unit,
         onSick: (LocalDate) -> Unit,
+        onForgottenWorkDay: (LocalDate) -> Unit,
         onClear: (LocalDate) -> Unit
     ) {
         Surface(
@@ -234,6 +237,12 @@ object CalendarEditorScreen {
                         containerColor = AppColors.Rose
                     )
                 }
+                ActionButton(
+                    label = "Arbeitstag 8h",
+                    onClick = { onForgottenWorkDay(day.date) },
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = AppColors.Green
+                )
                 ActionButton(
                     label = "Eintrag löschen",
                     onClick = { onClear(day.date) },
@@ -327,6 +336,7 @@ private fun CalendarEditorScreenPreview() {
             onDecreaseDay = {},
             onVacation = {},
             onSick = {},
+            onForgottenWorkDay = {},
             onClear = {}
         )
     }
