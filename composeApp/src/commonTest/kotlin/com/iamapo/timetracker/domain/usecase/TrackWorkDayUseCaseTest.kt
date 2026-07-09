@@ -29,4 +29,26 @@ class TrackWorkDayUseCaseTest {
         assertEquals(config, day.config)
         assertEquals(9 * 60, day.startMinute)
     }
+
+    @Test
+    fun appliesActionAtProvidedDateAndMinute() {
+        val phoneDate = LocalDate(2026, 7, 9)
+        val watchDate = LocalDate(2026, 7, 8)
+        val repository = FakeWorkHistoryRepository()
+        val useCase = TrackWorkDayUseCase(
+            repository = repository,
+            timeProvider = FakeTimeProvider(TimeSnapshot(phoneDate, 10 * 60))
+        )
+
+        useCase(
+            action = TimeTrackerAction.StartDay,
+            date = watchDate,
+            minuteOfDay = 8 * 60 + 15
+        )
+
+        val day = repository.history.value.days.getValue(watchDate)
+        assertEquals(WorkStatus.Working, day.status)
+        assertEquals(8 * 60 + 15, day.startMinute)
+        assertEquals(null, repository.history.value.days[phoneDate])
+    }
 }

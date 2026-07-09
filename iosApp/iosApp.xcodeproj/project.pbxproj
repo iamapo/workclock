@@ -14,6 +14,7 @@
 		B1B2C3D4E5F60718293A0001 /* watchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0101 /* watchAppApp.swift */; };
 		B1B2C3D4E5F60718293A0002 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0102 /* WatchContentView.swift */; };
 		B1B2C3D4E5F60718293A0003 /* WatchSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0103 /* WatchSessionModel.swift */; };
+		B1B2C3D4E5F60718293A0004 /* watchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0105 /* watchApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C1B2C3D4E5F60718293A0001 /* WorkClockLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */; };
 		C1B2C3D4E5F60718293A0002 /* IosLockScreenStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0102 /* IosLockScreenStatusController.swift */; };
 		C1B2C3D4E5F60718293A0003 /* WorkClockLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */; };
@@ -22,6 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B1B2C3D4E5F60718293A0C01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1B2C3D4E5F60718293A0801 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1B2C3D4E5F60718293A0402;
+			remoteInfo = watchApp;
+		};
 		C1B2C3D4E5F60718293A0C01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A1B2C3D4E5F60718293A0801 /* Project object */;
@@ -32,6 +40,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B1B2C3D4E5F60718293A0702 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				B1B2C3D4E5F60718293A0004 /* watchApp.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C1B2C3D4E5F60718293A0701 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -154,11 +173,13 @@
 				A1B2C3D4E5F60718293A0501 /* Sources */,
 				A1B2C3D4E5F60718293A0201 /* Frameworks */,
 				A1B2C3D4E5F60718293A0601 /* Resources */,
+				B1B2C3D4E5F60718293A0702 /* Embed Watch Content */,
 				C1B2C3D4E5F60718293A0701 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B1B2C3D4E5F60718293A0D01 /* PBXTargetDependency */,
 				C1B2C3D4E5F60718293A0D01 /* PBXTargetDependency */,
 			);
 			name = iosApp;
@@ -323,6 +344,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B1B2C3D4E5F60718293A0D01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1B2C3D4E5F60718293A0402 /* watchApp */;
+			targetProxy = B1B2C3D4E5F60718293A0C01 /* PBXContainerItemProxy */;
+		};
 		C1B2C3D4E5F60718293A0D01 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C1B2C3D4E5F60718293A0401 /* WorkClockLiveActivity */;

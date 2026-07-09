@@ -87,8 +87,26 @@ class TimeTrackerViewModel(
             WatchCommandStartDay -> onAction(TimeTrackerAction.StartDay)
             WatchCommandStartBreak -> onAction(TimeTrackerAction.StartBreak)
             WatchCommandResumeWork -> onAction(TimeTrackerAction.ResumeWork)
+            WatchCommandStartNewDay -> onAction(TimeTrackerAction.StartNewDay)
             WatchCommandEndDay -> onAction(TimeTrackerAction.EndDay)
         }
+    }
+
+    fun onWatchEvent(
+        command: String,
+        date: LocalDate,
+        minuteOfDay: Int
+    ): Boolean {
+        val status = repository.history.value.dayWithWeeklySummary(date).status
+        val action = actionForWatchCommand(command, status) ?: return false
+        if (!canApplyWatchAction(action, status)) return false
+
+        trackWorkDay(
+            action = action,
+            date = date,
+            minuteOfDay = minuteOfDay
+        )
+        return true
     }
 
     fun onAction(action: TimeTrackerAction) {
@@ -136,6 +154,35 @@ class TimeTrackerViewModel(
         return repository.history.value.dayWithWeeklySummary(snapshot.date).status
     }
 
+    private fun actionForWatchCommand(
+        command: String,
+        status: WorkStatus
+    ): TimeTrackerAction? = when (command) {
+        WatchCommandPrimary -> when (status) {
+            WorkStatus.NotStarted -> TimeTrackerAction.StartDay
+            WorkStatus.Working -> TimeTrackerAction.StartBreak
+            WorkStatus.Paused -> TimeTrackerAction.ResumeWork
+            WorkStatus.Finished -> TimeTrackerAction.StartNewDay
+        }
+        WatchCommandStartDay -> TimeTrackerAction.StartDay
+        WatchCommandStartBreak -> TimeTrackerAction.StartBreak
+        WatchCommandResumeWork -> TimeTrackerAction.ResumeWork
+        WatchCommandStartNewDay -> TimeTrackerAction.StartNewDay
+        WatchCommandEndDay -> TimeTrackerAction.EndDay
+        else -> null
+    }
+
+    private fun canApplyWatchAction(
+        action: TimeTrackerAction,
+        status: WorkStatus
+    ): Boolean = when (action) {
+        TimeTrackerAction.StartDay -> status == WorkStatus.NotStarted
+        TimeTrackerAction.StartBreak -> status == WorkStatus.Working
+        TimeTrackerAction.ResumeWork -> status == WorkStatus.Paused
+        TimeTrackerAction.EndDay -> status == WorkStatus.Working || status == WorkStatus.Paused
+        TimeTrackerAction.StartNewDay -> status == WorkStatus.Finished
+    }
+
     private fun mapUiState(
         history: WorkHistory,
         snapshot: TimeSnapshot
@@ -151,6 +198,7 @@ class TimeTrackerViewModel(
         const val WatchCommandStartDay = "startDay"
         const val WatchCommandStartBreak = "startBreak"
         const val WatchCommandResumeWork = "resumeWork"
+        const val WatchCommandStartNewDay = "startNewDay"
         const val WatchCommandEndDay = "endDay"
     }
 }

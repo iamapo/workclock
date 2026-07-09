@@ -34,7 +34,10 @@ fun MainViewController(lockScreenStatusController: LockScreenStatusController): 
         )
     }
     val watchSession = remember {
-        IosWatchSessionController(onCommand = viewModel::onWatchCommand).also { it.activate() }
+        IosWatchSessionController(
+            onCommand = viewModel::onWatchCommand,
+            onEvent = viewModel::onWatchEvent
+        ).also { it.activate() }
     }
 
     TimeTrackerRoute(

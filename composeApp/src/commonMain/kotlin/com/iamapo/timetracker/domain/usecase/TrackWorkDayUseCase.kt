@@ -4,6 +4,7 @@ import com.iamapo.timetracker.domain.TimeTrackerAction
 import com.iamapo.timetracker.domain.TimeProvider
 import com.iamapo.timetracker.domain.WorkDayReducer
 import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
+import kotlinx.datetime.LocalDate
 
 class TrackWorkDayUseCase(
     private val repository: WorkHistoryRepository,
@@ -12,15 +13,27 @@ class TrackWorkDayUseCase(
 ) {
     operator fun invoke(action: TimeTrackerAction) {
         val snapshot = timeProvider.now()
+        invoke(
+            action = action,
+            date = snapshot.date,
+            minuteOfDay = snapshot.minuteOfDay
+        )
+    }
+
+    operator fun invoke(
+        action: TimeTrackerAction,
+        date: LocalDate,
+        minuteOfDay: Int
+    ) {
         repository.update { history ->
-            val current = history.dayWithWeeklySummary(snapshot.date)
+            val current = history.dayWithWeeklySummary(date)
             val updated = reducer.reduce(
                 day = current,
                 action = action,
-                nowMinute = snapshot.minuteOfDay,
+                nowMinute = minuteOfDay,
                 defaultConfig = history.defaultConfig
             )
-            history.withDay(snapshot.date, updated)
+            history.withDay(date, updated)
         }
     }
 }

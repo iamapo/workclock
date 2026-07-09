@@ -11,47 +11,210 @@ final class WatchSessionModel: NSObject, ObservableObject {
     @Published private(set) var isReachable = false
 
     private let session: WCSession?
+    private let defaults: UserDefaults
+    private var pendingEvents: [PendingWatchEvent]
+    private var transferredEventIds: Set<String>
+    private var localStatus: WatchStatus
+    private var deferredStatePayload: [String: Any]?
 
     override init() {
+        let defaults = UserDefaults.standard
+        self.defaults = defaults
+        self.pendingEvents = Self.loadPendingEvents(from: defaults)
+        self.transferredEventIds = Set(defaults.stringArray(forKey: DefaultsKey.transferredEventIds) ?? [])
+        self.localStatus = WatchStatus(
+            rawValue: defaults.string(forKey: DefaultsKey.localStatus) ?? ""
+        ) ?? .notStarted
+
         if WCSession.isSupported() {
             session = WCSession.default
         } else {
             session = nil
         }
+
         super.init()
+        restoreLocalState()
         session?.delegate = self
         session?.activate()
     }
 
     func sendPrimaryAction() {
-        send(command)
+        enqueue(command)
     }
 
     func sendEndDay() {
-        send("endDay")
+        enqueue(WatchCommand.endDay)
     }
 
-    private func send(_ command: String) {
-        guard let session else { return }
-        let message = ["command": command]
+    private func enqueue(_ rawCommand: String) {
+        let resolvedCommand = resolve(rawCommand)
+        let event = PendingWatchEvent(command: resolvedCommand)
+        pendingEvents.append(event)
+        savePendingEvents()
+        applyLocal(command: resolvedCommand, event: event)
+        syncPendingEvents()
+    }
 
-        if session.isReachable {
-            session.sendMessage(message, replyHandler: nil, errorHandler: nil)
-        } else {
-            session.transferUserInfo(message)
+    private func syncPendingEvents() {
+        guard let session else { return }
+
+        pendingEvents.forEach { event in
+            let payload = event.payload
+            if session.isReachable {
+                session.sendMessage(
+                    payload,
+                    replyHandler: { [weak self] reply in
+                        self?.apply(reply)
+                    },
+                    errorHandler: { [weak self] _ in
+                        self?.transfer(event, using: session)
+                    }
+                )
+            } else {
+                transfer(event, using: session)
+            }
         }
     }
 
     private func apply(_ payload: [String: Any]) {
-        DispatchQueue.main.async {
-            self.state = payload["state"] as? String ?? self.state
-            self.remaining = payload["remaining"] as? String ?? self.remaining
-            self.caption = payload["caption"] as? String ?? self.caption
-            self.primaryAction = payload["primaryAction"] as? String ?? self.primaryAction
-            self.secondaryAction = payload["secondaryAction"] as? String ?? self.secondaryAction
-            self.command = payload["command"] as? String ?? self.command
-            self.isReachable = self.session?.isReachable ?? false
+        if let acknowledgedEventId = payload[PayloadKey.acknowledgedEventId] as? String {
+            acknowledge(acknowledgedEventId)
+            return
         }
+
+        DispatchQueue.main.async {
+            self.isReachable = self.session?.isReachable ?? false
+            if !self.pendingEvents.isEmpty {
+                self.deferredStatePayload = payload
+                return
+            }
+
+            self.applyState(payload)
+        }
+    }
+
+    private func applyState(_ payload: [String: Any]) {
+        state = payload["state"] as? String ?? state
+        remaining = payload["remaining"] as? String ?? remaining
+        caption = payload["caption"] as? String ?? caption
+        primaryAction = payload["primaryAction"] as? String ?? primaryAction
+        secondaryAction = payload["secondaryAction"] as? String ?? secondaryAction
+        command = payload["command"] as? String ?? command
+        localStatus = WatchStatus(state: state)
+        saveLocalStatus()
+    }
+
+    private func applyLocal(command: String, event: PendingWatchEvent) {
+        switch command {
+        case WatchCommand.startDay, WatchCommand.startNewDay:
+            localStatus = .working
+        case WatchCommand.startBreak:
+            localStatus = .paused
+        case WatchCommand.resumeWork:
+            localStatus = .working
+        case WatchCommand.endDay:
+            localStatus = .finished
+        default:
+            break
+        }
+
+        saveLocalStatus()
+        updateControls(for: localStatus)
+        remaining = localStatus == .finished ? "0:00" : "Offline"
+        caption = offlineCaption(for: event)
+    }
+
+    private func restoreLocalState() {
+        updateControls(for: localStatus)
+        if let latestEvent = pendingEvents.last {
+            remaining = localStatus == .finished ? "0:00" : "Offline"
+            caption = offlineCaption(for: latestEvent)
+        }
+    }
+
+    private func updateControls(for status: WatchStatus) {
+        switch status {
+        case .notStarted:
+            state = "Bereit"
+            primaryAction = "Tag starten"
+            secondaryAction = ""
+            command = WatchCommand.startDay
+        case .working:
+            state = "Aktiv"
+            primaryAction = "Pause starten"
+            secondaryAction = "Tag beenden"
+            command = WatchCommand.startBreak
+        case .paused:
+            state = "Pause"
+            primaryAction = "Weiterarbeiten"
+            secondaryAction = "Tag beenden"
+            command = WatchCommand.resumeWork
+        case .finished:
+            state = "Fertig"
+            primaryAction = "Neuen Tag starten"
+            secondaryAction = ""
+            command = WatchCommand.startNewDay
+        }
+    }
+
+    private func resolve(_ rawCommand: String) -> String {
+        guard rawCommand == WatchCommand.primary else { return rawCommand }
+
+        switch localStatus {
+        case .notStarted:
+            return WatchCommand.startDay
+        case .working:
+            return WatchCommand.startBreak
+        case .paused:
+            return WatchCommand.resumeWork
+        case .finished:
+            return WatchCommand.startNewDay
+        }
+    }
+
+    private func transfer(_ event: PendingWatchEvent, using session: WCSession) {
+        guard !transferredEventIds.contains(event.id) else { return }
+
+        session.transferUserInfo(event.payload)
+        transferredEventIds.insert(event.id)
+        saveTransferredEventIds()
+    }
+
+    private func acknowledge(_ eventId: String) {
+        DispatchQueue.main.async {
+            self.pendingEvents.removeAll { $0.id == eventId }
+            self.transferredEventIds.remove(eventId)
+            self.savePendingEvents()
+            self.saveTransferredEventIds()
+            if self.pendingEvents.isEmpty, let deferredStatePayload = self.deferredStatePayload {
+                self.deferredStatePayload = nil
+                self.applyState(deferredStatePayload)
+            }
+        }
+    }
+
+    private func savePendingEvents() {
+        guard let encoded = try? JSONEncoder().encode(pendingEvents) else { return }
+        defaults.set(encoded, forKey: DefaultsKey.pendingEvents)
+    }
+
+    private func saveTransferredEventIds() {
+        defaults.set(Array(transferredEventIds), forKey: DefaultsKey.transferredEventIds)
+    }
+
+    private func saveLocalStatus() {
+        defaults.set(localStatus.rawValue, forKey: DefaultsKey.localStatus)
+    }
+
+    private func offlineCaption(for event: PendingWatchEvent) -> String {
+        let count = pendingEvents.count
+        let suffix = count == 1 ? "1 Aktion wartet" : "\(count) Aktionen warten"
+        return "\(event.clockText) offline | \(suffix)"
+    }
+
+    private static func loadPendingEvents(from defaults: UserDefaults) -> [PendingWatchEvent] {
+        guard let data = defaults.data(forKey: DefaultsKey.pendingEvents) else { return [] }
+        return (try? JSONDecoder().decode([PendingWatchEvent].self, from: data)) ?? []
     }
 }
 
@@ -63,12 +226,14 @@ extension WatchSessionModel: WCSessionDelegate {
     ) {
         DispatchQueue.main.async {
             self.isReachable = session.isReachable
+            self.syncPendingEvents()
         }
     }
 
     func sessionReachabilityDidChange(_ session: WCSession) {
         DispatchQueue.main.async {
             self.isReachable = session.isReachable
+            self.syncPendingEvents()
         }
     }
 
@@ -83,4 +248,93 @@ extension WatchSessionModel: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
         apply(userInfo)
     }
+}
+
+private struct PendingWatchEvent: Codable, Identifiable {
+    let id: String
+    let command: String
+    let occurredAtDate: String
+    let occurredAtMinuteOfDay: Int
+    let occurredAtEpochMillis: Int64
+
+    init(command: String, date: Date = Date(), calendar: Calendar = .current) {
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+
+        self.id = UUID().uuidString
+        self.command = command
+        self.occurredAtDate = String(
+            format: "%04d-%02d-%02d",
+            components.year ?? 0,
+            components.month ?? 0,
+            components.day ?? 0
+        )
+        self.occurredAtMinuteOfDay = (components.hour ?? 0) * 60 + (components.minute ?? 0)
+        self.occurredAtEpochMillis = Int64(date.timeIntervalSince1970 * 1000)
+    }
+
+    var payload: [String: Any] {
+        [
+            PayloadKey.messageType: PayloadValue.watchEvent,
+            PayloadKey.eventId: id,
+            PayloadKey.command: command,
+            PayloadKey.occurredAtDate: occurredAtDate,
+            PayloadKey.occurredAtMinuteOfDay: occurredAtMinuteOfDay,
+            PayloadKey.occurredAtEpochMillis: occurredAtEpochMillis
+        ]
+    }
+
+    var clockText: String {
+        let hours = occurredAtMinuteOfDay / 60
+        let minutes = occurredAtMinuteOfDay % 60
+        return String(format: "%02d:%02d", hours, minutes)
+    }
+}
+
+private enum WatchStatus: String {
+    case notStarted
+    case working
+    case paused
+    case finished
+
+    init(state: String) {
+        switch state {
+        case "Aktiv":
+            self = .working
+        case "Pause":
+            self = .paused
+        case "Fertig":
+            self = .finished
+        default:
+            self = .notStarted
+        }
+    }
+}
+
+private enum WatchCommand {
+    static let primary = "primary"
+    static let startDay = "startDay"
+    static let startBreak = "startBreak"
+    static let resumeWork = "resumeWork"
+    static let startNewDay = "startNewDay"
+    static let endDay = "endDay"
+}
+
+private enum PayloadKey {
+    static let messageType = "messageType"
+    static let eventId = "eventId"
+    static let command = "command"
+    static let occurredAtDate = "occurredAtDate"
+    static let occurredAtMinuteOfDay = "occurredAtMinuteOfDay"
+    static let occurredAtEpochMillis = "occurredAtEpochMillis"
+    static let acknowledgedEventId = "acknowledgedEventId"
+}
+
+private enum PayloadValue {
+    static let watchEvent = "watchEvent"
+}
+
+private enum DefaultsKey {
+    static let pendingEvents = "pending_watch_events"
+    static let transferredEventIds = "transferred_watch_event_ids"
+    static let localStatus = "local_watch_status"
 }
