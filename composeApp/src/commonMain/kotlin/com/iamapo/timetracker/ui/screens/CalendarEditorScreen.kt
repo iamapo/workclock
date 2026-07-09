@@ -225,20 +225,20 @@ object CalendarEditorScreen {
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     ActionButton(
-                        label = "Urlaub 8h",
+                        label = "Urlaub",
                         onClick = { onVacation(day.date) },
                         modifier = Modifier.weight(1f),
                         containerColor = AppColors.Purple
                     )
                     ActionButton(
-                        label = "Krank 8h",
+                        label = "Krank",
                         onClick = { onSick(day.date) },
                         modifier = Modifier.weight(1f),
                         containerColor = AppColors.Rose
                     )
                 }
                 ActionButton(
-                    label = "Arbeitstag 8h",
+                    label = "Arbeitstag",
                     onClick = { onForgottenWorkDay(day.date) },
                     modifier = Modifier.fillMaxWidth(),
                     containerColor = AppColors.Green
