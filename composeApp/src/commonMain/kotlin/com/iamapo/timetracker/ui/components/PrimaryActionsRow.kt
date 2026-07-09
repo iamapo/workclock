@@ -29,8 +29,8 @@ object PrimaryActionsRow {
         onPrimaryAction: () -> Unit,
         onSecondaryAction: () -> Unit,
         modifier: Modifier = Modifier,
-        primaryColor: Color = AppColors.Green,
-        primaryContainerColor: Color = AppColors.Green.copy(alpha = 0.10f)
+        primaryColor: Color = AppColors.Paper,
+        primaryContainerColor: Color = AppColors.Night
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
@@ -53,9 +53,9 @@ object PrimaryActionsRow {
                     modifier = Modifier
                         .weight(1f)
                         .heightIn(min = 50.dp),
-                    contentColor = AppColors.Muted,
-                    containerColor = AppColors.PanelRaised,
-                    borderColor = AppColors.LineStrong
+                    contentColor = AppColors.Ink,
+                    containerColor = AppColors.Lemon,
+                    borderColor = AppColors.Lemon
                 )
             }
         }
@@ -73,7 +73,7 @@ object PrimaryActionsRow {
         Surface(
             modifier = modifier.clickable(onClick = onClick),
             color = containerColor,
-            border = BorderStroke(1.dp, borderColor.copy(alpha = 0.85f)),
+            border = BorderStroke(1.dp, borderColor.copy(alpha = 0.28f)),
             shape = RoundedCornerShape(14.dp)
         ) {
             Box(contentAlignment = Alignment.Center) {

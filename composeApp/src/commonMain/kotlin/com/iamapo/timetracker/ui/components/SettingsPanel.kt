@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,7 +39,7 @@ object SettingsPanel {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(18.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -48,8 +49,8 @@ object SettingsPanel {
                     text = "SCHNELLE VORGABEN",
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.2.sp
                 )
                 SettingsRow(
                     label = "Tägliches Ziel",
@@ -100,7 +101,7 @@ object SettingsPanel {
                 Text(
                     text = "Sperrbildschirm-Status",
                     color = AppColors.Ink,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Arbeitszeit und Pausen live anzeigen",
@@ -111,7 +112,14 @@ object SettingsPanel {
             }
             Switch(
                 checked = enabled,
-                onCheckedChange = onEnabledChange
+                onCheckedChange = onEnabledChange,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = AppColors.Paper,
+                    checkedTrackColor = AppColors.Green,
+                    uncheckedThumbColor = AppColors.Paper,
+                    uncheckedTrackColor = AppColors.SoftMuted,
+                    uncheckedBorderColor = AppColors.LineStrong
+                )
             )
         }
     }

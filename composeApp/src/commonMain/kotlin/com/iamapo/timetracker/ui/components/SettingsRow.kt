@@ -37,7 +37,7 @@ object SettingsRow {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(label, color = AppColors.Muted, fontWeight = FontWeight.Normal)
+            Text(label, color = AppColors.Muted, fontWeight = FontWeight.Bold)
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -50,7 +50,7 @@ object SettingsRow {
                     )
                 }
                 Surface(
-                    color = AppColors.PanelRaised,
+                    color = AppColors.Lemon.copy(alpha = 0.28f),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(

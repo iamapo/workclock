@@ -26,7 +26,7 @@ object TargetSummaryStrip {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(14.dp)
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
                 items.forEachIndexed { index, item ->
@@ -39,14 +39,14 @@ object TargetSummaryStrip {
                         Text(
                             text = item.label,
                             color = AppColors.Muted,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Normal
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = item.value,
                             color = AppColors.Ink,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Black
                         )
                     }
                     if (index < items.lastIndex) {

@@ -18,6 +18,7 @@ data class TimeTrackerUiState(
     val calendarDays: List<CalendarDayUiModel>,
     val plannedWeek: String,
     val reachedWeek: String,
+    val weekOverview: WeekOverviewUiModel,
     val settings: SettingsUiModel,
     val watchState: String,
     val watchRemaining: String,

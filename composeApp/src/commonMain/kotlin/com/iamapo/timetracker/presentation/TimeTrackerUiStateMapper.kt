@@ -7,7 +7,14 @@ import com.iamapo.timetracker.presentation.state.MetricUiModel
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.presentation.state.TargetItemUiModel
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.WeekDayProgressUiModel
+import com.iamapo.timetracker.presentation.state.WeekOverviewUiModel
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
+import kotlin.math.abs
 
 object TimeTrackerUiStateMapper {
     private val summaryCalculator = WorkDaySummaryCalculator()
@@ -21,6 +28,13 @@ object TimeTrackerUiStateMapper {
         lockScreenStatusEnabled: Boolean = false
     ): TimeTrackerUiState {
         val summary = summaryCalculator.calculate(day, snapshot)
+        val weekOverview = weekOverview(
+            day = day,
+            snapshot = snapshot,
+            history = history,
+            todayWorkedMinutes = summary.workedMinutes,
+            weeklyWorkedMinutes = summary.weeklyWorkedMinutes
+        )
 
         return TimeTrackerUiState(
             dateLabel = TimeTextFormatter.dateLabel(snapshot.date),
@@ -55,13 +69,9 @@ object TimeTrackerUiStateMapper {
                     }
                 ),
                 MetricUiModel(
-                    label = "Fehlt",
-                    value = TimeTextFormatter.compactDuration(summary.remainingWorkMinutes),
-                    hint = if (day.status == WorkStatus.Finished) {
-                        "beendet um " + TimeTextFormatter.clock(summary.endMinute)
-                    } else {
-                        "bis " + TimeTextFormatter.clock(summary.endMinute)
-                    }
+                    label = "Woche",
+                    value = TimeTextFormatter.compactDuration(summary.weeklyWorkedMinutes),
+                    hint = weekOverview.balance + " Saldo"
                 )
             ),
             timeline = timelineMapper.map(day, summary.endMinute),
@@ -74,6 +84,7 @@ object TimeTrackerUiStateMapper {
             ),
             plannedWeek = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes),
             reachedWeek = TimeTextFormatter.clockLikeDuration(summary.weeklyWorkedMinutes),
+            weekOverview = weekOverview,
             settings = SettingsUiModel(
                 dailyTarget = TimeTextFormatter.clockLikeDuration(day.config.dailyTargetMinutes),
                 canDecreaseDailyTarget = day.config.dailyTargetMinutes > MinDailyTargetMinutes,
@@ -109,15 +120,15 @@ object TimeTrackerUiStateMapper {
     }
 
     private fun primaryActionLabel(status: WorkStatus): String = when (status) {
-        WorkStatus.NotStarted -> "Tag starten"
-        WorkStatus.Working -> "Pause starten"
+        WorkStatus.NotStarted -> "Start"
+        WorkStatus.Working -> "Pause"
         WorkStatus.Paused -> "Weiterarbeiten"
         WorkStatus.Finished -> "Neuen Tag starten"
     }
 
     private fun secondaryActionLabel(status: WorkStatus): String? = when (status) {
         WorkStatus.Working,
-        WorkStatus.Paused -> "Tag beenden"
+        WorkStatus.Paused -> "Beenden"
         WorkStatus.NotStarted,
         WorkStatus.Finished -> null
     }
@@ -129,10 +140,66 @@ object TimeTrackerUiStateMapper {
         WorkStatus.Finished -> "Fertig"
     }
 
+    private fun weekOverview(
+        day: WorkDay,
+        snapshot: TimeSnapshot,
+        history: Map<LocalDate, WorkDay>,
+        todayWorkedMinutes: Int,
+        weeklyWorkedMinutes: Int
+    ): WeekOverviewUiModel {
+        val expectedWorkdays = snapshot.date.dayOfWeek.isoDayNumber.coerceIn(1, WorkdaysPerWeek)
+        val expectedMinutes = expectedWorkdays * day.config.dailyTargetMinutes
+        val balanceMinutes = weeklyWorkedMinutes - expectedMinutes
+        val weekStart = snapshot.date - DatePeriod(days = snapshot.date.dayOfWeek.isoDayNumber - 1)
+        val days = (0 until WorkdaysPerWeek).map { index ->
+            val date = weekStart + DatePeriod(days = index)
+            val workedMinutes = if (date == snapshot.date) {
+                todayWorkedMinutes
+            } else {
+                history[date]?.workedMinutes ?: 0
+            }
+            WeekDayProgressUiModel(
+                label = weekdayShortLabel(index),
+                value = TimeTextFormatter.calendarDuration(workedMinutes),
+                progress = if (day.config.dailyTargetMinutes == 0) {
+                    0f
+                } else {
+                    workedMinutes.toFloat() / day.config.dailyTargetMinutes.toFloat()
+                },
+                isToday = date == snapshot.date
+            )
+        }
+
+        return WeekOverviewUiModel(
+            reached = TimeTextFormatter.clockLikeDuration(weeklyWorkedMinutes),
+            balance = balanceLabel(balanceMinutes),
+            isPositiveBalance = balanceMinutes >= 0,
+            days = days
+        )
+    }
+
+    private fun balanceLabel(minutes: Int): String {
+        val prefix = when {
+            minutes > 0 -> "+"
+            minutes < 0 -> "-"
+            else -> ""
+        }
+        return prefix + TimeTextFormatter.duration(abs(minutes))
+    }
+
+    private fun weekdayShortLabel(index: Int): String = when (index) {
+        0 -> "Mo"
+        1 -> "Di"
+        2 -> "Mi"
+        3 -> "Do"
+        else -> "Fr"
+    }
+
     private const val MinDailyTargetMinutes = 60
     private const val MaxDailyTargetMinutes = 16 * 60
     private const val MinRequiredBreakMinutes = 0
     private const val MaxRequiredBreakMinutes = 120
     private const val MinWeeklyTargetMinutes = 60
     private const val MaxWeeklyTargetMinutes = 80 * 60
+    private const val WorkdaysPerWeek = 5
 }

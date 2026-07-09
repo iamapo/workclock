@@ -122,7 +122,7 @@ object TimeTrackerRoute {
 @Preview(
     name = "Route - Bottom Navigation",
     showBackground = true,
-    backgroundColor = 0xFF07080D,
+    backgroundColor = 0xFFFFFAF2,
     device = "spec:width=411dp,height=891dp,dpi=420"
 )
 @Composable

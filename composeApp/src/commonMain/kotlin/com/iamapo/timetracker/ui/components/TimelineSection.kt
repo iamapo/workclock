@@ -26,7 +26,7 @@ object TimelineSection {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(18.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -36,8 +36,8 @@ object TimelineSection {
                     text = "TIMELINE",
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.2.sp
                 )
                 items.forEach { item ->
                     TimelineRow(item)

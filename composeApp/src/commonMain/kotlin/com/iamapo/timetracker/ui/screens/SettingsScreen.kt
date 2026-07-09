@@ -51,8 +51,8 @@ object SettingsScreen {
             modifier = modifier
                 .fillMaxSize()
                 .background(AppColors.Background),
-            contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(18.dp)
+            contentPadding = PaddingValues(start = 20.dp, top = 18.dp, end = 20.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item {
                 TopBarSection(
@@ -97,7 +97,7 @@ object SettingsScreen {
             modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(18.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -107,8 +107,8 @@ object SettingsScreen {
                     text = "DATEN",
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.2.sp
                 )
                 Text(
                     text = if (confirmDelete) {
@@ -193,7 +193,7 @@ object SettingsScreen {
 @Preview(
     name = "Screen - Einstellungen",
     showBackground = true,
-    backgroundColor = 0xFF07080D,
+    backgroundColor = 0xFFFFFAF2,
     device = "spec:width=411dp,height=891dp,dpi=420"
 )
 @Composable

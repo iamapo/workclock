@@ -34,9 +34,9 @@ object TimelineRow {
         ) {
             Text(
                 text = item.time,
-                color = AppColors.Ink,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.SemiBold,
+                color = AppColors.Muted,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Black,
                 modifier = Modifier.width(50.dp)
             )
             Box(
@@ -57,9 +57,9 @@ object TimelineRow {
             }
             Text(
                 text = item.title,
-                color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Muted,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Normal,
+                color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Ink,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

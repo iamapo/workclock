@@ -7,6 +7,7 @@ import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
 import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.WorkStatus
+import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
@@ -23,6 +24,9 @@ class TimeTrackerUiStateMapperTest {
         assertEquals("2 h 48 min", state.remainingTime)
         assertEquals("17:21 Uhr", state.endTime)
         assertEquals("21:40 h", state.reachedWeek)
+        assertEquals("Woche", state.metrics[2].label)
+        assertEquals("21h 40m", state.metrics[2].value)
+        assertEquals("+5 h 40 min Saldo", state.metrics[2].hint)
     }
 
     @Test
@@ -56,6 +60,24 @@ class TimeTrackerUiStateMapperTest {
         assertEquals("Urlaub 8:00", vacationDay.note)
         assertEquals(CalendarDayStyle.Sick, sickDay.style)
         assertEquals("Krank 8:00", sickDay.note)
+    }
+
+    @Test
+    fun weekOverviewBalancesAgainstExpectedWorkUntilToday() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = 8 * 60 + 10
+            ),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 6),
+                minuteOfDay = 18 * 60
+            )
+        )
+
+        assertEquals("8:10 h", state.weekOverview.reached)
+        assertEquals("+10 min", state.weekOverview.balance)
+        assertEquals(true, state.weekOverview.isPositiveBalance)
     }
 
     @Test

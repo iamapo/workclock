@@ -37,7 +37,7 @@ object CalendarPanel {
                 .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(18.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -47,14 +47,14 @@ object CalendarPanel {
                     text = "KALENDER",
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.2.sp
                 )
                 Text(
                     text = monthTitle,
                     color = AppColors.Ink,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Black
                 )
                 CalendarWeekdays()
                 days.chunked(7).forEach { week ->

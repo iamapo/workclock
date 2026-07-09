@@ -9,6 +9,7 @@ Kotlin-Multiplatform-Arbeitszeittracker mit gemeinsamer Compose-UI, MVVM-State u
 - `composeApp/src/iosMain`: Compose `UIViewController` fuer iOS
 - `iosApp`: SwiftUI Host-App mit Xcode-Scheme und iOS Preview
 - `mockups/time-tracker`: urspruengliches HTML/CSS-Mockup
+- `mockups/workclock-playful`: neuer, bunter V2-Mockup-Entwurf mit Apple-Watch-Interface
 
 ## Architektur
 

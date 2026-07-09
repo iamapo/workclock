@@ -1,6 +1,7 @@
 package com.iamapo.timetracker.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,21 +16,24 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 object MetricGrid {
     @Composable
     operator fun invoke(metrics: List<MetricUiModel>, modifier: Modifier = Modifier) {
-        Column(
-            modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            val rows = if (metrics.size <= 3) listOf(metrics) else metrics.chunked(2)
-            rows.forEach { rowMetrics ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    rowMetrics.forEach { metric ->
-                        MetricCard(metric, modifier = Modifier.weight(1f))
-                    }
-                    if (rowMetrics.size == 1) {
-                        androidx.compose.foundation.layout.Spacer(modifier = Modifier.weight(1f))
+        BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+            val useSingleRow = metrics.size <= 3 && maxWidth > 330.dp
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                val rows = if (useSingleRow) listOf(metrics) else metrics.chunked(2)
+                rows.forEach { rowMetrics ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        rowMetrics.forEach { metric ->
+                            MetricCard(metric, modifier = Modifier.weight(1f))
+                        }
+                        if (rowMetrics.size == 1) {
+                            androidx.compose.foundation.layout.Spacer(modifier = Modifier.weight(1f))
+                        }
                     }
                 }
             }

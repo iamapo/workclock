@@ -39,12 +39,11 @@ object TimeTrackerScreen {
             modifier = modifier
                 .fillMaxSize()
                 .background(AppColors.Background),
-            contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(18.dp)
+            contentPadding = PaddingValues(start = 20.dp, top = 18.dp, end = 20.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item { TopBarSection(state.dateLabel, state.title) }
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }
-            item { TargetSummaryStrip(state.targets) }
             item { MetricGrid(state.metrics) }
             item { TimelineSection(state.timeline) }
             item {
@@ -63,7 +62,7 @@ object TimeTrackerScreen {
 @Preview(
     name = "Screen - Heute",
     showBackground = true,
-    backgroundColor = 0xFF07080D,
+    backgroundColor = 0xFFFFFAF2,
     device = "spec:width=411dp,height=891dp,dpi=420"
 )
 @Composable

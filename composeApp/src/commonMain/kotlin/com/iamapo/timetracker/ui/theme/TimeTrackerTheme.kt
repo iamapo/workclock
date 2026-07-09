@@ -2,7 +2,7 @@ package com.iamapo.timetracker.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -10,7 +10,7 @@ object TimeTrackerTheme {
     @Composable
     operator fun invoke(content: @Composable () -> Unit) {
         MaterialTheme(
-            colorScheme = darkColorScheme(
+            colorScheme = lightColorScheme(
                 primary = AppColors.Green,
                 secondary = AppColors.Blue,
                 tertiary = AppColors.Amber,
@@ -18,7 +18,7 @@ object TimeTrackerTheme {
                 surface = AppColors.Panel,
                 surfaceVariant = AppColors.PanelRaised,
                 outline = AppColors.Line,
-                onPrimary = AppColors.Background,
+                onPrimary = AppColors.Ink,
                 onSecondary = AppColors.Ink,
                 onBackground = AppColors.Ink,
                 onSurface = AppColors.Ink,

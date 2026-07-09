@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.components.CalendarDayCell
 import com.iamapo.timetracker.ui.components.CalendarWeekdays
+import com.iamapo.timetracker.ui.components.WeekOverviewCard
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
@@ -58,8 +59,8 @@ object CalendarEditorScreen {
             modifier = modifier
                 .fillMaxSize()
                 .background(AppColors.Background),
-            contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(18.dp)
+            contentPadding = PaddingValues(start = 20.dp, top = 18.dp, end = 20.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item {
                 Header(
@@ -67,6 +68,7 @@ object CalendarEditorScreen {
                     onBack = onBack
                 )
             }
+            item { WeekOverviewCard(state.weekOverview) }
             item {
                 MonthGrid(
                     monthTitle = state.monthTitle,
@@ -78,6 +80,7 @@ object CalendarEditorScreen {
             item {
                 SelectedDayPanel(
                     day = selectedDay,
+                    dailyTarget = state.settings.dailyTarget,
                     onIncreaseDay = onIncreaseDay,
                     onDecreaseDay = onDecreaseDay,
                     onVacation = onVacation,
@@ -104,15 +107,15 @@ object CalendarEditorScreen {
                     text = "PLANUNG",
                     color = AppColors.Subtle,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.4.sp
                 )
                 Text(
                     text = monthTitle,
                     color = AppColors.Ink,
-                    fontSize = 22.sp,
-                    lineHeight = 26.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 30.sp,
+                    lineHeight = 32.sp,
+                    fontWeight = FontWeight.Black
                 )
             }
             if (onBack != null) {
@@ -141,7 +144,7 @@ object CalendarEditorScreen {
             modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(18.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -150,8 +153,8 @@ object CalendarEditorScreen {
                 Text(
                     text = monthTitle,
                     color = AppColors.Ink,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Black
                 )
                 CalendarWeekdays()
                 days.chunked(7).forEach { week ->
@@ -176,6 +179,7 @@ object CalendarEditorScreen {
     @Composable
     private fun SelectedDayPanel(
         day: CalendarDayUiModel,
+        dailyTarget: String,
         onIncreaseDay: (LocalDate) -> Unit,
         onDecreaseDay: (LocalDate) -> Unit,
         onVacation: (LocalDate) -> Unit,
@@ -187,7 +191,7 @@ object CalendarEditorScreen {
             modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(18.dp)
         ) {
             Column(
                 modifier = Modifier.padding(18.dp),
@@ -238,7 +242,7 @@ object CalendarEditorScreen {
                     )
                 }
                 ActionButton(
-                    label = "Arbeitstag",
+                    label = "Arbeitstag $dailyTarget",
                     onClick = { onForgottenWorkDay(day.date) },
                     modifier = Modifier.fillMaxWidth(),
                     containerColor = AppColors.Green
@@ -321,7 +325,7 @@ object CalendarEditorScreen {
 @Preview(
     name = "Screen - Kalender",
     showBackground = true,
-    backgroundColor = 0xFF07080D,
+    backgroundColor = 0xFFFFFAF2,
     device = "spec:width=411dp,height=891dp,dpi=420"
 )
 @Composable
