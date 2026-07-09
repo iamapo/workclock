@@ -13,7 +13,10 @@ import com.iamapo.timetracker.data.NoOpWorkDayStore
 import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
 import com.iamapo.timetracker.data.WorkDayStore
 import com.iamapo.timetracker.domain.SystemTimeProvider
+import com.iamapo.timetracker.lockscreen.LockScreenStatusController
+import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
+import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
 import com.iamapo.timetracker.ui.components.MainTab
 import com.iamapo.timetracker.ui.screens.CalendarEditorScreen
@@ -25,21 +28,28 @@ object TimeTrackerRoute {
     @Composable
     operator fun invoke(
         workDayStore: WorkDayStore = NoOpWorkDayStore,
-        viewModel: TimeTrackerViewModel? = null
+        viewModel: TimeTrackerViewModel? = null,
+        lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController,
+        onStateChanged: (TimeTrackerUiState) -> Unit = {}
     ) {
-        val resolvedViewModel = viewModel ?: remember(workDayStore) {
+        val resolvedViewModel = viewModel ?: remember(workDayStore, lockScreenStatusController) {
             val timeProvider = SystemTimeProvider()
             TimeTrackerViewModel(
                 timeProvider = timeProvider,
                 repository = PersistedWorkHistoryRepository(
                     store = workDayStore,
                     today = timeProvider.now().date
-                )
+                ),
+                lockScreenStatusController = lockScreenStatusController
             )
         }
         val state by resolvedViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
         var selectedCalendarDate by remember { mutableStateOf(state.calendarDays.firstOrNull { it.isToday }?.date) }
+
+        androidx.compose.runtime.LaunchedEffect(state) {
+            onStateChanged(state)
+        }
 
         TimeTrackerTheme {
             Scaffold(
@@ -93,6 +103,7 @@ object TimeTrackerRoute {
                             state = state,
                             onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
                             onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
+                            onLockScreenStatusChanged = resolvedViewModel::setLockScreenStatusEnabled,
                             onDeleteAllEntries = resolvedViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )

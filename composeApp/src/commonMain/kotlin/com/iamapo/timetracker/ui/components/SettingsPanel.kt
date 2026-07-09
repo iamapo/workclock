@@ -3,12 +3,15 @@ package com.iamapo.timetracker.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +27,7 @@ object SettingsPanel {
         settings: SettingsUiModel,
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
+        onLockScreenStatusChanged: (Boolean) -> Unit,
         modifier: Modifier = Modifier
     ) {
         Surface(
@@ -53,7 +57,44 @@ object SettingsPanel {
                     canIncrease = settings.canIncreaseRequiredBreak
                 )
                 SettingsRow("Wochenziel", settings.weeklyTarget)
+                LockScreenStatusRow(
+                    enabled = settings.lockScreenStatusEnabled,
+                    onEnabledChange = onLockScreenStatusChanged
+                )
             }
+        }
+    }
+
+    @Composable
+    private fun LockScreenStatusRow(
+        enabled: Boolean,
+        onEnabledChange: (Boolean) -> Unit
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = "Sperrbildschirm-Status",
+                    color = AppColors.Ink,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "Arbeitszeit und Pausen live anzeigen",
+                    color = AppColors.Muted,
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp
+                )
+            }
+            Switch(
+                checked = enabled,
+                onCheckedChange = onEnabledChange
+            )
         }
     }
 }
@@ -68,10 +109,12 @@ private fun SettingsPanelPreview() {
                 requiredBreak = "30 min",
                 canDecreaseRequiredBreak = true,
                 canIncreaseRequiredBreak = true,
-                weeklyTarget = "40:00 h"
+                weeklyTarget = "40:00 h",
+                lockScreenStatusEnabled = true
             ),
             onDecreaseRequiredBreak = {},
-            onIncreaseRequiredBreak = {}
+            onIncreaseRequiredBreak = {},
+            onLockScreenStatusChanged = {}
         )
     }
 }

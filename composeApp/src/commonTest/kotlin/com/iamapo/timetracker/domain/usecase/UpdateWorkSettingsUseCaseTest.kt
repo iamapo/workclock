@@ -25,4 +25,17 @@ class UpdateWorkSettingsUseCaseTest {
         assertEquals(35, history.defaultConfig.requiredBreakMinutes)
         assertEquals(35, history.dayFor(date).config.requiredBreakMinutes)
     }
+
+    @Test
+    fun updatesLockScreenStatusSetting() {
+        val repository = FakeWorkHistoryRepository(WorkHistory())
+        val useCase = UpdateWorkSettingsUseCase(
+            repository = repository,
+            timeProvider = FakeTimeProvider(TimeSnapshot(LocalDate(2026, 7, 8), 9 * 60))
+        )
+
+        useCase.setLockScreenStatusEnabled(true)
+
+        assertEquals(true, repository.history.value.lockScreenStatusEnabled)
+    }
 }

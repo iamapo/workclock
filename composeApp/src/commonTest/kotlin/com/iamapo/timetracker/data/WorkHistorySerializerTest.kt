@@ -70,6 +70,7 @@ class WorkHistorySerializerTest {
         )
         val history = WorkHistory(
             defaultConfig = WorkDayConfig(requiredBreakMinutes = 35),
+            lockScreenStatusEnabled = true,
             days = mapOf(
                 LocalDate(2026, 7, 6) to monday,
                 LocalDate(2026, 7, 7) to tuesday

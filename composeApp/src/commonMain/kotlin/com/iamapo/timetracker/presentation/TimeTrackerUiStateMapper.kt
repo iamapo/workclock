@@ -17,7 +17,8 @@ object TimeTrackerUiStateMapper {
     fun map(
         day: WorkDay,
         snapshot: TimeSnapshot,
-        history: Map<LocalDate, WorkDay> = emptyMap()
+        history: Map<LocalDate, WorkDay> = emptyMap(),
+        lockScreenStatusEnabled: Boolean = false
     ): TimeTrackerUiState {
         val summary = summaryCalculator.calculate(day, snapshot)
 
@@ -69,7 +70,8 @@ object TimeTrackerUiStateMapper {
                 requiredBreak = TimeTextFormatter.duration(day.config.requiredBreakMinutes),
                 canDecreaseRequiredBreak = day.config.requiredBreakMinutes > MinRequiredBreakMinutes,
                 canIncreaseRequiredBreak = day.config.requiredBreakMinutes < MaxRequiredBreakMinutes,
-                weeklyTarget = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes)
+                weeklyTarget = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes),
+                lockScreenStatusEnabled = lockScreenStatusEnabled
             ),
             watchState = watchState(day.status),
             watchRemaining = if (day.status == WorkStatus.Finished) {

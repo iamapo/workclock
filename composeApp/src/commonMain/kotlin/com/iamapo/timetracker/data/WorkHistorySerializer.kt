@@ -17,6 +17,7 @@ object WorkHistorySerializer {
         appendLine("defaultDailyTargetMinutes=${history.defaultConfig.dailyTargetMinutes}")
         appendLine("defaultRequiredBreakMinutes=${history.defaultConfig.requiredBreakMinutes}")
         appendLine("defaultWeeklyTargetMinutes=${history.defaultConfig.weeklyTargetMinutes}")
+        appendLine("lockScreenStatusEnabled=${history.lockScreenStatusEnabled}")
         history.days.entries
             .sortedBy { (date, _) -> date.toString() }
             .forEach { (date, day) ->
@@ -61,6 +62,7 @@ object WorkHistorySerializer {
                 requiredBreakMinutes = values["defaultRequiredBreakMinutes"]?.toInt() ?: WorkDayConfig().requiredBreakMinutes,
                 weeklyTargetMinutes = values["defaultWeeklyTargetMinutes"]?.toInt() ?: WorkDayConfig().weeklyTargetMinutes
             ),
+            lockScreenStatusEnabled = values["lockScreenStatusEnabled"]?.toBooleanStrictOrNull() ?: false,
             days = days
         )
     }.getOrNull()

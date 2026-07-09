@@ -7,6 +7,7 @@ import kotlinx.datetime.minus
 
 data class WorkHistory(
     val defaultConfig: WorkDayConfig = WorkDayConfig(),
+    val lockScreenStatusEnabled: Boolean = false,
     val days: Map<LocalDate, WorkDay> = emptyMap()
 ) {
     fun dayFor(date: LocalDate): WorkDay = days[date] ?: WorkDay(config = defaultConfig)

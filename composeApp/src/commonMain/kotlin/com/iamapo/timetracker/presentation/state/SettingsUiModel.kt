@@ -5,5 +5,6 @@ data class SettingsUiModel(
     val requiredBreak: String,
     val canDecreaseRequiredBreak: Boolean,
     val canIncreaseRequiredBreak: Boolean,
-    val weeklyTarget: String
+    val weeklyTarget: String,
+    val lockScreenStatusEnabled: Boolean
 )

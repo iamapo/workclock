@@ -6,10 +6,12 @@ import kotlin.time.Clock
 
 class SystemTimeProvider : TimeProvider {
     override fun now(): TimeSnapshot {
-        val localDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        val instant = Clock.System.now()
+        val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
         return TimeSnapshot(
             date = localDateTime.date,
-            minuteOfDay = localDateTime.hour * 60 + localDateTime.minute
+            minuteOfDay = localDateTime.hour * 60 + localDateTime.minute,
+            epochMillis = instant.toEpochMilliseconds()
         )
     }
 }

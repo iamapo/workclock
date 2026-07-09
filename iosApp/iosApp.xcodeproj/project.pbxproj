@@ -14,7 +14,36 @@
 		B1B2C3D4E5F60718293A0001 /* watchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0101 /* watchAppApp.swift */; };
 		B1B2C3D4E5F60718293A0002 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0102 /* WatchContentView.swift */; };
 		B1B2C3D4E5F60718293A0003 /* WatchSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0103 /* WatchSessionModel.swift */; };
+		C1B2C3D4E5F60718293A0001 /* WorkClockLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */; };
+		C1B2C3D4E5F60718293A0002 /* IosLockScreenStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0102 /* IosLockScreenStatusController.swift */; };
+		C1B2C3D4E5F60718293A0003 /* WorkClockLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */; };
+		C1B2C3D4E5F60718293A0004 /* WorkClockLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0103 /* WorkClockLiveActivityWidget.swift */; };
+		C1B2C3D4E5F60718293A0005 /* WorkClockLiveActivity.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F60718293A0105 /* WorkClockLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C1B2C3D4E5F60718293A0C01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1B2C3D4E5F60718293A0801 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C1B2C3D4E5F60718293A0401;
+			remoteInfo = WorkClockLiveActivity;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C1B2C3D4E5F60718293A0701 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C1B2C3D4E5F60718293A0005 /* WorkClockLiveActivity.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A1B2C3D4E5F60718293A0101 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
@@ -28,6 +57,11 @@
 		B1B2C3D4E5F60718293A0103 /* WatchSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionModel.swift; sourceTree = "<group>"; };
 		B1B2C3D4E5F60718293A0104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1B2C3D4E5F60718293A0105 /* watchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = watchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkClockLiveActivityAttributes.swift; sourceTree = "<group>"; };
+		C1B2C3D4E5F60718293A0102 /* IosLockScreenStatusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosLockScreenStatusController.swift; sourceTree = "<group>"; };
+		C1B2C3D4E5F60718293A0103 /* WorkClockLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkClockLiveActivityWidget.swift; sourceTree = "<group>"; };
+		C1B2C3D4E5F60718293A0104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1B2C3D4E5F60718293A0105 /* WorkClockLiveActivity.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WorkClockLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +79,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1B2C3D4E5F60718293A0201 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -53,6 +94,7 @@
 			children = (
 				A1B2C3D4E5F60718293A0302 /* iosApp */,
 				B1B2C3D4E5F60718293A0304 /* watchApp */,
+				C1B2C3D4E5F60718293A0301 /* WorkClockLiveActivity */,
 				A1B2C3D4E5F60718293A0303 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +105,8 @@
 				A1B2C3D4E5F60718293A0101 /* iOSApp.swift */,
 				A1B2C3D4E5F60718293A0102 /* ComposeRootView.swift */,
 				A1B2C3D4E5F60718293A0103 /* TimeTrackerPreview.swift */,
+				C1B2C3D4E5F60718293A0102 /* IosLockScreenStatusController.swift */,
+				C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */,
 				A1B2C3D4E5F60718293A0104 /* Info.plist */,
 				A1B2C3D4E5F60718293A0106 /* Assets.xcassets */,
 			);
@@ -80,11 +124,21 @@
 			path = watchApp;
 			sourceTree = "<group>";
 		};
+		C1B2C3D4E5F60718293A0301 /* WorkClockLiveActivity */ = {
+			isa = PBXGroup;
+			children = (
+				C1B2C3D4E5F60718293A0103 /* WorkClockLiveActivityWidget.swift */,
+				C1B2C3D4E5F60718293A0104 /* Info.plist */,
+			);
+			path = WorkClockLiveActivity;
+			sourceTree = "<group>";
+		};
 		A1B2C3D4E5F60718293A0303 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				A1B2C3D4E5F60718293A0105 /* iosApp.app */,
 				B1B2C3D4E5F60718293A0105 /* watchApp.app */,
+				C1B2C3D4E5F60718293A0105 /* WorkClockLiveActivity.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,10 +154,12 @@
 				A1B2C3D4E5F60718293A0501 /* Sources */,
 				A1B2C3D4E5F60718293A0201 /* Frameworks */,
 				A1B2C3D4E5F60718293A0601 /* Resources */,
+				C1B2C3D4E5F60718293A0701 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C1B2C3D4E5F60718293A0D01 /* PBXTargetDependency */,
 			);
 			name = iosApp;
 			productName = iosApp;
@@ -127,6 +183,23 @@
 			productReference = B1B2C3D4E5F60718293A0105 /* watchApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C1B2C3D4E5F60718293A0401 /* WorkClockLiveActivity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1B2C3D4E5F60718293A0901 /* Build configuration list for PBXNativeTarget "WorkClockLiveActivity" */;
+			buildPhases = (
+				C1B2C3D4E5F60718293A0501 /* Sources */,
+				C1B2C3D4E5F60718293A0201 /* Frameworks */,
+				C1B2C3D4E5F60718293A0601 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WorkClockLiveActivity;
+			productName = WorkClockLiveActivity;
+			productReference = C1B2C3D4E5F60718293A0105 /* WorkClockLiveActivity.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -142,6 +215,9 @@
 					};
 					B1B2C3D4E5F60718293A0402 = {
 						CreatedOnToolsVersion = 26.5;
+					};
+					C1B2C3D4E5F60718293A0401 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -160,6 +236,7 @@
 			targets = (
 				A1B2C3D4E5F60718293A0401 /* iosApp */,
 				B1B2C3D4E5F60718293A0402 /* watchApp */,
+				C1B2C3D4E5F60718293A0401 /* WorkClockLiveActivity */,
 			);
 		};
 /* End PBXProject section */
@@ -174,6 +251,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B1B2C3D4E5F60718293A0602 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1B2C3D4E5F60718293A0601 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -212,6 +296,8 @@
 				A1B2C3D4E5F60718293A0001 /* iOSApp.swift in Sources */,
 				A1B2C3D4E5F60718293A0002 /* ComposeRootView.swift in Sources */,
 				A1B2C3D4E5F60718293A0003 /* TimeTrackerPreview.swift in Sources */,
+				C1B2C3D4E5F60718293A0002 /* IosLockScreenStatusController.swift in Sources */,
+				C1B2C3D4E5F60718293A0001 /* WorkClockLiveActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +311,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1B2C3D4E5F60718293A0501 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1B2C3D4E5F60718293A0004 /* WorkClockLiveActivityWidget.swift in Sources */,
+				C1B2C3D4E5F60718293A0003 /* WorkClockLiveActivityAttributes.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C1B2C3D4E5F60718293A0D01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1B2C3D4E5F60718293A0401 /* WorkClockLiveActivity */;
+			targetProxy = C1B2C3D4E5F60718293A0C01 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A1B2C3D4E5F60718293A0A01 /* Debug */ = {
@@ -457,6 +560,58 @@
 			};
 			name = Release;
 		};
+		C1B2C3D4E5F60718293A0A01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T4DCMMU488;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WorkClockLiveActivity/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.WorkClockLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C1B2C3D4E5F60718293A0A02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T4DCMMU488;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WorkClockLiveActivity/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.WorkClockLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -483,6 +638,15 @@
 			buildConfigurations = (
 				B1B2C3D4E5F60718293A0A05 /* Debug */,
 				B1B2C3D4E5F60718293A0A06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C1B2C3D4E5F60718293A0901 /* Build configuration list for PBXNativeTarget "WorkClockLiveActivity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1B2C3D4E5F60718293A0A01 /* Debug */,
+				C1B2C3D4E5F60718293A0A02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -8,6 +8,9 @@ import com.iamapo.timetracker.domain.TimeTrackerAction
 import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
+import com.iamapo.timetracker.lockscreen.LockScreenStatusController
+import com.iamapo.timetracker.lockscreen.LockScreenStatusMapper
+import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
 import com.iamapo.timetracker.domain.usecase.DeleteWorkEntriesUseCase
 import com.iamapo.timetracker.domain.usecase.EditCalendarDayUseCase
 import com.iamapo.timetracker.domain.usecase.ObserveWorkHistoryUseCase
@@ -32,7 +35,8 @@ class TimeTrackerViewModel(
     private val trackWorkDay: TrackWorkDayUseCase = TrackWorkDayUseCase(repository, timeProvider),
     private val editCalendarDay: EditCalendarDayUseCase = EditCalendarDayUseCase(repository),
     private val updateWorkSettings: UpdateWorkSettingsUseCase = UpdateWorkSettingsUseCase(repository, timeProvider),
-    private val deleteWorkEntries: DeleteWorkEntriesUseCase = DeleteWorkEntriesUseCase(repository)
+    private val deleteWorkEntries: DeleteWorkEntriesUseCase = DeleteWorkEntriesUseCase(repository),
+    private val lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController
 ) : ViewModel() {
     private val history = observeWorkHistory()
     private val ticker = MutableStateFlow(0)
@@ -51,6 +55,16 @@ class TimeTrackerViewModel(
                 delay(60_000)
                 ticker.update { it + 1 }
             }
+        }
+        viewModelScope.launch {
+            combine(history, ticker) { savedHistory, _ ->
+                val snapshot = timeProvider.now()
+                LockScreenStatusMapper.map(
+                    day = savedHistory.dayWithWeeklySummary(snapshot.date),
+                    snapshot = snapshot,
+                    enabled = savedHistory.lockScreenStatusEnabled
+                )
+            }.collect(lockScreenStatusController::publish)
         }
     }
 
@@ -89,6 +103,10 @@ class TimeTrackerViewModel(
         updateWorkSettings.decreaseRequiredBreak()
     }
 
+    fun setLockScreenStatusEnabled(enabled: Boolean) {
+        updateWorkSettings.setLockScreenStatusEnabled(enabled)
+    }
+
     fun increaseCalendarDay(date: LocalDate) {
         editCalendarDay.increaseDay(date)
     }
@@ -124,7 +142,8 @@ class TimeTrackerViewModel(
     ): TimeTrackerUiState = TimeTrackerUiStateMapper.map(
         day = history.dayWithWeeklySummary(snapshot.date),
         snapshot = snapshot,
-        history = history.days
+        history = history.days,
+        lockScreenStatusEnabled = history.lockScreenStatusEnabled
     )
 
     private companion object {

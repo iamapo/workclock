@@ -40,6 +40,7 @@ object SettingsScreen {
         state: TimeTrackerUiState,
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
+        onLockScreenStatusChanged: (Boolean) -> Unit,
         onDeleteAllEntries: () -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -63,7 +64,8 @@ object SettingsScreen {
                 SettingsPanel(
                     settings = state.settings,
                     onDecreaseRequiredBreak = onDecreaseRequiredBreak,
-                    onIncreaseRequiredBreak = onIncreaseRequiredBreak
+                    onIncreaseRequiredBreak = onIncreaseRequiredBreak,
+                    onLockScreenStatusChanged = onLockScreenStatusChanged
                 )
             }
             item {
@@ -197,6 +199,7 @@ private fun SettingsScreenPreview() {
             state = TimeTrackerPreviewData.uiState,
             onDecreaseRequiredBreak = {},
             onIncreaseRequiredBreak = {},
+            onLockScreenStatusChanged = {},
             onDeleteAllEntries = {}
         )
     }

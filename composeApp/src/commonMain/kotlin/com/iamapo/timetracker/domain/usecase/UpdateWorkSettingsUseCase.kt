@@ -15,6 +15,12 @@ class UpdateWorkSettingsUseCase(
         updateRequiredBreak { current -> current - RequiredBreakStepMinutes }
     }
 
+    fun setLockScreenStatusEnabled(enabled: Boolean) {
+        repository.update { history ->
+            history.copy(lockScreenStatusEnabled = enabled)
+        }
+    }
+
     private fun updateRequiredBreak(transform: (Int) -> Int) {
         val snapshot = timeProvider.now()
         repository.update { history ->
