@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B1B2C3D4E5F60718293A0402"
-               BuildableName = "WorkClock.app"
+               BuildableName = "watchApp.app"
                BlueprintName = "watchApp"
                ReferencedContainer = "container:iosApp.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B1B2C3D4E5F60718293A0402"
-            BuildableName = "WorkClock.app"
+            BuildableName = "watchApp.app"
             BlueprintName = "watchApp"
             ReferencedContainer = "container:iosApp.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B1B2C3D4E5F60718293A0402"
-            BuildableName = "WorkClock.app"
+            BuildableName = "watchApp.app"
             BlueprintName = "watchApp"
             ReferencedContainer = "container:iosApp.xcodeproj">
          </BuildableReference>
