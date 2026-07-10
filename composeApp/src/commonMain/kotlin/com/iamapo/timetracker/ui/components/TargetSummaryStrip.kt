@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,8 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.TargetItemUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -25,32 +26,32 @@ object TargetSummaryStrip {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(14.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size14)
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(AppDimensions.size0)) {
                 items.forEachIndexed { index, item ->
                     androidx.compose.foundation.layout.Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 11.dp),
+                            .padding(horizontal = AppDimensions.size16, vertical = AppDimensions.size11),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
                             text = item.label,
                             color = AppColors.Muted,
-                            fontSize = 14.sp,
+                            fontSize = AppFontSizes.size14,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = item.value,
                             color = AppColors.Ink,
-                            fontSize = 15.sp,
+                            fontSize = AppFontSizes.size15,
                             fontWeight = FontWeight.Black
                         )
                     }
                     if (index < items.lastIndex) {
-                        HorizontalDivider(color = AppColors.Line, thickness = 1.dp)
+                        HorizontalDivider(color = AppColors.Line, thickness = AppDimensions.size1)
                     }
                 }
             }

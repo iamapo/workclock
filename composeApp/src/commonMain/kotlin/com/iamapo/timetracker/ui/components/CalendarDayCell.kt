@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
@@ -39,22 +40,22 @@ object CalendarDayCell {
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(min = 58.dp)
+                .heightIn(min = AppDimensions.size58)
                 .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
             color = backgroundFor(day.style),
-            border = BorderStroke(if (selected) 2.dp else 1.dp, if (selected) AppColors.Ink.copy(alpha = 0.42f) else borderFor(day.style)),
-            shape = RoundedCornerShape(10.dp)
+            border = BorderStroke(if (selected) AppDimensions.size2 else AppDimensions.size1, if (selected) AppColors.Ink.copy(alpha = 0.42f) else borderFor(day.style)),
+            shape = RoundedCornerShape(AppDimensions.size10)
         ) {
             Column(
-                modifier = Modifier.padding(7.dp),
+                modifier = Modifier.padding(AppDimensions.size7),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = day.day,
                     color = if (selected) AppColors.Ink else textFor(day.style),
-                    fontSize = 13.sp,
-                    lineHeight = 14.sp,
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size14,
                     fontWeight = if (day.isToday || selected) FontWeight.Black else FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -63,12 +64,12 @@ object CalendarDayCell {
                     Text(
                         text = day.note.removePrefix(stringResource(Res.string.until_time, "")),
                         color = noteFor(day.style),
-                        fontSize = 9.sp,
-                        lineHeight = 10.sp,
+                        fontSize = AppFontSizes.size9,
+                        lineHeight = AppFontSizes.size10,
                         fontWeight = FontWeight.Bold,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 5.dp)
+                        modifier = Modifier.padding(top = AppDimensions.size5)
                     )
                 }
             }

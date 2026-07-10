@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
@@ -28,11 +29,11 @@ object EndTimeCard {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Blue.copy(alpha = 0.10f),
-            border = BorderStroke(1.dp, AppColors.Blue.copy(alpha = 0.35f)),
-            shape = RoundedCornerShape(8.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Blue.copy(alpha = 0.35f)),
+            shape = RoundedCornerShape(AppDimensions.size8)
         ) {
             Row(
-                modifier = Modifier.padding(14.dp),
+                modifier = Modifier.padding(AppDimensions.size14),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -40,21 +41,21 @@ object EndTimeCard {
                     Text(
                         text = stringResource(Res.string.working_until),
                         color = AppColors.Muted,
-                        fontSize = 12.sp,
+                        fontSize = AppFontSizes.size12,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = endTime,
                         color = AppColors.Ink,
-                        fontSize = 28.sp,
-                        lineHeight = 30.sp,
+                        fontSize = AppFontSizes.size28,
+                        lineHeight = AppFontSizes.size30,
                         fontWeight = FontWeight.Black
                     )
                 }
                 Text(
                     text = breakRequirementLabel,
                     color = AppColors.Muted,
-                    fontSize = 12.sp,
+                    fontSize = AppFontSizes.size12,
                     fontWeight = FontWeight.Bold
                 )
             }

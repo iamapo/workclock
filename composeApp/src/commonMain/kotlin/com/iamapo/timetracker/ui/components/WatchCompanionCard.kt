@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,8 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
@@ -36,75 +37,75 @@ object WatchCompanionCard {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.PanelRaised,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(18.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
         ) {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(AppDimensions.size16),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size16)
             ) {
                 Surface(
                     modifier = Modifier
-                        .width(54.dp)
-                        .height(62.dp),
+                        .width(AppDimensions.size54)
+                        .height(AppDimensions.size62),
                     color = androidx.compose.ui.graphics.Color.Black,
-                    border = BorderStroke(1.dp, AppColors.LineStrong.copy(alpha = 0.65f)),
-                    shape = RoundedCornerShape(15.dp)
+                    border = BorderStroke(AppDimensions.size1, AppColors.LineStrong.copy(alpha = 0.65f)),
+                    shape = RoundedCornerShape(AppDimensions.size15)
                 ) {
                     Column(
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp),
+                        modifier = Modifier.padding(horizontal = AppDimensions.size4, vertical = AppDimensions.size8),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
                             text = state.uppercase(),
                             color = stateColor(state),
-                            fontSize = 6.sp,
+                            fontSize = AppFontSizes.size6,
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = 0.5.sp
+                            letterSpacing = AppFontSizes.size0_5
                         )
                         Text(
                             text = remaining,
                             color = AppColors.Ink,
-                            fontSize = 13.sp,
-                            lineHeight = 15.sp,
+                            fontSize = AppFontSizes.size13,
+                            lineHeight = AppFontSizes.size15,
                             fontWeight = FontWeight.Black,
-                            modifier = Modifier.padding(top = 3.dp)
+                            modifier = Modifier.padding(top = AppDimensions.size3)
                         )
                         Text(
                             text = stringResource(Res.string.remaining),
                             color = AppColors.Subtle,
-                            fontSize = 5.sp,
-                            lineHeight = 6.sp
+                            fontSize = AppFontSizes.size5,
+                            lineHeight = AppFontSizes.size6
                         )
                     }
                 }
                 Column(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(AppDimensions.size4)
                 ) {
                     Text(
                         text = stringResource(Res.string.watch_companion),
                         color = AppColors.Ink,
-                        fontSize = 12.sp,
+                        fontSize = AppFontSizes.size12,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = caption,
                         color = AppColors.Muted,
-                        fontSize = 11.sp,
-                        lineHeight = 14.sp
+                        fontSize = AppFontSizes.size11,
+                        lineHeight = AppFontSizes.size14
                     )
                     Row(
-                        modifier = Modifier.padding(top = 4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        modifier = Modifier.padding(top = AppDimensions.size4),
+                        horizontalArrangement = Arrangement.spacedBy(AppDimensions.size6)
                     ) {
                         WatchPill("watchOS", stateColor(state), stateColor(state).copy(alpha = 0.12f))
                         WatchPill(stringResource(Res.string.complication), AppColors.Subtle, AppColors.SoftMuted)
                     }
                 }
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)) {
                     WatchActionButton(if (state == stringResource(Res.string.state_break)) "▶" else "II")
                     WatchActionButton("■")
                 }
@@ -116,15 +117,15 @@ object WatchCompanionCard {
     private fun WatchPill(label: String, color: androidx.compose.ui.graphics.Color, background: androidx.compose.ui.graphics.Color) {
         Surface(
             color = background,
-            shape = RoundedCornerShape(99.dp),
-            border = BorderStroke(1.dp, color.copy(alpha = 0.18f))
+            shape = RoundedCornerShape(AppDimensions.size99),
+            border = BorderStroke(AppDimensions.size1, color.copy(alpha = 0.18f))
         ) {
             Text(
                 text = label,
                 color = color,
-                fontSize = 10.sp,
-                lineHeight = 12.sp,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                fontSize = AppFontSizes.size10,
+                lineHeight = AppFontSizes.size12,
+                modifier = Modifier.padding(horizontal = AppDimensions.size8, vertical = AppDimensions.size3)
             )
         }
     }

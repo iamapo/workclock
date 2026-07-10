@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.screens
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,8 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.components.SettingsPanel
 import com.iamapo.timetracker.ui.components.TopBarSection
@@ -53,8 +54,8 @@ object SettingsScreen {
             modifier = modifier
                 .fillMaxSize()
                 .background(AppColors.Background),
-            contentPadding = PaddingValues(start = 20.dp, top = 18.dp, end = 20.dp, bottom = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
+            verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
         ) {
             item {
                 TopBarSection(
@@ -98,19 +99,19 @@ object SettingsScreen {
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(18.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
         ) {
             Column(
-                modifier = Modifier.padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                modifier = Modifier.padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
             ) {
                 Text(
                     text = stringResource(Res.string.data),
                     color = AppColors.Subtle,
-                    fontSize = 10.sp,
+                    fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 0.2.sp
+                    letterSpacing = AppFontSizes.size0_2
                 )
                 Text(
                     text = if (confirmDelete) {
@@ -119,8 +120,8 @@ object SettingsScreen {
                         stringResource(Res.string.delete_entries)
                     },
                     color = AppColors.Ink,
-                    fontSize = 18.sp,
-                    lineHeight = 22.sp,
+                    fontSize = AppFontSizes.size18,
+                    lineHeight = AppFontSizes.size22,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -130,14 +131,14 @@ object SettingsScreen {
                         stringResource(Res.string.delete_description)
                     },
                     color = AppColors.Muted,
-                    fontSize = 13.sp,
-                    lineHeight = 18.sp
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size18
                 )
 
                 if (confirmDelete) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
                     ) {
                         DestructiveButton(
                             label = stringResource(Res.string.cancel),
@@ -178,15 +179,15 @@ object SettingsScreen {
         Surface(
             modifier = modifier.clickable(onClick = onClick),
             color = background,
-            border = BorderStroke(1.dp, color.copy(alpha = 0.35f)),
-            shape = RoundedCornerShape(14.dp)
+            border = BorderStroke(AppDimensions.size1, color.copy(alpha = 0.35f)),
+            shape = RoundedCornerShape(AppDimensions.size14)
         ) {
             Text(
                 text = label,
                 color = color,
-                fontSize = 15.sp,
+                fontSize = AppFontSizes.size15,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                modifier = Modifier.padding(horizontal = AppDimensions.size16, vertical = AppDimensions.size16)
             )
         }
     }

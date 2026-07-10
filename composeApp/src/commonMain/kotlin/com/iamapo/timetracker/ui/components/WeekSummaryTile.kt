@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -23,23 +24,23 @@ object WeekSummaryTile {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = accent.copy(alpha = 0.22f),
-            border = BorderStroke(1.dp, accent.copy(alpha = 0.36f)),
-            shape = RoundedCornerShape(12.dp)
+            border = BorderStroke(AppDimensions.size1, accent.copy(alpha = 0.36f)),
+            shape = RoundedCornerShape(AppDimensions.size12)
         ) {
-            Column(modifier = Modifier.padding(12.dp)) {
+            Column(modifier = Modifier.padding(AppDimensions.size12)) {
                 Text(
                     text = label.uppercase(),
                     color = AppColors.Muted,
-                    fontSize = 10.sp,
+                    fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 0.2.sp
+                    letterSpacing = AppFontSizes.size0_2
                 )
                 Text(
                     text = value,
                     color = AppColors.Ink,
-                    fontSize = 18.sp,
+                    fontSize = AppFontSizes.size18,
                     fontWeight = FontWeight.Black,
-                    modifier = Modifier.padding(top = 6.dp)
+                    modifier = Modifier.padding(top = AppDimensions.size6)
                 )
             }
         }

@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.screens
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.components.CalendarPanel
 import com.iamapo.timetracker.ui.components.MetricGrid
@@ -39,8 +41,8 @@ object TimeTrackerScreen {
             modifier = modifier
                 .fillMaxSize()
                 .background(AppColors.Background),
-            contentPadding = PaddingValues(start = 20.dp, top = 18.dp, end = 20.dp, bottom = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
+            verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
         ) {
             item { TopBarSection(state.dateLabel, state.title) }
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }

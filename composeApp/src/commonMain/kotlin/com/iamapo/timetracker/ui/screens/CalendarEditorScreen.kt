@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.screens
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,8 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.components.CalendarDayCell
 import com.iamapo.timetracker.ui.components.CalendarWeekdays
@@ -61,8 +62,8 @@ object CalendarEditorScreen {
             modifier = modifier
                 .fillMaxSize()
                 .background(AppColors.Background),
-            contentPadding = PaddingValues(start = 20.dp, top = 18.dp, end = 20.dp, bottom = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
+            verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
         ) {
             item {
                 Header(
@@ -108,22 +109,22 @@ object CalendarEditorScreen {
                 Text(
                     text = stringResource(Res.string.planning),
                     color = AppColors.Subtle,
-                    fontSize = 12.sp,
+                    fontSize = AppFontSizes.size12,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 0.4.sp
+                    letterSpacing = AppFontSizes.size0_4
                 )
                 Text(
                     text = monthTitle,
                     color = AppColors.Ink,
-                    fontSize = 30.sp,
-                    lineHeight = 32.sp,
+                    fontSize = AppFontSizes.size30,
+                    lineHeight = AppFontSizes.size32,
                     fontWeight = FontWeight.Black
                 )
             }
             if (onBack != null) {
                 Button(
                     onClick = onBack,
-                    shape = RoundedCornerShape(10.dp),
+                    shape = RoundedCornerShape(AppDimensions.size10),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = AppColors.PanelRaised,
                         contentColor = AppColors.Muted
@@ -145,24 +146,24 @@ object CalendarEditorScreen {
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(18.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
         ) {
             Column(
-                modifier = Modifier.padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier.padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size12)
             ) {
                 Text(
                     text = monthTitle,
                     color = AppColors.Ink,
-                    fontSize = 24.sp,
+                    fontSize = AppFontSizes.size24,
                     fontWeight = FontWeight.Black
                 )
                 CalendarWeekdays()
                 days.chunked(7).forEach { week ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        horizontalArrangement = Arrangement.spacedBy(AppDimensions.size6)
                     ) {
                         week.forEach { day ->
                             CalendarDayCell(
@@ -192,28 +193,28 @@ object CalendarEditorScreen {
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(18.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
         ) {
             Column(
-                modifier = Modifier.padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                modifier = Modifier.padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
             ) {
                 Text(
                     text = selectedDayTitle(day),
                     color = AppColors.Ink,
-                    fontSize = 18.sp,
+                    fontSize = AppFontSizes.size18,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = selectedDaySubtitle(day),
                     color = AppColors.Muted,
-                    fontSize = 13.sp,
+                    fontSize = AppFontSizes.size13,
                     fontWeight = FontWeight.Normal
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
                 ) {
                     ActionButton(
                         label = "-15 min",
@@ -228,7 +229,7 @@ object CalendarEditorScreen {
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
                 ) {
                     ActionButton(
                         label = stringResource(Res.string.vacation),
@@ -268,8 +269,8 @@ object CalendarEditorScreen {
     ) {
         Button(
             onClick = onClick,
-            modifier = modifier.heightIn(min = 48.dp),
-            shape = RoundedCornerShape(8.dp),
+            modifier = modifier.heightIn(min = AppDimensions.size48),
+            shape = RoundedCornerShape(AppDimensions.size8),
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor.copy(alpha = 0.16f),
                 contentColor = containerColor

@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,8 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.WeekDayProgressUiModel
 import com.iamapo.timetracker.presentation.state.WeekOverviewUiModel
@@ -43,15 +44,15 @@ object WeekOverviewCard {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(18.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
         ) {
-            BoxWithConstraints(modifier = Modifier.padding(18.dp)) {
-                val compact = maxWidth < 310.dp
+            BoxWithConstraints(modifier = Modifier.padding(AppDimensions.size18)) {
+                val compact = maxWidth < AppDimensions.size310
                 if (compact) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                        verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -84,17 +85,17 @@ object WeekOverviewCard {
             Text(
                 text = stringResource(Res.string.this_week),
                 color = AppColors.Muted,
-                fontSize = 11.sp,
+                fontSize = AppFontSizes.size11,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 0.2.sp
+                letterSpacing = AppFontSizes.size0_2
             )
             Text(
                 text = week.reached,
                 color = AppColors.Ink,
-                fontSize = 31.sp,
-                lineHeight = 34.sp,
+                fontSize = AppFontSizes.size31,
+                lineHeight = AppFontSizes.size34,
                 fontWeight = FontWeight.Black,
-                modifier = Modifier.padding(top = 5.dp)
+                modifier = Modifier.padding(top = AppDimensions.size5)
             )
         }
     }
@@ -107,19 +108,19 @@ object WeekOverviewCard {
         val color = if (isPositive) AppColors.Lemon else AppColors.Coral
         Surface(
             color = color.copy(alpha = if (isPositive) 0.42f else 0.24f),
-            border = BorderStroke(1.dp, color.copy(alpha = 0.30f)),
-            shape = RoundedCornerShape(99.dp)
+            border = BorderStroke(AppDimensions.size1, color.copy(alpha = 0.30f)),
+            shape = RoundedCornerShape(AppDimensions.size99)
         ) {
             if (displaysCarry) {
                 Column(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                    modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size7),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = value,
                         color = AppColors.Ink,
-                        fontSize = 13.sp,
-                        lineHeight = 15.sp,
+                        fontSize = AppFontSizes.size13,
+                        lineHeight = AppFontSizes.size15,
                         fontWeight = FontWeight.Black
                     )
                 }
@@ -127,10 +128,10 @@ object WeekOverviewCard {
                 Text(
                     text = value,
                     color = AppColors.Ink,
-                    fontSize = 13.sp,
-                    lineHeight = 15.sp,
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size15,
                     fontWeight = FontWeight.Black,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                    modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size8)
                 )
             }
         }
@@ -140,9 +141,9 @@ object WeekOverviewCard {
     private fun WeekBars(days: List<WeekDayProgressUiModel>) {
         Row(
             modifier = Modifier
-                .width(82.dp)
-                .height(72.dp),
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
+                .width(AppDimensions.size82)
+                .height(AppDimensions.size72),
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size5),
             verticalAlignment = Alignment.Bottom
         ) {
             days.forEach { day ->
@@ -152,10 +153,10 @@ object WeekOverviewCard {
                         .fillMaxHeight(day.progress.coerceIn(0.08f, 1f))
                         .clip(
                             RoundedCornerShape(
-                                topStart = 8.dp,
-                                topEnd = 8.dp,
-                                bottomStart = 2.dp,
-                                bottomEnd = 2.dp
+                                topStart = AppDimensions.size8,
+                                topEnd = AppDimensions.size8,
+                                bottomStart = AppDimensions.size2,
+                                bottomEnd = AppDimensions.size2
                             )
                         )
                         .background(barColor(day))

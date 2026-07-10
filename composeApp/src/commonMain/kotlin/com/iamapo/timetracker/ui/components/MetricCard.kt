@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,8 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.MetricUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -30,39 +31,39 @@ object MetricCard {
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .height(112.dp),
+                .height(AppDimensions.size112),
             color = tone.background,
-            border = BorderStroke(1.dp, tone.border),
-            shape = RoundedCornerShape(14.dp)
+            border = BorderStroke(AppDimensions.size1, tone.border),
+            shape = RoundedCornerShape(AppDimensions.size14)
         ) {
             Column(
-                modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                modifier = Modifier.padding(horizontal = AppDimensions.size14, vertical = AppDimensions.size12),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = metric.label.uppercase(),
                     color = tone.content.copy(alpha = 0.70f),
-                    fontSize = 10.sp,
+                    fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 0.2.sp
+                    letterSpacing = AppFontSizes.size0_2
                 )
                 Text(
                     text = metric.value,
                     color = tone.content,
-                    fontSize = 22.sp,
-                    lineHeight = 24.sp,
+                    fontSize = AppFontSizes.size22,
+                    lineHeight = AppFontSizes.size24,
                     fontWeight = FontWeight.Black,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier.padding(top = AppDimensions.size8)
                 )
                 Text(
                     text = metric.hint,
                     color = tone.content.copy(alpha = 0.72f),
-                    fontSize = 11.sp,
-                    lineHeight = 13.sp,
+                    fontSize = AppFontSizes.size11,
+                    lineHeight = AppFontSizes.size13,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 5.dp)
+                    modifier = Modifier.padding(top = AppDimensions.size5)
                 )
             }
         }

@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -41,7 +43,7 @@ object SettingsRow {
         ) {
             Text(label, color = AppColors.Muted, fontWeight = FontWeight.Bold)
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (onDecrease != null) {
@@ -52,9 +54,9 @@ object SettingsRow {
                     )
                 }
                 Surface(
-                    modifier = Modifier.width(88.dp),
+                    modifier = Modifier.width(AppDimensions.size88),
                     color = AppColors.Lemon.copy(alpha = 0.28f),
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(AppDimensions.size10)
                 ) {
                     Text(
                         text = value,
@@ -63,7 +65,7 @@ object SettingsRow {
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 8.dp)
+                            .padding(horizontal = AppDimensions.size8, vertical = AppDimensions.size8)
                     )
                 }
                 if (onIncrease != null) {
@@ -87,16 +89,16 @@ object SettingsRow {
             onClick = onClick,
             enabled = enabled,
             modifier = Modifier
-                .heightIn(min = 36.dp)
-                .widthIn(min = 40.dp),
-            shape = RoundedCornerShape(8.dp),
+                .heightIn(min = AppDimensions.size36)
+                .widthIn(min = AppDimensions.size40),
+            shape = RoundedCornerShape(AppDimensions.size8),
             colors = ButtonDefaults.buttonColors(
                 containerColor = AppColors.PanelRaised,
                 contentColor = AppColors.Ink,
                 disabledContainerColor = AppColors.Panel,
                 disabledContentColor = AppColors.Subtle
             ),
-            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp)
+            contentPadding = PaddingValues(horizontal = AppDimensions.size10, vertical = AppDimensions.size0)
         ) {
             Text(label, fontWeight = FontWeight.Black)
         }

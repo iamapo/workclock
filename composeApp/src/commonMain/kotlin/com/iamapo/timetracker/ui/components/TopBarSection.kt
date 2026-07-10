@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -27,15 +29,15 @@ object TopBarSection {
                 Text(
                     text = dateLabel.uppercase(),
                     color = AppColors.Subtle,
-                    fontSize = 11.sp,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.4.sp
+                    letterSpacing = AppFontSizes.size0_4
                 )
                 Text(
                     text = title,
                     color = AppColors.Ink,
-                    fontSize = 30.sp,
-                    lineHeight = 32.sp,
+                    fontSize = AppFontSizes.size30,
+                    lineHeight = AppFontSizes.size32,
                     fontWeight = FontWeight.Black
                 )
             }

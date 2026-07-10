@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,8 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -32,18 +33,18 @@ object TimelineRow {
         Row(
             modifier = modifier,
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size12)
         ) {
             Text(
                 text = item.time,
                 color = AppColors.Muted,
-                fontSize = 13.sp,
+                fontSize = AppFontSizes.size13,
                 fontWeight = FontWeight.Black,
-                modifier = Modifier.width(50.dp)
+                modifier = Modifier.width(AppDimensions.size50)
             )
             Box(
                 modifier = Modifier
-                    .size(16.dp)
+                    .size(AppDimensions.size16)
                     .clip(CircleShape)
                     .background(colorFor(item.kind).copy(alpha = if (item.kind == TimelineKind.Target) 0.16f else 1f)),
                 contentAlignment = Alignment.Center
@@ -51,8 +52,8 @@ object TimelineRow {
                 if (item.kind == TimelineKind.Target) {
                     Box(
                         modifier = Modifier
-                            .size(8.dp)
-                            .clip(RoundedCornerShape(99.dp))
+                            .size(AppDimensions.size8)
+                            .clip(RoundedCornerShape(AppDimensions.size99))
                             .background(colorFor(item.kind))
                     )
                 }
@@ -60,7 +61,7 @@ object TimelineRow {
             Text(
                 text = localizedEventTitle(item.title),
                 color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Ink,
-                fontSize = 14.sp,
+                fontSize = AppFontSizes.size14,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

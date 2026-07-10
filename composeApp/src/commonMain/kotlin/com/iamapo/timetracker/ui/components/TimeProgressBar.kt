@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -23,14 +25,14 @@ object TimeProgressBar {
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .height(5.dp)
+                .height(AppDimensions.size5)
                 .clip(RoundedCornerShape(50))
                 .background(AppColors.SoftMuted)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(progress.coerceIn(0f, 1f))
-                    .height(5.dp)
+                    .height(AppDimensions.size5)
                     .clip(RoundedCornerShape(50))
                     .background(color)
             )

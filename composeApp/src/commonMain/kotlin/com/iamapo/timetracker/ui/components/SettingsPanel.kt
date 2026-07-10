@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,8 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -40,19 +41,19 @@ object SettingsPanel {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(18.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
         ) {
             Column(
-                modifier = Modifier.padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                modifier = Modifier.padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
             ) {
                 Text(
                     text = stringResource(Res.string.quick_targets),
                     color = AppColors.Subtle,
-                    fontSize = 10.sp,
+                    fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 0.2.sp
+                    letterSpacing = AppFontSizes.size0_2
                 )
                 SettingsRow(
                     label = stringResource(Res.string.daily),
@@ -93,12 +94,12 @@ object SettingsPanel {
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size14),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size4)
             ) {
                 Text(
                     text = stringResource(Res.string.lock_screen_status),
@@ -108,8 +109,8 @@ object SettingsPanel {
                 Text(
                     text = stringResource(Res.string.lock_screen_description),
                     color = AppColors.Muted,
-                    fontSize = 12.sp,
-                    lineHeight = 16.sp
+                    fontSize = AppFontSizes.size12,
+                    lineHeight = AppFontSizes.size16
                 )
             }
             Switch(

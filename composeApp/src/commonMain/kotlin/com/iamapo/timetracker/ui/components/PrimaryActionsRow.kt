@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -34,14 +35,14 @@ object PrimaryActionsRow {
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
         ) {
             ActionSurface(
                 label = primaryLabel,
                 onClick = onPrimaryAction,
                 modifier = Modifier
                     .weight(if (secondaryLabel == null) 1f else 1.7f)
-                    .heightIn(min = 52.dp),
+                    .heightIn(min = AppDimensions.size52),
                 contentColor = primaryColor,
                 containerColor = primaryContainerColor,
                 borderColor = primaryColor
@@ -52,7 +53,7 @@ object PrimaryActionsRow {
                     onClick = onSecondaryAction,
                     modifier = Modifier
                         .weight(1f)
-                        .heightIn(min = 50.dp),
+                        .heightIn(min = AppDimensions.size50),
                     contentColor = AppColors.Ink,
                     containerColor = AppColors.Lemon,
                     borderColor = AppColors.Lemon
@@ -73,14 +74,14 @@ object PrimaryActionsRow {
         Surface(
             modifier = modifier.clickable(onClick = onClick),
             color = containerColor,
-            border = BorderStroke(1.dp, borderColor.copy(alpha = 0.28f)),
-            shape = RoundedCornerShape(14.dp)
+            border = BorderStroke(AppDimensions.size1, borderColor.copy(alpha = 0.28f)),
+            shape = RoundedCornerShape(AppDimensions.size14)
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
                     text = label,
                     color = contentColor,
-                    fontSize = 15.sp,
+                    fontSize = AppFontSizes.size15,
                     fontWeight = FontWeight.Bold
                 )
             }

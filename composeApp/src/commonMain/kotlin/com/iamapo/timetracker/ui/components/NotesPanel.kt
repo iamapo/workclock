@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
@@ -24,24 +25,24 @@ object NotesPanel {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
-            border = BorderStroke(1.dp, AppColors.Line),
-            shape = RoundedCornerShape(16.dp)
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size16)
         ) {
-            Column(modifier = Modifier.padding(18.dp)) {
+            Column(modifier = Modifier.padding(AppDimensions.size18)) {
                 Text(
                     text = stringResource(Res.string.interaction_idea),
                     color = AppColors.Subtle,
-                    fontSize = 10.sp,
+                    fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.sp
+                    letterSpacing = AppFontSizes.size1
                 )
                 Text(
                     text = stringResource(Res.string.interaction_description),
                     color = AppColors.Muted,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
+                    fontSize = AppFontSizes.size14,
+                    lineHeight = AppFontSizes.size20,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(top = 12.dp)
+                    modifier = Modifier.padding(top = AppDimensions.size12)
                 )
             }
         }

@@ -1,5 +1,8 @@
 package com.iamapo.timetracker.ui.components
 
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -28,8 +31,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -47,7 +48,7 @@ object StatusCard {
         modifier: Modifier = Modifier
     ) {
         val tone = statusTone(state)
-        val shape = RoundedCornerShape(18.dp)
+        val shape = RoundedCornerShape(AppDimensions.size18)
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -61,13 +62,13 @@ object StatusCard {
                     ),
                     shape = shape
                 )
-                .border(BorderStroke(1.dp, tone.color.copy(alpha = 0.20f)), shape)
+                .border(BorderStroke(AppDimensions.size1, tone.color.copy(alpha = 0.20f)), shape)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size16)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -78,18 +79,18 @@ object StatusCard {
                     Text(
                         text = (state.progress.coerceIn(0f, 1f) * 100).roundToInt().toString() + "%",
                         color = AppColors.Ink,
-                        fontSize = 22.sp,
+                        fontSize = AppFontSizes.size22,
                         fontWeight = FontWeight.Black
                     )
                 }
 
                 BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-                    val compact = maxWidth < 300.dp
+                    val compact = maxWidth < AppDimensions.size300
                     if (compact) {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(18.dp)
+                            verticalArrangement = Arrangement.spacedBy(AppDimensions.size18)
                         ) {
                             ProgressRing(
                                 progress = state.progress,
@@ -102,7 +103,7 @@ object StatusCard {
                     } else {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(18.dp),
+                            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size18),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             ProgressRing(
@@ -136,25 +137,25 @@ object StatusCard {
     private fun StatusChip(tone: StatusTone) {
         Surface(
             color = tone.background,
-            border = BorderStroke(1.dp, tone.color.copy(alpha = 0.16f)),
-            shape = RoundedCornerShape(99.dp)
+            border = BorderStroke(AppDimensions.size1, tone.color.copy(alpha = 0.16f)),
+            shape = RoundedCornerShape(AppDimensions.size99)
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size7),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(8.dp)
+                        .size(AppDimensions.size8)
                         .clip(CircleShape)
                         .background(tone.color)
                 )
                 Text(
                     text = tone.label,
                     color = tone.foreground,
-                    fontSize = 13.sp,
-                    lineHeight = 15.sp,
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size15,
                     fontWeight = FontWeight.Black,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -176,7 +177,7 @@ object StatusCard {
             contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = Modifier.size(size.dp)) {
-                val strokeWidth = 16.dp.toPx()
+                val strokeWidth = AppDimensions.size16.toPx()
                 val diameter = this.size.minDimension - strokeWidth
                 val topLeft = (this.size.minDimension - diameter) / 2f
                 drawArc(
@@ -202,8 +203,8 @@ object StatusCard {
                 Text(
                     text = value,
                     color = AppColors.Ink,
-                    fontSize = 38.sp,
-                    lineHeight = 40.sp,
+                    fontSize = AppFontSizes.size38,
+                    lineHeight = AppFontSizes.size40,
                     fontWeight = FontWeight.Black,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -211,7 +212,7 @@ object StatusCard {
                 Text(
                     text = stringResource(Res.string.remaining_time),
                     color = AppColors.Muted,
-                    fontSize = 12.sp,
+                    fontSize = AppFontSizes.size12,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -224,15 +225,15 @@ object StatusCard {
             Text(
                 text = stringResource(Res.string.end_of_workday),
                 color = AppColors.Muted,
-                fontSize = 11.sp,
+                fontSize = AppFontSizes.size11,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 0.2.sp
+                letterSpacing = AppFontSizes.size0_2
             )
             Text(
                 text = state.endTime.removeSuffix(" Uhr"),
                 color = AppColors.Ink,
-                fontSize = 42.sp,
-                lineHeight = 44.sp,
+                fontSize = AppFontSizes.size42,
+                lineHeight = AppFontSizes.size44,
                 fontWeight = FontWeight.Black,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -240,17 +241,17 @@ object StatusCard {
             Text(
                 text = state.breakRequirementLabel,
                 color = AppColors.Muted,
-                fontSize = 13.sp,
-                lineHeight = 16.sp,
+                fontSize = AppFontSizes.size13,
+                lineHeight = AppFontSizes.size16,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = stringResource(Res.string.worked_suffix, state.workedTime),
                 color = AppColors.Subtle,
-                fontSize = 12.sp,
-                lineHeight = 15.sp,
+                fontSize = AppFontSizes.size12,
+                lineHeight = AppFontSizes.size15,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(top = 7.dp)
+                modifier = Modifier.padding(top = AppDimensions.size7)
             )
         }
     }
