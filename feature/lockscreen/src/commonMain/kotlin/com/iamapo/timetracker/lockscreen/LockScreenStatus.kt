@@ -16,17 +16,7 @@ data class LockScreenStatus(
         const val PhaseWorking = "working"
         const val PhasePaused = "paused"
 
-        val Hidden = LockScreenStatus(
-            visible = false,
-            phase = PhaseHidden,
-            title = "WorkClock",
-            phaseLabel = "",
-            subtitle = "",
-            startedAtEpochMillis = 0L,
-            elapsedMinutes = 0,
-            workedMinutes = 0,
-            breakMinutes = 0
-        )
+        val Hidden = LockScreenStatus(false, PhaseHidden, "WorkClock", "", "", 0L, 0, 0, 0)
     }
 }
 

@@ -7,6 +7,7 @@ import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
 import com.iamapo.timetracker.domain.SystemTimeProvider
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
+import com.iamapo.timetracker.lockscreen.lockScreenFeatureModule
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
 import com.iamapo.timetracker.ui.TimeTrackerRoute
@@ -14,10 +15,16 @@ import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.watch.IosWatchSessionController
 import platform.UIKit.UIViewController
+import org.koin.dsl.koinApplication
 
 fun MainViewController(): UIViewController = MainViewController(NoOpLockScreenStatusController)
 
 fun MainViewController(lockScreenStatusController: LockScreenStatusController): UIViewController = ComposeUIViewController {
+    val injectedLockScreenController = remember(lockScreenStatusController) {
+        koinApplication {
+            modules(lockScreenFeatureModule(lockScreenStatusController))
+        }.koin.get<LockScreenStatusController>()
+    }
     val workDayStore = remember { IosWorkDayStore() }
     val timeProvider = remember { SystemTimeProvider() }
     val repository = remember {
@@ -30,7 +37,7 @@ fun MainViewController(lockScreenStatusController: LockScreenStatusController): 
         TimeTrackerViewModel(
             timeProvider = timeProvider,
             repository = repository,
-            lockScreenStatusController = lockScreenStatusController
+            lockScreenStatusController = injectedLockScreenController
         )
     }
     val watchSession = remember {

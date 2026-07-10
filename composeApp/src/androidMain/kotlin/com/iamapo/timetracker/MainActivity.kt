@@ -10,7 +10,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.remember
 import com.iamapo.timetracker.data.AndroidWorkDayStore
 import com.iamapo.timetracker.lockscreen.AndroidLockScreenStatusController
+import com.iamapo.timetracker.lockscreen.LockScreenStatusController
+import com.iamapo.timetracker.lockscreen.lockScreenFeatureModule
 import com.iamapo.timetracker.ui.TimeTrackerRoute
+import org.koin.dsl.koinApplication
 
 class MainActivity : ComponentActivity() {
     private val notificationPermissionLauncher = registerForActivityResult(
@@ -22,11 +25,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestNotificationPermissionIfNeeded()
+        val koin = koinApplication {
+            modules(lockScreenFeatureModule(AndroidLockScreenStatusController(applicationContext)))
+        }.koin
         setContent {
             val workDayStore = remember { AndroidWorkDayStore(applicationContext) }
-            val lockScreenStatusController = remember {
-                AndroidLockScreenStatusController(applicationContext)
-            }
+            val lockScreenStatusController = remember { koin.get<LockScreenStatusController>() }
             TimeTrackerRoute(
                 workDayStore = workDayStore,
                 lockScreenStatusController = lockScreenStatusController

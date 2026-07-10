@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "WorkClock"
 include(":composeApp")
+include(":feature:lockscreen")
