@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">WorkClock</string>
+    <string name="nav_today">Heute</string><string name="nav_week">Woche</string><string name="nav_settings">Einstellungen</string>
+    <string name="calendar">KALENDER</string><string name="timeline">TIMELINE</string>
+    <string name="quick_targets">SCHNELLE VORGABEN</string><string name="daily">Täglich</string><string name="break_label">Pause</string><string name="week">Woche</string>
+    <string name="this_week">DIESE WOCHE</string><string name="planned_this_week">Diese Woche geplant</string><string name="currently_reached">Aktuell erreicht</string>
+    <string name="remaining_time">Restzeit</string><string name="end_of_workday">FEIERABEND</string><string name="worked_suffix">%1$s gearbeitet</string>
+    <string name="working_until">Du arbeitest bis</string><string name="including_break">inkl. %1$s Pause</string>
+    <string name="planning">PLANUNG</string><string name="back">Zurück</string><string name="vacation">Urlaub</string><string name="sick">Krank</string>
+    <string name="workday_value">Arbeitstag %1$s</string><string name="delete_entry">Eintrag löschen</string><string name="today_prefix">Heute, </string>
+    <string name="vacation_with">Urlaub mit %1$s</string><string name="sick_with">Krank mit %1$s</string><string name="working_time_value">Arbeitszeit: %1$s</string><string name="no_entry">Kein Eintrag</string>
+    <string name="settings_subtitle">Vorgaben &amp; Daten</string><string name="settings_title">Einstellungen</string><string name="data">DATEN</string>
+    <string name="delete_confirm">Alle gespeicherten Zeiteinträge wirklich löschen?</string><string name="delete_entries">Gespeicherte Zeiteinträge löschen</string>
+    <string name="delete_description">Setzt Historie, Kalender-Einträge und den aktuellen Arbeitstag zurück.</string>
+    <string name="delete_description_confirm">Die schnellen Vorgaben bleiben erhalten. Kalender- und Arbeitszeitdaten werden zurückgesetzt.</string>
+    <string name="cancel">Abbrechen</string><string name="delete">Löschen</string>
+    <string name="lock_screen_status">Sperrbildschirm-Status</string><string name="lock_screen_description">Arbeitszeit und Pausen live anzeigen</string>
+    <string name="remaining">verbleibend</string><string name="watch_companion">Apple Watch Companion</string><string name="complication">Komplikation</string>
+    <string name="interaction_idea">INTERAKTIONSIDEE</string><string name="interaction_description">Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.</string>
+    <string name="monday_short">Mo</string><string name="tuesday_short">Di</string><string name="wednesday_short">Mi</string><string name="thursday_short">Do</string><string name="friday_short">Fr</string><string name="saturday_short">Sa</string><string name="sunday_short">So</string>
+    <string name="monday">Montag</string><string name="tuesday">Dienstag</string><string name="wednesday">Mittwoch</string><string name="thursday">Donnerstag</string><string name="friday">Freitag</string><string name="saturday">Samstag</string><string name="sunday">Sonntag</string>
+    <string name="january">Januar</string><string name="february">Februar</string><string name="march">März</string><string name="april">April</string><string name="may">Mai</string><string name="june">Juni</string><string name="july">Juli</string><string name="august">August</string><string name="september">September</string><string name="october">Oktober</string><string name="november">November</string><string name="december">Dezember</string>
+    <string name="event_work_started">Arbeitsbeginn</string><string name="event_break_started">Pause gestartet</string><string name="event_work_resumed">Weitergearbeitet</string><string name="event_workday_finished">Arbeitstag beendet</string><string name="event_manual_entry">Manueller Eintrag</string><string name="event_planned_end">Geplanter Feierabend</string>
+    <string name="delete_all_entries">Alle Einträge löschen</string>
+    <string name="date_format">%1$s, %2$s. %3$s</string><string name="month_year">%1$s %2$s</string>
+    <string name="hours_minutes">%1$s h %2$s min</string><string name="hours_only">%1$s h</string><string name="minutes_only">%1$s min</string><string name="clock_hours">%1$s h</string>
+    <string name="time_with_clock">%1$s Uhr</string><string name="until_time">bis %1$s</string>
+    <string name="target_daily">Tagesziel</string><string name="target_weekly">Wochenziel</string><string name="worked">Gearbeitet</string>
+    <string name="not_started_yet">noch nicht gestartet</string><string name="recorded_today">heute erfasst</string><string name="break_met">Pause erfüllt</string><string name="missing_minutes">%1$s fehlen</string><string name="balance_suffix">%1$s Saldo</string>
+    <string name="ready_to_start">Bereit zum Start</string><string name="working_since">Arbeite seit %1$s</string><string name="working">Arbeite</string><string name="break_running">Pause läuft</string><string name="workday_finished">Arbeitstag beendet</string>
+    <string name="action_start">Start</string><string name="action_break">Pause</string><string name="action_resume">Weiterarbeiten</string><string name="action_new_day">Neuen Tag starten</string><string name="action_finish">Beenden</string>
+    <string name="state_ready">Bereit</string><string name="state_active">Aktiv</string><string name="state_break">Pause</string><string name="state_finished">Fertig</string>
+    <string name="watch_ready">bereit zum Start</string><string name="watch_finished">beendet um %1$s</string><string name="watch_until">noch bis %1$s</string>
+    <string name="calendar_vacation_duration">Urlaub %1$s</string><string name="calendar_sick_duration">Krank %1$s</string>
+    <string name="lock_work_today">Arbeitszeit heute</string><string name="lock_break_since">Pause seit</string><string name="lock_break_value">Pause: %1$s</string><string name="lock_worked_value">Gearbeitet: %1$s</string>
+    <string name="status_working">Am Arbeiten</string>
+</resources>

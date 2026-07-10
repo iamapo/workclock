@@ -5,6 +5,8 @@ import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.presentation.TimeTextFormatter
 import com.iamapo.timetracker.presentation.WorkDaySummaryCalculator
+import com.iamapo.timetracker.presentation.localized
+import workclock.composeapp.generated.resources.*
 
 object LockScreenStatusMapper {
     private val summaryCalculator = WorkDaySummaryCalculator()
@@ -40,9 +42,9 @@ object LockScreenStatusMapper {
             WorkStatus.Working -> LockScreenStatus(
                 visible = true,
                 phase = LockScreenStatus.PhaseWorking,
-                title = "WorkClock",
-                phaseLabel = "Arbeitszeit heute",
-                subtitle = "Pause: ${TimeTextFormatter.duration(summary.breakMinutes)}",
+                title = localized(Res.string.app_name),
+                phaseLabel = localized(Res.string.lock_work_today),
+                subtitle = localized(Res.string.lock_break_value, TimeTextFormatter.duration(summary.breakMinutes)),
                 startedAtEpochMillis = startedAtEpochMillis,
                 elapsedMinutes = elapsedMinutes,
                 workedMinutes = summary.workedMinutes,
@@ -51,9 +53,9 @@ object LockScreenStatusMapper {
             WorkStatus.Paused -> LockScreenStatus(
                 visible = true,
                 phase = LockScreenStatus.PhasePaused,
-                title = "WorkClock",
-                phaseLabel = "Pause seit",
-                subtitle = "Gearbeitet: ${TimeTextFormatter.duration(summary.workedMinutes)}",
+                title = localized(Res.string.app_name),
+                phaseLabel = localized(Res.string.lock_break_since),
+                subtitle = localized(Res.string.lock_worked_value, TimeTextFormatter.duration(summary.workedMinutes)),
                 startedAtEpochMillis = startedAtEpochMillis,
                 elapsedMinutes = elapsedMinutes,
                 workedMinutes = summary.workedMinutes,

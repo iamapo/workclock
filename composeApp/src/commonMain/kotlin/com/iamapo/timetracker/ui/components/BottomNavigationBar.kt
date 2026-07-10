@@ -23,14 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.Res
+import workclock.composeapp.generated.resources.nav_settings
+import workclock.composeapp.generated.resources.nav_today
+import workclock.composeapp.generated.resources.nav_week
 
-enum class MainTab(
-    val label: String,
-    val icon: String
-) {
-    Today("Heute", "⌂"),
-    Calendar("Woche", "▦"),
-    Settings("Settings", "⚙")
+enum class MainTab(val icon: String) {
+    Today("⌂"), Calendar("▦"), Settings("⚙")
 }
 
 object BottomNavigationBar {
@@ -98,7 +98,11 @@ object BottomNavigationBar {
                     fontWeight = FontWeight.Black
                 )
                 Text(
-                    text = tab.label,
+                    text = stringResource(when (tab) {
+                        MainTab.Today -> Res.string.nav_today
+                        MainTab.Calendar -> Res.string.nav_week
+                        MainTab.Settings -> Res.string.nav_settings
+                    }),
                     color = if (selected) AppColors.Ink else AppColors.Muted,
                     fontSize = 11.sp,
                     lineHeight = 13.sp,

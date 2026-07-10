@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.Res
+import workclock.composeapp.generated.resources.working_until
 
 object EndTimeCard {
     @Composable
@@ -35,7 +38,7 @@ object EndTimeCard {
             ) {
                 Column {
                     Text(
-                        text = "Du arbeitest bis",
+                        text = stringResource(Res.string.working_until),
                         color = AppColors.Muted,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold

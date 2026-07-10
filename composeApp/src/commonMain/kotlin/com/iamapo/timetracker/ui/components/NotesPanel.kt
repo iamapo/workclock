@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object NotesPanel {
     @Composable
@@ -27,14 +29,14 @@ object NotesPanel {
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
                 Text(
-                    text = "INTERAKTIONSIDEE",
+                    text = stringResource(Res.string.interaction_idea),
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Medium,
                     letterSpacing = 1.sp
                 )
                 Text(
-                    text = "Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.",
+                    text = stringResource(Res.string.interaction_description),
                     color = AppColors.Muted,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,

@@ -18,6 +18,9 @@ import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.Res
+import workclock.composeapp.generated.resources.timeline
 
 object TimelineSection {
     @Composable
@@ -33,7 +36,7 @@ object TimelineSection {
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Text(
-                    text = "TIMELINE",
+                    text = stringResource(Res.string.timeline),
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Black,

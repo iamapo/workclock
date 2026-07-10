@@ -15,6 +15,7 @@ import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlin.math.abs
+import workclock.composeapp.generated.resources.*
 
 object TimeTrackerUiStateMapper {
     private val summaryCalculator = WorkDaySummaryCalculator()
@@ -39,40 +40,40 @@ object TimeTrackerUiStateMapper {
 
         return TimeTrackerUiState(
             dateLabel = TimeTextFormatter.dateLabel(snapshot.date),
-            title = "WorkClock",
+            title = localized(Res.string.app_name),
             statusLabel = statusLabel(day),
             workedTime = TimeTextFormatter.duration(summary.workedMinutes),
             remainingTime = TimeTextFormatter.duration(summary.remainingWorkMinutes),
-            endTime = TimeTextFormatter.clock(summary.endMinute) + " Uhr",
-            breakRequirementLabel = "inkl. " + TimeTextFormatter.duration(displayedBreakMinutes) + " Pause",
+            endTime = localized(Res.string.time_with_clock, TimeTextFormatter.clock(summary.endMinute)),
+            breakRequirementLabel = localized(Res.string.including_break, TimeTextFormatter.duration(displayedBreakMinutes)),
             progress = summary.progress,
             primaryActionLabel = primaryActionLabel(day.status),
             secondaryActionLabel = secondaryActionLabel(day.status),
             targets = listOf(
-                TargetItemUiModel("Tagesziel", TimeTextFormatter.shortDuration(day.config.dailyTargetMinutes)),
-                TargetItemUiModel("Pause", TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
-                TargetItemUiModel("Wochenziel", TimeTextFormatter.shortDuration(day.config.weeklyTargetMinutes))
+                TargetItemUiModel(localized(Res.string.target_daily), TimeTextFormatter.shortDuration(day.config.dailyTargetMinutes)),
+                TargetItemUiModel(localized(Res.string.break_label), TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
+                TargetItemUiModel(localized(Res.string.target_weekly), TimeTextFormatter.shortDuration(day.config.weeklyTargetMinutes))
             ),
             metrics = listOf(
                 MetricUiModel(
-                    label = "Gearbeitet",
+                    label = localized(Res.string.worked),
                     value = TimeTextFormatter.compactDuration(summary.workedMinutes),
-                    hint = if (summary.workedMinutes == 0) "noch nicht gestartet" else "heute erfasst",
+                    hint = localized(if (summary.workedMinutes == 0) Res.string.not_started_yet else Res.string.recorded_today),
                     emphasized = summary.workedMinutes > 0
                 ),
                 MetricUiModel(
-                    label = "Pause",
+                    label = localized(Res.string.break_label),
                     value = TimeTextFormatter.compactDuration(summary.breakMinutes),
                     hint = if (summary.missingBreakMinutes == 0) {
-                        "Pause erfüllt"
+                        localized(Res.string.break_met)
                     } else {
-                        TimeTextFormatter.duration(summary.missingBreakMinutes) + " fehlen"
+                        localized(Res.string.missing_minutes, TimeTextFormatter.duration(summary.missingBreakMinutes))
                     }
                 ),
                 MetricUiModel(
-                    label = "Woche",
+                    label = localized(Res.string.week),
                     value = TimeTextFormatter.compactDuration(summary.weeklyWorkedMinutes),
-                    hint = weekOverview.balance + " Saldo"
+                    hint = localized(Res.string.balance_suffix, weekOverview.balance)
                 )
             ),
             timeline = timelineMapper.map(day, summary.endMinute),
@@ -111,40 +112,40 @@ object TimeTrackerUiStateMapper {
                 TimeTextFormatter.watchDuration(summary.remainingWorkMinutes)
             },
             watchCaption = when (day.status) {
-                WorkStatus.NotStarted -> "bereit zum Start"
-                WorkStatus.Finished -> "beendet um " + TimeTextFormatter.clock(summary.endMinute)
+                WorkStatus.NotStarted -> localized(Res.string.watch_ready)
+                WorkStatus.Finished -> localized(Res.string.watch_finished, TimeTextFormatter.clock(summary.endMinute))
                 WorkStatus.Working,
-                WorkStatus.Paused -> "noch bis " + TimeTextFormatter.clock(summary.endMinute)
+                WorkStatus.Paused -> localized(Res.string.watch_until, TimeTextFormatter.clock(summary.endMinute))
             }
         )
     }
 
     private fun statusLabel(day: WorkDay): String = when (day.status) {
-        WorkStatus.NotStarted -> "Bereit zum Start"
-        WorkStatus.Working -> day.startMinute?.let { "Arbeite seit " + TimeTextFormatter.clock(it) } ?: "Arbeite"
-        WorkStatus.Paused -> "Pause läuft"
-        WorkStatus.Finished -> "Arbeitstag beendet"
+        WorkStatus.NotStarted -> localized(Res.string.ready_to_start)
+        WorkStatus.Working -> day.startMinute?.let { localized(Res.string.working_since, TimeTextFormatter.clock(it)) } ?: localized(Res.string.working)
+        WorkStatus.Paused -> localized(Res.string.break_running)
+        WorkStatus.Finished -> localized(Res.string.workday_finished)
     }
 
     private fun primaryActionLabel(status: WorkStatus): String = when (status) {
-        WorkStatus.NotStarted -> "Start"
-        WorkStatus.Working -> "Pause"
-        WorkStatus.Paused -> "Weiterarbeiten"
-        WorkStatus.Finished -> "Neuen Tag starten"
+        WorkStatus.NotStarted -> localized(Res.string.action_start)
+        WorkStatus.Working -> localized(Res.string.action_break)
+        WorkStatus.Paused -> localized(Res.string.action_resume)
+        WorkStatus.Finished -> localized(Res.string.action_new_day)
     }
 
     private fun secondaryActionLabel(status: WorkStatus): String? = when (status) {
         WorkStatus.Working,
-        WorkStatus.Paused -> "Beenden"
+        WorkStatus.Paused -> localized(Res.string.action_finish)
         WorkStatus.NotStarted,
         WorkStatus.Finished -> null
     }
 
     private fun watchState(status: WorkStatus): String = when (status) {
-        WorkStatus.NotStarted -> "Bereit"
-        WorkStatus.Working -> "Aktiv"
-        WorkStatus.Paused -> "Pause"
-        WorkStatus.Finished -> "Fertig"
+        WorkStatus.NotStarted -> localized(Res.string.state_ready)
+        WorkStatus.Working -> localized(Res.string.state_active)
+        WorkStatus.Paused -> localized(Res.string.state_break)
+        WorkStatus.Finished -> localized(Res.string.state_finished)
     }
 
     private fun weekOverview(
@@ -202,11 +203,11 @@ object TimeTrackerUiStateMapper {
     }
 
     private fun weekdayShortLabel(index: Int): String = when (index) {
-        0 -> "Mo"
-        1 -> "Di"
-        2 -> "Mi"
-        3 -> "Do"
-        else -> "Fr"
+        0 -> localized(Res.string.monday_short)
+        1 -> localized(Res.string.tuesday_short)
+        2 -> localized(Res.string.wednesday_short)
+        3 -> localized(Res.string.thursday_short)
+        else -> localized(Res.string.friday_short)
     }
 
     private const val MinDailyTargetMinutes = 60

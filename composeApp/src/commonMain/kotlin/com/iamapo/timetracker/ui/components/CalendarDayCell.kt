@@ -24,6 +24,9 @@ import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.Res
+import workclock.composeapp.generated.resources.until_time
 
 object CalendarDayCell {
     @Composable
@@ -58,7 +61,7 @@ object CalendarDayCell {
                 )
                 if (day.note.isNotBlank()) {
                     Text(
-                        text = day.note.removePrefix("bis "),
+                        text = day.note.removePrefix(stringResource(Res.string.until_time, "")),
                         color = noteFor(day.style),
                         fontSize = 9.sp,
                         lineHeight = 10.sp,

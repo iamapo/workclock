@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">WorkClock</string>
+    <string name="nav_today">Today</string>
+    <string name="nav_week">Week</string>
+    <string name="nav_settings">Settings</string>
+    <string name="calendar">CALENDAR</string>
+    <string name="timeline">TIMELINE</string>
+    <string name="quick_targets">QUICK TARGETS</string>
+    <string name="daily">Daily</string>
+    <string name="break_label">Break</string>
+    <string name="week">Week</string>
+    <string name="this_week">THIS WEEK</string>
+    <string name="planned_this_week">Planned this week</string>
+    <string name="currently_reached">Currently reached</string>
+    <string name="remaining_time">Remaining</string>
+    <string name="end_of_workday">END OF WORKDAY</string>
+    <string name="worked_suffix">%1$s worked</string>
+    <string name="working_until">You work until</string>
+    <string name="including_break">incl. %1$s break</string>
+    <string name="planning">PLANNING</string>
+    <string name="back">Back</string>
+    <string name="vacation">Vacation</string>
+    <string name="sick">Sick</string>
+    <string name="workday_value">Workday %1$s</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="today_prefix">Today, </string>
+    <string name="vacation_with">Vacation with %1$s</string>
+    <string name="sick_with">Sick with %1$s</string>
+    <string name="working_time_value">Working time: %1$s</string>
+    <string name="no_entry">No entry</string>
+    <string name="settings_subtitle">Targets &amp; data</string>
+    <string name="settings_title">Settings</string>
+    <string name="data">DATA</string>
+    <string name="delete_confirm">Really delete all saved time entries?</string>
+    <string name="delete_entries">Delete saved time entries</string>
+    <string name="delete_description">Resets history, calendar entries and the current workday.</string>
+    <string name="delete_description_confirm">Quick targets will be kept. Calendar and working-time data will be reset.</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="lock_screen_status">Lock screen status</string>
+    <string name="lock_screen_description">Show working time and breaks live</string>
+    <string name="remaining">remaining</string>
+    <string name="watch_companion">Apple Watch Companion</string>
+    <string name="complication">Complication</string>
+    <string name="interaction_idea">INTERACTION IDEA</string>
+    <string name="interaction_description">The primary action switches between starting the day, starting a break and resuming work. Changes to target time and break immediately affect remaining time, end time and calendar totals.</string>
+    <string name="monday_short">Mon</string><string name="tuesday_short">Tue</string><string name="wednesday_short">Wed</string><string name="thursday_short">Thu</string><string name="friday_short">Fri</string><string name="saturday_short">Sat</string><string name="sunday_short">Sun</string>
+    <string name="monday">Monday</string><string name="tuesday">Tuesday</string><string name="wednesday">Wednesday</string><string name="thursday">Thursday</string><string name="friday">Friday</string><string name="saturday">Saturday</string><string name="sunday">Sunday</string>
+    <string name="january">January</string><string name="february">February</string><string name="march">March</string><string name="april">April</string><string name="may">May</string><string name="june">June</string><string name="july">July</string><string name="august">August</string><string name="september">September</string><string name="october">October</string><string name="november">November</string><string name="december">December</string>
+    <string name="event_work_started">Work started</string><string name="event_break_started">Break started</string><string name="event_work_resumed">Work resumed</string><string name="event_workday_finished">Workday finished</string><string name="event_manual_entry">Manual entry</string><string name="event_planned_end">Planned end of workday</string>
+    <string name="delete_all_entries">Delete all entries</string>
+    <string name="date_format">%1$s, %2$s %3$s</string><string name="month_year">%1$s %2$s</string>
+    <string name="hours_minutes">%1$s h %2$s min</string><string name="hours_only">%1$s h</string><string name="minutes_only">%1$s min</string><string name="clock_hours">%1$s h</string>
+    <string name="time_with_clock">%1$s</string><string name="until_time">until %1$s</string>
+    <string name="target_daily">Daily target</string><string name="target_weekly">Weekly target</string><string name="worked">Worked</string>
+    <string name="not_started_yet">not started yet</string><string name="recorded_today">recorded today</string><string name="break_met">Break completed</string><string name="missing_minutes">%1$s missing</string><string name="balance_suffix">%1$s balance</string>
+    <string name="ready_to_start">Ready to start</string><string name="working_since">Working since %1$s</string><string name="working">Working</string><string name="break_running">Break running</string><string name="workday_finished">Workday finished</string>
+    <string name="action_start">Start</string><string name="action_break">Break</string><string name="action_resume">Resume work</string><string name="action_new_day">Start new day</string><string name="action_finish">Finish</string>
+    <string name="state_ready">Ready</string><string name="state_active">Active</string><string name="state_break">Break</string><string name="state_finished">Finished</string>
+    <string name="watch_ready">ready to start</string><string name="watch_finished">finished at %1$s</string><string name="watch_until">until %1$s</string>
+    <string name="calendar_vacation_duration">Vacation %1$s</string><string name="calendar_sick_duration">Sick %1$s</string>
+    <string name="lock_work_today">Working time today</string><string name="lock_break_since">Break since</string><string name="lock_break_value">Break: %1$s</string><string name="lock_worked_value">Worked: %1$s</string>
+    <string name="status_working">Working</string>
+</resources>

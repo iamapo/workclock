@@ -29,6 +29,9 @@ import com.iamapo.timetracker.presentation.state.WeekDayProgressUiModel
 import com.iamapo.timetracker.presentation.state.WeekOverviewUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.Res
+import workclock.composeapp.generated.resources.this_week
 
 object WeekOverviewCard {
     @Composable
@@ -79,7 +82,7 @@ object WeekOverviewCard {
     private fun WeekTotal(week: WeekOverviewUiModel) {
         Column {
             Text(
-                text = "DIESE WOCHE",
+                text = stringResource(Res.string.this_week),
                 color = AppColors.Muted,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Black,

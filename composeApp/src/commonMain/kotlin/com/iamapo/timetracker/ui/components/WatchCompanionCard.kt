@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object WatchCompanionCard {
     @Composable
@@ -71,7 +73,7 @@ object WatchCompanionCard {
                             modifier = Modifier.padding(top = 3.dp)
                         )
                         Text(
-                            text = "verbleibend",
+                            text = stringResource(Res.string.remaining),
                             color = AppColors.Subtle,
                             fontSize = 5.sp,
                             lineHeight = 6.sp
@@ -83,7 +85,7 @@ object WatchCompanionCard {
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "Apple Watch Companion",
+                        text = stringResource(Res.string.watch_companion),
                         color = AppColors.Ink,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
@@ -99,11 +101,11 @@ object WatchCompanionCard {
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         WatchPill("watchOS", stateColor(state), stateColor(state).copy(alpha = 0.12f))
-                        WatchPill("Komplikation", AppColors.Subtle, AppColors.SoftMuted)
+                        WatchPill(stringResource(Res.string.complication), AppColors.Subtle, AppColors.SoftMuted)
                     }
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    WatchActionButton(if (state.contains("pause", ignoreCase = true)) "▶" else "II")
+                    WatchActionButton(if (state == stringResource(Res.string.state_break)) "▶" else "II")
                     WatchActionButton("■")
                 }
             }
@@ -127,10 +129,11 @@ object WatchCompanionCard {
         }
     }
 
-    private fun stateColor(state: String): androidx.compose.ui.graphics.Color = when {
-        state.contains("pause", ignoreCase = true) -> AppColors.Amber
-        state.contains("bereit", ignoreCase = true) -> AppColors.Subtle
-        state.contains("beendet", ignoreCase = true) -> AppColors.Blue
+    @Composable
+    private fun stateColor(state: String): androidx.compose.ui.graphics.Color = when (state) {
+        stringResource(Res.string.state_break) -> AppColors.Amber
+        stringResource(Res.string.state_ready) -> AppColors.Subtle
+        stringResource(Res.string.state_finished) -> AppColors.Blue
         else -> AppColors.Green
     }
 }

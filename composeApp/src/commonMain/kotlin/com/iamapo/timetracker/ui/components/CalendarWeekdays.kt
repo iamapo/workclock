@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object CalendarWeekdays {
     @Composable
@@ -21,9 +23,13 @@ object CalendarWeekdays {
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            listOf("Mo", "Di", "Mi", "Do", "Fr", "Sa", "So").forEach { weekday ->
+            listOf(
+                Res.string.monday_short, Res.string.tuesday_short, Res.string.wednesday_short,
+                Res.string.thursday_short, Res.string.friday_short, Res.string.saturday_short,
+                Res.string.sunday_short
+            ).forEach { weekday ->
                 Text(
-                    text = weekday,
+                    text = stringResource(weekday),
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Medium,

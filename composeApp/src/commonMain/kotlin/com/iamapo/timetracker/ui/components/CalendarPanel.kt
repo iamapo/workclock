@@ -20,6 +20,9 @@ import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.Res
+import workclock.composeapp.generated.resources.calendar
 
 object CalendarPanel {
     @Composable
@@ -44,7 +47,7 @@ object CalendarPanel {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "KALENDER",
+                    text = stringResource(Res.string.calendar),
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Black,

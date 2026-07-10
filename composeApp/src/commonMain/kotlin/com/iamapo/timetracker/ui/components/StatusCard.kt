@@ -34,6 +34,8 @@ import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 import kotlin.math.roundToInt
 
 object StatusCard {
@@ -207,7 +209,7 @@ object StatusCard {
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "Restzeit",
+                    text = stringResource(Res.string.remaining_time),
                     color = AppColors.Muted,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
@@ -220,7 +222,7 @@ object StatusCard {
     private fun FinishBlock(state: TimeTrackerUiState, modifier: Modifier = Modifier) {
         Column(modifier = modifier) {
             Text(
-                text = "FEIERABEND",
+                text = stringResource(Res.string.end_of_workday),
                 color = AppColors.Muted,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Black,
@@ -243,7 +245,7 @@ object StatusCard {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = state.workedTime + " gearbeitet",
+                text = stringResource(Res.string.worked_suffix, state.workedTime),
                 color = AppColors.Subtle,
                 fontSize = 12.sp,
                 lineHeight = 15.sp,
@@ -262,32 +264,33 @@ object StatusCard {
         val actionColor: Color = color
     )
 
-    private fun statusTone(state: TimeTrackerUiState): StatusTone = when {
-        state.primaryActionLabel.contains("Pause", ignoreCase = true) -> StatusTone(
-            label = "Am Arbeiten",
+    @Composable
+    private fun statusTone(state: TimeTrackerUiState): StatusTone = when (state.watchState) {
+        stringResource(Res.string.state_active) -> StatusTone(
+            label = stringResource(Res.string.status_working),
             color = AppColors.Green,
             foreground = Color(0xFF096443),
             background = AppColors.Green.copy(alpha = 0.18f),
             actionColor = AppColors.Night,
             progressColor = AppColors.Green
         )
-        state.primaryActionLabel.contains("Weiter", ignoreCase = true) -> StatusTone(
-            label = "Pause",
+        stringResource(Res.string.state_break) -> StatusTone(
+            label = stringResource(Res.string.state_break),
             color = AppColors.Amber,
             foreground = Color(0xFF6A4B00),
             background = AppColors.Amber.copy(alpha = 0.32f),
             actionColor = AppColors.Night,
             progressColor = AppColors.Amber
         )
-        state.primaryActionLabel.contains("Neu", ignoreCase = true) -> StatusTone(
-            label = "Fertig",
+        stringResource(Res.string.state_finished) -> StatusTone(
+            label = stringResource(Res.string.state_finished),
             color = AppColors.Blue,
             foreground = Color(0xFF145EA7),
             background = AppColors.Blue.copy(alpha = 0.16f),
             actionColor = AppColors.Night
         )
         else -> StatusTone(
-            label = "Bereit",
+            label = stringResource(Res.string.state_ready),
             color = AppColors.Coral,
             foreground = Color(0xFF8D2C25),
             background = AppColors.Coral.copy(alpha = 0.14f),

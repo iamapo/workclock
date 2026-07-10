@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object SettingsPanel {
     @Composable
@@ -46,14 +48,14 @@ object SettingsPanel {
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Text(
-                    text = "SCHNELLE VORGABEN",
+                    text = stringResource(Res.string.quick_targets),
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Black,
                     letterSpacing = 0.2.sp
                 )
                 SettingsRow(
-                    label = "Täglich",
+                    label = stringResource(Res.string.daily),
                     value = settings.dailyTarget,
                     onDecrease = onDecreaseDailyTarget,
                     onIncrease = onIncreaseDailyTarget,
@@ -61,7 +63,7 @@ object SettingsPanel {
                     canIncrease = settings.canIncreaseDailyTarget
                 )
                 SettingsRow(
-                    label = "Pause",
+                    label = stringResource(Res.string.break_label),
                     value = settings.requiredBreak,
                     onDecrease = onDecreaseRequiredBreak,
                     onIncrease = onIncreaseRequiredBreak,
@@ -69,7 +71,7 @@ object SettingsPanel {
                     canIncrease = settings.canIncreaseRequiredBreak
                 )
                 SettingsRow(
-                    label = "Woche",
+                    label = stringResource(Res.string.week),
                     value = settings.weeklyTarget,
                     onDecrease = onDecreaseWeeklyTarget,
                     onIncrease = onIncreaseWeeklyTarget,
@@ -99,12 +101,12 @@ object SettingsPanel {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "Sperrbildschirm-Status",
+                    text = stringResource(Res.string.lock_screen_status),
                     color = AppColors.Ink,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Arbeitszeit und Pausen live anzeigen",
+                    text = stringResource(Res.string.lock_screen_description),
                     color = AppColors.Muted,
                     fontSize = 12.sp,
                     lineHeight = 16.sp

@@ -30,6 +30,8 @@ import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object SettingsScreen {
     @Composable
@@ -56,8 +58,8 @@ object SettingsScreen {
         ) {
             item {
                 TopBarSection(
-                    dateLabel = "Vorgaben & Daten",
-                    title = "Einstellungen"
+                    dateLabel = stringResource(Res.string.settings_subtitle),
+                    title = stringResource(Res.string.settings_title)
                 )
             }
             item {
@@ -104,7 +106,7 @@ object SettingsScreen {
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Text(
-                    text = "DATEN",
+                    text = stringResource(Res.string.data),
                     color = AppColors.Subtle,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Black,
@@ -112,9 +114,9 @@ object SettingsScreen {
                 )
                 Text(
                     text = if (confirmDelete) {
-                        "Alle gespeicherten Zeiteinträge wirklich löschen?"
+                        stringResource(Res.string.delete_confirm)
                     } else {
-                        "Gespeicherte Zeiteinträge löschen"
+                        stringResource(Res.string.delete_entries)
                     },
                     color = AppColors.Ink,
                     fontSize = 18.sp,
@@ -123,9 +125,9 @@ object SettingsScreen {
                 )
                 Text(
                     text = if (confirmDelete) {
-                        "Die schnellen Vorgaben bleiben erhalten. Kalender- und Arbeitszeitdaten werden zurückgesetzt."
+                        stringResource(Res.string.delete_description_confirm)
                     } else {
-                        "Setzt Historie, Kalender-Einträge und den aktuellen Arbeitstag zurück."
+                        stringResource(Res.string.delete_description)
                     },
                     color = AppColors.Muted,
                     fontSize = 13.sp,
@@ -138,14 +140,14 @@ object SettingsScreen {
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         DestructiveButton(
-                            label = "Abbrechen",
+                            label = stringResource(Res.string.cancel),
                             color = AppColors.Muted,
                             background = AppColors.PanelRaised,
                             onClick = onCancel,
                             modifier = Modifier.weight(1f)
                         )
                         DestructiveButton(
-                            label = "Löschen",
+                            label = stringResource(Res.string.delete),
                             color = AppColors.Rose,
                             background = AppColors.Rose.copy(alpha = 0.10f),
                             onClick = onConfirm,
@@ -154,7 +156,7 @@ object SettingsScreen {
                     }
                 } else {
                     DestructiveButton(
-                        label = "Alle Einträge löschen",
+                        label = stringResource(Res.string.delete_all_entries),
                         color = AppColors.Rose,
                         background = AppColors.Rose.copy(alpha = 0.10f),
                         onClick = onRequestConfirm,

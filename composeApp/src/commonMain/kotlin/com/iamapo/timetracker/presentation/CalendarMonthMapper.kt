@@ -10,6 +10,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import workclock.composeapp.generated.resources.*
 
 internal class CalendarMonthMapper {
     fun map(
@@ -79,11 +80,11 @@ internal class CalendarMonthMapper {
         CalendarDayStyle.Muted,
         CalendarDayStyle.Weekend -> ""
         CalendarDayStyle.Vacation -> history[date]
-            ?.let { "Urlaub " + TimeTextFormatter.calendarDuration(it.workedMinutes) }
-            ?: "Urlaub"
+            ?.let { localized(Res.string.calendar_vacation_duration, TimeTextFormatter.calendarDuration(it.workedMinutes)) }
+            ?: localized(Res.string.vacation)
         CalendarDayStyle.Sick -> history[date]
-            ?.let { "Krank " + TimeTextFormatter.calendarDuration(it.workedMinutes) }
-            ?: "Krank"
+            ?.let { localized(Res.string.calendar_sick_duration, TimeTextFormatter.calendarDuration(it.workedMinutes)) }
+            ?: localized(Res.string.sick)
         CalendarDayStyle.Done -> history[date]
             ?.let { TimeTextFormatter.calendarDuration(it.workedMinutes) }
             ?: "-"
@@ -92,7 +93,7 @@ internal class CalendarMonthMapper {
             if (day?.status == WorkStatus.Finished) {
                 TimeTextFormatter.calendarDuration(day.workedMinutes)
             } else {
-                "bis " + TimeTextFormatter.clock(endMinute)
+                localized(Res.string.until_time, TimeTextFormatter.clock(endMinute))
             }
         }
         CalendarDayStyle.Planned -> TimeTextFormatter.calendarDuration(dailyTargetMinutes)

@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.MetricUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object MetricCard {
     @Composable
@@ -72,29 +74,26 @@ object MetricCard {
         val content: Color = AppColors.Ink
     )
 
-    private fun toneFor(metric: MetricUiModel): MetricTone = when {
-        metric.label.contains("Gearbeitet", ignoreCase = true) -> MetricTone(
+    @Composable
+    private fun toneFor(metric: MetricUiModel): MetricTone = when (metric.label) {
+        stringResource(Res.string.worked) -> MetricTone(
             background = AppColors.Green,
             border = AppColors.Green.copy(alpha = 0.24f)
         )
-        metric.label.contains("Pause", ignoreCase = true) -> MetricTone(
+        stringResource(Res.string.break_label) -> MetricTone(
             background = AppColors.Lemon,
             border = AppColors.Lemon.copy(alpha = 0.32f)
         )
-        metric.label.contains("Fehlt", ignoreCase = true) -> MetricTone(
-            background = AppColors.Coral,
-            border = AppColors.Coral.copy(alpha = 0.24f)
-        )
-        metric.label.contains("Woche", ignoreCase = true) -> MetricTone(
+        stringResource(Res.string.week) -> MetricTone(
             background = AppColors.Purple,
             border = AppColors.Purple.copy(alpha = 0.24f),
             content = AppColors.Paper
         )
-        metric.emphasized -> MetricTone(
+        else -> if (metric.emphasized) MetricTone(
             background = AppColors.Blue,
             border = AppColors.Blue.copy(alpha = 0.24f)
         )
-        else -> MetricTone(
+        else MetricTone(
             background = AppColors.Panel,
             border = AppColors.Line
         )

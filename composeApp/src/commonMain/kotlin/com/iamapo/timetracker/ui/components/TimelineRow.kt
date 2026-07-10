@@ -23,6 +23,8 @@ import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 
 object TimelineRow {
     @Composable
@@ -56,7 +58,7 @@ object TimelineRow {
                 }
             }
             Text(
-                text = item.title,
+                text = localizedEventTitle(item.title),
                 color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Ink,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -64,6 +66,17 @@ object TimelineRow {
                 overflow = TextOverflow.Ellipsis
             )
         }
+    }
+
+    @Composable
+    private fun localizedEventTitle(title: String): String = when (title) {
+        "Arbeitsbeginn" -> stringResource(Res.string.event_work_started)
+        "Pause gestartet" -> stringResource(Res.string.event_break_started)
+        "Weitergearbeitet" -> stringResource(Res.string.event_work_resumed)
+        "Arbeitstag beendet" -> stringResource(Res.string.event_workday_finished)
+        "Manueller Eintrag" -> stringResource(Res.string.event_manual_entry)
+        "Geplanter Feierabend" -> stringResource(Res.string.event_planned_end)
+        else -> title
     }
 
     private fun colorFor(kind: TimelineKind): Color = when (kind) {

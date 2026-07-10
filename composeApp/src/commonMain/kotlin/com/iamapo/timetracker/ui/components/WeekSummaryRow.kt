@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import workclock.composeapp.generated.resources.*
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object WeekSummaryRow {
@@ -16,8 +18,8 @@ object WeekSummaryRow {
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            WeekSummaryTile("Diese Woche geplant", plannedWeek, Modifier.weight(1f))
-            WeekSummaryTile("Aktuell erreicht", reachedWeek, Modifier.weight(1f))
+            WeekSummaryTile(stringResource(Res.string.planned_this_week), plannedWeek, Modifier.weight(1f))
+            WeekSummaryTile(stringResource(Res.string.currently_reached), reachedWeek, Modifier.weight(1f))
         }
     }
 }
