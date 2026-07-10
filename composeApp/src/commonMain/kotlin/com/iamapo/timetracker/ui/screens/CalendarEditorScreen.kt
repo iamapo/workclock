@@ -68,7 +68,7 @@ object CalendarEditorScreen {
                     onBack = onBack
                 )
             }
-            item { WeekOverviewCard(state.weekOverview) }
+            item { WeekOverviewCard(state.weekOverview, showCarry = true) }
             item {
                 MonthGrid(
                     monthTitle = state.monthTitle,

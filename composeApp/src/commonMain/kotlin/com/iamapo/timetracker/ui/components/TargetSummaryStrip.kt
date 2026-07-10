@@ -66,7 +66,7 @@ private fun TargetSummaryStripPreview() {
             listOf(
                 TargetItemUiModel("Arbeiten bis", "17:21"),
                 TargetItemUiModel("Soll heute", "8 h"),
-                TargetItemUiModel("Pflichtpause", "30 min")
+                TargetItemUiModel("Pause", "30 min")
             )
         )
     }

@@ -25,6 +25,7 @@ class WorkHistorySerializerTest {
             breakMinutes = 32,
             lastBreakMinutes = 24,
             weeklyWorkedBeforeTodayMinutes = 16 * 60 + 28,
+            weeklyBalanceCarryMinutes = 30,
             events = listOf(
                 WorkEvent(8 * 60 + 42, "Arbeitsbeginn", WorkEventKind.Work),
                 WorkEvent(12 * 60 + 2, "Pause | gestartet", WorkEventKind.Break),

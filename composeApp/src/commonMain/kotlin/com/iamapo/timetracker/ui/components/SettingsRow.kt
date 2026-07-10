@@ -102,7 +102,7 @@ object SettingsRow {
 private fun SettingsRowPreview() {
     TimeTrackerTheme {
         SettingsRow(
-            label = "Pflichtpause",
+            label = "Pause",
             value = "30 min",
             onDecrease = {},
             onIncrease = {}

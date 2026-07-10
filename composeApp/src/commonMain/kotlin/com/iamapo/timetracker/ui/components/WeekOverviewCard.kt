@@ -32,7 +32,11 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object WeekOverviewCard {
     @Composable
-    operator fun invoke(week: WeekOverviewUiModel, modifier: Modifier = Modifier) {
+    operator fun invoke(
+        week: WeekOverviewUiModel,
+        modifier: Modifier = Modifier,
+        showCarry: Boolean = false
+    ) {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
@@ -52,7 +56,7 @@ object WeekOverviewCard {
                             verticalAlignment = Alignment.Top
                         ) {
                             WeekTotal(week)
-                            BalancePill(week)
+                            BalancePill(week, showCarry)
                         }
                         WeekBars(week.days)
                     }
@@ -63,7 +67,7 @@ object WeekOverviewCard {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         WeekTotal(week)
-                        BalancePill(week)
+                        BalancePill(week, showCarry)
                         WeekBars(week.days)
                     }
                 }
@@ -93,21 +97,39 @@ object WeekOverviewCard {
     }
 
     @Composable
-    private fun BalancePill(week: WeekOverviewUiModel) {
-        val color = if (week.isPositiveBalance) AppColors.Lemon else AppColors.Coral
+    private fun BalancePill(week: WeekOverviewUiModel, showCarry: Boolean) {
+        val displaysCarry = showCarry && week.carry != null
+        val value = if (displaysCarry) week.carry.orEmpty() else week.balance
+        val isPositive = if (displaysCarry) week.isPositiveCarry else week.isPositiveBalance
+        val color = if (isPositive) AppColors.Lemon else AppColors.Coral
         Surface(
-            color = color.copy(alpha = if (week.isPositiveBalance) 0.42f else 0.24f),
+            color = color.copy(alpha = if (isPositive) 0.42f else 0.24f),
             border = BorderStroke(1.dp, color.copy(alpha = 0.30f)),
             shape = RoundedCornerShape(99.dp)
         ) {
-            Text(
-                text = week.balance,
-                color = AppColors.Ink,
-                fontSize = 13.sp,
-                lineHeight = 15.sp,
-                fontWeight = FontWeight.Black,
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-            )
+            if (displaysCarry) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = value,
+                        color = AppColors.Ink,
+                        fontSize = 13.sp,
+                        lineHeight = 15.sp,
+                        fontWeight = FontWeight.Black
+                    )
+                }
+            } else {
+                Text(
+                    text = value,
+                    color = AppColors.Ink,
+                    fontSize = 13.sp,
+                    lineHeight = 15.sp,
+                    fontWeight = FontWeight.Black,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                )
+            }
         }
     }
 
@@ -152,5 +174,19 @@ object WeekOverviewCard {
 private fun WeekOverviewCardPreview() {
     TimeTrackerTheme {
         WeekOverviewCard(TimeTrackerPreviewData.uiState.weekOverview)
+    }
+}
+
+@Preview(name = "Wochenübertrag im Kalendereditor")
+@Composable
+private fun WeekOverviewCardWithCarryPreview() {
+    TimeTrackerTheme {
+        WeekOverviewCard(
+            week = TimeTrackerPreviewData.uiState.weekOverview.copy(
+                carry = "+30 min",
+                isPositiveCarry = true
+            ),
+            showCarry = true
+        )
     }
 }

@@ -34,7 +34,7 @@ object NotesPanel {
                     letterSpacing = 1.sp
                 )
                 Text(
-                    text = "Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pflichtpause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.",
+                    text = "Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.",
                     color = AppColors.Muted,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,

@@ -81,6 +81,103 @@ class TimeTrackerUiStateMapperTest {
     }
 
     @Test
+    fun weekOverviewIncludesBalanceCarriedFromPreviousWeek() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = 7 * 60 + 30,
+                weeklyBalanceCarryMinutes = 30
+            ),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 13),
+                minuteOfDay = 18 * 60
+            )
+        )
+
+        assertEquals("7:30 h", state.weekOverview.reached)
+        assertEquals("0 min", state.weekOverview.balance)
+        assertEquals(true, state.weekOverview.isPositiveBalance)
+        assertEquals("+30 min", state.weekOverview.carry)
+        assertEquals(true, state.weekOverview.isPositiveCarry)
+        assertEquals("40:00 h", state.plannedWeek)
+    }
+
+    @Test
+    fun negativeBalanceCarryKeepsPlannedWeekAndAppearsInCarry() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(weeklyBalanceCarryMinutes = -30),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 13),
+                minuteOfDay = 8 * 60
+            )
+        )
+
+        assertEquals("-30 min", state.weekOverview.carry)
+        assertEquals(false, state.weekOverview.isPositiveCarry)
+        assertEquals("40:00 h", state.plannedWeek)
+    }
+
+    @Test
+    fun fridayBalanceBecomesCarryForFollowingWeek() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = 8 * 60 + 30,
+                weeklyWorkedBeforeTodayMinutes = 32 * 60
+            ),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 10),
+                minuteOfDay = 18 * 60
+            )
+        )
+
+        assertEquals("+30 min", state.weekOverview.carry)
+        assertEquals("40:00 h", state.plannedWeek)
+    }
+
+    @Test
+    fun weekOverviewUsesConfiguredWeeklyTarget() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = 7 * 60 + 30,
+                weeklyWorkedBeforeTodayMinutes = 30 * 60,
+                config = WorkDayConfig(weeklyTargetMinutes = 37 * 60 + 30)
+            ),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 10),
+                minuteOfDay = 18 * 60
+            )
+        )
+
+        assertEquals("37:30 h", state.weekOverview.reached)
+        assertEquals("0 min", state.weekOverview.balance)
+    }
+
+    @Test
+    fun breakRequirementShowsConfiguredOrLongerActualBreak() {
+        val configuredState = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                breakMinutes = 20,
+                config = WorkDayConfig(requiredBreakMinutes = 35)
+            ),
+            snapshot = TimeTrackerPreviewData.snapshot
+        )
+        val longerBreakState = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                breakMinutes = 45,
+                config = WorkDayConfig(requiredBreakMinutes = 30)
+            ),
+            snapshot = TimeTrackerPreviewData.snapshot
+        )
+
+        assertEquals("inkl. 35 min Pause", configuredState.breakRequirementLabel)
+        assertEquals("inkl. 45 min Pause", longerBreakState.breakRequirementLabel)
+    }
+
+    @Test
     fun settingsAndPlannedCalendarUseConfiguredTargets() {
         val state = TimeTrackerUiStateMapper.map(
             day = WorkDay(

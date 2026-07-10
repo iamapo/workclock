@@ -4,5 +4,7 @@ data class WeekOverviewUiModel(
     val reached: String,
     val balance: String,
     val isPositiveBalance: Boolean,
+    val carry: String?,
+    val isPositiveCarry: Boolean,
     val days: List<WeekDayProgressUiModel>
 )

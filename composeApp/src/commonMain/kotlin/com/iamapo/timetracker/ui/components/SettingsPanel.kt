@@ -61,7 +61,7 @@ object SettingsPanel {
                     canIncrease = settings.canIncreaseDailyTarget
                 )
                 SettingsRow(
-                    label = "Pflichtpause",
+                    label = "Pause",
                     value = settings.requiredBreak,
                     onDecrease = onDecreaseRequiredBreak,
                     onIncrease = onIncreaseRequiredBreak,

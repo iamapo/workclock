@@ -28,6 +28,7 @@ object TimeTrackerUiStateMapper {
         lockScreenStatusEnabled: Boolean = false
     ): TimeTrackerUiState {
         val summary = summaryCalculator.calculate(day, snapshot)
+        val displayedBreakMinutes = maxOf(day.config.requiredBreakMinutes, summary.breakMinutes)
         val weekOverview = weekOverview(
             day = day,
             snapshot = snapshot,
@@ -43,13 +44,13 @@ object TimeTrackerUiStateMapper {
             workedTime = TimeTextFormatter.duration(summary.workedMinutes),
             remainingTime = TimeTextFormatter.duration(summary.remainingWorkMinutes),
             endTime = TimeTextFormatter.clock(summary.endMinute) + " Uhr",
-            breakRequirementLabel = "inkl. " + TimeTextFormatter.duration(day.config.requiredBreakMinutes) + " Pflichtpause",
+            breakRequirementLabel = "inkl. " + TimeTextFormatter.duration(displayedBreakMinutes) + " Pause",
             progress = summary.progress,
             primaryActionLabel = primaryActionLabel(day.status),
             secondaryActionLabel = secondaryActionLabel(day.status),
             targets = listOf(
                 TargetItemUiModel("Tagesziel", TimeTextFormatter.shortDuration(day.config.dailyTargetMinutes)),
-                TargetItemUiModel("Pflichtpause", TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
+                TargetItemUiModel("Pause", TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
                 TargetItemUiModel("Wochenziel", TimeTextFormatter.shortDuration(day.config.weeklyTargetMinutes))
             ),
             metrics = listOf(
@@ -63,7 +64,7 @@ object TimeTrackerUiStateMapper {
                     label = "Pause",
                     value = TimeTextFormatter.compactDuration(summary.breakMinutes),
                     hint = if (summary.missingBreakMinutes == 0) {
-                        "Pflichtpause erfüllt"
+                        "Pause erfüllt"
                     } else {
                         TimeTextFormatter.duration(summary.missingBreakMinutes) + " fehlen"
                     }
@@ -148,8 +149,13 @@ object TimeTrackerUiStateMapper {
         weeklyWorkedMinutes: Int
     ): WeekOverviewUiModel {
         val expectedWorkdays = snapshot.date.dayOfWeek.isoDayNumber.coerceIn(1, WorkdaysPerWeek)
-        val expectedMinutes = expectedWorkdays * day.config.dailyTargetMinutes
-        val balanceMinutes = weeklyWorkedMinutes - expectedMinutes
+        val expectedMinutes = day.config.weeklyTargetMinutes * expectedWorkdays / WorkdaysPerWeek
+        val balanceMinutes = day.weeklyBalanceCarryMinutes + weeklyWorkedMinutes - expectedMinutes
+        val carryMinutes = if (snapshot.date.dayOfWeek.isoDayNumber >= WorkdaysPerWeek) {
+            balanceMinutes
+        } else {
+            day.weeklyBalanceCarryMinutes
+        }
         val weekStart = snapshot.date - DatePeriod(days = snapshot.date.dayOfWeek.isoDayNumber - 1)
         val days = (0 until WorkdaysPerWeek).map { index ->
             val date = weekStart + DatePeriod(days = index)
@@ -174,6 +180,8 @@ object TimeTrackerUiStateMapper {
             reached = TimeTextFormatter.clockLikeDuration(weeklyWorkedMinutes),
             balance = balanceLabel(balanceMinutes),
             isPositiveBalance = balanceMinutes >= 0,
+            carry = carryMinutes.takeIf { it != 0 }?.let(::balanceLabel),
+            isPositiveCarry = carryMinutes >= 0,
             days = days
         )
     }

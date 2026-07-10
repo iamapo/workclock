@@ -63,6 +63,6 @@ object EndTimeCard {
 @Composable
 private fun EndTimeCardPreview() {
     TimeTrackerTheme {
-        EndTimeCard("17:21 Uhr", "inkl. 30 min Pflichtpause")
+        EndTimeCard("17:21 Uhr", "inkl. 30 min Pause")
     }
 }

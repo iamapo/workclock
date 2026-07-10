@@ -78,6 +78,7 @@ object WorkHistorySerializer {
         appendLine("breakMinutes=${day.breakMinutes}")
         appendLine("lastBreakMinutes=${day.lastBreakMinutes.encodeNullableInt()}")
         appendLine("weeklyWorkedBeforeTodayMinutes=${day.weeklyWorkedBeforeTodayMinutes}")
+        appendLine("weeklyBalanceCarryMinutes=${day.weeklyBalanceCarryMinutes}")
         appendLine("dailyTargetMinutes=${day.config.dailyTargetMinutes}")
         appendLine("requiredBreakMinutes=${day.config.requiredBreakMinutes}")
         appendLine("weeklyTargetMinutes=${day.config.weeklyTargetMinutes}")
@@ -118,6 +119,7 @@ object WorkHistorySerializer {
             breakMinutes = values.getValue("breakMinutes").toInt(),
             lastBreakMinutes = values.getValue("lastBreakMinutes").decodeNullableInt(),
             weeklyWorkedBeforeTodayMinutes = values.getValue("weeklyWorkedBeforeTodayMinutes").toInt(),
+            weeklyBalanceCarryMinutes = values["weeklyBalanceCarryMinutes"]?.toInt() ?: 0,
             events = events,
             config = WorkDayConfig(
                 dailyTargetMinutes = values.getValue("dailyTargetMinutes").toInt(),
