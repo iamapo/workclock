@@ -15,6 +15,18 @@ import kotlin.test.assertEquals
 
 class TimeTrackerUiStateMapperTest {
     @Test
+    fun calendarPreviewShowsPreviousAndCurrentWeek() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(),
+            snapshot = TimeSnapshot(LocalDate(2026, 7, 13), 9 * 60)
+        )
+
+        assertEquals(LocalDate(2026, 7, 6), state.calendarPreviewDays.first().date)
+        assertEquals(LocalDate(2026, 7, 19), state.calendarPreviewDays.last().date)
+        assertEquals(14, state.calendarPreviewDays.size)
+    }
+
+    @Test
     fun previewDayCalculatesRemainingTimeEndTimeAndWeekTotal() {
         val state = TimeTrackerUiStateMapper.map(
             day = WorkDay.preview(),

@@ -79,7 +79,7 @@ private fun CalendarPanelPreview() {
     TimeTrackerTheme {
         CalendarPanel(
             monthTitle = TimeTrackerPreviewData.uiState.monthTitle,
-            days = TimeTrackerPreviewData.uiState.calendarDays.take(14),
+            days = TimeTrackerPreviewData.uiState.calendarPreviewDays,
             plannedWeek = TimeTrackerPreviewData.uiState.plannedWeek,
             reachedWeek = TimeTrackerPreviewData.uiState.reachedWeek,
             onOpenCalendar = {}

@@ -83,6 +83,12 @@ object TimeTrackerUiStateMapper {
                 dailyTargetMinutes = day.config.dailyTargetMinutes,
                 history = history
             ),
+            calendarPreviewDays = calendarMonthMapper.mapPreview(
+                date = snapshot.date,
+                endMinute = summary.endMinute,
+                dailyTargetMinutes = day.config.dailyTargetMinutes,
+                history = history
+            ),
             plannedWeek = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes),
             reachedWeek = TimeTextFormatter.clockLikeDuration(summary.weeklyWorkedMinutes),
             weekOverview = weekOverview,

@@ -49,7 +49,7 @@ object TimeTrackerScreen {
             item {
                 CalendarPanel(
                     monthTitle = state.monthTitle,
-                    days = state.calendarDays.take(14),
+                    days = state.calendarPreviewDays,
                     plannedWeek = state.plannedWeek,
                     reachedWeek = state.reachedWeek,
                     onOpenCalendar = onOpenCalendar

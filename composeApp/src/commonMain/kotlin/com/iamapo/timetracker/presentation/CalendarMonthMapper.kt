@@ -21,7 +21,29 @@ internal class CalendarMonthMapper {
         val firstOfMonth = LocalDate(date.year, date.month, 1)
         val startDate = firstOfMonth - DatePeriod(days = firstOfMonth.dayOfWeek.isoDayNumber - 1)
 
-        return (0 until CalendarVisibleDayCount).map { index ->
+        return mapDays(date, startDate, CalendarVisibleDayCount, endMinute, dailyTargetMinutes, history)
+    }
+
+    fun mapPreview(
+        date: LocalDate,
+        endMinute: Int,
+        dailyTargetMinutes: Int,
+        history: Map<LocalDate, WorkDay>
+    ): List<CalendarDayUiModel> {
+        val currentWeekStart = date - DatePeriod(days = date.dayOfWeek.isoDayNumber - 1)
+        val previousWeekStart = currentWeekStart - DatePeriod(days = DaysPerWeek)
+        return mapDays(date, previousWeekStart, PreviewDayCount, endMinute, dailyTargetMinutes, history)
+    }
+
+    private fun mapDays(
+        date: LocalDate,
+        startDate: LocalDate,
+        dayCount: Int,
+        endMinute: Int,
+        dailyTargetMinutes: Int,
+        history: Map<LocalDate, WorkDay>
+    ): List<CalendarDayUiModel> =
+        (0 until dayCount).map { index ->
             val current = startDate + DatePeriod(days = index)
             val calendarDay = history[current]
             val isWeekend = current.dayOfWeek.isoDayNumber >= 6
@@ -46,7 +68,6 @@ internal class CalendarMonthMapper {
                 workedMinutes = calendarDay?.workedMinutes ?: 0
             )
         }
-    }
 
     private fun calendarNote(
         date: LocalDate,
@@ -79,5 +100,7 @@ internal class CalendarMonthMapper {
 
     private companion object {
         const val CalendarVisibleDayCount = 42
+        const val PreviewDayCount = 14
+        const val DaysPerWeek = 7
     }
 }

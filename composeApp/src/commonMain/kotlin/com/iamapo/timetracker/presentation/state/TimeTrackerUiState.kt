@@ -16,6 +16,7 @@ data class TimeTrackerUiState(
     val timeline: List<TimelineItemUiModel>,
     val monthTitle: String,
     val calendarDays: List<CalendarDayUiModel>,
+    val calendarPreviewDays: List<CalendarDayUiModel>,
     val plannedWeek: String,
     val reachedWeek: String,
     val weekOverview: WeekOverviewUiModel,
