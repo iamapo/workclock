@@ -78,13 +78,9 @@ internal class CalendarMonthMapper {
         history: Map<LocalDate, WorkDay>
     ): String = when (style) {
         CalendarDayStyle.Muted,
-        CalendarDayStyle.Weekend -> ""
-        CalendarDayStyle.Vacation -> history[date]
-            ?.let { localized(Res.string.calendar_vacation_duration, TimeTextFormatter.calendarDuration(it.workedMinutes)) }
-            ?: localized(Res.string.vacation)
-        CalendarDayStyle.Sick -> history[date]
-            ?.let { localized(Res.string.calendar_sick_duration, TimeTextFormatter.calendarDuration(it.workedMinutes)) }
-            ?: localized(Res.string.sick)
+        CalendarDayStyle.Weekend,
+        CalendarDayStyle.Vacation,
+        CalendarDayStyle.Sick -> ""
         CalendarDayStyle.Done -> history[date]
             ?.let { TimeTextFormatter.calendarDuration(it.workedMinutes) }
             ?: "-"

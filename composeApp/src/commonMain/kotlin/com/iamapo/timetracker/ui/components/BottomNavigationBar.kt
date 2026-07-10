@@ -5,7 +5,6 @@ import com.iamapo.timetracker.ui.theme.AppFontSizes
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -80,9 +79,9 @@ object BottomNavigationBar {
         modifier: Modifier = Modifier
     ) {
         Surface(
+            onClick = onClick,
             modifier = modifier
-                .heightIn(min = AppDimensions.size50)
-                .clickable(onClick = onClick),
+                .heightIn(min = AppDimensions.size50),
             color = if (selected) AppColors.Panel else Color.Transparent,
             shape = RoundedCornerShape(AppDimensions.size12)
         ) {

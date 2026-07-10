@@ -37,6 +37,8 @@ object AppDimensions {
     val size88 = 88.dp
     val size99 = 99.dp
     val size112 = 112.dp
+    val size136 = 136.dp
+    val size150 = 150.dp
     val size300 = 300.dp
     val size310 = 310.dp
     val size330 = 330.dp

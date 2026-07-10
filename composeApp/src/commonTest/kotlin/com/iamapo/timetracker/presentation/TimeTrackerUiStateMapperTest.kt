@@ -69,9 +69,9 @@ class TimeTrackerUiStateMapperTest {
         val vacationDay = state.calendarDays.first { it.date == vacationDate }
         val sickDay = state.calendarDays.first { it.date == sickDate }
         assertEquals(CalendarDayStyle.Vacation, vacationDay.style)
-        assertEquals("Urlaub 8:00", vacationDay.note)
+        assertEquals("", vacationDay.note)
         assertEquals(CalendarDayStyle.Sick, sickDay.style)
-        assertEquals("Krank 8:00", sickDay.note)
+        assertEquals("", sickDay.note)
     }
 
     @Test

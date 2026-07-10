@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,7 +97,7 @@ object StatusCard {
                                 progress = state.progress,
                                 value = state.watchRemaining,
                                 tone = tone,
-                                size = 136
+                                size = AppDimensions.size136
                             )
                             FinishBlock(state)
                         }
@@ -111,7 +112,7 @@ object StatusCard {
                                 value = state.watchRemaining,
                                 tone = tone,
                                 modifier = Modifier.weight(0.95f),
-                                size = 150
+                                size = AppDimensions.size150
                             )
                             FinishBlock(
                                 state = state,
@@ -170,13 +171,13 @@ object StatusCard {
         value: String,
         tone: StatusTone,
         modifier: Modifier = Modifier,
-        size: Int
+        size: Dp
     ) {
         Box(
-            modifier = modifier.size(size.dp),
+            modifier = modifier.size(size),
             contentAlignment = Alignment.Center
         ) {
-            Canvas(modifier = Modifier.size(size.dp)) {
+            Canvas(modifier = Modifier.size(size)) {
                 val strokeWidth = AppDimensions.size16.toPx()
                 val diameter = this.size.minDimension - strokeWidth
                 val topLeft = (this.size.minDimension - diameter) / 2f
