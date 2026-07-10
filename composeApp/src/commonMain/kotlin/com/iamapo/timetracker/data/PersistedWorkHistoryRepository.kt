@@ -11,12 +11,15 @@ class PersistedWorkHistoryRepository(
     today: LocalDate
 ) : WorkHistoryRepository {
     private val mutableHistory = MutableStateFlow(store.loadHistory(today))
+    private val updateLock = RepositoryUpdateLock()
 
     override val history: StateFlow<WorkHistory> = mutableHistory
 
     override fun update(transform: (WorkHistory) -> WorkHistory) {
-        val updated = transform(mutableHistory.value)
-        mutableHistory.value = updated
-        store.saveHistory(updated)
+        updateLock.withLock {
+            val updated = transform(mutableHistory.value)
+            mutableHistory.value = updated
+            store.saveHistory(updated)
+        }
     }
 }
