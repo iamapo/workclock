@@ -53,7 +53,7 @@ object SettingsPanel {
                     letterSpacing = 0.2.sp
                 )
                 SettingsRow(
-                    label = "Tägliches Ziel",
+                    label = "Täglich",
                     value = settings.dailyTarget,
                     onDecrease = onDecreaseDailyTarget,
                     onIncrease = onIncreaseDailyTarget,
@@ -69,7 +69,7 @@ object SettingsPanel {
                     canIncrease = settings.canIncreaseRequiredBreak
                 )
                 SettingsRow(
-                    label = "Wochenarbeitszeit",
+                    label = "Woche",
                     value = settings.weeklyTarget,
                     onDecrease = onDecreaseWeeklyTarget,
                     onIncrease = onIncreaseWeeklyTarget,
