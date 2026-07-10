@@ -8,6 +8,8 @@ struct WorkClockLiveActivityAttributes: ActivityAttributes {
         var phaseLabel: String
         var subtitle: String
         var startedAt: Date
+        var workedMinutes: Int
+        var breakMinutes: Int
     }
 
     var title: String
