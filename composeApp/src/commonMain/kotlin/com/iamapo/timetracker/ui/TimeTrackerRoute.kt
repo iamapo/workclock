@@ -16,6 +16,8 @@ import com.iamapo.timetracker.domain.SystemTimeProvider
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
+import com.iamapo.timetracker.presentation.CalendarViewModel
+import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
 import com.iamapo.timetracker.ui.components.MainTab
@@ -29,23 +31,28 @@ object TimeTrackerRoute {
     operator fun invoke(
         workDayStore: WorkDayStore = NoOpWorkDayStore,
         viewModel: TimeTrackerViewModel? = null,
+        calendarViewModel: CalendarViewModel? = null,
         lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController,
         onStateChanged: (TimeTrackerUiState) -> Unit = {}
     ) {
-        val resolvedViewModel = viewModel ?: remember(workDayStore, lockScreenStatusController) {
-            val timeProvider = SystemTimeProvider()
+        val timeProvider = remember { SystemTimeProvider() }
+        val repository = remember(workDayStore) {
+            PersistedWorkHistoryRepository(store = workDayStore, today = timeProvider.now().date)
+        }
+        val resolvedViewModel = viewModel ?: remember(repository, lockScreenStatusController) {
             TimeTrackerViewModel(
                 timeProvider = timeProvider,
-                repository = PersistedWorkHistoryRepository(
-                    store = workDayStore,
-                    today = timeProvider.now().date
-                ),
+                repository = repository,
                 lockScreenStatusController = lockScreenStatusController
             )
         }
+        val resolvedCalendarViewModel = calendarViewModel ?: remember(repository) {
+            CalendarViewModel(repository, timeProvider, AppCalendarStateMapper)
+        }
         val state by resolvedViewModel.uiState.collectAsState()
+        val calendarState by resolvedCalendarViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
-        var selectedCalendarDate by remember { mutableStateOf(state.calendarDays.firstOrNull { it.isToday }?.date) }
+        var selectedCalendarDate by remember { mutableStateOf(calendarState.days.firstOrNull { it.isToday }?.date) }
 
         androidx.compose.runtime.LaunchedEffect(state) {
             onStateChanged(state)
@@ -59,8 +66,8 @@ object TimeTrackerRoute {
                         selectedTab = activeTab,
                         onSelectTab = { tab ->
                             if (tab == MainTab.Calendar && selectedCalendarDate == null) {
-                                selectedCalendarDate = state.calendarDays.firstOrNull { it.isToday }?.date
-                                    ?: state.calendarDays.firstOrNull()?.date
+                                selectedCalendarDate = calendarState.days.firstOrNull { it.isToday }?.date
+                                    ?: calendarState.days.firstOrNull()?.date
                             }
                             activeTab = tab
                         }
@@ -76,8 +83,8 @@ object TimeTrackerRoute {
                             onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
                             onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
                             onOpenCalendar = {
-                                selectedCalendarDate = state.calendarDays.firstOrNull { it.isToday }?.date
-                                    ?: state.calendarDays.firstOrNull()?.date
+                                selectedCalendarDate = calendarState.days.firstOrNull { it.isToday }?.date
+                                    ?: calendarState.days.firstOrNull()?.date
                                 activeTab = MainTab.Calendar
                             },
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
@@ -85,17 +92,17 @@ object TimeTrackerRoute {
                     }
                     MainTab.Calendar -> {
                         CalendarEditorScreen(
-                            state = state,
+                            state = calendarState,
                             selectedDate = selectedCalendarDate
-                                ?: state.calendarDays.firstOrNull { it.isToday }?.date
-                                ?: state.calendarDays.first().date,
+                                ?: calendarState.days.firstOrNull { it.isToday }?.date
+                                ?: calendarState.days.first().date,
                             onSelectDate = { selectedCalendarDate = it },
-                            onIncreaseDay = resolvedViewModel::increaseCalendarDay,
-                            onDecreaseDay = resolvedViewModel::decreaseCalendarDay,
-                            onVacation = resolvedViewModel::setCalendarDayVacation,
-                            onSick = resolvedViewModel::setCalendarDaySick,
-                            onForgottenWorkDay = resolvedViewModel::setCalendarDayForgottenWorkDay,
-                            onClear = resolvedViewModel::clearCalendarDay,
+                            onIncreaseDay = resolvedCalendarViewModel::increaseDay,
+                            onDecreaseDay = resolvedCalendarViewModel::decreaseDay,
+                            onVacation = resolvedCalendarViewModel::setVacation,
+                            onSick = resolvedCalendarViewModel::setSick,
+                            onForgottenWorkDay = resolvedCalendarViewModel::setForgottenWorkDay,
+                            onClear = resolvedCalendarViewModel::clearDay,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }

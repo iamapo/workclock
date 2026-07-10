@@ -27,6 +27,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":feature:calendar"))
+            implementation(project(":core:domain"))
+            implementation(project(":core:design"))
             implementation(project(":feature:lockscreen"))
             implementation("io.insert-koin:koin-core:4.1.1")
             implementation("org.jetbrains.compose.runtime:runtime:1.10.3")

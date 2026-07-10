@@ -42,19 +42,19 @@ internal class WorkDaySummaryCalculator {
         )
     }
 
-    private fun activeWorkMinutes(day: WorkDay, nowMinute: Int): Int =
-        if (day.status == WorkStatus.Working && day.activeSessionStartMinute != null) {
-            elapsedMinutes(day.activeSessionStartMinute, nowMinute)
-        } else {
-            0
-        }
+    private fun activeWorkMinutes(day: WorkDay, nowMinute: Int): Int {
+        val sessionStart = day.activeSessionStartMinute
+        return if (day.status == WorkStatus.Working && sessionStart != null) {
+            elapsedMinutes(sessionStart, nowMinute)
+        } else 0
+    }
 
-    private fun activeBreakMinutes(day: WorkDay, nowMinute: Int): Int =
-        if (day.status == WorkStatus.Paused && day.pauseStartedMinute != null) {
-            elapsedMinutes(day.pauseStartedMinute, nowMinute)
-        } else {
-            0
-        }
+    private fun activeBreakMinutes(day: WorkDay, nowMinute: Int): Int {
+        val pauseStart = day.pauseStartedMinute
+        return if (day.status == WorkStatus.Paused && pauseStart != null) {
+            elapsedMinutes(pauseStart, nowMinute)
+        } else 0
+    }
 
     private fun elapsedMinutes(startMinute: Int, endMinute: Int): Int =
         if (endMinute >= startMinute) endMinute - startMinute else MinutesPerDay - startMinute + endMinute

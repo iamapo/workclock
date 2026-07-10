@@ -30,7 +30,7 @@ import com.iamapo.timetracker.ui.components.CalendarWeekdays
 import com.iamapo.timetracker.ui.components.WeekOverviewCard
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
-import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
+import com.iamapo.timetracker.presentation.state.CalendarUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import kotlinx.datetime.LocalDate
@@ -42,7 +42,7 @@ import workclock.composeapp.generated.resources.*
 object CalendarEditorScreen {
     @Composable
     operator fun invoke(
-        state: TimeTrackerUiState,
+        state: CalendarUiState,
         selectedDate: LocalDate,
         onSelectDate: (LocalDate) -> Unit,
         onBack: (() -> Unit)? = null,
@@ -54,9 +54,9 @@ object CalendarEditorScreen {
         onClear: (LocalDate) -> Unit,
         modifier: Modifier = Modifier
     ) {
-        val selectedDay = state.calendarDays.firstOrNull { it.date == selectedDate }
-            ?: state.calendarDays.firstOrNull { it.isToday }
-            ?: state.calendarDays.first()
+        val selectedDay = state.days.firstOrNull { it.date == selectedDate }
+            ?: state.days.firstOrNull { it.isToday }
+            ?: state.days.first()
 
         LazyColumn(
             modifier = modifier
@@ -75,7 +75,7 @@ object CalendarEditorScreen {
             item {
                 MonthGrid(
                     monthTitle = state.monthTitle,
-                    days = state.calendarDays,
+                    days = state.days,
                     selectedDate = selectedDay.date,
                     onSelectDate = onSelectDate
                 )
@@ -83,7 +83,7 @@ object CalendarEditorScreen {
             item {
                 SelectedDayPanel(
                     day = selectedDay,
-                    dailyTarget = state.settings.dailyTarget,
+                    dailyTarget = state.dailyTarget,
                     onIncreaseDay = onIncreaseDay,
                     onDecreaseDay = onDecreaseDay,
                     onVacation = onVacation,
@@ -324,7 +324,12 @@ object CalendarEditorScreen {
 private fun CalendarEditorScreenPreview() {
     TimeTrackerTheme {
         CalendarEditorScreen(
-            state = TimeTrackerPreviewData.uiState,
+            state = CalendarUiState(
+                monthTitle = TimeTrackerPreviewData.uiState.monthTitle,
+                days = TimeTrackerPreviewData.uiState.calendarDays,
+                weekOverview = TimeTrackerPreviewData.uiState.weekOverview,
+                dailyTarget = TimeTrackerPreviewData.uiState.settings.dailyTarget
+            ),
             selectedDate = LocalDate(2026, 7, 7),
             onSelectDate = {},
             onBack = null,

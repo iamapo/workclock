@@ -12,7 +12,6 @@ import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.lockscreen.LockScreenStatusMapper
 import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
 import com.iamapo.timetracker.domain.usecase.DeleteWorkEntriesUseCase
-import com.iamapo.timetracker.domain.usecase.EditCalendarDayUseCase
 import com.iamapo.timetracker.domain.usecase.ObserveWorkHistoryUseCase
 import com.iamapo.timetracker.domain.usecase.TrackWorkDayUseCase
 import com.iamapo.timetracker.domain.usecase.UpdateWorkSettingsUseCase
@@ -33,7 +32,6 @@ class TimeTrackerViewModel(
     initialSnapshot: TimeSnapshot = timeProvider.now(),
     observeWorkHistory: ObserveWorkHistoryUseCase = ObserveWorkHistoryUseCase(repository),
     private val trackWorkDay: TrackWorkDayUseCase = TrackWorkDayUseCase(repository, timeProvider),
-    private val editCalendarDay: EditCalendarDayUseCase = EditCalendarDayUseCase(repository),
     private val updateWorkSettings: UpdateWorkSettingsUseCase = UpdateWorkSettingsUseCase(repository, timeProvider),
     private val deleteWorkEntries: DeleteWorkEntriesUseCase = DeleteWorkEntriesUseCase(repository),
     private val lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController
@@ -131,30 +129,6 @@ class TimeTrackerViewModel(
 
     fun decreaseDailyTarget() {
         updateWorkSettings.decreaseDailyTarget()
-    }
-
-    fun increaseCalendarDay(date: LocalDate) {
-        editCalendarDay.increaseDay(date)
-    }
-
-    fun decreaseCalendarDay(date: LocalDate) {
-        editCalendarDay.decreaseDay(date)
-    }
-
-    fun setCalendarDayVacation(date: LocalDate) {
-        editCalendarDay.setVacation(date)
-    }
-
-    fun setCalendarDaySick(date: LocalDate) {
-        editCalendarDay.setSick(date)
-    }
-
-    fun setCalendarDayForgottenWorkDay(date: LocalDate) {
-        editCalendarDay.setForgottenWorkDay(date)
-    }
-
-    fun clearCalendarDay(date: LocalDate) {
-        editCalendarDay.clearDay(date)
     }
 
     fun deleteAllEntries() {

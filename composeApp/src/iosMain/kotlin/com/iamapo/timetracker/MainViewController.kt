@@ -10,6 +10,8 @@ import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
 import com.iamapo.timetracker.lockscreen.lockScreenFeatureModule
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
+import com.iamapo.timetracker.presentation.CalendarViewModel
+import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.ui.TimeTrackerRoute
 import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -40,6 +42,7 @@ fun MainViewController(lockScreenStatusController: LockScreenStatusController): 
             lockScreenStatusController = injectedLockScreenController
         )
     }
+    val calendarViewModel = remember { CalendarViewModel(repository, timeProvider, AppCalendarStateMapper) }
     val watchSession = remember {
         IosWatchSessionController(
             onCommand = viewModel::onWatchCommand,
@@ -50,6 +53,7 @@ fun MainViewController(lockScreenStatusController: LockScreenStatusController): 
     TimeTrackerRoute(
         workDayStore = workDayStore,
         viewModel = viewModel,
+        calendarViewModel = calendarViewModel,
         onStateChanged = watchSession::publish
     )
 }
