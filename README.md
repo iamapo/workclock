@@ -4,8 +4,10 @@ Kotlin-Multiplatform-Arbeitszeittracker mit gemeinsamer Compose-UI, MVVM-State u
 
 ## Struktur
 
-- `composeApp/src/commonMain`: gemeinsames Domain-Modell, ViewModel, Mapper und Compose UI
-- `composeApp/src/androidMain`: Android Activity und Android Studio Preview
+- `composeApp/src/commonMain`: gemeinsame Presentation, Mapper und Compose UI
+- `androidApp`: eigenstaendige Android-App und Android-spezifische Integrationen
+- `core/domain`: Domain-Modell, Repository-Vertrag und Use Cases
+- `core/data`: gemeinsame Persistenz sowie plattformspezifische iOS-Infrastruktur
 - `composeApp/src/iosMain`: Compose `UIViewController` fuer iOS
 - `iosApp`: SwiftUI Host-App mit Xcode-Scheme und iOS Preview
 - `mockups/time-tracker`: urspruengliches HTML/CSS-Mockup
@@ -13,7 +15,7 @@ Kotlin-Multiplatform-Arbeitszeittracker mit gemeinsamer Compose-UI, MVVM-State u
 
 ## Architektur
 
-- `TimeTrackerViewModel` haelt den aktuellen Arbeitstag und verarbeitet Start, Pause, Weiterarbeiten und Beenden.
+- Lifecycle-gebundene ViewModels verarbeiten Aktionen und projizieren den persistierten Zustand auf die UI.
 - `TimeTrackerUiStateMapper` berechnet Restzeit, konkrete Ziel-Uhrzeit, Pausenstand, Wochenstand, Timeline und Kalenderdaten.
 - Jedes sichtbare Compose-Bauteil liegt als eigenes `object` mit eigenem `@Composable operator fun invoke(...)` in einer eigenen Datei unter `ui/components`.
 

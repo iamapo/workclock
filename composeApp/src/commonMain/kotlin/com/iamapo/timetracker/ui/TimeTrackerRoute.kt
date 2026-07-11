@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.iamapo.timetracker.data.NoOpWorkDayStore
 import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
 import com.iamapo.timetracker.data.WorkDayStore
@@ -30,23 +31,22 @@ object TimeTrackerRoute {
     @Composable
     operator fun invoke(
         workDayStore: WorkDayStore = NoOpWorkDayStore,
-        viewModel: TimeTrackerViewModel? = null,
-        calendarViewModel: CalendarViewModel? = null,
         lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController,
+        onViewModelReady: (TimeTrackerViewModel) -> Unit = {},
         onStateChanged: (TimeTrackerUiState) -> Unit = {}
     ) {
         val timeProvider = remember { SystemTimeProvider() }
         val repository = remember(workDayStore) {
             PersistedWorkHistoryRepository(store = workDayStore, today = timeProvider.now().date)
         }
-        val resolvedViewModel = viewModel ?: remember(repository, lockScreenStatusController) {
+        val resolvedViewModel = viewModel {
             TimeTrackerViewModel(
                 timeProvider = timeProvider,
                 repository = repository,
                 lockScreenStatusController = lockScreenStatusController
             )
         }
-        val resolvedCalendarViewModel = calendarViewModel ?: remember(repository) {
+        val resolvedCalendarViewModel = viewModel {
             CalendarViewModel(repository, timeProvider, AppCalendarStateMapper)
         }
         val state by resolvedViewModel.uiState.collectAsState()
@@ -56,6 +56,9 @@ object TimeTrackerRoute {
 
         androidx.compose.runtime.LaunchedEffect(state) {
             onStateChanged(state)
+        }
+        androidx.compose.runtime.LaunchedEffect(resolvedViewModel) {
+            onViewModelReady(resolvedViewModel)
         }
 
         TimeTrackerTheme {

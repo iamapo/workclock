@@ -1,0 +1,29 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+}
+
+kotlin {
+    androidTarget { compilerOptions.jvmTarget.set(JvmTarget.JVM_11) }
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64())
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":core:domain"))
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.datetime)
+        }
+    }
+}
+
+android {
+    namespace = "com.iamapo.timetracker.core.data"
+    compileSdk = libs.versions.compile.sdk.get().toInt()
+    defaultConfig { minSdk = libs.versions.min.sdk.get().toInt() }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
