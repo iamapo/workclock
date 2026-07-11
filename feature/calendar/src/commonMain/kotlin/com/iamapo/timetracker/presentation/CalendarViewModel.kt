@@ -48,6 +48,8 @@ class CalendarViewModel(
     fun setSick(date: LocalDate) = editDay.setSick(date)
     fun setForgottenWorkDay(date: LocalDate) = editDay.setForgottenWorkDay(date)
     fun clearDay(date: LocalDate) = editDay.clearDay(date)
+    fun setWorkTimes(date: LocalDate, startMinute: Int, breakMinutes: Int, endMinute: Int) =
+        editDay.setWorkTimes(date, startMinute, breakMinutes, endMinute)
 
     private fun initialState(): CalendarUiState {
         val history = repository.history.value

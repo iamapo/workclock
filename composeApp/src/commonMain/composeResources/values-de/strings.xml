@@ -34,4 +34,10 @@
     <string name="calendar_vacation_duration">Urlaub %1$s</string><string name="calendar_sick_duration">Krank %1$s</string>
     <string name="lock_work_today">Arbeitszeit heute</string><string name="lock_break_since">Pause seit</string><string name="lock_break_value">Pause: %1$s</string><string name="lock_worked_value">Gearbeitet: %1$s</string>
     <string name="status_working">Am Arbeiten</string>
+    <string name="edit_workday">Arbeitstag bearbeiten</string>
+    <string name="adjust_day_times">Zeiten für diesen Tag anpassen</string>
+    <string name="work_start">Arbeitsbeginn</string>
+    <string name="work_end">Arbeitsende</string>
+    <string name="working_time">Arbeitszeit</string>
+    <string name="save">Speichern</string>
 </resources>

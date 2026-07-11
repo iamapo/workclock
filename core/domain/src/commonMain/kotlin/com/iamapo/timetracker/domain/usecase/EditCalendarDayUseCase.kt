@@ -74,6 +74,47 @@ class EditCalendarDayUseCase(
         repository.update { history -> history.withoutDay(date) }
     }
 
+    fun setWorkTimes(date: LocalDate, startMinute: Int, breakMinutes: Int, endMinute: Int) {
+        require(startMinute in 0 until MinutesPerDay)
+        require(endMinute in 0 until MinutesPerDay)
+        require(breakMinutes >= 0)
+
+        val elapsedMinutes = if (endMinute >= startMinute) {
+            endMinute - startMinute
+        } else {
+            MinutesPerDay - startMinute + endMinute
+        }
+        require(breakMinutes <= elapsedMinutes)
+
+        repository.update { history ->
+            val current = history.dayFor(date)
+            val workedMinutes = elapsedMinutes - breakMinutes
+            val breakStart = (startMinute + workedMinutes / 2) % MinutesPerDay
+            val breakEnd = (breakStart + breakMinutes) % MinutesPerDay
+            val events = buildList {
+                add(WorkEvent(startMinute, "Arbeitsbeginn", WorkEventKind.Work))
+                if (breakMinutes > 0) {
+                    add(WorkEvent(breakStart, "Pause gestartet", WorkEventKind.Break))
+                    add(WorkEvent(breakEnd, "Weitergearbeitet", WorkEventKind.Work))
+                }
+                add(WorkEvent(endMinute, "Arbeitstag beendet", WorkEventKind.Target))
+            }
+            history.withDay(date, current.copy(
+                kind = WorkDayKind.Work,
+                status = WorkStatus.Finished,
+                startMinute = startMinute,
+                activeSessionStartMinute = null,
+                pauseStartedMinute = null,
+                workedMinutes = workedMinutes,
+                breakMinutes = breakMinutes,
+                lastBreakMinutes = breakMinutes.takeIf { it > 0 },
+                weeklyWorkedBeforeTodayMinutes = 0,
+                events = events,
+                config = history.defaultConfig
+            ))
+        }
+    }
+
     private fun adjustDay(date: LocalDate, deltaMinutes: Int) {
         repository.update { history ->
             val current = history.dayFor(date)
@@ -128,5 +169,6 @@ class EditCalendarDayUseCase(
         const val WorkDayBreakEndMinute = 12 * 60 + 30
         const val WorkBeforeBreakMinutes = WorkDayBreakStartMinute - WorkDayStartMinute
         const val MaxManualDayMinutes = 24 * 60
+        const val MinutesPerDay = 24 * 60
     }
 }

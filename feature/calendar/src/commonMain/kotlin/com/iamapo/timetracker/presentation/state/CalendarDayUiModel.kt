@@ -9,5 +9,8 @@ data class CalendarDayUiModel(
     val style: CalendarDayStyle,
     val isToday: Boolean,
     val isCurrentMonth: Boolean,
-    val workedMinutes: Int
+    val workedMinutes: Int,
+    val startMinute: Int? = null,
+    val breakMinutes: Int = 0,
+    val endMinute: Int? = null
 )

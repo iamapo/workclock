@@ -4,7 +4,7 @@ import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.AppFontSizes
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,13 +35,17 @@ object CalendarDayCell {
         day: CalendarDayUiModel,
         modifier: Modifier = Modifier,
         selected: Boolean = false,
-        onClick: (() -> Unit)? = null
+        onClick: (() -> Unit)? = null,
+        onLongClick: (() -> Unit)? = null
     ) {
         Surface(
             modifier = modifier
                 .fillMaxWidth()
                 .heightIn(min = AppDimensions.size58)
-                .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
+                .then(if (onClick != null || onLongClick != null) Modifier.combinedClickable(
+                    onClick = onClick ?: {},
+                    onLongClick = onLongClick
+                ) else Modifier),
             color = backgroundFor(day.style),
             border = BorderStroke(if (selected) AppDimensions.size2 else AppDimensions.size1, if (selected) AppColors.Ink.copy(alpha = 0.42f) else borderFor(day.style)),
             shape = RoundedCornerShape(AppDimensions.size10)

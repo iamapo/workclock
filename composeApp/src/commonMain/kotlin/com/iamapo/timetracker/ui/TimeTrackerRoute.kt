@@ -106,6 +106,7 @@ object TimeTrackerRoute {
                             onSick = resolvedCalendarViewModel::setSick,
                             onForgottenWorkDay = resolvedCalendarViewModel::setForgottenWorkDay,
                             onClear = resolvedCalendarViewModel::clearDay,
+                            onSetWorkTimes = resolvedCalendarViewModel::setWorkTimes,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }

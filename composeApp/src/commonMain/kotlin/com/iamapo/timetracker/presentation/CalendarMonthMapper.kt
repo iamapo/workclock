@@ -66,7 +66,10 @@ internal class CalendarMonthMapper {
                 style = style,
                 isToday = isToday,
                 isCurrentMonth = !isOutsideMonth,
-                workedMinutes = calendarDay?.workedMinutes ?: 0
+                workedMinutes = calendarDay?.workedMinutes ?: 0,
+                startMinute = calendarDay?.startMinute,
+                breakMinutes = calendarDay?.breakMinutes ?: 0,
+                endMinute = calendarDay?.events?.lastOrNull()?.minuteOfDay
             )
         }
 
