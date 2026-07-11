@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.multiplatform")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
@@ -13,14 +13,14 @@ kotlin {
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
 
     sourceSets.commonMain.dependencies {
-        implementation("io.insert-koin:koin-core:4.1.1")
+        implementation(libs.koin.core)
     }
 }
 
 android {
     namespace = "com.iamapo.timetracker.feature.lockscreen"
-    compileSdk = 36
-    defaultConfig { minSdk = 26 }
+    compileSdk = libs.versions.compile.sdk.get().toInt()
+    defaultConfig { minSdk = libs.versions.min.sdk.get().toInt() }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

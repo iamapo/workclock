@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.multiplatform")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.compose)
 }
 
 kotlin {
@@ -22,6 +22,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(project(":feature:lockscreen"))
         }
     }
 
@@ -30,17 +31,17 @@ kotlin {
             implementation(project(":feature:calendar"))
             implementation(project(":core:domain"))
             implementation(project(":core:design"))
-            implementation(project(":feature:lockscreen"))
-            implementation("io.insert-koin:koin-core:4.1.1")
-            implementation("org.jetbrains.compose.runtime:runtime:1.10.3")
-            implementation("org.jetbrains.compose.foundation:foundation:1.10.3")
-            implementation("org.jetbrains.compose.material3:material3:1.9.0")
-            implementation("org.jetbrains.compose.ui:ui:1.10.3")
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.3")
-            implementation("org.jetbrains.compose.components:components-resources:1.10.3")
-            implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
+            api(project(":feature:lockscreen"))
+            implementation(libs.koin.core)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.compose.components.resources)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.datetime)
         }
 
         commonTest.dependencies {
@@ -48,20 +49,20 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.3")
-            implementation("androidx.activity:activity-compose:1.13.0")
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.androidx.activity.compose)
         }
     }
 }
 
 android {
     namespace = "com.iamapo.timetracker"
-    compileSdk = 36
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.iamapo.timetracker"
-        minSdk = 26
-        targetSdk = 36
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
@@ -73,5 +74,5 @@ android {
 }
 
 dependencies {
-    debugImplementation("org.jetbrains.compose.ui:ui-tooling:1.10.3")
+    debugImplementation(libs.compose.ui.tooling)
 }

@@ -1,27 +1,27 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.multiplatform")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.compose)
 }
 
 kotlin {
     androidTarget { compilerOptions.jvmTarget.set(JvmTarget.JVM_11) }
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
     sourceSets.commonMain.dependencies {
-        implementation("org.jetbrains.compose.runtime:runtime:1.10.3")
-        implementation("org.jetbrains.compose.foundation:foundation:1.10.3")
-        implementation("org.jetbrains.compose.material3:material3:1.9.0")
-        implementation("org.jetbrains.compose.ui:ui:1.10.3")
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.foundation)
+        implementation(libs.compose.material3)
+        implementation(libs.compose.ui)
     }
 }
 
 android {
     namespace = "com.iamapo.timetracker.core.design"
-    compileSdk = 36
-    defaultConfig { minSdk = 26 }
+    compileSdk = libs.versions.compile.sdk.get().toInt()
+    defaultConfig { minSdk = libs.versions.min.sdk.get().toInt() }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
