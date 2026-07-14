@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
@@ -176,11 +177,12 @@ object SettingsScreen {
         onClick: () -> Unit,
         modifier: Modifier = Modifier
     ) {
+        val shape = RoundedCornerShape(AppDimensions.size14)
         Surface(
-            modifier = modifier.clickable(onClick = onClick),
+            modifier = modifier.clip(shape).clickable(onClick = onClick),
             color = background,
             border = BorderStroke(AppDimensions.size1, color.copy(alpha = 0.35f)),
-            shape = RoundedCornerShape(AppDimensions.size14)
+            shape = shape
         ) {
             Text(
                 text = label,

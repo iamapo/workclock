@@ -15,6 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
@@ -35,13 +36,15 @@ object CalendarPanel {
         modifier: Modifier = Modifier,
         onOpenCalendar: (() -> Unit)? = null
     ) {
+        val shape = RoundedCornerShape(AppDimensions.size18)
         Surface(
             modifier = modifier
                 .fillMaxWidth()
+                .clip(shape)
                 .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = shape
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),

@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,17 +39,19 @@ object CalendarDayCell {
         onClick: (() -> Unit)? = null,
         onLongClick: (() -> Unit)? = null
     ) {
+        val shape = RoundedCornerShape(AppDimensions.size10)
         Surface(
             modifier = modifier
                 .fillMaxWidth()
                 .heightIn(min = AppDimensions.size58)
+                .clip(shape)
                 .then(if (onClick != null || onLongClick != null) Modifier.combinedClickable(
                     onClick = onClick ?: {},
                     onLongClick = onLongClick
                 ) else Modifier),
             color = backgroundFor(day.style),
             border = BorderStroke(if (selected) AppDimensions.size2 else AppDimensions.size1, if (selected) AppColors.Ink.copy(alpha = 0.42f) else borderFor(day.style)),
-            shape = RoundedCornerShape(AppDimensions.size10)
+            shape = shape
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size7),

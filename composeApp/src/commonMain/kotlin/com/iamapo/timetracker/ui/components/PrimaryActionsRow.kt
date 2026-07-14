@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -71,11 +72,12 @@ object PrimaryActionsRow {
         containerColor: Color,
         borderColor: Color
     ) {
+        val shape = RoundedCornerShape(AppDimensions.size14)
         Surface(
-            modifier = modifier.clickable(onClick = onClick),
+            modifier = modifier.clip(shape).clickable(onClick = onClick),
             color = containerColor,
             border = BorderStroke(AppDimensions.size1, borderColor.copy(alpha = 0.28f)),
-            shape = RoundedCornerShape(AppDimensions.size14)
+            shape = shape
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
