@@ -186,9 +186,25 @@ final class WatchSessionModel: NSObject, ObservableObject {
             self.transferredEventIds.remove(eventId)
             self.savePendingEvents()
             self.saveTransferredEventIds()
-            if self.pendingEvents.isEmpty, let deferredStatePayload = self.deferredStatePayload {
+
+            if let latestEvent = self.pendingEvents.last {
+                self.remaining = self.localStatus == .finished ? "0:00" : "Offline"
+                self.caption = self.offlineCaption(for: latestEvent)
+                return
+            }
+
+            if let deferredStatePayload = self.deferredStatePayload {
                 self.deferredStatePayload = nil
                 self.applyState(deferredStatePayload)
+                return
+            }
+
+            let latestApplicationContext = self.session?.receivedApplicationContext ?? [:]
+            if !latestApplicationContext.isEmpty {
+                self.applyState(latestApplicationContext)
+            } else {
+                self.remaining = self.localStatus == .finished ? "0:00" : "–"
+                self.caption = "Synchronisiert · Status wird geladen"
             }
         }
     }
@@ -226,6 +242,10 @@ extension WatchSessionModel: WCSessionDelegate {
     ) {
         DispatchQueue.main.async {
             self.isReachable = session.isReachable
+            let latestApplicationContext = session.receivedApplicationContext
+            if !latestApplicationContext.isEmpty {
+                self.apply(latestApplicationContext)
+            }
             self.syncPendingEvents()
         }
     }
