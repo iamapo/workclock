@@ -6,5 +6,6 @@ captures/
 *.iml
 .idea/
 DerivedData/
+.DS_Store
 iosApp/Pods/
 iosApp/iosApp.xcworkspace/
