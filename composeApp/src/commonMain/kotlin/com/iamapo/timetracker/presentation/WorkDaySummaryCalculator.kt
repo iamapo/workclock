@@ -12,7 +12,6 @@ internal data class WorkDaySummary(
     val remainingWorkMinutes: Int,
     val missingBreakMinutes: Int,
     val endMinute: Int,
-    val weeklyWorkedMinutes: Int,
     val progress: Float
 )
 
@@ -28,7 +27,6 @@ internal class WorkDaySummaryCalculator {
             WorkStatus.Paused -> snapshot.minuteOfDay + remainingWorkMinutes + missingBreakMinutes
             WorkStatus.Finished -> finishedMinute(day, snapshot.minuteOfDay)
         }
-        val weeklyWorkedMinutes = day.weeklyWorkedBeforeTodayMinutes + workedMinutes
         val progress = min(workedMinutes.toFloat() / day.config.dailyTargetMinutes.toFloat(), 1f)
 
         return WorkDaySummary(
@@ -37,7 +35,6 @@ internal class WorkDaySummaryCalculator {
             remainingWorkMinutes = remainingWorkMinutes,
             missingBreakMinutes = missingBreakMinutes,
             endMinute = endMinute,
-            weeklyWorkedMinutes = weeklyWorkedMinutes,
             progress = progress
         )
     }
