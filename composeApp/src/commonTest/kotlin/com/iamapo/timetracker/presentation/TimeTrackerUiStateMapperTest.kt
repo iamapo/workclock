@@ -109,9 +109,46 @@ class TimeTrackerUiStateMapperTest {
         assertEquals("7:30 h", state.weekOverview.reached)
         assertEquals("0 min", state.weekOverview.balance)
         assertEquals(true, state.weekOverview.isPositiveBalance)
-        assertEquals("+30 min", state.weekOverview.carry)
+        assertEquals("0 min", state.weekOverview.carry)
         assertEquals(true, state.weekOverview.isPositiveCarry)
         assertEquals("40:00 h", state.plannedWeek)
+    }
+
+    @Test
+    fun carryIncludesOvertimeFromCompletedMonday() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = 8 * 60 + 30,
+                weeklyBalanceCarryMinutes = 30
+            ),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 13),
+                minuteOfDay = 18 * 60
+            )
+        )
+
+        assertEquals("+1 h", state.weekOverview.carry)
+        assertEquals(true, state.weekOverview.isPositiveCarry)
+    }
+
+    @Test
+    fun carryDoesNotIncludeAnOngoingDay() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Working,
+                workedMinutes = 4 * 60,
+                weeklyWorkedBeforeTodayMinutes = 8 * 60 + 30,
+                weeklyBalanceCarryMinutes = 30
+            ),
+            snapshot = TimeSnapshot(
+                date = LocalDate(2026, 7, 14),
+                minuteOfDay = 12 * 60
+            )
+        )
+
+        assertEquals("+1 h", state.weekOverview.carry)
+        assertEquals(true, state.weekOverview.isPositiveCarry)
     }
 
     @Test

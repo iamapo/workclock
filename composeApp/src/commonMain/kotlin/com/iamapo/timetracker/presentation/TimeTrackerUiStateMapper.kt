@@ -158,11 +158,16 @@ object TimeTrackerUiStateMapper {
         val expectedWorkdays = snapshot.date.dayOfWeek.isoDayNumber.coerceIn(1, WorkdaysPerWeek)
         val expectedMinutes = day.config.weeklyTargetMinutes * expectedWorkdays / WorkdaysPerWeek
         val balanceMinutes = day.weeklyBalanceCarryMinutes + weeklyWorkedMinutes - expectedMinutes
-        val carryMinutes = if (snapshot.date.dayOfWeek.isoDayNumber >= WorkdaysPerWeek) {
-            balanceMinutes
-        } else {
-            day.weeklyBalanceCarryMinutes
-        }
+        val elapsedWorkdays = (snapshot.date.dayOfWeek.isoDayNumber - 1).coerceIn(0, WorkdaysPerWeek)
+        val includesToday = day.status == WorkStatus.Finished &&
+            snapshot.date.dayOfWeek.isoDayNumber <= WorkdaysPerWeek
+        val completedWorkdays = elapsedWorkdays + if (includesToday) 1 else 0
+        val workedOnCompletedDays = day.weeklyWorkedBeforeTodayMinutes +
+            if (includesToday) todayWorkedMinutes else 0
+        val expectedMinutesForCompletedDays =
+            day.config.weeklyTargetMinutes * completedWorkdays / WorkdaysPerWeek
+        val carryMinutes = day.weeklyBalanceCarryMinutes +
+            workedOnCompletedDays - expectedMinutesForCompletedDays
         val weekStart = snapshot.date - DatePeriod(days = snapshot.date.dayOfWeek.isoDayNumber - 1)
         val days = (0 until WorkdaysPerWeek).map { index ->
             val date = weekStart + DatePeriod(days = index)
@@ -187,7 +192,7 @@ object TimeTrackerUiStateMapper {
             reached = TimeTextFormatter.clockLikeDuration(weeklyWorkedMinutes),
             balance = balanceLabel(balanceMinutes),
             isPositiveBalance = balanceMinutes >= 0,
-            carry = carryMinutes.takeIf { it != 0 }?.let(::balanceLabel),
+            carry = balanceLabel(carryMinutes),
             isPositiveCarry = carryMinutes >= 0,
             days = days
         )
