@@ -493,42 +493,94 @@ ol {
   box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42);
 }
 
-.watch-label,
-.watch-caption {
+.watch-screen.paused {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(251, 191, 36, 0.22), transparent 28%),
+    linear-gradient(180deg, #090b10, #05070c 72%);
+}
+
+.watch-label {
   color: #b7c4d8;
 }
 
-.watch-state {
-  width: fit-content;
-  margin: 10px auto 0;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(22, 163, 74, 0.16);
-  color: #86efac;
-  font-size: 0.78rem;
-  font-weight: 850;
+.watch-orbit {
+  width: 120px;
+  height: 120px;
+  margin: 18px auto 0;
+  position: relative;
+  border-radius: 50%;
 }
 
-.watch-time {
-  margin: 14px 0 2px;
-  font-size: 3.4rem;
-  line-height: 1;
+.watch-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.watch-ring-track,
+.watch-ring-segment {
+  fill: none;
+  stroke-width: 10;
+}
+
+.watch-ring-track {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.watch-ring-segment {
+  stroke: #fbbf24;
+  stroke-linecap: round;
+  stroke-dasharray: 262 52;
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.18));
+}
+
+.watch-orbit-inner {
+  position: relative;
+  z-index: 1;
+  width: 84px;
+  height: 84px;
+  margin: 18px auto 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #05070c;
+  border: 1px solid rgba(251, 191, 36, 0.14);
+}
+
+.watch-time-inner {
+  color: #fde68a;
+  margin: 0;
+  font-size: 1.05rem;
   font-weight: 900;
+  text-align: center;
+  line-height: 1.15;
 }
 
 .watch-actions {
   justify-content: center;
   gap: 14px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .watch-actions button {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
   border-radius: 50%;
-  background: #26344a;
+  background: #273044;
   color: white;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 850;
+  display: grid;
+  place-items: center;
+}
+
+.watch-actions button:first-child {
+  background: #fbbf24;
+  color: #1a1200;
 }
 
 .notes p {

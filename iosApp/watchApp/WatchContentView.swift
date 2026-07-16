@@ -7,50 +7,44 @@ struct WatchContentView: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.11, green: 0.09, blue: 0.08),
-                    Color(red: 0.02, green: 0.02, blue: 0.04),
-                    Color(red: 0.03, green: 0.08, blue: 0.11)
+                    Color(red: 0.10, green: 0.09, blue: 0.08),
+                    Color(red: 0.02, green: 0.02, blue: 0.04)
                 ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                startPoint: .top,
+                endPoint: .bottom
             )
             .ignoresSafeArea()
 
-            VStack(spacing: 9) {
+            VStack(spacing: 12) {
                 HStack(spacing: 6) {
                     Circle()
-                        .fill(session.isReachable ? Self.mint : Self.lemon)
+                        .fill(accentColor)
                         .frame(width: 7, height: 7)
                     Text("WorkClock")
                         .font(.caption2)
                         .fontWeight(.black)
-                        .foregroundStyle(.white.opacity(0.78))
+                        .foregroundStyle(.white.opacity(0.8))
                 }
 
                 ZStack {
                     Circle()
-                        .stroke(.white.opacity(0.13), lineWidth: 12)
+                        .stroke(.white.opacity(0.10), lineWidth: 11)
                     Circle()
                         .trim(from: 0, to: ringProgress)
-                        .stroke(Self.mint, style: StrokeStyle(lineWidth: 12, lineCap: .round))
+                        .stroke(accentColor, style: StrokeStyle(lineWidth: 11, lineCap: .round))
                         .rotationEffect(.degrees(-90))
 
-                    VStack(spacing: 3) {
-                        Text(session.remaining)
-                            .font(.system(size: 36, weight: .black, design: .rounded))
+                    VStack(spacing: 2) {
+                        Text(centerText)
+                            .font(.system(size: 15, weight: .black, design: .rounded))
                             .foregroundStyle(.white)
-                            .minimumScaleFactor(0.54)
-                            .lineLimit(1)
-                        Text(session.caption)
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white.opacity(0.72))
+                            .minimumScaleFactor(0.6)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
                     }
-                    .padding(.horizontal, 18)
+                    .padding(.horizontal, 16)
                 }
-                .frame(width: 136, height: 136)
+                .frame(width: 138, height: 138)
 
                 HStack(spacing: 12) {
                     Button {
@@ -61,7 +55,7 @@ struct WatchContentView: View {
                             .frame(width: 42, height: 42)
                     }
                     .buttonStyle(.plain)
-                    .background(Self.lemon, in: Circle())
+                    .background(accentColor, in: Circle())
                     .foregroundStyle(Color(red: 0.09, green: 0.08, blue: 0.12))
                     .accessibilityLabel(session.primaryAction)
 
@@ -79,22 +73,13 @@ struct WatchContentView: View {
                         .accessibilityLabel(session.secondaryAction)
                     }
                 }
-
-                HStack {
-                    Text(session.state)
-                    Spacer(minLength: 8)
-                    Text(statusPercent)
-                }
-                .font(.caption2)
-                .fontWeight(.bold)
-                .foregroundStyle(.white.opacity(0.72))
             }
             .padding(.horizontal, 14)
         }
     }
 
     private var primarySymbol: String {
-        if session.primaryAction.localizedCaseInsensitiveContains("Pause") {
+        if session.state.localizedCaseInsensitiveContains("Aktiv") {
             return "pause.fill"
         }
         return "play.fill"
@@ -108,13 +93,20 @@ struct WatchContentView: View {
             return 0.08
         }
         if session.state.localizedCaseInsensitiveContains("Pause") {
-            return 0.48
+            return 0.55
         }
         return 0.65
     }
 
-    private var statusPercent: String {
-        "\(Int((ringProgress * 100).rounded()))%"
+    private var centerText: String {
+        if session.state.localizedCaseInsensitiveContains("Pause") {
+            return session.caption
+        }
+        return session.remaining
+    }
+
+    private var accentColor: Color {
+        session.state.localizedCaseInsensitiveContains("Pause") ? Self.lemon : Self.mint
     }
 
     private static let mint = Color(red: 0.40, green: 0.87, blue: 0.71)

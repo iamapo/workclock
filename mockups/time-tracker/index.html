@@ -171,14 +171,20 @@
         </section>
 
         <section class="watch" aria-label="Apple Watch App">
-          <div class="watch-screen">
+          <div class="watch-screen paused">
             <p class="watch-label">WorkClock</p>
-            <p class="watch-state">Aktiv</p>
-            <p class="watch-time">2:48</p>
-            <p class="watch-caption">noch bis 17:34</p>
+            <div class="watch-orbit" aria-hidden="true">
+              <svg class="watch-ring" viewBox="0 0 120 120" role="presentation" aria-hidden="true">
+                <circle class="watch-ring-track" cx="60" cy="60" r="50"></circle>
+                <circle class="watch-ring-segment" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="watch-orbit-inner">
+                <span class="watch-time watch-time-inner">seit 18 min</span>
+              </div>
+            </div>
             <div class="watch-actions">
-              <button>⏸</button>
-              <button>■</button>
+              <button aria-label="Weiterarbeiten">▶</button>
+              <button aria-label="Beenden">■</button>
             </div>
           </div>
         </section>
