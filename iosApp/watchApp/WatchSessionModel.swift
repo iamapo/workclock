@@ -9,6 +9,7 @@ final class WatchSessionModel: NSObject, ObservableObject {
     @Published private(set) var secondaryAction = ""
     @Published private(set) var command = "primary"
     @Published private(set) var isReachable = false
+    @Published private(set) var breakStartedMinute: Int?
 
     private let session: WCSession?
     private let defaults: UserDefaults
@@ -25,6 +26,10 @@ final class WatchSessionModel: NSObject, ObservableObject {
         self.localStatus = WatchStatus(
             rawValue: defaults.string(forKey: DefaultsKey.localStatus) ?? ""
         ) ?? .notStarted
+        let savedBreakStartedMinute = defaults.integer(forKey: DefaultsKey.breakStartedMinute)
+        self.breakStartedMinute = defaults.object(forKey: DefaultsKey.breakStartedMinute) == nil
+            ? nil
+            : savedBreakStartedMinute
 
         if WCSession.isSupported() {
             session = WCSession.default
@@ -101,24 +106,35 @@ final class WatchSessionModel: NSObject, ObservableObject {
         secondaryAction = payload["secondaryAction"] as? String ?? secondaryAction
         command = payload["command"] as? String ?? command
         localStatus = WatchStatus(state: state)
+        if let receivedBreakStartedMinute = payload[PayloadKey.breakStartedMinute] as? Int {
+            breakStartedMinute = receivedBreakStartedMinute >= 0 ? receivedBreakStartedMinute : nil
+        } else if localStatus != .paused {
+            breakStartedMinute = nil
+        }
         saveLocalStatus()
+        saveBreakStartedMinute()
     }
 
     private func applyLocal(command: String, event: PendingWatchEvent) {
         switch command {
         case WatchCommand.startDay, WatchCommand.startNewDay:
             localStatus = .working
+            breakStartedMinute = nil
         case WatchCommand.startBreak:
             localStatus = .paused
+            breakStartedMinute = event.occurredAtMinuteOfDay
         case WatchCommand.resumeWork:
             localStatus = .working
+            breakStartedMinute = nil
         case WatchCommand.endDay:
             localStatus = .finished
+            breakStartedMinute = nil
         default:
             break
         }
 
         saveLocalStatus()
+        saveBreakStartedMinute()
         updateControls(for: localStatus)
         remaining = localStatus == .finished ? "0:00" : "Offline"
         caption = offlineCaption(for: event)
@@ -220,6 +236,24 @@ final class WatchSessionModel: NSObject, ObservableObject {
 
     private func saveLocalStatus() {
         defaults.set(localStatus.rawValue, forKey: DefaultsKey.localStatus)
+    }
+
+    private func saveBreakStartedMinute() {
+        if let breakStartedMinute {
+            defaults.set(breakStartedMinute, forKey: DefaultsKey.breakStartedMinute)
+        } else {
+            defaults.removeObject(forKey: DefaultsKey.breakStartedMinute)
+        }
+    }
+
+    func breakDuration(at date: Date, calendar: Calendar = .current) -> String {
+        guard let breakStartedMinute else { return "0:00" }
+        let components = calendar.dateComponents([.hour, .minute], from: date)
+        let currentMinute = (components.hour ?? 0) * 60 + (components.minute ?? 0)
+        let elapsedMinutes = currentMinute >= breakStartedMinute
+            ? currentMinute - breakStartedMinute
+            : 24 * 60 - breakStartedMinute + currentMinute
+        return "\(elapsedMinutes / 60):" + String(format: "%02d", elapsedMinutes % 60)
     }
 
     private func offlineCaption(for event: PendingWatchEvent) -> String {
@@ -347,6 +381,7 @@ private enum PayloadKey {
     static let occurredAtMinuteOfDay = "occurredAtMinuteOfDay"
     static let occurredAtEpochMillis = "occurredAtEpochMillis"
     static let acknowledgedEventId = "acknowledgedEventId"
+    static let breakStartedMinute = "breakStartedMinute"
 }
 
 private enum PayloadValue {
@@ -357,4 +392,5 @@ private enum DefaultsKey {
     static let pendingEvents = "pending_watch_events"
     static let transferredEventIds = "transferred_watch_event_ids"
     static let localStatus = "local_watch_status"
+    static let breakStartedMinute = "break_started_minute"
 }

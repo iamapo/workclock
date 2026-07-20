@@ -84,7 +84,8 @@ object TimeTrackerUiStateMapper {
                 WorkStatus.Finished -> localized(Res.string.watch_finished, TimeTextFormatter.clock(summary.endMinute))
                 WorkStatus.Working,
                 WorkStatus.Paused -> localized(Res.string.watch_until, TimeTextFormatter.clock(summary.endMinute))
-            }
+            },
+            watchBreakStartedMinute = day.pauseStartedMinute.takeIf { day.status == WorkStatus.Paused }
         )
     }
 

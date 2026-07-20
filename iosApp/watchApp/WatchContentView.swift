@@ -35,12 +35,25 @@ struct WatchContentView: View {
                         .rotationEffect(.degrees(-90))
 
                     VStack(spacing: 2) {
-                        Text(centerText)
-                            .font(.system(size: 15, weight: .black, design: .rounded))
-                            .foregroundStyle(.white)
-                            .minimumScaleFactor(0.6)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
+                        if isPaused {
+                            Text("Pause")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white.opacity(0.65))
+                            TimelineView(.periodic(from: .now, by: 1)) { context in
+                                Text(session.breakDuration(at: context.date))
+                                    .font(.system(size: 27, weight: .black, design: .rounded))
+                                    .foregroundStyle(.white)
+                                    .monospacedDigit()
+                            }
+                        } else {
+                            Text(session.remaining)
+                                .font(.system(size: 15, weight: .black, design: .rounded))
+                                .foregroundStyle(.white)
+                                .minimumScaleFactor(0.6)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                        }
                     }
                     .padding(.horizontal, 16)
                 }
@@ -98,11 +111,8 @@ struct WatchContentView: View {
         return 0.65
     }
 
-    private var centerText: String {
-        if session.state.localizedCaseInsensitiveContains("Pause") {
-            return session.caption
-        }
-        return session.remaining
+    private var isPaused: Bool {
+        session.state.localizedCaseInsensitiveContains("Pause")
     }
 
     private var accentColor: Color {

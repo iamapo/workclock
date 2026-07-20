@@ -187,6 +187,27 @@ class TimeTrackerUiStateMapperTest {
     }
 
     @Test
+    fun watchReceivesCurrentBreakStartOnlyWhilePaused() {
+        val pausedState = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Paused,
+                pauseStartedMinute = 12 * 60 + 5
+            ),
+            snapshot = TimeSnapshot(LocalDate(2026, 7, 13), 12 * 60 + 20)
+        )
+        val workingState = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Working,
+                pauseStartedMinute = 12 * 60 + 5
+            ),
+            snapshot = TimeSnapshot(LocalDate(2026, 7, 13), 12 * 60 + 20)
+        )
+
+        assertEquals(12 * 60 + 5, pausedState.watchBreakStartedMinute)
+        assertEquals(null, workingState.watchBreakStartedMinute)
+    }
+
+    @Test
     fun plannedCalendarUsesConfiguredDailyTarget() {
         val state = calendarState(
             WorkDay(

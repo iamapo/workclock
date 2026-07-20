@@ -19,5 +19,6 @@ data class TimeTrackerUiState(
     val timeline: List<TimelineItemUiModel>,
     val watchState: String,
     val watchRemaining: String,
-    val watchCaption: String
+    val watchCaption: String,
+    val watchBreakStartedMinute: Int?
 )

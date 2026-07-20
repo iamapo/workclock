@@ -17,6 +17,7 @@ private const val KeyMessageType = "messageType"
 private const val KeyState = "state"
 private const val KeyRemaining = "remaining"
 private const val KeyCaption = "caption"
+private const val KeyBreakStartedMinute = "breakStartedMinute"
 private const val KeyPrimaryAction = "primaryAction"
 private const val KeySecondaryAction = "secondaryAction"
 private const val KeyCommand = "command"
@@ -53,6 +54,7 @@ class IosWatchSessionController(
             KeyState to state.watchState,
             KeyRemaining to state.watchRemaining,
             KeyCaption to state.watchCaption,
+            KeyBreakStartedMinute to (state.watchBreakStartedMinute ?: NoBreakStartedMinute),
             KeyPrimaryAction to state.primaryActionLabel,
             KeySecondaryAction to (state.secondaryActionLabel ?: ""),
             KeyCommand to state.primaryCommand.wireValue()
@@ -214,5 +216,6 @@ private fun Any?.asInt(): Int? = when (this) {
 }
 
 private const val MinutesPerDay = 24 * 60
+private const val NoBreakStartedMinute = -1
 private const val MaxProcessedEventIds = 200
 private const val ProcessedWatchEventIdsKey = "processed_watch_event_ids"
