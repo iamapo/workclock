@@ -40,4 +40,19 @@
     <string name="work_end">Arbeitsende</string>
     <string name="working_time">Arbeitszeit</string>
     <string name="save">Speichern</string>
+    <string name="backup_label">BACKUP</string>
+    <string name="backup_title">Daten exportieren oder wiederherstellen</string>
+    <string name="backup_description">Im Systemdialog wählst du den Speicherort, zum Beispiel dieses Gerät, iCloud Drive oder Google Drive.</string>
+    <string name="export_backup">Exportieren</string>
+    <string name="import_backup">Importieren</string>
+    <string name="undo_last_import">Letzten Import rückgängig machen</string>
+    <string name="backup_export_success">Das Backup wurde erfolgreich gespeichert.</string>
+    <string name="backup_import_success">Das Backup wurde importiert. Der vorherige Stand kann unten wiederhergestellt werden.</string>
+    <string name="backup_undo_success">Der Stand vor dem Import wurde wiederhergestellt.</string>
+    <string name="backup_invalid_file">Dies ist kein gültiges, unbeschädigtes WorkClock-Backup.</string>
+    <string name="backup_failure">Der Backup-Vorgang konnte nicht abgeschlossen werden.</string>
+    <string name="import_confirm_title">Aktuelle Daten ersetzen?</string>
+    <string name="import_confirm_description">Das Backup enthält %1$d gespeicherte Tage (%2$s). Deine aktuellen Daten werden ersetzt; WorkClock bewahrt sie auf, damit der Import rückgängig gemacht werden kann.</string>
+    <string name="backup_period">%1$s bis %2$s</string>
+    <string name="backup_no_days">keine erfassten Tage</string>
 </resources>

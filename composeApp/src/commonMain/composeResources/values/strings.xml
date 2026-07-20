@@ -67,4 +67,19 @@
     <string name="work_end">Work end</string>
     <string name="working_time">Working time</string>
     <string name="save">Save</string>
+    <string name="backup_label">BACKUP</string>
+    <string name="backup_title">Export or restore data</string>
+    <string name="backup_description">The system file dialog lets you choose the location, for example this device, iCloud Drive or Google Drive.</string>
+    <string name="export_backup">Export</string>
+    <string name="import_backup">Import</string>
+    <string name="undo_last_import">Undo last import</string>
+    <string name="backup_export_success">The backup was saved successfully.</string>
+    <string name="backup_import_success">The backup was imported. The previous data can be restored below.</string>
+    <string name="backup_undo_success">The data from before the import was restored.</string>
+    <string name="backup_invalid_file">This is not a valid, intact WorkClock backup.</string>
+    <string name="backup_failure">The backup operation could not be completed.</string>
+    <string name="import_confirm_title">Replace current data?</string>
+    <string name="import_confirm_description">The backup contains %1$d saved days (%2$s). Your current data will be replaced; WorkClock keeps it so the import can be undone.</string>
+    <string name="backup_period">%1$s to %2$s</string>
+    <string name="backup_no_days">no recorded days</string>
 </resources>

@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +29,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.backup.BackupUiStatus
+import com.iamapo.timetracker.backup.PendingBackupImport
 import com.iamapo.timetracker.ui.components.SettingsPanel
 import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
@@ -46,6 +50,14 @@ object SettingsScreen {
         onDecreaseWeeklyTarget: () -> Unit,
         onIncreaseWeeklyTarget: () -> Unit,
         onLockScreenStatusChanged: (Boolean) -> Unit,
+        backupStatus: BackupUiStatus,
+        pendingBackupImport: PendingBackupImport?,
+        canUndoImport: Boolean,
+        onExportBackup: () -> Unit,
+        onImportBackup: () -> Unit,
+        onCancelImport: () -> Unit,
+        onConfirmImport: () -> Unit,
+        onUndoImport: () -> Unit,
         onDeleteAllEntries: () -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -77,6 +89,15 @@ object SettingsScreen {
                 )
             }
             item {
+                BackupPanel(
+                    status = backupStatus,
+                    canUndoImport = canUndoImport,
+                    onExportBackup = onExportBackup,
+                    onImportBackup = onImportBackup,
+                    onUndoImport = onUndoImport
+                )
+            }
+            item {
                 DeleteEntriesPanel(
                     confirmDelete = confirmDelete,
                     onRequestConfirm = { confirmDelete = true },
@@ -88,6 +109,169 @@ object SettingsScreen {
                 )
             }
         }
+
+        pendingBackupImport?.let { pendingImport ->
+            ImportConfirmationDialog(
+                pendingImport = pendingImport,
+                onCancel = onCancelImport,
+                onConfirm = onConfirmImport
+            )
+        }
+    }
+
+    @Composable
+    private fun BackupPanel(
+        status: BackupUiStatus,
+        canUndoImport: Boolean,
+        onExportBackup: () -> Unit,
+        onImportBackup: () -> Unit,
+        onUndoImport: () -> Unit
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = AppColors.Panel,
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = RoundedCornerShape(AppDimensions.size18)
+        ) {
+            Column(
+                modifier = Modifier.padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
+            ) {
+                Text(
+                    text = stringResource(Res.string.backup_label),
+                    color = AppColors.Subtle,
+                    fontSize = AppFontSizes.size10,
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = AppFontSizes.size0_2
+                )
+                Text(
+                    text = stringResource(Res.string.backup_title),
+                    color = AppColors.Ink,
+                    fontSize = AppFontSizes.size18,
+                    lineHeight = AppFontSizes.size22,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = stringResource(Res.string.backup_description),
+                    color = AppColors.Muted,
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size18
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
+                ) {
+                    BackupButton(
+                        label = stringResource(Res.string.export_backup),
+                        color = AppColors.Blue,
+                        onClick = onExportBackup,
+                        modifier = Modifier.weight(1f)
+                    )
+                    BackupButton(
+                        label = stringResource(Res.string.import_backup),
+                        color = AppColors.Purple,
+                        onClick = onImportBackup,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                status.messageResource()?.let { messageResource ->
+                    Text(
+                        text = stringResource(messageResource),
+                        color = if (status == BackupUiStatus.Failure || status == BackupUiStatus.InvalidFile) {
+                            AppColors.Rose
+                        } else {
+                            AppColors.Muted
+                        },
+                        fontSize = AppFontSizes.size13,
+                        lineHeight = AppFontSizes.size18
+                    )
+                }
+
+                if (canUndoImport) {
+                    BackupButton(
+                        label = stringResource(Res.string.undo_last_import),
+                        color = AppColors.Muted,
+                        onClick = onUndoImport,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun BackupButton(
+        label: String,
+        color: androidx.compose.ui.graphics.Color,
+        onClick: () -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        val shape = RoundedCornerShape(AppDimensions.size14)
+        Surface(
+            modifier = modifier.clip(shape).clickable(onClick = onClick),
+            color = color.copy(alpha = 0.10f),
+            border = BorderStroke(AppDimensions.size1, color.copy(alpha = 0.35f)),
+            shape = shape
+        ) {
+            Text(
+                text = label,
+                color = color,
+                fontSize = AppFontSizes.size15,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size16)
+            )
+        }
+    }
+
+    @Composable
+    private fun ImportConfirmationDialog(
+        pendingImport: PendingBackupImport,
+        onCancel: () -> Unit,
+        onConfirm: () -> Unit
+    ) {
+        val period = when {
+            pendingImport.firstDate == null -> stringResource(Res.string.backup_no_days)
+            pendingImport.firstDate == pendingImport.lastDate -> pendingImport.firstDate
+            else -> stringResource(
+                Res.string.backup_period,
+                pendingImport.firstDate.orEmpty(),
+                pendingImport.lastDate.orEmpty()
+            )
+        }
+
+        AlertDialog(
+            onDismissRequest = onCancel,
+            title = { Text(stringResource(Res.string.import_confirm_title)) },
+            text = {
+                Text(
+                    stringResource(
+                        Res.string.import_confirm_description,
+                        pendingImport.dayCount,
+                        period
+                    )
+                )
+            },
+            dismissButton = {
+                TextButton(onClick = onCancel) {
+                    Text(stringResource(Res.string.cancel))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = onConfirm) {
+                    Text(stringResource(Res.string.import_backup))
+                }
+            }
+        )
+    }
+
+    private fun BackupUiStatus.messageResource() = when (this) {
+        BackupUiStatus.None -> null
+        BackupUiStatus.Exported -> Res.string.backup_export_success
+        BackupUiStatus.Imported -> Res.string.backup_import_success
+        BackupUiStatus.ImportUndone -> Res.string.backup_undo_success
+        BackupUiStatus.InvalidFile -> Res.string.backup_invalid_file
+        BackupUiStatus.Failure -> Res.string.backup_failure
     }
 
     @Composable
@@ -213,6 +397,14 @@ private fun SettingsScreenPreview() {
             onDecreaseWeeklyTarget = {},
             onIncreaseWeeklyTarget = {},
             onLockScreenStatusChanged = {},
+            backupStatus = BackupUiStatus.None,
+            pendingBackupImport = null,
+            canUndoImport = false,
+            onExportBackup = {},
+            onImportBackup = {},
+            onCancelImport = {},
+            onConfirmImport = {},
+            onUndoImport = {},
             onDeleteAllEntries = {}
         )
     }

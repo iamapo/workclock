@@ -18,8 +18,8 @@ class PersistedWorkHistoryRepository(
     override fun update(transform: (WorkHistory) -> WorkHistory) {
         updateLock.withLock {
             val updated = transform(mutableHistory.value)
-            mutableHistory.value = updated
             store.saveHistory(updated)
+            mutableHistory.value = updated
         }
     }
 }

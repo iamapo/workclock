@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
+import com.iamapo.timetracker.backup.IosBackupFileController
 import com.iamapo.timetracker.data.IosWorkDayStore
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
@@ -19,28 +20,35 @@ import org.koin.dsl.koinApplication
 
 fun MainViewController(): UIViewController = MainViewController(NoOpLockScreenStatusController)
 
-fun MainViewController(lockScreenStatusController: LockScreenStatusController): UIViewController = ComposeUIViewController {
-    val injectedLockScreenController = remember(lockScreenStatusController) {
-        koinApplication {
-            modules(lockScreenFeatureModule(lockScreenStatusController))
-        }.koin.get<LockScreenStatusController>()
-    }
-    val workDayStore = remember { IosWorkDayStore() }
-    var watchSession by remember { mutableStateOf<IosWatchSessionController?>(null) }
+fun MainViewController(lockScreenStatusController: LockScreenStatusController): UIViewController {
+    var rootController: UIViewController? = null
+    val backupFileController = IosBackupFileController { rootController }
 
-    TimeTrackerRoute(
-        workDayStore = workDayStore,
-        lockScreenStatusController = injectedLockScreenController,
-        onViewModelReady = { viewModel ->
-            if (watchSession == null) {
-                watchSession = IosWatchSessionController(
-                    onCommand = viewModel::onWatchCommand,
-                    onEvent = viewModel::onWatchEvent
-                ).also { it.activate() }
-            }
-        },
-        onStateChanged = { state -> watchSession?.publish(state) }
-    )
+    rootController = ComposeUIViewController {
+        val injectedLockScreenController = remember(lockScreenStatusController) {
+            koinApplication {
+                modules(lockScreenFeatureModule(lockScreenStatusController))
+            }.koin.get<LockScreenStatusController>()
+        }
+        val workDayStore = remember { IosWorkDayStore() }
+        var watchSession by remember { mutableStateOf<IosWatchSessionController?>(null) }
+
+        TimeTrackerRoute(
+            workDayStore = workDayStore,
+            backupFileController = backupFileController,
+            lockScreenStatusController = injectedLockScreenController,
+            onViewModelReady = { viewModel ->
+                if (watchSession == null) {
+                    watchSession = IosWatchSessionController(
+                        onCommand = viewModel::onWatchCommand,
+                        onEvent = viewModel::onWatchEvent
+                    ).also { it.activate() }
+                }
+            },
+            onStateChanged = { state -> watchSession?.publish(state) }
+        )
+    }
+    return rootController
 }
 
 fun PreviewViewController(): UIViewController = ComposeUIViewController {

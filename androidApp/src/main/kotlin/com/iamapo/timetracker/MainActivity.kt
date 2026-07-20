@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.remember
+import com.iamapo.timetracker.backup.AndroidBackupFileController
 import com.iamapo.timetracker.data.AndroidWorkDayStore
 import com.iamapo.timetracker.lockscreen.AndroidLockScreenStatusController
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
@@ -16,6 +17,8 @@ import com.iamapo.timetracker.ui.TimeTrackerRoute
 import org.koin.dsl.koinApplication
 
 class MainActivity : ComponentActivity() {
+    private val backupFileController = AndroidBackupFileController(this)
+
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {
@@ -33,6 +36,7 @@ class MainActivity : ComponentActivity() {
             val lockScreenStatusController = remember { koin.get<LockScreenStatusController>() }
             TimeTrackerRoute(
                 workDayStore = workDayStore,
+                backupFileController = backupFileController,
                 lockScreenStatusController = lockScreenStatusController
             )
         }

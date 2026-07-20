@@ -19,6 +19,21 @@ class IosWorkDayStore(
         )
     }
 
+    override fun loadPreImportHistory(): WorkHistory? =
+        defaults.stringForKey(PreImportHistoryKey)
+            ?.let(WorkHistorySerializer::decodeHistory)
+
+    override fun savePreImportHistory(history: WorkHistory) {
+        defaults.setObject(
+            WorkHistorySerializer.encodeHistory(history),
+            forKey = PreImportHistoryKey
+        )
+    }
+
+    override fun clearPreImportHistory() {
+        defaults.removeObjectForKey(PreImportHistoryKey)
+    }
+
     private fun loadLegacyWorkDay(today: LocalDate): WorkHistory {
         val day = defaults.stringForKey(CurrentWorkDayKey)
             ?.let(WorkHistorySerializer::decode)
@@ -30,5 +45,6 @@ class IosWorkDayStore(
     private companion object {
         const val HistoryKey = "work_day_history"
         const val CurrentWorkDayKey = "current_work_day"
+        const val PreImportHistoryKey = "pre_import_work_day_history"
     }
 }
