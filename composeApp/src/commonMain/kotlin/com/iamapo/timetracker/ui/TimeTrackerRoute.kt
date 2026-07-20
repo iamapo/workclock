@@ -11,14 +11,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.iamapo.timetracker.backup.BackupFileController
-import com.iamapo.timetracker.backup.BackupFileResult
-import com.iamapo.timetracker.backup.BackupReadResult
-import com.iamapo.timetracker.backup.BackupUiStatus
 import com.iamapo.timetracker.backup.NoOpBackupFileController
-import com.iamapo.timetracker.backup.PendingBackupImport
+import com.iamapo.timetracker.backup.rememberBackupStateHolder
 import com.iamapo.timetracker.data.NoOpWorkDayStore
 import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
-import com.iamapo.timetracker.data.WorkClockBackupSerializer
 import com.iamapo.timetracker.data.WorkDayStore
 import com.iamapo.timetracker.domain.SystemTimeProvider
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
@@ -61,11 +57,12 @@ object TimeTrackerRoute {
         val calendarState by resolvedCalendarViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
         var selectedCalendarDate by remember { mutableStateOf(calendarState.days.firstOrNull { it.isToday }?.date) }
-        var backupStatus by remember { mutableStateOf(BackupUiStatus.None) }
-        var pendingBackupImport by remember { mutableStateOf<PendingBackupImport?>(null) }
-        var canUndoImport by remember(workDayStore) {
-            mutableStateOf(workDayStore.loadPreImportHistory() != null)
-        }
+        val backupStateHolder = rememberBackupStateHolder(
+            workDayStore = workDayStore,
+            repository = repository,
+            timeProvider = timeProvider,
+            backupFileController = backupFileController
+        )
 
         androidx.compose.runtime.LaunchedEffect(state) {
             onStateChanged(state)
@@ -133,82 +130,14 @@ object TimeTrackerRoute {
                             onDecreaseWeeklyTarget = resolvedViewModel::decreaseWeeklyTarget,
                             onIncreaseWeeklyTarget = resolvedViewModel::increaseWeeklyTarget,
                             onLockScreenStatusChanged = resolvedViewModel::setLockScreenStatusEnabled,
-                            backupStatus = backupStatus,
-                            pendingBackupImport = pendingBackupImport,
-                            canUndoImport = canUndoImport,
-                            onExportBackup = {
-                                backupStatus = BackupUiStatus.None
-                                val snapshot = timeProvider.now()
-                                val content = WorkClockBackupSerializer.encode(
-                                    history = repository.history.value,
-                                    createdAtEpochMillis = snapshot.epochMillis
-                                )
-                                backupFileController.saveBackup(
-                                    suggestedFileName = "workclock-backup-${snapshot.date}.${WorkClockBackupSerializer.FileExtension}",
-                                    content = content
-                                ) { result ->
-                                    backupStatus = when (result) {
-                                        BackupFileResult.Success -> BackupUiStatus.Exported
-                                        BackupFileResult.Failure -> BackupUiStatus.Failure
-                                        BackupFileResult.Cancelled -> BackupUiStatus.None
-                                    }
-                                }
-                            },
-                            onImportBackup = {
-                                backupStatus = BackupUiStatus.None
-                                backupFileController.openBackup { result ->
-                                    when (result) {
-                                        is BackupReadResult.Success -> {
-                                            val backup = WorkClockBackupSerializer.decode(result.content)
-                                            if (backup == null) {
-                                                backupStatus = BackupUiStatus.InvalidFile
-                                            } else {
-                                                val dates = backup.history.days.keys
-                                                pendingBackupImport = PendingBackupImport(
-                                                    backup = backup,
-                                                    firstDate = dates.minOrNull()?.toString(),
-                                                    lastDate = dates.maxOrNull()?.toString()
-                                                )
-                                            }
-                                        }
-                                        BackupReadResult.Failure -> backupStatus = BackupUiStatus.Failure
-                                        BackupReadResult.Cancelled -> backupStatus = BackupUiStatus.None
-                                    }
-                                }
-                            },
-                            onCancelImport = { pendingBackupImport = null },
-                            onConfirmImport = {
-                                val candidate = pendingBackupImport
-                                if (candidate != null) {
-                                    pendingBackupImport = null
-                                    runCatching {
-                                        workDayStore.savePreImportHistory(repository.history.value)
-                                        repository.update { candidate.backup.history }
-                                    }.onSuccess {
-                                        canUndoImport = true
-                                        backupStatus = BackupUiStatus.Imported
-                                    }.onFailure {
-                                        backupStatus = BackupUiStatus.Failure
-                                    }
-                                }
-                            },
-                            onUndoImport = {
-                                val previousHistory = workDayStore.loadPreImportHistory()
-                                if (previousHistory == null) {
-                                    canUndoImport = false
-                                    backupStatus = BackupUiStatus.Failure
-                                } else {
-                                    runCatching {
-                                        repository.update { previousHistory }
-                                        workDayStore.clearPreImportHistory()
-                                    }.onSuccess {
-                                        canUndoImport = false
-                                        backupStatus = BackupUiStatus.ImportUndone
-                                    }.onFailure {
-                                        backupStatus = BackupUiStatus.Failure
-                                    }
-                                }
-                            },
+                            backupStatus = backupStateHolder.status,
+                            pendingBackupImport = backupStateHolder.pendingImport,
+                            canUndoImport = backupStateHolder.canUndoImport,
+                            onExportBackup = backupStateHolder::exportBackup,
+                            onImportBackup = backupStateHolder::importBackup,
+                            onCancelImport = backupStateHolder::cancelImport,
+                            onConfirmImport = backupStateHolder::confirmImport,
+                            onUndoImport = backupStateHolder::undoImport,
                             onDeleteAllEntries = resolvedViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )

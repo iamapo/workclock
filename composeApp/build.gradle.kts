@@ -22,6 +22,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(project(":feature:backup"))
             export(project(":feature:lockscreen"))
         }
     }
@@ -32,6 +33,7 @@ kotlin {
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:design"))
+            api(project(":feature:backup"))
             api(project(":feature:lockscreen"))
             implementation(libs.koin.core)
             implementation(libs.compose.runtime)

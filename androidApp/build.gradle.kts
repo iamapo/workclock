@@ -34,6 +34,7 @@ dependencies {
     implementation(project(":composeApp"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
+    implementation(project(":feature:backup"))
     implementation(project(":feature:lockscreen"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.kotlinx.datetime)

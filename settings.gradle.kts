@@ -18,6 +18,7 @@ rootProject.name = "WorkClock"
 include(":composeApp")
 include(":androidApp")
 include(":feature:lockscreen")
+include(":feature:backup")
 include(":core:design")
 include(":core:domain")
 include(":core:data")

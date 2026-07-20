@@ -230,9 +230,9 @@ object SettingsScreen {
         onCancel: () -> Unit,
         onConfirm: () -> Unit
     ) {
-        val period = when {
+        val period: String = when {
             pendingImport.firstDate == null -> stringResource(Res.string.backup_no_days)
-            pendingImport.firstDate == pendingImport.lastDate -> pendingImport.firstDate
+            pendingImport.firstDate == pendingImport.lastDate -> pendingImport.firstDate.orEmpty()
             else -> stringResource(
                 Res.string.backup_period,
                 pendingImport.firstDate.orEmpty(),
