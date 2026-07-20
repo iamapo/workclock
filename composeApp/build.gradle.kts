@@ -30,12 +30,14 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":feature:calendar"))
+            implementation(project(":feature:timetracking"))
+            implementation(project(":feature:settings"))
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:design"))
+            implementation(project(":core:resources"))
             api(project(":feature:backup"))
             api(project(":feature:lockscreen"))
-            implementation(libs.koin.core)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

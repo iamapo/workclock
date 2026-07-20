@@ -13,7 +13,10 @@ kotlin {
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
 
     sourceSets.commonMain.dependencies {
-        implementation(libs.koin.core)
+        implementation(project(":core:domain"))
+        implementation(project(":core:resources"))
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.kotlinx.datetime)
     }
 }
 

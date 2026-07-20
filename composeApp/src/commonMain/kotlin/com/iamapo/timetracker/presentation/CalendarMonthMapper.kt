@@ -10,7 +10,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
-import workclock.composeapp.generated.resources.*
+import com.iamapo.timetracker.resources.*
 
 internal class CalendarMonthMapper {
     fun map(

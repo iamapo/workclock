@@ -7,14 +7,11 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.remember
 import com.iamapo.timetracker.backup.AndroidBackupFileController
 import com.iamapo.timetracker.data.AndroidWorkDayStore
 import com.iamapo.timetracker.lockscreen.AndroidLockScreenStatusController
-import com.iamapo.timetracker.lockscreen.LockScreenStatusController
-import com.iamapo.timetracker.lockscreen.lockScreenFeatureModule
 import com.iamapo.timetracker.ui.TimeTrackerRoute
-import org.koin.dsl.koinApplication
+import com.iamapo.timetracker.app.createWorkClockDependencies
 
 class MainActivity : ComponentActivity() {
     private val backupFileController = AndroidBackupFileController(this)
@@ -28,17 +25,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestNotificationPermissionIfNeeded()
-        val koin = koinApplication {
-            modules(lockScreenFeatureModule(AndroidLockScreenStatusController(applicationContext)))
-        }.koin
+        val dependencies = createWorkClockDependencies(
+            workDayStore = AndroidWorkDayStore(applicationContext),
+            backupFileController = backupFileController,
+            lockScreenStatusController = AndroidLockScreenStatusController(applicationContext)
+        )
         setContent {
-            val workDayStore = remember { AndroidWorkDayStore(applicationContext) }
-            val lockScreenStatusController = remember { koin.get<LockScreenStatusController>() }
-            TimeTrackerRoute(
-                workDayStore = workDayStore,
-                backupFileController = backupFileController,
-                lockScreenStatusController = lockScreenStatusController
-            )
+            TimeTrackerRoute(dependencies = dependencies)
         }
     }
 

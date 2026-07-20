@@ -10,20 +10,20 @@ import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TimeTrackerUiStateMapperTest {
     @Test
     fun calendarPreviewShowsPreviousAndCurrentWeek() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(),
-            snapshot = TimeSnapshot(LocalDate(2026, 7, 13), 9 * 60)
-        )
+        val state = calendarState(WorkDay(), TimeSnapshot(LocalDate(2026, 7, 13), 9 * 60))
 
-        assertEquals(LocalDate(2026, 7, 6), state.calendarPreviewDays.first().date)
-        assertEquals(LocalDate(2026, 7, 19), state.calendarPreviewDays.last().date)
-        assertEquals(14, state.calendarPreviewDays.size)
+        assertEquals(LocalDate(2026, 7, 6), state.previewDays.first().date)
+        assertEquals(LocalDate(2026, 7, 19), state.previewDays.last().date)
+        assertEquals(14, state.previewDays.size)
     }
 
     @Test
@@ -32,10 +32,11 @@ class TimeTrackerUiStateMapperTest {
             day = WorkDay.preview(),
             snapshot = TimeTrackerPreviewData.snapshot
         )
+        val calendarState = calendarState(WorkDay.preview(), TimeTrackerPreviewData.snapshot)
 
         assertEquals("2 h 48 min", state.remainingTime)
         assertEquals("17:21 Uhr", state.endTime)
-        assertEquals("21:40 h", state.reachedWeek)
+        assertEquals("21:40 h", calendarState.reachedWeek)
         assertEquals("Woche", state.metrics[2].label)
         assertEquals("21h 40m", state.metrics[2].value)
         assertEquals("+5 h 40 min Saldo", state.metrics[2].hint)
@@ -60,14 +61,10 @@ class TimeTrackerUiStateMapperTest {
             )
         )
 
-        val state = TimeTrackerUiStateMapper.map(
-            day = history.dayWithWeeklySummary(TimeTrackerPreviewData.snapshot.date),
-            snapshot = TimeTrackerPreviewData.snapshot,
-            history = history.days
-        )
+        val state = AppCalendarStateMapper.map(history, TimeTrackerPreviewData.snapshot)
 
-        val vacationDay = state.calendarDays.first { it.date == vacationDate }
-        val sickDay = state.calendarDays.first { it.date == sickDate }
+        val vacationDay = state.days.first { it.date == vacationDate }
+        val sickDay = state.days.first { it.date == sickDate }
         assertEquals(CalendarDayStyle.Vacation, vacationDay.style)
         assertEquals("", vacationDay.note)
         assertEquals(CalendarDayStyle.Sick, sickDay.style)
@@ -76,12 +73,12 @@ class TimeTrackerUiStateMapperTest {
 
     @Test
     fun weekOverviewBalancesAgainstExpectedWorkUntilToday() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(
+        val state = calendarState(
+            WorkDay(
                 status = WorkStatus.Finished,
                 workedMinutes = 8 * 60 + 10
             ),
-            snapshot = TimeSnapshot(
+            TimeSnapshot(
                 date = LocalDate(2026, 7, 6),
                 minuteOfDay = 18 * 60
             )
@@ -94,13 +91,13 @@ class TimeTrackerUiStateMapperTest {
 
     @Test
     fun weekOverviewIncludesBalanceCarriedFromPreviousWeek() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(
+        val state = calendarState(
+            WorkDay(
                 status = WorkStatus.Finished,
                 workedMinutes = 7 * 60 + 30,
                 weeklyBalanceCarryMinutes = 30
             ),
-            snapshot = TimeSnapshot(
+            TimeSnapshot(
                 date = LocalDate(2026, 7, 13),
                 minuteOfDay = 18 * 60
             )
@@ -116,9 +113,9 @@ class TimeTrackerUiStateMapperTest {
 
     @Test
     fun negativeBalanceCarryKeepsPlannedWeekAndAppearsInCarry() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(weeklyBalanceCarryMinutes = -30),
-            snapshot = TimeSnapshot(
+        val state = calendarState(
+            WorkDay(weeklyBalanceCarryMinutes = -30),
+            TimeSnapshot(
                 date = LocalDate(2026, 7, 13),
                 minuteOfDay = 8 * 60
             )
@@ -131,13 +128,13 @@ class TimeTrackerUiStateMapperTest {
 
     @Test
     fun fridayBalanceBecomesCarryForFollowingWeek() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(
+        val state = calendarState(
+            WorkDay(
                 status = WorkStatus.Finished,
                 workedMinutes = 8 * 60 + 30,
                 weeklyWorkedBeforeTodayMinutes = 32 * 60
             ),
-            snapshot = TimeSnapshot(
+            TimeSnapshot(
                 date = LocalDate(2026, 7, 10),
                 minuteOfDay = 18 * 60
             )
@@ -149,14 +146,14 @@ class TimeTrackerUiStateMapperTest {
 
     @Test
     fun weekOverviewUsesConfiguredWeeklyTarget() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(
+        val state = calendarState(
+            WorkDay(
                 status = WorkStatus.Finished,
                 workedMinutes = 7 * 60 + 30,
                 weeklyWorkedBeforeTodayMinutes = 30 * 60,
                 config = WorkDayConfig(weeklyTargetMinutes = 37 * 60 + 30)
             ),
-            snapshot = TimeSnapshot(
+            TimeSnapshot(
                 date = LocalDate(2026, 7, 10),
                 minuteOfDay = 18 * 60
             )
@@ -190,20 +187,18 @@ class TimeTrackerUiStateMapperTest {
     }
 
     @Test
-    fun settingsAndPlannedCalendarUseConfiguredTargets() {
-        val state = TimeTrackerUiStateMapper.map(
-            day = WorkDay(
+    fun plannedCalendarUsesConfiguredDailyTarget() {
+        val state = calendarState(
+            WorkDay(
                 config = WorkDayConfig(
                     dailyTargetMinutes = 7 * 60 + 30,
                     weeklyTargetMinutes = 37 * 60 + 30
                 )
             ),
-            snapshot = TimeTrackerPreviewData.snapshot
+            TimeTrackerPreviewData.snapshot
         )
 
-        val plannedDay = state.calendarDays.first { it.date == LocalDate(2026, 7, 8) }
-        assertEquals("7:30 h", state.settings.dailyTarget)
-        assertEquals("37:30 h", state.settings.weeklyTarget)
+        val plannedDay = state.days.first { it.date == LocalDate(2026, 7, 8) }
         assertEquals("7:30", plannedDay.note)
     }
 
@@ -228,5 +223,25 @@ class TimeTrackerUiStateMapperTest {
         assertEquals("Arbeitstag beendet", state.timeline.last().title)
         assertEquals("17:00", state.timeline.last().time)
         assertEquals(false, state.timeline.any { it.title == "Geplanter Feierabend" })
+    }
+
+    private fun calendarState(day: WorkDay, snapshot: TimeSnapshot): com.iamapo.timetracker.presentation.state.CalendarUiState {
+        val days = mutableMapOf(snapshot.date to day)
+        if (day.weeklyWorkedBeforeTodayMinutes != 0) {
+            days[snapshot.date - DatePeriod(days = 1)] = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = day.weeklyWorkedBeforeTodayMinutes,
+                config = day.config
+            )
+        }
+        if (day.weeklyBalanceCarryMinutes != 0) {
+            val weekStart = snapshot.date - DatePeriod(days = snapshot.date.dayOfWeek.isoDayNumber - 1)
+            days[weekStart - DatePeriod(days = 1)] = WorkDay(
+                status = WorkStatus.Finished,
+                workedMinutes = day.config.weeklyTargetMinutes + day.weeklyBalanceCarryMinutes,
+                config = day.config
+            )
+        }
+        return AppCalendarStateMapper.map(WorkHistory(defaultConfig = day.config, days = days), snapshot)
     }
 }

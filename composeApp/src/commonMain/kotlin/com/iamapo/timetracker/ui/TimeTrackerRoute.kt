@@ -8,22 +8,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.iamapo.timetracker.backup.BackupFileController
-import com.iamapo.timetracker.backup.NoOpBackupFileController
+import com.iamapo.timetracker.app.WorkClockDependencies
 import com.iamapo.timetracker.backup.rememberBackupStateHolder
-import com.iamapo.timetracker.data.NoOpWorkDayStore
-import com.iamapo.timetracker.data.PersistedWorkHistoryRepository
-import com.iamapo.timetracker.data.WorkDayStore
-import com.iamapo.timetracker.domain.SystemTimeProvider
-import com.iamapo.timetracker.lockscreen.LockScreenStatusController
-import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
+import com.iamapo.timetracker.lockscreen.LockScreenStatusCoordinator
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
 import com.iamapo.timetracker.presentation.CalendarViewModel
+import com.iamapo.timetracker.presentation.SettingsViewModel
 import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
+import com.iamapo.timetracker.ui.components.CalendarPanel
 import com.iamapo.timetracker.ui.components.MainTab
 import com.iamapo.timetracker.ui.screens.CalendarEditorScreen
 import com.iamapo.timetracker.ui.screens.SettingsScreen
@@ -33,35 +28,34 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 object TimeTrackerRoute {
     @Composable
     operator fun invoke(
-        workDayStore: WorkDayStore = NoOpWorkDayStore,
-        backupFileController: BackupFileController = NoOpBackupFileController,
-        lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController,
+        dependencies: WorkClockDependencies,
         onViewModelReady: (TimeTrackerViewModel) -> Unit = {},
         onStateChanged: (TimeTrackerUiState) -> Unit = {}
     ) {
-        val timeProvider = remember { SystemTimeProvider() }
-        val repository = remember(workDayStore) {
-            PersistedWorkHistoryRepository(store = workDayStore, today = timeProvider.now().date)
-        }
+        val timeProvider = dependencies.timeProvider
+        val repository = dependencies.repository
         val resolvedViewModel = viewModel {
             TimeTrackerViewModel(
                 timeProvider = timeProvider,
-                repository = repository,
-                lockScreenStatusController = lockScreenStatusController
+                repository = repository
             )
         }
         val resolvedCalendarViewModel = viewModel {
             CalendarViewModel(repository, timeProvider, AppCalendarStateMapper)
         }
+        val resolvedSettingsViewModel = viewModel {
+            SettingsViewModel(repository, timeProvider)
+        }
         val state by resolvedViewModel.uiState.collectAsState()
         val calendarState by resolvedCalendarViewModel.uiState.collectAsState()
+        val settingsState by resolvedSettingsViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
         var selectedCalendarDate by remember { mutableStateOf(calendarState.days.firstOrNull { it.isToday }?.date) }
         val backupStateHolder = rememberBackupStateHolder(
-            workDayStore = workDayStore,
+            workDayStore = dependencies.workDayStore,
             repository = repository,
             timeProvider = timeProvider,
-            backupFileController = backupFileController
+            backupFileController = dependencies.backupFileController
         )
 
         androidx.compose.runtime.LaunchedEffect(state) {
@@ -69,6 +63,9 @@ object TimeTrackerRoute {
         }
         androidx.compose.runtime.LaunchedEffect(resolvedViewModel) {
             onViewModelReady(resolvedViewModel)
+        }
+        androidx.compose.runtime.LaunchedEffect(repository, dependencies.lockScreenStatusController) {
+            LockScreenStatusCoordinator(repository, timeProvider, dependencies.lockScreenStatusController).run()
         }
 
         TimeTrackerTheme {
@@ -93,12 +90,18 @@ object TimeTrackerRoute {
                             state = state,
                             onPrimaryAction = resolvedViewModel::onPrimaryAction,
                             onSecondaryAction = resolvedViewModel::onSecondaryAction,
-                            onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
-                            onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
-                            onOpenCalendar = {
-                                selectedCalendarDate = calendarState.days.firstOrNull { it.isToday }?.date
-                                    ?: calendarState.days.firstOrNull()?.date
-                                activeTab = MainTab.Calendar
+                            calendarContent = {
+                                CalendarPanel(
+                                    monthTitle = calendarState.monthTitle,
+                                    days = calendarState.previewDays,
+                                    plannedWeek = calendarState.plannedWeek,
+                                    reachedWeek = calendarState.reachedWeek,
+                                    onOpenCalendar = {
+                                        selectedCalendarDate = calendarState.days.firstOrNull { it.isToday }?.date
+                                            ?: calendarState.days.firstOrNull()?.date
+                                        activeTab = MainTab.Calendar
+                                    }
+                                )
                             },
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
@@ -122,14 +125,14 @@ object TimeTrackerRoute {
                     }
                     MainTab.Settings -> {
                         SettingsScreen(
-                            state = state,
-                            onDecreaseDailyTarget = resolvedViewModel::decreaseDailyTarget,
-                            onIncreaseDailyTarget = resolvedViewModel::increaseDailyTarget,
-                            onDecreaseRequiredBreak = resolvedViewModel::decreaseRequiredBreak,
-                            onIncreaseRequiredBreak = resolvedViewModel::increaseRequiredBreak,
-                            onDecreaseWeeklyTarget = resolvedViewModel::decreaseWeeklyTarget,
-                            onIncreaseWeeklyTarget = resolvedViewModel::increaseWeeklyTarget,
-                            onLockScreenStatusChanged = resolvedViewModel::setLockScreenStatusEnabled,
+                            state = settingsState,
+                            onDecreaseDailyTarget = resolvedSettingsViewModel::decreaseDailyTarget,
+                            onIncreaseDailyTarget = resolvedSettingsViewModel::increaseDailyTarget,
+                            onDecreaseRequiredBreak = resolvedSettingsViewModel::decreaseRequiredBreak,
+                            onIncreaseRequiredBreak = resolvedSettingsViewModel::increaseRequiredBreak,
+                            onDecreaseWeeklyTarget = resolvedSettingsViewModel::decreaseWeeklyTarget,
+                            onIncreaseWeeklyTarget = resolvedSettingsViewModel::increaseWeeklyTarget,
+                            onLockScreenStatusChanged = resolvedSettingsViewModel::setLockScreenStatusEnabled,
                             backupStatus = backupStateHolder.status,
                             pendingBackupImport = backupStateHolder.pendingImport,
                             canUndoImport = backupStateHolder.canUndoImport,
@@ -138,7 +141,7 @@ object TimeTrackerRoute {
                             onCancelImport = backupStateHolder::cancelImport,
                             onConfirmImport = backupStateHolder::confirmImport,
                             onUndoImport = backupStateHolder::undoImport,
-                            onDeleteAllEntries = resolvedViewModel::deleteAllEntries,
+                            onDeleteAllEntries = resolvedSettingsViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }
@@ -146,15 +149,4 @@ object TimeTrackerRoute {
             }
         }
     }
-}
-
-@Preview(
-    name = "Route - Bottom Navigation",
-    showBackground = true,
-    backgroundColor = 0xFFFFFAF2,
-    device = "spec:width=411dp,height=891dp,dpi=420"
-)
-@Composable
-private fun TimeTrackerRoutePreview() {
-    TimeTrackerRoute()
 }

@@ -38,5 +38,4 @@ dependencies {
     implementation(project(":feature:lockscreen"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.kotlinx.datetime)
-    implementation(libs.koin.core)
 }

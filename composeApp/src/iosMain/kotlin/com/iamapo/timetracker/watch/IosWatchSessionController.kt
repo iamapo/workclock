@@ -1,6 +1,7 @@
 package com.iamapo.timetracker.watch
 
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
+import com.iamapo.timetracker.domain.TimeTrackingCommand
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.datetime.LocalDate
@@ -31,11 +32,12 @@ private const val WatchCommandStartDay = "startDay"
 private const val WatchCommandStartBreak = "startBreak"
 private const val WatchCommandResumeWork = "resumeWork"
 private const val WatchCommandStartNewDay = "startNewDay"
+private const val WatchCommandEndDay = "endDay"
 
 @OptIn(ExperimentalForeignApi::class)
 class IosWatchSessionController(
-    private val onCommand: (String) -> Unit,
-    private val onEvent: (String, LocalDate, Int) -> Boolean
+    private val onCommand: (TimeTrackingCommand) -> Unit,
+    private val onEvent: (TimeTrackingCommand, LocalDate, Int) -> Boolean
 ) : NSObject(), WCSessionDelegateProtocol {
     private val session: WCSession? =
         if (WCSession.isSupported()) WCSession.defaultSession else null
@@ -53,7 +55,7 @@ class IosWatchSessionController(
             KeyCaption to state.watchCaption,
             KeyPrimaryAction to state.primaryActionLabel,
             KeySecondaryAction to (state.secondaryActionLabel ?: ""),
-            KeyCommand to commandForPrimaryAction(state.primaryActionLabel)
+            KeyCommand to state.primaryCommand.wireValue()
         )
         session?.sendMessage(payload, replyHandler = null, errorHandler = null)
         runCatching {
@@ -109,7 +111,7 @@ class IosWatchSessionController(
             return event.id
         }
 
-        val command = payload[KeyCommand] as? String ?: return null
+        val command = (payload[KeyCommand] as? String)?.toTimeTrackingCommand() ?: return null
         onCommand(command)
         return null
     }
@@ -120,7 +122,7 @@ class IosWatchSessionController(
         }
 
         val id = payload[KeyEventId] as? String ?: return null
-        val command = payload[KeyCommand] as? String ?: return null
+        val command = (payload[KeyCommand] as? String)?.toTimeTrackingCommand() ?: return null
         val date = (payload[KeyOccurredAtDate] as? String)
             ?.let { raw -> runCatching { LocalDate.parse(raw) }.getOrNull() }
             ?: return null
@@ -154,17 +156,28 @@ class IosWatchSessionController(
         KeyAcknowledgedEventId to eventId
     )
 
-    private fun commandForPrimaryAction(label: String): String = when (label) {
-        "Tag starten" -> WatchCommandStartDay
-        "Pause starten" -> WatchCommandStartBreak
-        "Weiterarbeiten" -> WatchCommandResumeWork
-        "Neuen Tag starten" -> WatchCommandStartNewDay
-        else -> WatchCommandPrimary
+    private fun TimeTrackingCommand.wireValue(): String = when (this) {
+        TimeTrackingCommand.Primary -> WatchCommandPrimary
+        TimeTrackingCommand.StartDay -> WatchCommandStartDay
+        TimeTrackingCommand.StartBreak -> WatchCommandStartBreak
+        TimeTrackingCommand.ResumeWork -> WatchCommandResumeWork
+        TimeTrackingCommand.StartNewDay -> WatchCommandStartNewDay
+        TimeTrackingCommand.EndDay -> WatchCommandEndDay
+    }
+
+    private fun String.toTimeTrackingCommand(): TimeTrackingCommand? = when (this) {
+        WatchCommandPrimary -> TimeTrackingCommand.Primary
+        WatchCommandStartDay -> TimeTrackingCommand.StartDay
+        WatchCommandStartBreak -> TimeTrackingCommand.StartBreak
+        WatchCommandResumeWork -> TimeTrackingCommand.ResumeWork
+        WatchCommandStartNewDay -> TimeTrackingCommand.StartNewDay
+        WatchCommandEndDay -> TimeTrackingCommand.EndDay
+        else -> null
     }
 
     private data class WatchEvent(
         val id: String,
-        val command: String,
+        val command: TimeTrackingCommand,
         val date: LocalDate,
         val minuteOfDay: Int
     )

@@ -9,34 +9,30 @@ import com.iamapo.timetracker.backup.IosBackupFileController
 import com.iamapo.timetracker.data.IosWorkDayStore
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
-import com.iamapo.timetracker.lockscreen.lockScreenFeatureModule
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.ui.TimeTrackerRoute
 import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.watch.IosWatchSessionController
+import com.iamapo.timetracker.app.createWorkClockDependencies
 import platform.UIKit.UIViewController
-import org.koin.dsl.koinApplication
 
 fun MainViewController(): UIViewController = MainViewController(NoOpLockScreenStatusController)
 
 fun MainViewController(lockScreenStatusController: LockScreenStatusController): UIViewController {
     var rootController: UIViewController? = null
     val backupFileController = IosBackupFileController { rootController }
+    val dependencies = createWorkClockDependencies(
+        workDayStore = IosWorkDayStore(),
+        backupFileController = backupFileController,
+        lockScreenStatusController = lockScreenStatusController
+    )
 
     rootController = ComposeUIViewController {
-        val injectedLockScreenController = remember(lockScreenStatusController) {
-            koinApplication {
-                modules(lockScreenFeatureModule(lockScreenStatusController))
-            }.koin.get<LockScreenStatusController>()
-        }
-        val workDayStore = remember { IosWorkDayStore() }
         var watchSession by remember { mutableStateOf<IosWatchSessionController?>(null) }
 
         TimeTrackerRoute(
-            workDayStore = workDayStore,
-            backupFileController = backupFileController,
-            lockScreenStatusController = injectedLockScreenController,
+            dependencies = dependencies,
             onViewModelReady = { viewModel ->
                 if (watchSession == null) {
                     watchSession = IosWatchSessionController(
@@ -57,9 +53,6 @@ fun PreviewViewController(): UIViewController = ComposeUIViewController {
             state = TimeTrackerPreviewData.uiState,
             onPrimaryAction = {},
             onSecondaryAction = {},
-            onDecreaseRequiredBreak = {},
-            onIncreaseRequiredBreak = {},
-            onOpenCalendar = {}
         )
     }
 }

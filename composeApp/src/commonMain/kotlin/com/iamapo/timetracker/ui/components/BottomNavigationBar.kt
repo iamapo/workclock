@@ -24,10 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
-import workclock.composeapp.generated.resources.Res
-import workclock.composeapp.generated.resources.nav_settings
-import workclock.composeapp.generated.resources.nav_today
-import workclock.composeapp.generated.resources.nav_week
+import com.iamapo.timetracker.resources.Res
+import com.iamapo.timetracker.resources.nav_settings
+import com.iamapo.timetracker.resources.nav_today
+import com.iamapo.timetracker.resources.nav_week
 
 enum class MainTab(val icon: String) {
     Today("⌂"), Calendar("▦"), Settings("⚙")
