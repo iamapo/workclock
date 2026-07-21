@@ -18,6 +18,7 @@ data class TimeTrackerUiState(
     val metrics: List<MetricUiModel>,
     val timeline: List<TimelineItemUiModel>,
     val watchState: String,
+    val watchProgress: Float,
     val watchRemaining: String,
     val watchCaption: String,
     val watchBreakStartedMinute: Int?

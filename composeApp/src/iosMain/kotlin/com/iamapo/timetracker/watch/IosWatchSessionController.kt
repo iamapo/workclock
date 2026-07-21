@@ -15,6 +15,7 @@ import platform.darwin.NSObject
 
 private const val KeyMessageType = "messageType"
 private const val KeyState = "state"
+private const val KeyProgress = "progress"
 private const val KeyRemaining = "remaining"
 private const val KeyCaption = "caption"
 private const val KeyBreakStartedMinute = "breakStartedMinute"
@@ -52,6 +53,7 @@ class IosWatchSessionController(
     fun publish(state: TimeTrackerUiState) {
         val payload: Map<Any?, Any> = mapOf(
             KeyState to state.watchState,
+            KeyProgress to state.watchProgress,
             KeyRemaining to state.watchRemaining,
             KeyCaption to state.watchCaption,
             KeyBreakStartedMinute to (state.watchBreakStartedMinute ?: NoBreakStartedMinute),

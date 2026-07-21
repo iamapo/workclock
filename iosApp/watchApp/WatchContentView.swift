@@ -30,7 +30,7 @@ struct WatchContentView: View {
                     Circle()
                         .stroke(.white.opacity(0.10), lineWidth: 11)
                     Circle()
-                        .trim(from: 0, to: ringProgress)
+                        .trim(from: 0, to: session.progress.clamped(to: 0...1))
                         .stroke(accentColor, style: StrokeStyle(lineWidth: 11, lineCap: .round))
                         .rotationEffect(.degrees(-90))
 
@@ -98,19 +98,6 @@ struct WatchContentView: View {
         return "play.fill"
     }
 
-    private var ringProgress: Double {
-        if session.state.localizedCaseInsensitiveContains("Fertig") {
-            return 1
-        }
-        if session.state.localizedCaseInsensitiveContains("Bereit") {
-            return 0.08
-        }
-        if session.state.localizedCaseInsensitiveContains("Pause") {
-            return 0.55
-        }
-        return 0.65
-    }
-
     private var isPaused: Bool {
         session.state.localizedCaseInsensitiveContains("Pause")
     }
@@ -121,6 +108,12 @@ struct WatchContentView: View {
 
     private static let mint = Color(red: 0.40, green: 0.87, blue: 0.71)
     private static let lemon = Color(red: 1.0, green: 0.85, blue: 0.30)
+}
+
+private extension Comparable {
+    func clamped(to limits: ClosedRange<Self>) -> Self {
+        min(max(self, limits.lowerBound), limits.upperBound)
+    }
 }
 
 #Preview {

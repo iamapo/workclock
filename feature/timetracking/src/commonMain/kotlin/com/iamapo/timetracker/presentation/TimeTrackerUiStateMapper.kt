@@ -74,6 +74,7 @@ object TimeTrackerUiStateMapper {
             ),
             timeline = timelineMapper.map(day, summary.endMinute),
             watchState = watchState(day.status),
+            watchProgress = summary.progress,
             watchRemaining = if (day.status == WorkStatus.Finished) {
                 "0:00"
             } else {

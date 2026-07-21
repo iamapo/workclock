@@ -3,6 +3,7 @@ import WatchConnectivity
 
 final class WatchSessionModel: NSObject, ObservableObject {
     @Published private(set) var state = "Bereit"
+    @Published private(set) var progress = 0.08
     @Published private(set) var remaining = "0:00"
     @Published private(set) var caption = "iPhone verbinden"
     @Published private(set) var primaryAction = "Tag starten"
@@ -100,6 +101,13 @@ final class WatchSessionModel: NSObject, ObservableObject {
 
     private func applyState(_ payload: [String: Any]) {
         state = payload["state"] as? String ?? state
+        if let receivedProgress = payload[PayloadKey.progress] as? Double {
+            progress = receivedProgress
+        } else if let receivedProgress = payload[PayloadKey.progress] as? Float {
+            progress = Double(receivedProgress)
+        } else if let receivedProgress = payload[PayloadKey.progress] as? NSNumber {
+            progress = receivedProgress.doubleValue
+        }
         remaining = payload["remaining"] as? String ?? remaining
         caption = payload["caption"] as? String ?? caption
         primaryAction = payload["primaryAction"] as? String ?? primaryAction
@@ -377,6 +385,7 @@ private enum PayloadKey {
     static let messageType = "messageType"
     static let eventId = "eventId"
     static let command = "command"
+    static let progress = "progress"
     static let occurredAtDate = "occurredAtDate"
     static let occurredAtMinuteOfDay = "occurredAtMinuteOfDay"
     static let occurredAtEpochMillis = "occurredAtEpochMillis"
