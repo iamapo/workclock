@@ -1,51 +1,51 @@
 # WorkClock
 
-Kotlin-Multiplatform-Arbeitszeittracker mit gemeinsamer Compose-UI, MVVM-State und Android-/iOS-Hosts.
+Kotlin Multiplatform work time tracker with a shared Compose UI, MVVM state, and Android/iOS hosts.
 
-## Struktur
+## Structure
 
-- `composeApp`: App-Shell, Navigation, Composition Root und plattformspezifischer iOS-Einstieg
-- `androidApp`: Android-Host und Android-spezifische Integrationen
-- `feature/timetracking`: Zeiterfassung, Timeline und Today-UI
-- `feature/calendar`: Kalenderzustand, Bearbeitung und Kalender-UI
-- `feature/settings`: Einstellungszustand und Settings-UI
-- `feature/backup`: Import/Export von Sicherungen
-- `feature/lockscreen`: plattformuebergreifende Lock-Screen-Koordination
-- `core/domain`: Domain-Modell, Repository-Vertraege, Berechnungen und Use Cases
-- `core/data`: Persistenz und plattformspezifische Dateninfrastruktur
-- `core/design`: gemeinsames Theme und wiederverwendbare UI-Bausteine
-- `core/resources`: lokalisierte Compose-Ressourcen und Textformatierung
-- `iosApp`: SwiftUI Host-App mit Xcode-Scheme und iOS Preview
-- `mockups/time-tracker`: urspruengliches HTML/CSS-Mockup
-- `mockups/workclock-playful`: neuer, bunter V2-Mockup-Entwurf mit Apple-Watch-Interface
+- `composeApp`: app shell, navigation, composition root, and platform-specific iOS entry point
+- `androidApp`: Android host and Android-specific integrations
+- `feature/timetracking`: time tracking, timeline, and Today UI
+- `feature/calendar`: calendar state, editing, and calendar UI
+- `feature/settings`: settings state and settings UI
+- `feature/backup`: backup import/export
+- `feature/lockscreen`: cross-platform lock screen coordination
+- `core/domain`: domain model, repository contracts, calculations, and use cases
+- `core/data`: persistence and platform-specific data infrastructure
+- `core/design`: shared theme and reusable UI building blocks
+- `core/resources`: localized Compose resources and text formatting
+- `iosApp`: SwiftUI host app with Xcode scheme and iOS preview
+- `mockups/time-tracker`: original HTML/CSS mockup
+- `mockups/workclock-playful`: newer colorful V2 mockup concept with Apple Watch interface
 
-## Architektur
+## Architecture
 
-WorkClock verwendet einen feature-orientierten modularen Monolithen mit Clean-Architecture-Abhaengigkeitsrichtung:
+WorkClock uses a feature-oriented modular monolith with a Clean Architecture dependency direction:
 
 ```text
 androidApp / iosApp
         |
-    composeApp                 App-Shell und Composition Root
+    composeApp                 App shell and composition root
         |
  feature:*  ------------->  core:design / core:resources
         |
     core:data  ----------->  core:domain
 ```
 
-- `core:domain` kennt weder UI noch Plattformcode. Fachliche Aktionen wie Start, Pause und Stopp werden als typisierte `TimeTrackingCommand`s an Use Cases uebergeben.
-- Jedes Feature besitzt seinen eigenen UI-State, Mapper, ViewModel und seine Compose-Oberflaeche. Tracking, Kalender und Einstellungen koennen dadurch unabhaengig weiterentwickelt und getestet werden.
-- `composeApp` verbindet die Features, steuert die Tab-Navigation und injiziert die in den Plattform-Hosts erzeugten `WorkClockDependencies`.
-- Externe Seiteneffekte liegen hinter Schnittstellen beziehungsweise Koordinatoren. Beispielsweise publiziert `LockScreenStatusCoordinator` den Lock-Screen-Zustand unabhaengig vom Tracking-ViewModel.
-- Der Datenfluss ist unidirektional: UI-Aktion -> ViewModel -> Use Case/Repository -> StateFlow -> UI-State.
-- Feature-Module greifen nicht auf Implementierungsdetails anderer Features zu. Uebergreifende Darstellung wird von der App-Shell zusammengesetzt; stabile gemeinsame Bausteine gehoeren in ein passendes `core:*`-Modul.
+- `core:domain` knows nothing about UI or platform code. Domain actions such as start, pause, and stop are passed to use cases as typed `TimeTrackingCommand`s.
+- Each feature owns its own UI state, mapper, view model, and Compose surface. That keeps tracking, calendar, and settings independently evolvable and testable.
+- `composeApp` wires the features together, manages tab navigation, and injects the `WorkClockDependencies` created by the platform hosts.
+- External side effects sit behind interfaces or coordinators. For example, `LockScreenStatusCoordinator` publishes lock screen state independently of the tracking view model.
+- Data flow is unidirectional: UI action -> ViewModel -> Use case/repository -> StateFlow -> UI state.
+- Feature modules do not rely on implementation details from other features. Cross-feature presentation is composed by the app shell; stable shared building blocks belong in an appropriate `core:*` module.
 
 ## Previews
 
 - Android: `composeApp/src/androidMain/kotlin/com/iamapo/timetracker/AndroidTimeTrackerPreview.kt`
 - iOS: `iosApp/iosApp/TimeTrackerPreview.swift`
 
-## Gepruefte Befehle
+## Verified Commands
 
 ```bash
 ./gradlew :androidApp:compileDebugKotlin --offline
