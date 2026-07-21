@@ -22,6 +22,14 @@ android {
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["appLabel"] = "WorkClock"
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            manifestPlaceholders["appLabel"] = "WorkClock DEBUG"
+        }
     }
 
     compileOptions {
