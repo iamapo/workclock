@@ -5,6 +5,8 @@ import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkDayConfig
 import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
+import com.iamapo.timetracker.domain.GermanFederalState
+import com.iamapo.timetracker.domain.WorkSchedule
 import kotlinx.datetime.LocalDate
 
 object WorkHistorySerializer {
@@ -18,6 +20,15 @@ object WorkHistorySerializer {
         appendLine("defaultRequiredBreakMinutes=${history.defaultConfig.requiredBreakMinutes}")
         appendLine("defaultWeeklyTargetMinutes=${history.defaultConfig.weeklyTargetMinutes}")
         appendLine("lockScreenStatusEnabled=${history.lockScreenStatusEnabled}")
+        appendLine("automaticHolidaysEnabled=${history.automaticHolidaysEnabled}")
+        appendLine("holidayFederalState=${history.holidayFederalState?.name ?: NullValue}")
+        appendLine("scheduleMondayMinutes=${history.workSchedule.mondayMinutes}")
+        appendLine("scheduleTuesdayMinutes=${history.workSchedule.tuesdayMinutes}")
+        appendLine("scheduleWednesdayMinutes=${history.workSchedule.wednesdayMinutes}")
+        appendLine("scheduleThursdayMinutes=${history.workSchedule.thursdayMinutes}")
+        appendLine("scheduleFridayMinutes=${history.workSchedule.fridayMinutes}")
+        appendLine("scheduleSaturdayMinutes=${history.workSchedule.saturdayMinutes}")
+        appendLine("scheduleSundayMinutes=${history.workSchedule.sundayMinutes}")
         history.days.entries
             .sortedBy { (date, _) -> date.toString() }
             .forEach { (date, day) ->
@@ -56,13 +67,32 @@ object WorkHistorySerializer {
             }
 
         require(hasSupportedVersion)
-        WorkHistory(
-            defaultConfig = WorkDayConfig(
+        val defaultConfig = WorkDayConfig(
                 dailyTargetMinutes = values["defaultDailyTargetMinutes"]?.toInt() ?: WorkDayConfig().dailyTargetMinutes,
                 requiredBreakMinutes = values["defaultRequiredBreakMinutes"]?.toInt() ?: WorkDayConfig().requiredBreakMinutes,
                 weeklyTargetMinutes = values["defaultWeeklyTargetMinutes"]?.toInt() ?: WorkDayConfig().weeklyTargetMinutes
-            ),
+            )
+        val workSchedule = if (values["scheduleMondayMinutes"] != null) {
+            WorkSchedule(
+                mondayMinutes = values.getValue("scheduleMondayMinutes").toInt(),
+                tuesdayMinutes = values.getValue("scheduleTuesdayMinutes").toInt(),
+                wednesdayMinutes = values.getValue("scheduleWednesdayMinutes").toInt(),
+                thursdayMinutes = values.getValue("scheduleThursdayMinutes").toInt(),
+                fridayMinutes = values.getValue("scheduleFridayMinutes").toInt(),
+                saturdayMinutes = values.getValue("scheduleSaturdayMinutes").toInt(),
+                sundayMinutes = values.getValue("scheduleSundayMinutes").toInt()
+            )
+        } else {
+            WorkSchedule.fromConfig(defaultConfig)
+        }
+        WorkHistory(
+            defaultConfig = defaultConfig,
             lockScreenStatusEnabled = values["lockScreenStatusEnabled"]?.toBooleanStrictOrNull() ?: false,
+            workSchedule = workSchedule,
+            automaticHolidaysEnabled = values["automaticHolidaysEnabled"]?.toBooleanStrictOrNull() ?: false,
+            holidayFederalState = values["holidayFederalState"]
+                ?.takeUnless { value -> value == NullValue }
+                ?.let { value -> enumValueOf<GermanFederalState>(value) },
             days = days
         )
     }.getOrNull()

@@ -31,7 +31,7 @@ class EditCalendarDayUseCase(
     fun setForgottenWorkDay(date: LocalDate) {
         repository.update { history ->
             val current = history.dayFor(date)
-            val targetMinutes = history.defaultConfig.dailyTargetMinutes.coerceAtLeast(0)
+            val targetMinutes = history.scheduledTargetMinutes(date).coerceAtLeast(0)
             val hasBreak = targetMinutes > WorkBeforeBreakMinutes
             val endMinute = if (hasBreak) {
                 WorkDayBreakEndMinute + targetMinutes - WorkBeforeBreakMinutes
@@ -129,7 +129,7 @@ class EditCalendarDayUseCase(
         title: String
     ) {
         repository.update { history ->
-            history.updateDay(date, kind, history.defaultConfig.dailyTargetMinutes, title)
+            history.updateDay(date, kind, history.targetMinutes(date), title)
         }
     }
 

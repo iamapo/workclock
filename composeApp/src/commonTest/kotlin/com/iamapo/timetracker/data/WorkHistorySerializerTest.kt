@@ -7,6 +7,8 @@ import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
 import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.WorkStatus
+import com.iamapo.timetracker.domain.GermanFederalState
+import com.iamapo.timetracker.domain.WorkSchedule
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -72,6 +74,15 @@ class WorkHistorySerializerTest {
         val history = WorkHistory(
             defaultConfig = WorkDayConfig(requiredBreakMinutes = 35),
             lockScreenStatusEnabled = true,
+            workSchedule = WorkSchedule(
+                mondayMinutes = 6 * 60,
+                tuesdayMinutes = 7 * 60,
+                wednesdayMinutes = 8 * 60,
+                thursdayMinutes = 6 * 60,
+                fridayMinutes = 5 * 60
+            ),
+            automaticHolidaysEnabled = true,
+            holidayFederalState = GermanFederalState.Hamburg,
             days = mapOf(
                 LocalDate(2026, 7, 6) to monday,
                 LocalDate(2026, 7, 7) to tuesday
@@ -88,5 +99,23 @@ class WorkHistorySerializerTest {
     @Test
     fun returnsNullForInvalidHistoryData() {
         assertNull(WorkHistorySerializer.decodeHistory("not persisted history"))
+    }
+
+    @Test
+    fun migratesHistoryWithoutWorkSchedule() {
+        val decoded = WorkHistorySerializer.decodeHistory(
+            """
+            historyVersion=1
+            defaultDailyTargetMinutes=450
+            defaultRequiredBreakMinutes=30
+            defaultWeeklyTargetMinutes=2280
+            lockScreenStatusEnabled=false
+            """.trimIndent()
+        )
+
+        assertEquals(450, decoded?.workSchedule?.wednesdayMinutes)
+        assertEquals(2280, decoded?.workSchedule?.weeklyTargetMinutes)
+        assertEquals(false, decoded?.automaticHolidaysEnabled)
+        assertNull(decoded?.holidayFederalState)
     }
 }

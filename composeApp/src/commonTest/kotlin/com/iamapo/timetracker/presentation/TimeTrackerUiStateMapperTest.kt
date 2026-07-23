@@ -7,6 +7,7 @@ import com.iamapo.timetracker.domain.WorkEvent
 import com.iamapo.timetracker.domain.WorkEventKind
 import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.WorkStatus
+import com.iamapo.timetracker.domain.WorkSchedule
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import kotlinx.datetime.LocalDate
@@ -146,12 +147,24 @@ class TimeTrackerUiStateMapperTest {
 
     @Test
     fun weekOverviewUsesConfiguredWeeklyTarget() {
-        val state = calendarState(
-            WorkDay(
+        val day = WorkDay(
                 status = WorkStatus.Finished,
                 workedMinutes = 7 * 60 + 30,
                 weeklyWorkedBeforeTodayMinutes = 30 * 60,
                 config = WorkDayConfig(weeklyTargetMinutes = 37 * 60 + 30)
+            )
+        val state = AppCalendarStateMapper.map(
+            WorkHistory(
+                defaultConfig = day.config,
+                workSchedule = WorkSchedule.weekdays(7 * 60 + 30),
+                days = mapOf(
+                    LocalDate(2026, 7, 9) to WorkDay(
+                        status = WorkStatus.Finished,
+                        workedMinutes = 30 * 60,
+                        config = day.config
+                    ),
+                    LocalDate(2026, 7, 10) to day
+                )
             ),
             TimeSnapshot(
                 date = LocalDate(2026, 7, 10),

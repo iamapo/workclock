@@ -100,7 +100,6 @@ object CalendarEditorScreen {
             item {
                 SelectedDayPanel(
                     day = selectedDay,
-                    dailyTarget = state.dailyTarget,
                     onIncreaseDay = onIncreaseDay,
                     onDecreaseDay = onDecreaseDay,
                     onVacation = onVacation,
@@ -293,7 +292,6 @@ object CalendarEditorScreen {
     @Composable
     private fun SelectedDayPanel(
         day: CalendarDayUiModel,
-        dailyTarget: String,
         onIncreaseDay: (LocalDate) -> Unit,
         onDecreaseDay: (LocalDate) -> Unit,
         onVacation: (LocalDate) -> Unit,
@@ -323,6 +321,17 @@ object CalendarEditorScreen {
                     fontSize = AppFontSizes.size13,
                     fontWeight = FontWeight.Normal
                 )
+                if (day.style == CalendarDayStyle.Holiday) {
+                    Text(
+                        text = stringResource(
+                            Res.string.regular_target,
+                            formatDuration(day.scheduledTargetMinutes)
+                        ) + " · " + stringResource(Res.string.holiday_target),
+                        color = AppColors.Purple,
+                        fontSize = AppFontSizes.size12,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
@@ -356,7 +365,17 @@ object CalendarEditorScreen {
                     )
                 }
                 ActionButton(
-                    label = stringResource(Res.string.workday_value, dailyTarget),
+                    label = if (day.style == CalendarDayStyle.Holiday) {
+                        stringResource(
+                            Res.string.work_on_holiday,
+                            formatDuration(day.scheduledTargetMinutes)
+                        )
+                    } else {
+                        stringResource(
+                            Res.string.workday_value,
+                            formatDuration(day.scheduledTargetMinutes)
+                        )
+                    },
                     onClick = { onForgottenWorkDay(day.date) },
                     modifier = Modifier.fillMaxWidth(),
                     containerColor = AppColors.Green
@@ -401,6 +420,7 @@ object CalendarEditorScreen {
     private fun selectedDaySubtitle(day: CalendarDayUiModel): String = when {
         day.style == CalendarDayStyle.Vacation -> stringResource(Res.string.vacation_with, formatDuration(day.workedMinutes))
         day.style == CalendarDayStyle.Sick -> stringResource(Res.string.sick_with, formatDuration(day.workedMinutes))
+        day.style == CalendarDayStyle.Holiday -> day.holidayName ?: stringResource(Res.string.public_holiday)
         day.workedMinutes > 0 -> stringResource(Res.string.working_time_value, formatDuration(day.workedMinutes))
         day.note.isNotBlank() -> day.note
         else -> stringResource(Res.string.no_entry)

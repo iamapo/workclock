@@ -6,6 +6,7 @@ enum class CalendarDayStyle {
     Today,
     Planned,
     Weekend,
+    Holiday,
     Vacation,
     Sick
 }

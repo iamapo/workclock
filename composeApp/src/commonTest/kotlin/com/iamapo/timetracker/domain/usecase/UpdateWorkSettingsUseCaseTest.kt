@@ -3,6 +3,8 @@ package com.iamapo.timetracker.domain.usecase
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.domain.WorkDayConfig
 import com.iamapo.timetracker.domain.WorkHistory
+import com.iamapo.timetracker.domain.GermanFederalState
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -73,5 +75,34 @@ class UpdateWorkSettingsUseCaseTest {
         useCase.setLockScreenStatusEnabled(true)
 
         assertEquals(true, repository.history.value.lockScreenStatusEnabled)
+    }
+
+    @Test
+    fun updatesSingleWeekdayAndDerivedWeeklyTarget() {
+        val repository = FakeWorkHistoryRepository(WorkHistory())
+        val useCase = UpdateWorkSettingsUseCase(
+            repository = repository,
+            timeProvider = FakeTimeProvider(TimeSnapshot(LocalDate(2026, 7, 8), 9 * 60))
+        )
+
+        useCase.decreaseWeekdayTarget(3)
+
+        val history = repository.history.value
+        assertEquals(7 * 60 + 45, history.workSchedule.targetMinutes(DayOfWeek.WEDNESDAY))
+        assertEquals(39 * 60 + 45, history.workSchedule.weeklyTargetMinutes)
+    }
+
+    @Test
+    fun selectingFederalStateEnablesAutomaticHolidays() {
+        val repository = FakeWorkHistoryRepository(WorkHistory())
+        val useCase = UpdateWorkSettingsUseCase(
+            repository = repository,
+            timeProvider = FakeTimeProvider(TimeSnapshot(LocalDate(2026, 7, 8), 9 * 60))
+        )
+
+        useCase.setHolidayFederalState(GermanFederalState.Hesse)
+
+        assertEquals(GermanFederalState.Hesse, repository.history.value.holidayFederalState)
+        assertEquals(true, repository.history.value.automaticHolidaysEnabled)
     }
 }

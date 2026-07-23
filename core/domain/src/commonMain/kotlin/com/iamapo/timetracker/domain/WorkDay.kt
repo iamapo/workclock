@@ -11,6 +11,7 @@ data class WorkDay(
     val lastBreakMinutes: Int? = null,
     val weeklyWorkedBeforeTodayMinutes: Int = 0,
     val weeklyBalanceCarryMinutes: Int = 0,
+    val weeklyExpectedBeforeTodayMinutes: Int? = null,
     val events: List<WorkEvent> = emptyList(),
     val config: WorkDayConfig = WorkDayConfig()
 ) {

@@ -3,6 +3,7 @@ package com.iamapo.timetracker.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iamapo.timetracker.domain.TimeProvider
+import com.iamapo.timetracker.domain.GermanFederalState
 import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
 import com.iamapo.timetracker.domain.usecase.DeleteWorkEntriesUseCase
 import com.iamapo.timetracker.domain.usecase.UpdateWorkSettingsUseCase
@@ -33,10 +34,13 @@ class SettingsViewModel(
     fun increaseWeeklyTarget() = updateSettings.increaseWeeklyTarget()
     fun decreaseWeeklyTarget() = updateSettings.decreaseWeeklyTarget()
     fun setLockScreenStatusEnabled(enabled: Boolean) = updateSettings.setLockScreenStatusEnabled(enabled)
+    fun increaseWeekdayTarget(isoDayNumber: Int) = updateSettings.increaseWeekdayTarget(isoDayNumber)
+    fun decreaseWeekdayTarget(isoDayNumber: Int) = updateSettings.decreaseWeekdayTarget(isoDayNumber)
+    fun setHolidayFederalState(federalState: GermanFederalState) = updateSettings.setHolidayFederalState(federalState)
+    fun setAutomaticHolidaysEnabled(enabled: Boolean) = updateSettings.setAutomaticHolidaysEnabled(enabled)
     fun deleteAllEntries() = deleteWorkEntries()
 
     private fun mapState(history: com.iamapo.timetracker.domain.WorkHistory): SettingsUiModel {
-        val day = history.dayWithWeeklySummary(timeProvider.now().date)
-        return SettingsStateMapper.map(day.config, history.lockScreenStatusEnabled)
+        return SettingsStateMapper.map(history)
     }
 }

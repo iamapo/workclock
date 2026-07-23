@@ -8,7 +8,13 @@ class DeleteWorkEntriesUseCase(
 ) {
     operator fun invoke() {
         repository.update { history ->
-            WorkHistory(defaultConfig = history.defaultConfig)
+            WorkHistory(
+                defaultConfig = history.defaultConfig,
+                lockScreenStatusEnabled = history.lockScreenStatusEnabled,
+                workSchedule = history.workSchedule,
+                automaticHolidaysEnabled = history.automaticHolidaysEnabled,
+                holidayFederalState = history.holidayFederalState
+            )
         }
     }
 }

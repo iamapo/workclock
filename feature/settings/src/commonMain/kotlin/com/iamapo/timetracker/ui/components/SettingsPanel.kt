@@ -29,12 +29,8 @@ object SettingsPanel {
     @Composable
     operator fun invoke(
         settings: SettingsUiModel,
-        onDecreaseDailyTarget: () -> Unit,
-        onIncreaseDailyTarget: () -> Unit,
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
-        onDecreaseWeeklyTarget: () -> Unit,
-        onIncreaseWeeklyTarget: () -> Unit,
         onLockScreenStatusChanged: (Boolean) -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -56,28 +52,12 @@ object SettingsPanel {
                     letterSpacing = AppFontSizes.size0_2
                 )
                 SettingsRow(
-                    label = stringResource(Res.string.daily),
-                    value = settings.dailyTarget,
-                    onDecrease = onDecreaseDailyTarget,
-                    onIncrease = onIncreaseDailyTarget,
-                    canDecrease = settings.canDecreaseDailyTarget,
-                    canIncrease = settings.canIncreaseDailyTarget
-                )
-                SettingsRow(
                     label = stringResource(Res.string.break_label),
                     value = settings.requiredBreak,
                     onDecrease = onDecreaseRequiredBreak,
                     onIncrease = onIncreaseRequiredBreak,
                     canDecrease = settings.canDecreaseRequiredBreak,
                     canIncrease = settings.canIncreaseRequiredBreak
-                )
-                SettingsRow(
-                    label = stringResource(Res.string.week),
-                    value = settings.weeklyTarget,
-                    onDecrease = onDecreaseWeeklyTarget,
-                    onIncrease = onIncreaseWeeklyTarget,
-                    canDecrease = settings.canDecreaseWeeklyTarget,
-                    canIncrease = settings.canIncreaseWeeklyTarget
                 )
                 LockScreenStatusRow(
                     enabled = settings.lockScreenStatusEnabled,
@@ -145,12 +125,8 @@ private fun SettingsPanelPreview() {
                 canIncreaseWeeklyTarget = true,
                 lockScreenStatusEnabled = true
             ),
-            onDecreaseDailyTarget = {},
-            onIncreaseDailyTarget = {},
             onDecreaseRequiredBreak = {},
             onIncreaseRequiredBreak = {},
-            onDecreaseWeeklyTarget = {},
-            onIncreaseWeeklyTarget = {},
             onLockScreenStatusChanged = {}
         )
     }

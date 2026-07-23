@@ -126,13 +126,13 @@ object TimeTrackerRoute {
                     MainTab.Settings -> {
                         SettingsScreen(
                             state = settingsState,
-                            onDecreaseDailyTarget = resolvedSettingsViewModel::decreaseDailyTarget,
-                            onIncreaseDailyTarget = resolvedSettingsViewModel::increaseDailyTarget,
                             onDecreaseRequiredBreak = resolvedSettingsViewModel::decreaseRequiredBreak,
                             onIncreaseRequiredBreak = resolvedSettingsViewModel::increaseRequiredBreak,
-                            onDecreaseWeeklyTarget = resolvedSettingsViewModel::decreaseWeeklyTarget,
-                            onIncreaseWeeklyTarget = resolvedSettingsViewModel::increaseWeeklyTarget,
                             onLockScreenStatusChanged = resolvedSettingsViewModel::setLockScreenStatusEnabled,
+                            onDecreaseWeekdayTarget = resolvedSettingsViewModel::decreaseWeekdayTarget,
+                            onIncreaseWeekdayTarget = resolvedSettingsViewModel::increaseWeekdayTarget,
+                            onAutomaticHolidaysChanged = resolvedSettingsViewModel::setAutomaticHolidaysEnabled,
+                            onHolidayFederalStateChanged = resolvedSettingsViewModel::setHolidayFederalState,
                             backupStatus = backupStateHolder.status,
                             pendingBackupImport = backupStateHolder.pendingImport,
                             canUndoImport = backupStateHolder.canUndoImport,

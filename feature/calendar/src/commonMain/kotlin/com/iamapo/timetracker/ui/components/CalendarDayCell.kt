@@ -88,6 +88,7 @@ object CalendarDayCell {
         CalendarDayStyle.Planned -> AppColors.Lemon.copy(alpha = 0.38f)
         CalendarDayStyle.Vacation -> AppColors.Purple.copy(alpha = 0.16f)
         CalendarDayStyle.Sick -> AppColors.Rose.copy(alpha = 0.16f)
+        CalendarDayStyle.Holiday -> AppColors.Purple.copy(alpha = 0.22f)
         CalendarDayStyle.Muted,
         CalendarDayStyle.Weekend -> AppColors.Soft.copy(alpha = 0.48f)
     }
@@ -98,6 +99,7 @@ object CalendarDayCell {
         CalendarDayStyle.Planned -> AppColors.Lemon.copy(alpha = 0.70f)
         CalendarDayStyle.Vacation -> AppColors.Purple.copy(alpha = 0.34f)
         CalendarDayStyle.Sick -> AppColors.Rose.copy(alpha = 0.34f)
+        CalendarDayStyle.Holiday -> AppColors.Purple.copy(alpha = 0.48f)
         CalendarDayStyle.Muted,
         CalendarDayStyle.Weekend -> AppColors.Line
     }
@@ -108,6 +110,7 @@ object CalendarDayCell {
         CalendarDayStyle.Planned -> AppColors.Subtle
         CalendarDayStyle.Vacation -> AppColors.Purple
         CalendarDayStyle.Sick -> AppColors.Rose
+        CalendarDayStyle.Holiday -> AppColors.Purple
         CalendarDayStyle.Muted,
         CalendarDayStyle.Weekend -> AppColors.Subtle
     }

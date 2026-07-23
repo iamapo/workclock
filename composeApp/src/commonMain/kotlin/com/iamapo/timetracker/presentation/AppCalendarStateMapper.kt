@@ -3,7 +3,6 @@ package com.iamapo.timetracker.presentation
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.domain.WeeklyBalance
 import com.iamapo.timetracker.domain.WeeklyBalanceCalculator
-import com.iamapo.timetracker.domain.WorkDay
 import com.iamapo.timetracker.domain.WorkDaySummaryCalculator
 import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.presentation.state.CalendarUiState
@@ -32,43 +31,40 @@ object AppCalendarStateMapper : CalendarStateMapper {
             days = monthMapper.map(
                 snapshot.date,
                 summary.endMinute,
-                day.config.dailyTargetMinutes,
-                history.days
+                history
             ),
             previewDays = monthMapper.mapPreview(
                 snapshot.date,
                 summary.endMinute,
-                day.config.dailyTargetMinutes,
-                history.days
+                history
             ),
             weekOverview = weekOverview(
                 snapshot,
-                history.days,
+                history,
                 summary.workedMinutes,
-                weeklyBalance,
-                day.config.dailyTargetMinutes
+                weeklyBalance
             ),
             dailyTarget = TimeTextFormatter.clockLikeDuration(day.config.dailyTargetMinutes),
-            plannedWeek = TimeTextFormatter.clockLikeDuration(day.config.weeklyTargetMinutes),
+            plannedWeek = TimeTextFormatter.clockLikeDuration(history.targetMinutesForWeek(snapshot.date)),
             reachedWeek = TimeTextFormatter.clockLikeDuration(weeklyBalance.workedMinutes)
         )
     }
 
     private fun weekOverview(
         snapshot: TimeSnapshot,
-        history: Map<LocalDate, WorkDay>,
+        history: WorkHistory,
         todayWorkedMinutes: Int,
-        weeklyBalance: WeeklyBalance,
-        dailyTargetMinutes: Int
+        weeklyBalance: WeeklyBalance
     ): WeekOverviewUiModel {
         val weekStart = snapshot.date - DatePeriod(days = snapshot.date.dayOfWeek.isoDayNumber - 1)
         val days = (0 until WorkdaysPerWeek).map { index ->
             val date = weekStart + DatePeriod(days = index)
-            val workedMinutes = if (date == snapshot.date) todayWorkedMinutes else history[date]?.workedMinutes ?: 0
+            val workedMinutes = if (date == snapshot.date) todayWorkedMinutes else history.days[date]?.workedMinutes ?: 0
+            val targetMinutes = history.targetMinutes(date)
             WeekDayProgressUiModel(
                 label = weekdayShortLabel(index),
                 value = TimeTextFormatter.calendarDuration(workedMinutes),
-                progress = if (dailyTargetMinutes == 0) 0f else workedMinutes.toFloat() / dailyTargetMinutes,
+                progress = if (targetMinutes == 0) 0f else workedMinutes.toFloat() / targetMinutes,
                 isToday = date == snapshot.date
             )
         }

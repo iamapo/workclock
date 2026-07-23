@@ -24,7 +24,11 @@ class WorkDaySummaryCalculator {
             WorkStatus.Paused -> snapshot.minuteOfDay + remainingWorkMinutes + missingBreakMinutes
             WorkStatus.Finished -> finishedMinute(day, snapshot.minuteOfDay)
         }
-        val progress = min(workedMinutes.toFloat() / day.config.dailyTargetMinutes.toFloat(), 1f)
+        val progress = if (day.config.dailyTargetMinutes == 0) {
+            if (workedMinutes > 0) 1f else 0f
+        } else {
+            min(workedMinutes.toFloat() / day.config.dailyTargetMinutes.toFloat(), 1f)
+        }
 
         return WorkDaySummary(
             workedMinutes = workedMinutes,

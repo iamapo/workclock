@@ -16,19 +16,19 @@ class WeeklyBalanceCalculator {
         date: LocalDate,
         todayWorkedMinutes: Int
     ): WeeklyBalance {
-        val dayOfWeek = date.dayOfWeek.isoDayNumber
-        val expectedWorkdays = dayOfWeek.coerceIn(1, WorkdaysPerWeek)
+        val expectedBeforeTodayMinutes = day.weeklyExpectedBeforeTodayMinutes
+            ?: day.config.weeklyTargetMinutes *
+                (date.dayOfWeek.isoDayNumber - 1).coerceIn(0, WorkdaysPerWeek) /
+                WorkdaysPerWeek
         val workedMinutes = day.weeklyWorkedBeforeTodayMinutes + todayWorkedMinutes
-        val expectedMinutes = day.config.weeklyTargetMinutes * expectedWorkdays / WorkdaysPerWeek
+        val expectedMinutes = expectedBeforeTodayMinutes + day.config.dailyTargetMinutes
         val balanceMinutes = day.weeklyBalanceCarryMinutes + workedMinutes - expectedMinutes
 
-        val elapsedWorkdays = (dayOfWeek - 1).coerceIn(0, WorkdaysPerWeek)
-        val includesToday = day.status == WorkStatus.Finished && dayOfWeek <= WorkdaysPerWeek
-        val completedWorkdays = elapsedWorkdays + if (includesToday) 1 else 0
+        val includesToday = day.status == WorkStatus.Finished
         val workedOnCompletedDays = day.weeklyWorkedBeforeTodayMinutes +
             if (includesToday) todayWorkedMinutes else 0
-        val expectedMinutesForCompletedDays =
-            day.config.weeklyTargetMinutes * completedWorkdays / WorkdaysPerWeek
+        val expectedMinutesForCompletedDays = expectedBeforeTodayMinutes +
+            if (includesToday) day.config.dailyTargetMinutes else 0
         val carryMinutes = day.weeklyBalanceCarryMinutes +
             workedOnCompletedDays - expectedMinutesForCompletedDays
 

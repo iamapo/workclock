@@ -71,6 +71,7 @@ object WorkClockBackupSerializer {
     private fun WorkHistory.isValidBackupContent(): Boolean {
         if (days.size > MaxDays) return false
         if (!defaultConfig.isValid()) return false
+        if (!workSchedule.isValid()) return false
 
         return days.values.all { day ->
             day.config.isValid() &&
@@ -92,6 +93,17 @@ object WorkClockBackupSerializer {
         dailyTargetMinutes in 0..MinutesPerDay &&
             requiredBreakMinutes in 0..MinutesPerDay &&
             weeklyTargetMinutes in 0..MinutesPerWeek
+
+    private fun com.iamapo.timetracker.domain.WorkSchedule.isValid(): Boolean =
+        listOf(
+            mondayMinutes,
+            tuesdayMinutes,
+            wednesdayMinutes,
+            thursdayMinutes,
+            fridayMinutes,
+            saturdayMinutes,
+            sundayMinutes
+        ).all { minutes -> minutes in 0..MinutesPerDay }
 
     private fun Int?.isValidMinute(): Boolean = this == null || this in 0 until MinutesPerDay
 
