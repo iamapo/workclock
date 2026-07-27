@@ -19,6 +19,7 @@ import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import com.iamapo.timetracker.ui.ComposePreviewContext
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
 import com.iamapo.timetracker.resources.timeline
@@ -54,7 +55,8 @@ object TimelineSection {
 @Preview
 @Composable
 private fun TimelineSectionPreview() {
+    ComposePreviewContext()
     TimeTrackerTheme {
-        TimelineSection(TimeTrackerPreviewData.uiState.timeline)
+        TimelineSection(TimeTrackerPreviewData.uiState().timeline)
     }
 }

@@ -16,7 +16,15 @@ data class WorkDay(
     val config: WorkDayConfig = WorkDayConfig()
 ) {
     companion object {
-        fun preview(): WorkDay = WorkDay(
+        fun preview(): WorkDay = previewWorking()
+
+        fun previewNotStarted(): WorkDay = WorkDay(
+            kind = WorkDayKind.Work,
+            status = WorkStatus.NotStarted,
+            weeklyWorkedBeforeTodayMinutes = 16 * 60 + 28
+        )
+
+        fun previewWorking(): WorkDay = WorkDay(
             kind = WorkDayKind.Work,
             status = WorkStatus.Working,
             startMinute = 8 * 60 + 42,
@@ -29,6 +37,36 @@ data class WorkDay(
                 WorkEvent(8 * 60 + 42, "Arbeitsbeginn", WorkEventKind.Work),
                 WorkEvent(12 * 60 + 2, "Pause gestartet", WorkEventKind.Break),
                 WorkEvent(12 * 60 + 26, "Weitergearbeitet", WorkEventKind.Work)
+            )
+        )
+
+        fun previewPaused(): WorkDay = WorkDay(
+            kind = WorkDayKind.Work,
+            status = WorkStatus.Paused,
+            startMinute = 8 * 60 + 42,
+            pauseStartedMinute = 12 * 60 + 2,
+            workedMinutes = 3 * 60 + 5,
+            breakMinutes = 8,
+            weeklyWorkedBeforeTodayMinutes = 16 * 60 + 28,
+            events = listOf(
+                WorkEvent(8 * 60 + 42, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(12 * 60 + 2, "Pause gestartet", WorkEventKind.Break)
+            )
+        )
+
+        fun previewFinished(): WorkDay = WorkDay(
+            kind = WorkDayKind.Work,
+            status = WorkStatus.Finished,
+            startMinute = 8 * 60 + 42,
+            workedMinutes = 8 * 60,
+            breakMinutes = 34,
+            lastBreakMinutes = 34,
+            weeklyWorkedBeforeTodayMinutes = 24 * 60 + 10,
+            events = listOf(
+                WorkEvent(8 * 60 + 42, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(12 * 60 + 2, "Pause gestartet", WorkEventKind.Break),
+                WorkEvent(12 * 60 + 36, "Weitergearbeitet", WorkEventKind.Work),
+                WorkEvent(17 * 60 + 16, "Feierabend", WorkEventKind.Work)
             )
         )
     }

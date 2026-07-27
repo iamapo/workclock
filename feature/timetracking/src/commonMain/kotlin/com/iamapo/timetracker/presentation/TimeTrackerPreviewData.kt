@@ -12,6 +12,24 @@ object TimeTrackerPreviewData {
         minuteOfDay = 14 * 60 + 33
     )
 
-    val uiState: TimeTrackerUiState =
-        TimeTrackerUiStateMapper.map(WorkDay.preview(), snapshot)
+    // Computed lazily (not as eager `val`s) because mapping resolves localized
+    // string resources, which requires a live Android context. An eager `val`
+    // would run this at object-init time and permanently break Compose Preview
+    // rendering (all properties of a Kotlin object share one static initializer).
+    fun uiState(): TimeTrackerUiState = uiStateWorking()
+
+    fun uiStateNotStarted(): TimeTrackerUiState =
+        TimeTrackerUiStateMapper.map(WorkDay.previewNotStarted(), snapshot)
+
+    fun uiStateWorking(): TimeTrackerUiState =
+        TimeTrackerUiStateMapper.map(WorkDay.previewWorking(), snapshot)
+
+    fun uiStatePaused(): TimeTrackerUiState =
+        TimeTrackerUiStateMapper.map(WorkDay.previewPaused(), snapshot)
+
+    fun uiStateFinished(): TimeTrackerUiState =
+        TimeTrackerUiStateMapper.map(
+            WorkDay.previewFinished(),
+            snapshot.copy(minuteOfDay = 17 * 60 + 16)
+        )
 }

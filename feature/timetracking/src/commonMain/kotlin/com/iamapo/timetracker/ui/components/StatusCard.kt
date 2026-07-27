@@ -32,10 +32,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import com.iamapo.timetracker.ui.ComposePreviewContext
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
 import kotlin.math.roundToInt
@@ -267,16 +269,16 @@ object StatusCard {
     )
 
     @Composable
-    private fun statusTone(state: TimeTrackerUiState): StatusTone = when (state.watchState) {
-        stringResource(Res.string.state_active) -> StatusTone(
+    private fun statusTone(state: TimeTrackerUiState): StatusTone = when (state.primaryCommand) {
+        TimeTrackingCommand.StartBreak -> StatusTone(
             label = stringResource(Res.string.status_working),
-            color = AppColors.Green,
-            foreground = Color(0xFF096443),
-            background = AppColors.Green.copy(alpha = 0.18f),
+            color = AppColors.Purple,
+            foreground = Color(0xFF4B2E9E),
+            background = AppColors.Purple.copy(alpha = 0.18f),
             actionColor = AppColors.Night,
-            progressColor = AppColors.Green
+            progressColor = AppColors.Purple
         )
-        stringResource(Res.string.state_break) -> StatusTone(
+        TimeTrackingCommand.ResumeWork -> StatusTone(
             label = stringResource(Res.string.state_break),
             color = AppColors.Amber,
             foreground = Color(0xFF6A4B00),
@@ -284,7 +286,7 @@ object StatusCard {
             actionColor = AppColors.Night,
             progressColor = AppColors.Amber
         )
-        stringResource(Res.string.state_finished) -> StatusTone(
+        TimeTrackingCommand.StartNewDay -> StatusTone(
             label = stringResource(Res.string.state_finished),
             color = AppColors.Blue,
             foreground = Color(0xFF145EA7),
@@ -293,10 +295,10 @@ object StatusCard {
         )
         else -> StatusTone(
             label = stringResource(Res.string.state_ready),
-            color = AppColors.Coral,
-            foreground = Color(0xFF8D2C25),
-            background = AppColors.Coral.copy(alpha = 0.14f),
-            progressColor = AppColors.Coral,
+            color = AppColors.Green,
+            foreground = Color(0xFF096443),
+            background = AppColors.Green.copy(alpha = 0.16f),
+            progressColor = AppColors.Green,
             actionColor = AppColors.Night
         )
     }
@@ -305,9 +307,10 @@ object StatusCard {
 @Preview
 @Composable
 private fun StatusCardPreview() {
+    ComposePreviewContext()
     TimeTrackerTheme {
         StatusCard(
-            state = TimeTrackerPreviewData.uiState,
+            state = TimeTrackerPreviewData.uiState(),
             onPrimaryAction = {},
             onSecondaryAction = {}
         )

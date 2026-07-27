@@ -55,7 +55,7 @@ fun MainViewController(lockScreenStatusController: LockScreenStatusController): 
 fun PreviewViewController(): UIViewController = ComposeUIViewController {
     TimeTrackerTheme {
         TimeTrackerScreen(
-            state = TimeTrackerPreviewData.uiState,
+            state = TimeTrackerPreviewData.uiState(),
             onPrimaryAction = {},
             onSecondaryAction = {},
         )
