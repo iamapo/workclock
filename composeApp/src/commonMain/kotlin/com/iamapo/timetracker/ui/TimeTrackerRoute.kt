@@ -50,6 +50,7 @@ object TimeTrackerRoute {
         val calendarState by resolvedCalendarViewModel.uiState.collectAsState()
         val settingsState by resolvedSettingsViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
+        val requestedTabEvent by DeepLinkRouter.requestedTabEvent.collectAsState()
         var selectedCalendarDate by remember { mutableStateOf(calendarState.days.firstOrNull { it.isToday }?.date) }
         val backupStateHolder = rememberBackupStateHolder(
             workDayStore = dependencies.workDayStore,
@@ -58,6 +59,11 @@ object TimeTrackerRoute {
             backupFileController = dependencies.backupFileController
         )
 
+        androidx.compose.runtime.LaunchedEffect(requestedTabEvent) {
+            if (requestedTabEvent > 0) {
+                activeTab = MainTab.Today
+            }
+        }
         androidx.compose.runtime.LaunchedEffect(state) {
             onStateChanged(state)
         }

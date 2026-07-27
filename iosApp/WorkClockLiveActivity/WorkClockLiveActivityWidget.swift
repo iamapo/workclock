@@ -21,6 +21,7 @@ struct WorkClockLiveActivityWidget: Widget {
             )
             .activityBackgroundTint(WorkClockPalette.background)
             .activitySystemActionForegroundColor(WorkClockPalette.ink)
+            .widgetURL(URL(string: "workclock://timetracker"))
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {

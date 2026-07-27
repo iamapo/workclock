@@ -10,6 +10,7 @@ import com.iamapo.timetracker.data.IosWorkDayStore
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.ui.DeepLinkRouter
 import com.iamapo.timetracker.ui.TimeTrackerRoute
 import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
@@ -18,6 +19,10 @@ import com.iamapo.timetracker.app.createWorkClockDependencies
 import platform.UIKit.UIViewController
 
 fun MainViewController(): UIViewController = MainViewController(NoOpLockScreenStatusController)
+
+fun requestTimeTrackerTab() {
+    DeepLinkRouter.requestTimeTrackerTab()
+}
 
 fun MainViewController(lockScreenStatusController: LockScreenStatusController): UIViewController {
     var rootController: UIViewController? = null
