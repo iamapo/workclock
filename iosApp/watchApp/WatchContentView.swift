@@ -103,11 +103,22 @@ struct WatchContentView: View {
     }
 
     private var accentColor: Color {
-        session.state.localizedCaseInsensitiveContains("Pause") ? Self.lemon : Self.mint
+        switch session.state {
+        case "Aktiv":
+            return Self.purple
+        case "Pause":
+            return Self.lemon
+        case "Fertig":
+            return Self.blue
+        default:
+            return Self.mint
+        }
     }
 
     private static let mint = Color(red: 0.40, green: 0.87, blue: 0.71)
     private static let lemon = Color(red: 1.0, green: 0.85, blue: 0.30)
+    private static let purple = Color(red: 0.61, green: 0.44, blue: 1.0)
+    private static let blue = Color(red: 0.35, green: 0.65, blue: 1.0)
 }
 
 private extension Comparable {

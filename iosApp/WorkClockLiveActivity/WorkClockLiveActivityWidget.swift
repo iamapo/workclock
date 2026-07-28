@@ -50,7 +50,7 @@ struct WorkClockLiveActivityWidget: Widget {
                 }
             } compactLeading: {
                 Image(systemName: context.state.phase == "paused" ? "pause.fill" : "clock.fill")
-                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.mint)
+                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple)
             } compactTrailing: {
                 Text(context.state.startedAt, style: .timer)
                     .monospacedDigit()
@@ -58,9 +58,9 @@ struct WorkClockLiveActivityWidget: Widget {
                     .frame(maxWidth: 54)
             } minimal: {
                 Image(systemName: context.state.phase == "paused" ? "pause.fill" : "clock.fill")
-                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.mint)
+                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple)
             }
-            .keylineTint(WorkClockPalette.mint)
+            .keylineTint(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple)
         }
     }
 }
@@ -114,7 +114,7 @@ private struct PhaseIcon: View {
     let phase: String
 
     private var accent: Color {
-        phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.mint
+        phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple
     }
 
     var body: some View {
@@ -137,11 +137,11 @@ private struct PhaseBadge: View {
     let phase: String
 
     private var accent: Color {
-        phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.mint
+        phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple
     }
 
     private var foreground: Color {
-        phase == "paused" ? WorkClockPalette.lemonInk : WorkClockPalette.mintInk
+        phase == "paused" ? WorkClockPalette.lemonInk : WorkClockPalette.purpleInk
     }
 
     var body: some View {
@@ -177,7 +177,7 @@ private struct WorkBreakProgressView: View {
 
             HStack(spacing: spacing) {
                 Capsule()
-                    .fill(WorkClockPalette.mint)
+                    .fill(WorkClockPalette.purple)
                     .frame(width: availableWidth * workedShare)
                 Capsule()
                     .fill(WorkClockPalette.lemon)
@@ -194,7 +194,8 @@ private enum WorkClockPalette {
     static let ink = Color(red: 0.09, green: 0.08, blue: 0.12)
     static let muted = Color(red: 0.32, green: 0.30, blue: 0.37)
     static let mint = Color(red: 0.40, green: 0.87, blue: 0.71)
-    static let mintInk = Color(red: 0.04, green: 0.39, blue: 0.26)
     static let lemon = Color(red: 1.00, green: 0.85, blue: 0.30)
     static let lemonInk = Color(red: 0.42, green: 0.29, blue: 0.00)
+    static let purple = Color(red: 0.61, green: 0.44, blue: 1.00)
+    static let purpleInk = Color(red: 0.29, green: 0.18, blue: 0.62)
 }
