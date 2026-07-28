@@ -24,6 +24,7 @@ kotlin {
             isStatic = true
             export(project(":feature:backup"))
             export(project(":feature:lockscreen"))
+            export(project(":feature:reminders"))
         }
     }
 
@@ -38,6 +39,7 @@ kotlin {
             implementation(project(":core:resources"))
             api(project(":feature:backup"))
             api(project(":feature:lockscreen"))
+            api(project(":feature:reminders"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

@@ -20,6 +20,7 @@ object WorkHistorySerializer {
         appendLine("defaultRequiredBreakMinutes=${history.defaultConfig.requiredBreakMinutes}")
         appendLine("defaultWeeklyTargetMinutes=${history.defaultConfig.weeklyTargetMinutes}")
         appendLine("lockScreenStatusEnabled=${history.lockScreenStatusEnabled}")
+        appendLine("remindersEnabled=${history.remindersEnabled}")
         appendLine("automaticHolidaysEnabled=${history.automaticHolidaysEnabled}")
         appendLine("holidayFederalState=${history.holidayFederalState?.name ?: NullValue}")
         appendLine("scheduleMondayMinutes=${history.workSchedule.mondayMinutes}")
@@ -88,6 +89,7 @@ object WorkHistorySerializer {
         WorkHistory(
             defaultConfig = defaultConfig,
             lockScreenStatusEnabled = values["lockScreenStatusEnabled"]?.toBooleanStrictOrNull() ?: false,
+            remindersEnabled = values["remindersEnabled"]?.toBooleanStrictOrNull() ?: false,
             workSchedule = workSchedule,
             automaticHolidaysEnabled = values["automaticHolidaysEnabled"]?.toBooleanStrictOrNull() ?: false,
             holidayFederalState = values["holidayFederalState"]

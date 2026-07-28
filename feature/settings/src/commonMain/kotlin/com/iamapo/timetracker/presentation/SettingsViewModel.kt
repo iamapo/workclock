@@ -34,6 +34,7 @@ class SettingsViewModel(
     fun increaseWeeklyTarget() = updateSettings.increaseWeeklyTarget()
     fun decreaseWeeklyTarget() = updateSettings.decreaseWeeklyTarget()
     fun setLockScreenStatusEnabled(enabled: Boolean) = updateSettings.setLockScreenStatusEnabled(enabled)
+    fun setRemindersEnabled(enabled: Boolean) = updateSettings.setRemindersEnabled(enabled)
     fun increaseWeekdayTarget(isoDayNumber: Int) = updateSettings.increaseWeekdayTarget(isoDayNumber)
     fun decreaseWeekdayTarget(isoDayNumber: Int) = updateSettings.decreaseWeekdayTarget(isoDayNumber)
     fun setHolidayFederalState(federalState: GermanFederalState) = updateSettings.setHolidayFederalState(federalState)

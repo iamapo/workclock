@@ -22,7 +22,8 @@ object SettingsStateMapper {
             weeklyTarget = TimeTextFormatter.clockLikeDuration(history.workSchedule.weeklyTargetMinutes),
             workdays = workdays,
             automaticHolidaysEnabled = history.automaticHolidaysEnabled,
-            holidayFederalState = history.holidayFederalState
+            holidayFederalState = history.holidayFederalState,
+            remindersEnabled = history.remindersEnabled
         )
     }
 

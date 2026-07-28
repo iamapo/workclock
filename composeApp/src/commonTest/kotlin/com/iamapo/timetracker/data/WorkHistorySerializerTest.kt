@@ -74,6 +74,7 @@ class WorkHistorySerializerTest {
         val history = WorkHistory(
             defaultConfig = WorkDayConfig(requiredBreakMinutes = 35),
             lockScreenStatusEnabled = true,
+            remindersEnabled = true,
             workSchedule = WorkSchedule(
                 mondayMinutes = 6 * 60,
                 tuesdayMinutes = 7 * 60,
@@ -116,6 +117,7 @@ class WorkHistorySerializerTest {
         assertEquals(450, decoded?.workSchedule?.wednesdayMinutes)
         assertEquals(2280, decoded?.workSchedule?.weeklyTargetMinutes)
         assertEquals(false, decoded?.automaticHolidaysEnabled)
+        assertEquals(false, decoded?.remindersEnabled)
         assertNull(decoded?.holidayFederalState)
     }
 }

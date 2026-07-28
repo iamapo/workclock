@@ -15,6 +15,7 @@
     <string name="delete_description_confirm">Die schnellen Vorgaben bleiben erhalten. Kalender- und Arbeitszeitdaten werden zurückgesetzt.</string>
     <string name="cancel">Abbrechen</string><string name="delete">Löschen</string>
     <string name="lock_screen_status">Sperrbildschirm-Status</string><string name="lock_screen_description">Arbeitszeit und Pausen live anzeigen</string>
+    <string name="reminders_enabled">Erinnerungen</string><string name="reminders_description">Benachrichtigung, wenn Pause, Tages- oder Wochenziel erreicht ist</string><string name="reminder_break_body">Deine Pause ist vorbei – Zeit weiterzuarbeiten.</string><string name="reminder_daily_target_body">Du hast dein Tagesziel erreicht.</string><string name="reminder_weekly_target_body">Du hast dein Wochenziel erreicht.</string>
     <string name="remaining">verbleibend</string><string name="watch_companion">Apple Watch Companion</string><string name="complication">Komplikation</string>
     <string name="interaction_idea">INTERAKTIONSIDEE</string><string name="interaction_description">Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.</string>
     <string name="monday_short">Mo</string><string name="tuesday_short">Di</string><string name="wednesday_short">Mi</string><string name="thursday_short">Do</string><string name="friday_short">Fr</string><string name="saturday_short">Sa</string><string name="sunday_short">So</string>

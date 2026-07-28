@@ -73,6 +73,12 @@ class UpdateWorkSettingsUseCase(
         }
     }
 
+    fun setRemindersEnabled(enabled: Boolean) {
+        repository.update { history ->
+            history.copy(remindersEnabled = enabled)
+        }
+    }
+
     private fun updateConfig(transform: (WorkDayConfig) -> WorkDayConfig) {
         repository.update { history ->
             history.withDefaultConfig(transform(history.defaultConfig))

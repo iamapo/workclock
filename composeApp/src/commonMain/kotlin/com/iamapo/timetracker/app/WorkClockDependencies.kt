@@ -7,19 +7,23 @@ import com.iamapo.timetracker.domain.SystemTimeProvider
 import com.iamapo.timetracker.domain.TimeProvider
 import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
 import com.iamapo.timetracker.lockscreen.LockScreenStatusController
+import com.iamapo.timetracker.reminders.NoOpReminderScheduler
+import com.iamapo.timetracker.reminders.ReminderScheduler
 
 data class WorkClockDependencies(
     val timeProvider: TimeProvider,
     val repository: WorkHistoryRepository,
     val workDayStore: WorkDayStore,
     val backupFileController: BackupFileController,
-    val lockScreenStatusController: LockScreenStatusController
+    val lockScreenStatusController: LockScreenStatusController,
+    val reminderScheduler: ReminderScheduler
 )
 
 fun createWorkClockDependencies(
     workDayStore: WorkDayStore,
     backupFileController: BackupFileController,
     lockScreenStatusController: LockScreenStatusController,
+    reminderScheduler: ReminderScheduler = NoOpReminderScheduler,
     timeProvider: TimeProvider = SystemTimeProvider()
 ): WorkClockDependencies = WorkClockDependencies(
     timeProvider = timeProvider,
@@ -29,5 +33,6 @@ fun createWorkClockDependencies(
     ),
     workDayStore = workDayStore,
     backupFileController = backupFileController,
-    lockScreenStatusController = lockScreenStatusController
+    lockScreenStatusController = lockScreenStatusController,
+    reminderScheduler = reminderScheduler
 )

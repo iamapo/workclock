@@ -5,7 +5,8 @@ import UIKit
 struct ComposeRootView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         MainViewControllerKt.MainViewController(
-            lockScreenStatusController: IosLockScreenStatusController()
+            lockScreenStatusController: IosLockScreenStatusController(),
+            reminderScheduler: IosReminderScheduler()
         )
     }
 

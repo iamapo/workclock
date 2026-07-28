@@ -32,6 +32,7 @@ object SettingsPanel {
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
         onLockScreenStatusChanged: (Boolean) -> Unit,
+        onRemindersChanged: (Boolean) -> Unit,
         modifier: Modifier = Modifier
     ) {
         Surface(
@@ -63,12 +64,44 @@ object SettingsPanel {
                     enabled = settings.lockScreenStatusEnabled,
                     onEnabledChange = onLockScreenStatusChanged
                 )
+                RemindersRow(
+                    enabled = settings.remindersEnabled,
+                    onEnabledChange = onRemindersChanged
+                )
             }
         }
     }
 
     @Composable
     private fun LockScreenStatusRow(
+        enabled: Boolean,
+        onEnabledChange: (Boolean) -> Unit
+    ) {
+        ToggleRow(
+            title = stringResource(Res.string.lock_screen_status),
+            description = stringResource(Res.string.lock_screen_description),
+            enabled = enabled,
+            onEnabledChange = onEnabledChange
+        )
+    }
+
+    @Composable
+    private fun RemindersRow(
+        enabled: Boolean,
+        onEnabledChange: (Boolean) -> Unit
+    ) {
+        ToggleRow(
+            title = stringResource(Res.string.reminders_enabled),
+            description = stringResource(Res.string.reminders_description),
+            enabled = enabled,
+            onEnabledChange = onEnabledChange
+        )
+    }
+
+    @Composable
+    private fun ToggleRow(
+        title: String,
+        description: String,
         enabled: Boolean,
         onEnabledChange: (Boolean) -> Unit
     ) {
@@ -82,12 +115,12 @@ object SettingsPanel {
                 verticalArrangement = Arrangement.spacedBy(AppDimensions.size4)
             ) {
                 Text(
-                    text = stringResource(Res.string.lock_screen_status),
+                    text = title,
                     color = AppColors.Ink,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = stringResource(Res.string.lock_screen_description),
+                    text = description,
                     color = AppColors.Muted,
                     fontSize = AppFontSizes.size12,
                     lineHeight = AppFontSizes.size16
@@ -123,11 +156,13 @@ private fun SettingsPanelPreview() {
                 weeklyTarget = "40:00 h",
                 canDecreaseWeeklyTarget = true,
                 canIncreaseWeeklyTarget = true,
-                lockScreenStatusEnabled = true
+                lockScreenStatusEnabled = true,
+                remindersEnabled = true
             ),
             onDecreaseRequiredBreak = {},
             onIncreaseRequiredBreak = {},
-            onLockScreenStatusChanged = {}
+            onLockScreenStatusChanged = {},
+            onRemindersChanged = {}
         )
     }
 }

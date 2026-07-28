@@ -53,6 +53,7 @@ object SettingsScreen {
         onDecreaseRequiredBreak: () -> Unit,
         onIncreaseRequiredBreak: () -> Unit,
         onLockScreenStatusChanged: (Boolean) -> Unit,
+        onRemindersChanged: (Boolean) -> Unit,
         onDecreaseWeekdayTarget: (Int) -> Unit,
         onIncreaseWeekdayTarget: (Int) -> Unit,
         onAutomaticHolidaysChanged: (Boolean) -> Unit,
@@ -89,7 +90,8 @@ object SettingsScreen {
                     settings = state,
                     onDecreaseRequiredBreak = onDecreaseRequiredBreak,
                     onIncreaseRequiredBreak = onIncreaseRequiredBreak,
-                    onLockScreenStatusChanged = onLockScreenStatusChanged
+                    onLockScreenStatusChanged = onLockScreenStatusChanged,
+                    onRemindersChanged = onRemindersChanged
                 )
             }
             item {

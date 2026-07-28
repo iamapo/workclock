@@ -17,6 +17,7 @@ import com.iamapo.timetracker.presentation.CalendarViewModel
 import com.iamapo.timetracker.presentation.SettingsViewModel
 import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
+import com.iamapo.timetracker.reminders.ReminderScheduleCoordinator
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
 import com.iamapo.timetracker.ui.components.CalendarPanel
 import com.iamapo.timetracker.ui.components.MainTab
@@ -72,6 +73,9 @@ object TimeTrackerRoute {
         }
         androidx.compose.runtime.LaunchedEffect(repository, dependencies.lockScreenStatusController) {
             LockScreenStatusCoordinator(repository, timeProvider, dependencies.lockScreenStatusController).run()
+        }
+        androidx.compose.runtime.LaunchedEffect(repository, dependencies.reminderScheduler) {
+            ReminderScheduleCoordinator(repository, timeProvider, dependencies.reminderScheduler).run()
         }
 
         TimeTrackerTheme {
@@ -135,6 +139,15 @@ object TimeTrackerRoute {
                             onDecreaseRequiredBreak = resolvedSettingsViewModel::decreaseRequiredBreak,
                             onIncreaseRequiredBreak = resolvedSettingsViewModel::increaseRequiredBreak,
                             onLockScreenStatusChanged = resolvedSettingsViewModel::setLockScreenStatusEnabled,
+                            onRemindersChanged = { enabled ->
+                                if (enabled) {
+                                    dependencies.reminderScheduler.requestAuthorization { authorized ->
+                                        resolvedSettingsViewModel.setRemindersEnabled(authorized)
+                                    }
+                                } else {
+                                    resolvedSettingsViewModel.setRemindersEnabled(false)
+                                }
+                            },
                             onDecreaseWeekdayTarget = resolvedSettingsViewModel::decreaseWeekdayTarget,
                             onIncreaseWeekdayTarget = resolvedSettingsViewModel::increaseWeekdayTarget,
                             onAutomaticHolidaysChanged = resolvedSettingsViewModel::setAutomaticHolidaysEnabled,

@@ -20,6 +20,7 @@ data class SettingsUiModel(
     val canDecreaseWeeklyTarget: Boolean,
     val canIncreaseWeeklyTarget: Boolean,
     val lockScreenStatusEnabled: Boolean,
+    val remindersEnabled: Boolean = false,
     val workdays: List<WorkdaySettingUiModel> = emptyList(),
     val automaticHolidaysEnabled: Boolean = false,
     val holidayFederalState: GermanFederalState? = null

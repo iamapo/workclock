@@ -9,6 +9,7 @@ import kotlinx.datetime.plus
 data class WorkHistory(
     val defaultConfig: WorkDayConfig = WorkDayConfig(),
     val lockScreenStatusEnabled: Boolean = false,
+    val remindersEnabled: Boolean = false,
     val workSchedule: WorkSchedule = WorkSchedule.fromConfig(defaultConfig),
     val automaticHolidaysEnabled: Boolean = false,
     val holidayFederalState: GermanFederalState? = null,

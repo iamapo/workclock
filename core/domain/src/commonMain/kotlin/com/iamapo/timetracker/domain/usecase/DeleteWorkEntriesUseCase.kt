@@ -11,6 +11,7 @@ class DeleteWorkEntriesUseCase(
             WorkHistory(
                 defaultConfig = history.defaultConfig,
                 lockScreenStatusEnabled = history.lockScreenStatusEnabled,
+                remindersEnabled = history.remindersEnabled,
                 workSchedule = history.workSchedule,
                 automaticHolidaysEnabled = history.automaticHolidaysEnabled,
                 holidayFederalState = history.holidayFederalState

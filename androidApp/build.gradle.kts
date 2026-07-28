@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":feature:backup"))
     implementation(project(":feature:lockscreen"))
+    implementation(project(":feature:reminders"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.kotlinx.datetime)
 }

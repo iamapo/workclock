@@ -11,6 +11,7 @@
 		A1B2C3D4E5F60718293A0002 /* ComposeRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A0102 /* ComposeRootView.swift */; };
 		A1B2C3D4E5F60718293A0003 /* TimeTrackerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A0103 /* TimeTrackerPreview.swift */; };
 		A1B2C3D4E5F60718293A0004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A0106 /* Assets.xcassets */; };
+		A1B2C3D4E5F60718293A0005 /* IosReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A0107 /* IosReminderScheduler.swift */; };
 		B1B2C3D4E5F60718293A0001 /* watchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0101 /* watchAppApp.swift */; };
 		B1B2C3D4E5F60718293A0002 /* WatchContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0102 /* WatchContentView.swift */; };
 		B1B2C3D4E5F60718293A0003 /* WatchSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B2C3D4E5F60718293A0103 /* WatchSessionModel.swift */; };
@@ -72,6 +73,7 @@
 		A1B2C3D4E5F60718293A0104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1B2C3D4E5F60718293A0105 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3D4E5F60718293A0106 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A0107 /* IosReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosReminderScheduler.swift; sourceTree = "<group>"; };
 		B1B2C3D4E5F60718293A0101 /* watchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchAppApp.swift; sourceTree = "<group>"; };
 		B1B2C3D4E5F60718293A0102 /* WatchContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContentView.swift; sourceTree = "<group>"; };
 		B1B2C3D4E5F60718293A0103 /* WatchSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionModel.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				A1B2C3D4E5F60718293A0102 /* ComposeRootView.swift */,
 				A1B2C3D4E5F60718293A0103 /* TimeTrackerPreview.swift */,
 				C1B2C3D4E5F60718293A0102 /* IosLockScreenStatusController.swift */,
+				A1B2C3D4E5F60718293A0107 /* IosReminderScheduler.swift */,
 				C1B2C3D4E5F60718293A0101 /* WorkClockLiveActivityAttributes.swift */,
 				A1B2C3D4E5F60718293A0104 /* Info.plist */,
 				A1B2C3D4E5F60718293A0106 /* Assets.xcassets */,
@@ -322,6 +325,7 @@
 				A1B2C3D4E5F60718293A0002 /* ComposeRootView.swift in Sources */,
 				A1B2C3D4E5F60718293A0003 /* TimeTrackerPreview.swift in Sources */,
 				C1B2C3D4E5F60718293A0002 /* IosLockScreenStatusController.swift in Sources */,
+				A1B2C3D4E5F60718293A0005 /* IosReminderScheduler.swift in Sources */,
 				C1B2C3D4E5F60718293A0001 /* WorkClockLiveActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
