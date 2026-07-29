@@ -18,6 +18,8 @@
     <string>$(APP_DISPLAY_NAME)</string>
     <key>CADisableMinimumFrameDurationOnPhone</key>
     <true/>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
