@@ -2,6 +2,15 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.3] - 2026-08-02
+
+### Hinzugefügt
+- Navigation zu vergangenen Monaten im Kalender per horizontaler Wischgeste
+
+### Behoben
+- Erfasste Arbeitszeiten der angrenzenden Vormonatstage bleiben nach einem Monatswechsel sichtbar
+- Die Wischrichtung der Monatsnavigation entspricht jetzt der natürlichen Kalendernavigation
+
 ## [1.2] - 2026-07-28
 
 ### Hinzugefügt
