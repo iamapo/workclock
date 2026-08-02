@@ -28,6 +28,24 @@ class TimeTrackerUiStateMapperTest {
     }
 
     @Test
+    fun calendarPreviewKeepsWorkedTimeAcrossMonthBoundary() {
+        val today = LocalDate(2026, 8, 3)
+        val previousMonthDate = LocalDate(2026, 7, 31)
+        val history = WorkHistory(
+            days = mapOf(previousMonthDate to WorkDay(workedMinutes = 8 * 60))
+        )
+
+        val state = AppCalendarStateMapper.map(
+            history,
+            TimeSnapshot(date = today, minuteOfDay = 12 * 60)
+        )
+
+        val previousMonthDay = state.previewDays.first { it.date == previousMonthDate }
+        assertEquals("8:00", previousMonthDay.note)
+        assertEquals(CalendarDayStyle.Done, previousMonthDay.style)
+    }
+
+    @Test
     fun previewDayCalculatesRemainingTimeEndTimeAndWeekTotal() {
         val state = TimeTrackerUiStateMapper.map(
             day = WorkDay.preview(),

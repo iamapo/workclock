@@ -31,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
@@ -56,6 +58,8 @@ object CalendarEditorScreen {
         state: CalendarUiState,
         selectedDate: LocalDate,
         onSelectDate: (LocalDate) -> Unit,
+        onPreviousMonth: () -> Unit,
+        onNextMonth: () -> Unit,
         onBack: (() -> Unit)? = null,
         onIncreaseDay: (LocalDate) -> Unit,
         onDecreaseDay: (LocalDate) -> Unit,
@@ -69,7 +73,7 @@ object CalendarEditorScreen {
         var editDay by remember { mutableStateOf<CalendarDayUiModel?>(null) }
         val selectedDay = state.days.firstOrNull { it.date == selectedDate }
             ?: state.days.firstOrNull { it.isToday }
-            ?: state.days.first()
+            ?: state.days.first { it.isCurrentMonth }
 
         LazyColumn(
             modifier = modifier
@@ -91,6 +95,9 @@ object CalendarEditorScreen {
                     days = state.days,
                     selectedDate = selectedDay.date,
                     onSelectDate = onSelectDate,
+                    onPreviousMonth = onPreviousMonth,
+                    onNextMonth = onNextMonth,
+                    canNavigateToNextMonth = state.canNavigateToNextMonth,
                     onEditDate = { day ->
                         onSelectDate(day.date)
                         editDay = day
@@ -168,11 +175,32 @@ object CalendarEditorScreen {
         days: List<CalendarDayUiModel>,
         selectedDate: LocalDate,
         onSelectDate: (LocalDate) -> Unit,
+        onPreviousMonth: () -> Unit,
+        onNextMonth: () -> Unit,
+        canNavigateToNextMonth: Boolean,
         onEditDate: (CalendarDayUiModel) -> Unit
     ) {
-        val today = days.firstOrNull { it.isToday }?.date
+        var horizontalDrag by remember { mutableStateOf(0f) }
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .pointerInput(monthTitle, canNavigateToNextMonth) {
+                    detectHorizontalDragGestures(
+                        onDragStart = { horizontalDrag = 0f },
+                        onHorizontalDrag = { change, dragAmount ->
+                            change.consume()
+                            horizontalDrag += dragAmount
+                        },
+                        onDragEnd = {
+                            when {
+                                horizontalDrag < -SwipeThreshold && canNavigateToNextMonth -> onNextMonth()
+                                horizontalDrag > SwipeThreshold -> onPreviousMonth()
+                            }
+                            horizontalDrag = 0f
+                        },
+                        onDragCancel = { horizontalDrag = 0f }
+                    )
+                },
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = RoundedCornerShape(AppDimensions.size18)
@@ -199,10 +227,10 @@ object CalendarEditorScreen {
                                 modifier = Modifier.weight(1f),
                                 selected = day.date == selectedDate,
                                 onClick = { onSelectDate(day.date) },
-                                onLongClick = if (today != null && day.date <= today) {
-                                    { onEditDate(day) }
-                                } else {
+                                onLongClick = if (!day.isCurrentMonth || day.style == CalendarDayStyle.Planned) {
                                     null
+                                } else {
+                                    { onEditDate(day) }
                                 }
                             )
                         }
@@ -211,6 +239,8 @@ object CalendarEditorScreen {
             }
         }
     }
+
+    private const val SwipeThreshold = 80f
 
     @Composable
     private fun WorkTimeDialog(

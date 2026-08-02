@@ -16,14 +16,15 @@ import com.iamapo.timetracker.resources.*
 
 internal class CalendarMonthMapper {
     fun map(
-        date: LocalDate,
+        displayedMonth: LocalDate,
+        today: LocalDate,
         endMinute: Int,
         history: WorkHistory
     ): List<CalendarDayUiModel> {
-        val firstOfMonth = LocalDate(date.year, date.month, 1)
+        val firstOfMonth = LocalDate(displayedMonth.year, displayedMonth.month, 1)
         val startDate = firstOfMonth - DatePeriod(days = firstOfMonth.dayOfWeek.isoDayNumber - 1)
 
-        return mapDays(date, startDate, CalendarVisibleDayCount, endMinute, history)
+        return mapDays(displayedMonth, today, startDate, CalendarVisibleDayCount, endMinute, history)
     }
 
     fun mapPreview(
@@ -33,31 +34,33 @@ internal class CalendarMonthMapper {
     ): List<CalendarDayUiModel> {
         val currentWeekStart = date - DatePeriod(days = date.dayOfWeek.isoDayNumber - 1)
         val previousWeekStart = currentWeekStart - DatePeriod(days = DaysPerWeek)
-        return mapDays(date, previousWeekStart, PreviewDayCount, endMinute, history)
+        return mapDays(date, date, previousWeekStart, PreviewDayCount, endMinute, history, muteOutsideMonth = false)
     }
 
     private fun mapDays(
-        date: LocalDate,
+        displayedMonth: LocalDate,
+        today: LocalDate,
         startDate: LocalDate,
         dayCount: Int,
         endMinute: Int,
-        history: WorkHistory
+        history: WorkHistory,
+        muteOutsideMonth: Boolean = true
     ): List<CalendarDayUiModel> =
         (0 until dayCount).map { index ->
             val current = startDate + DatePeriod(days = index)
             val calendarDay = history.days[current]
             val holiday = history.holiday(current)
             val isWeekend = current.dayOfWeek.isoDayNumber >= 6
-            val isOutsideMonth = current.month != date.month
-            val isToday = current == date
+            val isOutsideMonth = current.month != displayedMonth.month
+            val isToday = current == today
             val style = when {
-                isOutsideMonth -> CalendarDayStyle.Muted
+                muteOutsideMonth && isOutsideMonth -> CalendarDayStyle.Muted
                 calendarDay?.kind == WorkDayKind.Vacation -> CalendarDayStyle.Vacation
                 calendarDay?.kind == WorkDayKind.Sick -> CalendarDayStyle.Sick
                 calendarDay == null && holiday != null -> CalendarDayStyle.Holiday
                 isToday -> CalendarDayStyle.Today
                 isWeekend -> CalendarDayStyle.Weekend
-                current < date -> CalendarDayStyle.Done
+                current < today -> CalendarDayStyle.Done
                 else -> CalendarDayStyle.Planned
             }
             CalendarDayUiModel(
@@ -82,7 +85,10 @@ internal class CalendarMonthMapper {
         endMinute: Int,
         history: WorkHistory
     ): String = when (style) {
-        CalendarDayStyle.Muted,
+        CalendarDayStyle.Muted -> history.days[date]
+            ?.takeIf { it.kind == WorkDayKind.Work }
+            ?.let { TimeTextFormatter.calendarDuration(it.workedMinutes) }
+            .orEmpty()
         CalendarDayStyle.Weekend,
         CalendarDayStyle.Vacation,
         CalendarDayStyle.Sick -> ""
