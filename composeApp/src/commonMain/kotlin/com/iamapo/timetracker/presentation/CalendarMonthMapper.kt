@@ -85,7 +85,10 @@ internal class CalendarMonthMapper {
         endMinute: Int,
         history: WorkHistory
     ): String = when (style) {
-        CalendarDayStyle.Muted,
+        CalendarDayStyle.Muted -> history.days[date]
+            ?.takeIf { it.kind == WorkDayKind.Work }
+            ?.let { TimeTextFormatter.calendarDuration(it.workedMinutes) }
+            .orEmpty()
         CalendarDayStyle.Weekend,
         CalendarDayStyle.Vacation,
         CalendarDayStyle.Sick -> ""

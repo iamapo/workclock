@@ -193,8 +193,8 @@ object CalendarEditorScreen {
                         },
                         onDragEnd = {
                             when {
-                                horizontalDrag < -SwipeThreshold -> onPreviousMonth()
-                                horizontalDrag > SwipeThreshold && canNavigateToNextMonth -> onNextMonth()
+                                horizontalDrag < -SwipeThreshold && canNavigateToNextMonth -> onNextMonth()
+                                horizontalDrag > SwipeThreshold -> onPreviousMonth()
                             }
                             horizontalDrag = 0f
                         },
