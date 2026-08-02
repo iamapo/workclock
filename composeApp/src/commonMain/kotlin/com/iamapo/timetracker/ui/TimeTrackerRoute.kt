@@ -119,6 +119,8 @@ object TimeTrackerRoute {
                                 ?: calendarState.days.firstOrNull { it.isToday }?.date
                                 ?: calendarState.days.first().date,
                             onSelectDate = { selectedCalendarDate = it },
+                            onPreviousMonth = resolvedCalendarViewModel::showPreviousMonth,
+                            onNextMonth = resolvedCalendarViewModel::showNextMonth,
                             onIncreaseDay = resolvedCalendarViewModel::increaseDay,
                             onDecreaseDay = resolvedCalendarViewModel::decreaseDay,
                             onVacation = resolvedCalendarViewModel::setVacation,

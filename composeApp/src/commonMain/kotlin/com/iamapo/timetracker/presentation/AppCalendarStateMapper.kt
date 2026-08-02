@@ -21,14 +21,17 @@ object AppCalendarStateMapper : CalendarStateMapper {
     private val summaryCalculator = WorkDaySummaryCalculator()
     private val weeklyBalanceCalculator = WeeklyBalanceCalculator()
 
-    override fun map(history: WorkHistory, snapshot: TimeSnapshot): CalendarUiState {
+    override fun map(history: WorkHistory, snapshot: TimeSnapshot, displayedMonth: LocalDate): CalendarUiState {
         val day = history.dayWithWeeklySummary(snapshot.date)
         val summary = summaryCalculator.calculate(day, snapshot)
         val weeklyBalance = weeklyBalanceCalculator.calculate(day, snapshot.date, summary.workedMinutes)
 
         return CalendarUiState(
-            monthTitle = TimeTextFormatter.monthTitle(snapshot.date),
+            displayedMonth = displayedMonth,
+            canNavigateToNextMonth = displayedMonth < LocalDate(snapshot.date.year, snapshot.date.month, 1),
+            monthTitle = TimeTextFormatter.monthTitle(displayedMonth),
             days = monthMapper.map(
+                displayedMonth,
                 snapshot.date,
                 summary.endMinute,
                 history
