@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -40,6 +41,7 @@ object TimelineRow {
                 color = AppColors.Muted,
                 fontSize = AppFontSizes.size13,
                 fontWeight = FontWeight.Black,
+                fontFamily = LedgerMonospace,
                 modifier = Modifier.width(AppDimensions.size50)
             )
             Box(

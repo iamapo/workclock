@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.AlertDialog
@@ -42,6 +41,10 @@ import com.iamapo.timetracker.ui.components.SettingsPanel
 import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
+import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -75,7 +78,8 @@ object SettingsScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background),
+                .background(AppColors.Background)
+                .ledgerRuledPaper(),
             contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
             verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
         ) {
@@ -156,10 +160,10 @@ object SettingsScreen {
         onIncrease: (Int) -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -170,6 +174,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 state.workdays.forEach { workday ->
@@ -199,10 +204,10 @@ object SettingsScreen {
         onChooseFederalState: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -213,6 +218,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Row(
@@ -248,16 +254,17 @@ object SettingsScreen {
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(AppDimensions.size12))
+                        .clip(LedgerShapes.CardSmall)
                         .clickable(onClick = onChooseFederalState),
                     color = AppColors.PanelRaised,
-                    shape = RoundedCornerShape(AppDimensions.size12)
+                    shape = LedgerShapes.CardSmall
                 ) {
                     Column(Modifier.padding(AppDimensions.size14)) {
                         Text(
                             text = stringResource(Res.string.workplace_federal_state),
                             color = AppColors.Muted,
-                            fontSize = AppFontSizes.size12
+                            fontSize = AppFontSizes.size12,
+                            fontFamily = LedgerMonospace
                         )
                         Text(
                             text = state.holidayFederalState?.let { federalState -> federalStateName(federalState) }
@@ -285,6 +292,10 @@ object SettingsScreen {
     ) {
         AlertDialog(
             onDismissRequest = onDismiss,
+            containerColor = AppColors.Panel,
+            shape = LedgerShapes.Card,
+            titleContentColor = AppColors.Ink,
+            textContentColor = AppColors.Muted,
             title = { Text(stringResource(Res.string.workplace_federal_state)) },
             text = {
                 LazyColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp)) {
@@ -361,10 +372,10 @@ object SettingsScreen {
         onUndoImport: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -375,6 +386,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Text(
@@ -440,7 +452,7 @@ object SettingsScreen {
         onClick: () -> Unit,
         modifier: Modifier = Modifier
     ) {
-        val shape = RoundedCornerShape(AppDimensions.size14)
+        val shape = LedgerShapes.CardSmall
         Surface(
             modifier = modifier.clip(shape).clickable(onClick = onClick),
             color = color.copy(alpha = 0.10f),
@@ -475,6 +487,10 @@ object SettingsScreen {
 
         AlertDialog(
             onDismissRequest = onCancel,
+            containerColor = AppColors.Panel,
+            shape = LedgerShapes.Card,
+            titleContentColor = AppColors.Ink,
+            textContentColor = AppColors.Muted,
             title = { Text(stringResource(Res.string.import_confirm_title)) },
             text = {
                 Text(
@@ -515,10 +531,10 @@ object SettingsScreen {
         onConfirm: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -529,6 +545,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Text(
@@ -594,7 +611,7 @@ object SettingsScreen {
         onClick: () -> Unit,
         modifier: Modifier = Modifier
     ) {
-        val shape = RoundedCornerShape(AppDimensions.size14)
+        val shape = LedgerShapes.CardSmall
         Surface(
             modifier = modifier.clip(shape).clickable(onClick = onClick),
             color = background,

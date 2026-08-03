@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WorkClock — Ledger Design</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="board">
+      <header class="board-header">
+        <p class="kicker">Gewaehlte Richtung · Ausgearbeitet</p>
+        <h1>WorkClock im Ledger-Design</h1>
+        <p class="board-intro">
+          Alle Kernscreens in der Ledger-Sprache: gruenes Kolumnenpapier, tintenblaue Serifenschrift,
+          ein roter Eintragsstempel und Randlinie. Jede Ansicht liest sich wie eine Seite im selben
+          Stundenbuch — Heute ist der aktuelle Eintrag, Kalender das Journal, Einstellungen die
+          Stammdaten, die Uhr der Taschenkalender am Handgelenk.
+        </p>
+      </header>
+
+      <section class="mockup-row">
+        <!-- ================= HEUTE ================= -->
+        <article class="phone-card">
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span>5G&nbsp;&nbsp;84%</span>
+              </div>
+
+              <header class="app-header">
+                <div>
+                  <p class="eyebrow">Mo, 3. Aug.</p>
+                  <h2>Stundenzettel</h2>
+                </div>
+                <button class="icon-button" aria-label="Einstellungen">&#9776;</button>
+              </header>
+
+              <section class="hero-ledger" aria-label="Aktueller Status">
+                <div class="ledger-entry-head">
+                  <span class="ledger-col-label">Eintrag Nr. 148</span>
+                  <span class="stamp">Am Arbeiten</span>
+                </div>
+
+                <div class="ledger-figures">
+                  <div>
+                    <span class="fig-label">Restzeit</span>
+                    <strong class="fig-value">2:48</strong>
+                  </div>
+                  <div>
+                    <span class="fig-label">Feierabend ca.</span>
+                    <strong class="fig-value">17:34</strong>
+                  </div>
+                </div>
+
+                <div class="ledger-bar" aria-label="65 Prozent erledigt">
+                  <div class="ledger-bar-fill" style="width: 65%"></div>
+                  <span class="ledger-bar-mark" style="left: 45px"></span>
+                </div>
+                <p class="ledger-caption">65% des Solls · Pflichtpause 45 min</p>
+
+                <div class="actions">
+                  <button class="btn-primary">Pause eintragen</button>
+                  <button class="btn-secondary">Feierabend</button>
+                </div>
+              </section>
+
+              <section class="stats" aria-label="Tageswerte">
+                <div class="stat">
+                  <span class="stat-label">KOMMEN</span>
+                  <strong>08:42</strong>
+                  <span class="stat-note">puenktlich</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">PAUSE</span>
+                  <strong>32m</strong>
+                  <span class="stat-note">13m fehlen</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">WOCHE</span>
+                  <strong>21:40</strong>
+                  <span class="stat-note">+20m Saldo</span>
+                </div>
+              </section>
+
+              <section class="timeline" aria-label="Buchungen heute">
+                <div class="timeline-head">
+                  <span>BUCHUNGEN</span>
+                  <span>BELEG 3.8.</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">08:42</span>
+                  <span class="t-label">Arbeitsbeginn</span>
+                  <span class="t-tag done">gebucht</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">12:02</span>
+                  <span class="t-label">Pause gestartet</span>
+                  <span class="t-tag done">gebucht</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">12:26</span>
+                  <span class="t-label">Weitergearbeitet</span>
+                  <span class="t-tag done">gebucht</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">17:34</span>
+                  <span class="t-label">Ziel erreicht</span>
+                  <span class="t-tag next">offen</span>
+                </div>
+              </section>
+
+              <nav class="tabbar">
+                <button class="is-active">Heute</button>
+                <button>Kalender</button>
+                <button>Einstellungen</button>
+              </nav>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>Heute</h3>
+            <p>Der aktuelle Tag als offener Eintrag: Restzeit, Feierabend-Prognose und die Buchungen
+              des Tages als Belegliste.</p>
+          </div>
+        </article>
+
+        <!-- ================= KALENDER ================= -->
+        <article class="phone-card">
+          <div class="phone-frame">
+            <div class="phone-screen auto-height">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span>5G&nbsp;&nbsp;84%</span>
+              </div>
+
+              <header class="app-header">
+                <div>
+                  <p class="eyebrow">Planung</p>
+                  <h2>August 2026</h2>
+                </div>
+                <button class="icon-button" aria-label="Heute">&#8226;</button>
+              </header>
+
+              <section class="week-card" aria-label="Wochenkonto">
+                <div>
+                  <span class="fig-label">Diese Woche</span>
+                  <strong class="fig-value">21:40</strong>
+                </div>
+                <span class="balance-pill">+20m</span>
+                <div class="week-bars" aria-label="Arbeitsstunden pro Tag">
+                  <span style="height: 20%"></span>
+                  <span class="active" style="height: 56%"></span>
+                  <span style="height: 0%"></span>
+                  <span style="height: 0%"></span>
+                  <span style="height: 0%"></span>
+                  <span style="height: 0%"></span>
+                  <span style="height: 0%"></span>
+                </div>
+              </section>
+
+              <div class="legend" aria-hidden="true">
+                <span><i style="background: var(--green)"></i>Erledigt</span>
+                <span><i style="background: var(--blue)"></i>Heute</span>
+                <span><i style="background: var(--ochre)"></i>Geplant</span>
+                <span><i style="background: var(--plum)"></i>Urlaub/Feiertag</span>
+                <span><i style="background: var(--red)"></i>Krank</span>
+                <span><i style="background: var(--weekend)"></i>Wochenende</span>
+              </div>
+
+              <section class="calendar-card" aria-label="Kalenderansicht">
+                <div class="calendar-weekdays">
+                  <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+                </div>
+                <div class="calendar-grid">
+                  <span class="cal-day cal-muted">27</span>
+                  <span class="cal-day cal-muted">28</span>
+                  <span class="cal-day cal-muted">29</span>
+                  <span class="cal-day cal-muted">30</span>
+                  <span class="cal-day cal-muted">31</span>
+                  <span class="cal-day cal-weekend">1</span>
+                  <span class="cal-day cal-weekend">2</span>
+
+                  <span class="cal-day cal-today">3</span>
+                  <span class="cal-day cal-planned">4<small>8:00</small></span>
+                  <span class="cal-day cal-planned">5<small>8:00</small></span>
+                  <span class="cal-day cal-planned">6<small>8:00</small></span>
+                  <span class="cal-day cal-planned">7<small>8:00</small></span>
+                  <span class="cal-day cal-weekend">8</span>
+                  <span class="cal-day cal-weekend">9</span>
+
+                  <span class="cal-day cal-planned">10<small>8:00</small></span>
+                  <span class="cal-day cal-planned">11<small>8:00</small></span>
+                  <span class="cal-day cal-vacation">12<span class="tag">U</span></span>
+                  <span class="cal-day cal-planned">13<small>8:00</small></span>
+                  <span class="cal-day cal-planned">14<small>8:00</small></span>
+                  <span class="cal-day cal-weekend">15</span>
+                  <span class="cal-day cal-weekend">16</span>
+
+                  <span class="cal-day cal-planned">17<small>8:00</small></span>
+                  <span class="cal-day cal-planned">18<small>8:00</small></span>
+                  <span class="cal-day cal-planned">19<small>8:00</small></span>
+                  <span class="cal-day cal-sick">20<span class="tag">K</span></span>
+                  <span class="cal-day cal-planned">21<small>8:00</small></span>
+                  <span class="cal-day cal-weekend">22</span>
+                  <span class="cal-day cal-weekend">23</span>
+
+                  <span class="cal-day cal-planned">24<small>8:00</small></span>
+                  <span class="cal-day cal-planned">25<small>8:00</small></span>
+                  <span class="cal-day cal-planned">26<small>8:00</small></span>
+                  <span class="cal-day cal-planned">27<small>8:00</small></span>
+                  <span class="cal-day cal-holiday">28<span class="tag">F</span></span>
+                  <span class="cal-day cal-weekend">29</span>
+                  <span class="cal-day cal-weekend">30</span>
+
+                  <span class="cal-day cal-planned">31<small>8:00</small></span>
+                  <span class="cal-day cal-muted">1</span>
+                  <span class="cal-day cal-muted">2</span>
+                  <span class="cal-day cal-muted">3</span>
+                  <span class="cal-day cal-muted">4</span>
+                  <span class="cal-day cal-muted">5</span>
+                  <span class="cal-day cal-muted">6</span>
+                </div>
+              </section>
+
+              <section class="day-panel" aria-label="Tagesdetail">
+                <h4>Heute, Montag, 3. August</h4>
+                <p>Arbeitszeit bisher: 5 h 12 min</p>
+                <div class="stepper-row">
+                  <span class="fig-label" style="margin: 0 4px 0 0">Pause</span>
+                  <button class="stepper-btn">–</button>
+                  <span class="stepper-value">32 min</span>
+                  <button class="stepper-btn">+</button>
+                </div>
+                <div class="day-actions">
+                  <button class="chip-vacation">Urlaub</button>
+                  <button class="chip-sick">Krank</button>
+                  <button class="chip-delete">Eintrag loeschen</button>
+                </div>
+              </section>
+
+              <nav class="tabbar">
+                <button>Heute</button>
+                <button class="is-active">Kalender</button>
+                <button>Einstellungen</button>
+              </nav>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>Kalender</h3>
+            <p>Monatsjournal mit Wochenkonto oben, Statusfarben als Tintenstempel im Raster und
+              Detailzeile fuer den ausgewaehlten Tag darunter.</p>
+          </div>
+        </article>
+
+        <!-- ================= EINSTELLUNGEN ================= -->
+        <article class="phone-card">
+          <div class="phone-frame">
+            <div class="phone-screen auto-height">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span>5G&nbsp;&nbsp;84%</span>
+              </div>
+
+              <header class="app-header">
+                <div>
+                  <p class="eyebrow">Vorgaben &amp; Daten</p>
+                  <h2>Einstellungen</h2>
+                </div>
+                <span></span>
+              </header>
+
+              <p class="section-title">Vorgaben</p>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Pause</strong></div>
+                  <div class="mini-stepper">
+                    <button>–</button>
+                    <span class="value-pill">30 min</span>
+                    <button>+</button>
+                  </div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text">
+                    <strong>Sperrbildschirm-Status</strong>
+                    <span>Arbeitszeit und Pausen live anzeigen</span>
+                  </div>
+                  <div class="toggle is-on"></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text">
+                    <strong>Erinnerungen</strong>
+                    <span>Benachrichtigung, wenn Pause-, Tages- oder Wochenziel erreicht ist</span>
+                  </div>
+                  <div class="toggle is-on"></div>
+                </div>
+              </div>
+
+              <p class="section-title">Arbeitsplan</p>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Montag</strong></div>
+                  <div class="mini-stepper"><button>–</button><span class="value-pill">8:00 h</span><button>+</button></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Dienstag</strong></div>
+                  <div class="mini-stepper"><button>–</button><span class="value-pill">8:00 h</span><button>+</button></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Mittwoch</strong></div>
+                  <div class="mini-stepper"><button>–</button><span class="value-pill">8:00 h</span><button>+</button></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Donnerstag</strong></div>
+                  <div class="mini-stepper"><button>–</button><span class="value-pill">8:00 h</span><button>+</button></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Freitag</strong></div>
+                  <div class="mini-stepper"><button>–</button><span class="value-pill">8:00 h</span><button>+</button></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Samstag</strong></div>
+                  <div class="mini-stepper"><button>–</button><span class="value-pill">0:00 h</span><button>+</button></div>
+                </div>
+                <div class="settings-footer-note">Wochenziel: 40:00 h</div>
+              </div>
+
+              <p class="section-title">Feiertage</p>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-text">
+                    <strong>Automatisch beruecksichtigen</strong>
+                    <span>Reduziert die Sollzeit an gesetzlichen Feiertagen</span>
+                  </div>
+                  <div class="toggle is-on"></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-text"><strong>Bundesland des Arbeitsortes</strong></div>
+                  <div class="chevron-row">Bayern &rsaquo;</div>
+                </div>
+                <div class="settings-footer-note">Feiertage werden offline berechnet, keine Daten verlassen das Geraet.</div>
+              </div>
+
+              <p class="section-title">Backup</p>
+              <div class="settings-card">
+                <p class="settings-panel-desc">Im Systemdialog waehlst du den Speicherort, zum Beispiel
+                  dieses Geraet, iCloud Drive oder Google Drive.</p>
+                <div class="backup-buttons">
+                  <button class="btn-blue">Exportieren</button>
+                  <button class="btn-plum">Importieren</button>
+                </div>
+                <p class="status-note">Das Backup wurde erfolgreich gespeichert.</p>
+                <p class="undo-link">Letzten Import rueckgaengig machen</p>
+              </div>
+
+              <p class="section-title">Daten</p>
+              <div class="settings-card">
+                <p class="settings-panel-desc" style="border-bottom: none">Gespeicherte Zeiteintraege loeschen. Diese
+                  Aktion kann nicht rueckgaengig gemacht werden.</p>
+                <button class="danger-button">Alle Eintraege loeschen</button>
+              </div>
+
+              <nav class="tabbar">
+                <button>Heute</button>
+                <button>Kalender</button>
+                <button class="is-active">Einstellungen</button>
+              </nav>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>Einstellungen</h3>
+            <p>Stammdaten des Stundenbuchs: gleiche Kartenform wie ueberall, jede Sektion eine eigene
+              Karteikarte mit rotem Randstrich.</p>
+          </div>
+        </article>
+
+        <!-- ================= WATCH ================= -->
+        <article class="phone-card" style="width: 220px">
+          <div class="watch-column">
+            <div class="watch-shell">
+              <span class="watch-crown"></span>
+              <div class="watch-screen">
+                <div class="watch-top"><span class="watch-dot"></span>WorkClock</div>
+                <div class="watch-ring" aria-label="Noch 2 Stunden 48 Minuten">
+                  <strong>2:48</strong>
+                  <span>bis 17:34</span>
+                </div>
+                <span class="watch-stamp">Am Arbeiten</span>
+                <div class="watch-actions">
+                  <button class="w-primary">Pause</button>
+                  <button class="w-secondary">Beenden</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="complication-board" aria-label="Komplikationen">
+              <article class="complication">
+                <p>Heute</p>
+                <strong>2:48</strong>
+              </article>
+              <article class="complication">
+                <p>Pause</p>
+                <strong>13m</strong>
+              </article>
+              <article class="complication">
+                <p>Saldo</p>
+                <strong>+20m</strong>
+              </article>
+            </div>
+
+            <div class="card-caption">
+              <h3>Apple Watch</h3>
+              <p>Gleiche Tinte, gleicher Stempel, auf dunklem Ziffernblatt fuer den Handgelenk-Blick.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mockup-row">
+        <!-- ================= DIALOG: ARBEITSTAG BEARBEITEN ================= -->
+        <article class="phone-card" style="width: 300px">
+          <div class="dialog-card">
+            <h4>Arbeitstag bearbeiten</h4>
+            <p class="dialog-sub">Montag, 3. August · Zeiten fuer diesen Tag anpassen</p>
+            <div class="field-row"><span>Arbeitsbeginn</span><strong>08:42</strong></div>
+            <div class="field-row"><span>Pause</span><strong>32 min</strong></div>
+            <div class="field-row"><span>Arbeitsende</span><strong>17:34</strong></div>
+            <div class="field-result">
+              <span>Arbeitszeit</span>
+              <strong>8:20 h</strong>
+            </div>
+            <div class="actions">
+              <button class="btn-ghost">Abbrechen</button>
+              <button class="btn-primary">Speichern</button>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>Dialog · Arbeitstag bearbeiten</h3>
+            <p>Erscheint bei langem Druck auf einen Kalendertag. Selbe Karteikarten-Optik, als
+              eingelegtes Formularblatt.</p>
+          </div>
+        </article>
+
+        <!-- ================= DIALOG: BUNDESLAND ================= -->
+        <article class="phone-card" style="width: 300px">
+          <div class="dialog-card">
+            <h4>Bundesland waehlen</h4>
+            <p class="dialog-sub">Bestimmt die gesetzlichen Feiertage</p>
+            <div class="field-row"><span>&#9679;</span><strong>Bayern</strong></div>
+            <div class="field-row"><span>&#9675;</span><strong>Baden-Wuerttemberg</strong></div>
+            <div class="field-row"><span>&#9675;</span><strong>Berlin</strong></div>
+            <div class="field-row" style="border-bottom: none"><span>&#9675;</span><strong>Hessen</strong></div>
+            <div class="actions" style="margin-top: 14px">
+              <button class="btn-ghost">Abbrechen</button>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>Dialog · Bundesland waehlen</h3>
+            <p>Radiogruppe aller 16 Bundeslaender fuer die Feiertagsberechnung, gleiche Feldreihen wie
+              der Zeit-Dialog.</p>
+          </div>
+        </article>
+      </section>
+
+      <footer class="board-footer">
+        <p>Naechste Schritte: Light/Dark-Feinschliff fuer das produktive Compose-Theme ableiten (Tokens
+          aus <code>AppColors.kt</code>), Zustandsvarianten (Pause, Feierabend, Bereit) fuer die
+          Heute-Karte durchspielen, und pruefen ob die Rasterlinie auf realen Geraeten performant
+          bleibt (ansonsten als Bild-Hintergrund statt Repeat-Gradient).</p>
+      </footer>
+    </main>
+  </body>
+</html>

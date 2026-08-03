@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.ui.ComposePreviewContext
 import org.jetbrains.compose.resources.stringResource
@@ -28,10 +30,10 @@ object TimelineSection {
     @Composable
     operator fun invoke(items: List<TimelineItemUiModel>, modifier: Modifier = Modifier) {
         Surface(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -42,6 +44,7 @@ object TimelineSection {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 items.forEach { item ->

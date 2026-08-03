@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
@@ -38,7 +39,7 @@ object CalendarDayCell {
         onClick: (() -> Unit)? = null,
         onLongClick: (() -> Unit)? = null
     ) {
-        val shape = RoundedCornerShape(AppDimensions.size10)
+        val shape = LedgerShapes.CardSmall
         Surface(
             modifier = modifier
                 .fillMaxWidth()
@@ -72,6 +73,7 @@ object CalendarDayCell {
                         color = noteFor(day.style),
                         fontSize = AppFontSizes.size9,
                         lineHeight = AppFontSizes.size10,
+                        fontFamily = LedgerMonospace,
                         fontWeight = FontWeight.Bold,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
@@ -49,7 +49,7 @@ object BottomNavigationBar {
                 modifier = Modifier.fillMaxWidth(),
                 color = AppColors.Soft.copy(alpha = 0.78f),
                 border = BorderStroke(AppDimensions.size1, AppColors.Line.copy(alpha = 0.72f)),
-                shape = RoundedCornerShape(AppDimensions.size18)
+                shape = LedgerShapes.Card
             ) {
                 Row(
                     modifier = Modifier
@@ -83,7 +83,7 @@ object BottomNavigationBar {
             modifier = modifier
                 .heightIn(min = AppDimensions.size50),
             color = if (selected) AppColors.Panel else Color.Transparent,
-            shape = RoundedCornerShape(AppDimensions.size12)
+            shape = LedgerShapes.CardSmall
         ) {
             Column(
                 modifier = Modifier.padding(vertical = AppDimensions.size7),

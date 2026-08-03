@@ -2,25 +2,30 @@ package com.iamapo.timetracker.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Ledger palette: green columnar accounting paper, blue-black ink and a red stamp/margin accent.
+ * Property names are kept stable so every screen picks up the new identity without call-site churn.
+ */
 object AppColors {
-    val Background = Color(0xFFFFFAF2)
-    val Panel = Color(0xFFFFFFFF)
-    val PanelRaised = Color(0xFFFFF5E7)
-    val Soft = Color(0xFFF7EBDD)
-    val SoftMuted = Color(0xFFECE1D3)
-    val Line = Color(0xFFEADFCC)
-    val LineStrong = Color(0xFFD8C8B2)
-    val Ink = Color(0xFF17151F)
-    val Muted = Color(0xFF514C5F)
-    val Subtle = Color(0xFF837A8F)
-    val Night = Color(0xFF181721)
-    val Paper = Color(0xFFFFFFFF)
-    val Coral = Color(0xFFFF6B5E)
-    val Lemon = Color(0xFFFFD84D)
-    val Blue = Color(0xFF58A7FF)
-    val Green = Color(0xFF66DDB6)
-    val Rose = Color(0xFFFF6B8F)
-    val Purple = Color(0xFF9C70FF)
-    val Cyan = Color(0xFF28C7D8)
+    val Background = Color(0xFFEAF0E4)
+    val Panel = Color(0xFFF4F8F0)
+    val PanelRaised = Color(0xFFEEF4E8)
+    val Soft = Color(0xFFE3ECDB)
+    val SoftMuted = Color(0xFFDCE7D2)
+    val Line = Color(0xFFB9CDB0)
+    val LineStrong = Color(0xFFA3C096)
+    val Ink = Color(0xFF1E2A3D)
+    val Muted = Color(0xFF5B6B5F)
+    val Subtle = Color(0xFF74856F)
+    val Night = Color(0xFF1E2A3D)
+    val Paper = Color(0xFFF4F8F0)
+    val Margin = Color(0xFFB23A2E)
+    val Coral = Color(0xFFB23A2E)
+    val Lemon = Color(0xFFA8781F)
+    val Blue = Color(0xFF2F5AA8)
+    val Green = Color(0xFF4A6B3E)
+    val Rose = Color(0xFFB23A2E)
+    val Purple = Color(0xFF7A4F8F)
+    val Cyan = Color(0xFF3D6FA0)
     val Amber = Lemon
 }

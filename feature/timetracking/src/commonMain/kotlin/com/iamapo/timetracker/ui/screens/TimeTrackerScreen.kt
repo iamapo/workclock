@@ -17,6 +17,7 @@ import com.iamapo.timetracker.ui.components.TimelineSection
 import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import com.iamapo.timetracker.ui.ComposePreviewContext
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
@@ -32,7 +33,8 @@ object TimeTrackerScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background),
+                .background(AppColors.Background)
+                .ledgerRuledPaper(),
             contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
             verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
         ) {

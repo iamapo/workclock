@@ -28,6 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.WeekDayProgressUiModel
 import com.iamapo.timetracker.presentation.state.WeekOverviewUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
@@ -41,10 +44,10 @@ object WeekOverviewCard {
         showCarry: Boolean = false
     ) {
         Surface(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             BoxWithConstraints(modifier = Modifier.padding(AppDimensions.size18)) {
                 val compact = maxWidth < AppDimensions.size310
@@ -86,6 +89,7 @@ object WeekOverviewCard {
                 color = AppColors.Muted,
                 fontSize = AppFontSizes.size11,
                 fontWeight = FontWeight.Black,
+                fontFamily = LedgerMonospace,
                 letterSpacing = AppFontSizes.size0_2
             )
             Text(

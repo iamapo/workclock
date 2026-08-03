@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -21,6 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -36,10 +38,10 @@ object SettingsPanel {
         modifier: Modifier = Modifier
     ) {
         Surface(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -50,6 +52,7 @@ object SettingsPanel {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 SettingsRow(

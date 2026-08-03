@@ -15,16 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -36,8 +32,12 @@ import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.ui.ComposePreviewContext
+import androidx.compose.ui.graphics.graphicsLayer
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
 import kotlin.math.roundToInt
@@ -51,21 +51,13 @@ object StatusCard {
         modifier: Modifier = Modifier
     ) {
         val tone = statusTone(state)
-        val shape = RoundedCornerShape(AppDimensions.size18)
+        val shape = LedgerShapes.Card
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            tone.color.copy(alpha = 0.18f),
-                            AppColors.Panel,
-                            AppColors.Blue.copy(alpha = 0.16f)
-                        )
-                    ),
-                    shape = shape
-                )
-                .border(BorderStroke(AppDimensions.size1, tone.color.copy(alpha = 0.20f)), shape)
+                .background(color = AppColors.Panel, shape = shape)
+                .border(BorderStroke(AppDimensions.size1, AppColors.Line), shape)
+                .ledgerMargin(tone.color)
         ) {
             Column(
                 modifier = Modifier
@@ -139,31 +131,23 @@ object StatusCard {
     @Composable
     private fun StatusChip(tone: StatusTone) {
         Surface(
-            color = tone.background,
-            border = BorderStroke(AppDimensions.size1, tone.color.copy(alpha = 0.16f)),
-            shape = RoundedCornerShape(AppDimensions.size99)
+            color = Color.Transparent,
+            border = BorderStroke(AppDimensions.size2, tone.color),
+            shape = LedgerShapes.CardSmall,
+            modifier = Modifier.graphicsLayer(rotationZ = -3f)
         ) {
-            Row(
-                modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size7),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(AppDimensions.size8)
-                        .clip(CircleShape)
-                        .background(tone.color)
-                )
-                Text(
-                    text = tone.label,
-                    color = tone.foreground,
-                    fontSize = AppFontSizes.size13,
-                    lineHeight = AppFontSizes.size15,
-                    fontWeight = FontWeight.Black,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            Text(
+                text = tone.label.uppercase(),
+                color = tone.color,
+                fontSize = AppFontSizes.size12,
+                lineHeight = AppFontSizes.size14,
+                fontWeight = FontWeight.Black,
+                fontFamily = LedgerMonospace,
+                letterSpacing = AppFontSizes.size0_2,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = AppDimensions.size10, vertical = AppDimensions.size6)
+            )
         }
     }
 
@@ -262,8 +246,6 @@ object StatusCard {
     private data class StatusTone(
         val label: String,
         val color: Color,
-        val foreground: Color,
-        val background: Color,
         val progressColor: Color = color,
         val actionColor: Color = color
     )
@@ -273,31 +255,23 @@ object StatusCard {
         TimeTrackingCommand.StartBreak -> StatusTone(
             label = stringResource(Res.string.status_working),
             color = AppColors.Purple,
-            foreground = Color(0xFF4B2E9E),
-            background = AppColors.Purple.copy(alpha = 0.18f),
             actionColor = AppColors.Night,
             progressColor = AppColors.Purple
         )
         TimeTrackingCommand.ResumeWork -> StatusTone(
             label = stringResource(Res.string.state_break),
             color = AppColors.Amber,
-            foreground = Color(0xFF6A4B00),
-            background = AppColors.Amber.copy(alpha = 0.32f),
             actionColor = AppColors.Night,
             progressColor = AppColors.Amber
         )
         TimeTrackingCommand.StartNewDay -> StatusTone(
             label = stringResource(Res.string.state_finished),
             color = AppColors.Blue,
-            foreground = Color(0xFF145EA7),
-            background = AppColors.Blue.copy(alpha = 0.16f),
             actionColor = AppColors.Night
         )
         else -> StatusTone(
             label = stringResource(Res.string.state_ready),
             color = AppColors.Green,
-            foreground = Color(0xFF096443),
-            background = AppColors.Green.copy(alpha = 0.16f),
             progressColor = AppColors.Green,
             actionColor = AppColors.Night
         )

@@ -2,6 +2,13 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.4] - 2026-08-03
+
+### Geändert
+- Neues "Ledger"-Erscheinungsbild für Heute-, Kalender- und Einstellungen-Screen: grünes Kolumnenpapier, tintenblaue Serifenschrift und ein roter Eintragsstempel/Randstrich ersetzen das bisherige warme Kartendesign
+- Statusanzeige auf dem Heute-Screen erscheint jetzt als gestempeltes Etikett statt als gefüllte Pille
+- Kleinere, fast eckige Kartenradien anstelle der bisherigen groß abgerundeten Karten
+
 ## [1.3] - 2026-08-02
 
 ### Hinzugefügt

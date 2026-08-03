@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
 
 object TopBarSection {
     @Composable
@@ -28,6 +29,7 @@ object TopBarSection {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Bold,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_4
                 )
                 Text(

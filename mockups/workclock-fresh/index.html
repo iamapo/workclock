@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WorkClock — Fresh Redesign Directions</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="board">
+      <header class="board-header">
+        <p class="kicker">V3 Explorationen</p>
+        <h1>Drei neue Richtungen fuer WorkClock</h1>
+        <p class="board-intro">
+          Alle drei zeigen denselben Zustand — Montag, 3. August, 65&nbsp;% erledigt, Restzeit 2:48,
+          Feierabend 17:34 — damit sich die Gestaltung fair vergleichen laesst. Jede Richtung zieht ihr
+          Vokabular aus einem anderen Zeitmess-Instrument statt aus einer generischen Farbpalette.
+        </p>
+      </header>
+
+      <section class="mockup-row">
+        <!-- ================= DIRECTION 1: DEPARTURE BOARD ================= -->
+        <article class="phone-card">
+          <div class="phone-frame frame-board">
+            <div class="phone-screen style-board">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span class="status-icons">5G&nbsp;&nbsp;84%</span>
+              </div>
+
+              <header class="app-header">
+                <div>
+                  <p class="eyebrow">Montag, 3. August</p>
+                  <h2>WorkClock</h2>
+                </div>
+                <button class="icon-button" aria-label="Einstellungen">&#9881;</button>
+              </header>
+
+              <section class="hero-board" aria-label="Aktueller Status">
+                <div class="board-row-label">
+                  <span class="board-dot"></span>
+                  <span>AM ARBEITEN</span>
+                  <span class="board-pct">65%</span>
+                </div>
+
+                <div class="flap-row" aria-label="Restzeit 2 Stunden 48 Minuten">
+                  <div class="flap">2</div>
+                  <div class="flap flap-colon">:</div>
+                  <div class="flap">4</div>
+                  <div class="flap">8</div>
+                  <span class="flap-caption">RESTZEIT</span>
+                </div>
+
+                <div class="board-destination">
+                  <span class="dest-label">FEIERABEND</span>
+                  <span class="dest-dots"></span>
+                  <span class="dest-time">17:34</span>
+                </div>
+                <p class="board-sub">inkl. 45 min Pflichtpause</p>
+
+                <div class="actions">
+                  <button class="btn-primary">Pause</button>
+                  <button class="btn-secondary">Beenden</button>
+                </div>
+              </section>
+
+              <section class="stats" aria-label="Tageswerte">
+                <div class="stat">
+                  <span class="stat-label">START</span>
+                  <strong>08:42</strong>
+                  <span class="stat-note">puenktlich</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">PAUSE</span>
+                  <strong>32m</strong>
+                  <span class="stat-note">13m fehlen</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">WOCHE</span>
+                  <strong>21:40</strong>
+                  <span class="stat-note">+20m Saldo</span>
+                </div>
+              </section>
+
+              <section class="timeline" aria-label="Fahrplan heute">
+                <div class="timeline-head">
+                  <span>FAHRPLAN</span>
+                  <span>HEUTE</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">08:42</span>
+                  <span class="t-dots"></span>
+                  <span class="t-label">Arbeitsbeginn</span>
+                  <span class="t-tag done">OK</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">12:02</span>
+                  <span class="t-dots"></span>
+                  <span class="t-label">Pause gestartet</span>
+                  <span class="t-tag done">OK</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">12:26</span>
+                  <span class="t-dots"></span>
+                  <span class="t-label">Weitergearbeitet</span>
+                  <span class="t-tag done">OK</span>
+                </div>
+                <div class="timeline-row is-next">
+                  <span class="t-time">17:34</span>
+                  <span class="t-dots"></span>
+                  <span class="t-label">Ziel erreicht</span>
+                  <span class="t-tag next">BALD</span>
+                </div>
+              </section>
+
+              <nav class="tabbar">
+                <button class="is-active">Heute</button>
+                <button>Kalender</button>
+                <button>Einstellungen</button>
+              </nav>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>1 · Anzeigetafel</h3>
+            <p>Splitflap-Ziffern und ein Bahnhofs-Fahrplan statt Statuskarten — der Tag liest sich wie eine
+              Abfahrtstafel: naechstes Ziel, verbleibende Zeit, Haltepunkte.</p>
+          </div>
+        </article>
+
+        <!-- ================= DIRECTION 2: LEDGER ================= -->
+        <article class="phone-card">
+          <div class="phone-frame frame-ledger">
+            <div class="phone-screen style-ledger">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span class="status-icons">5G&nbsp;&nbsp;84%</span>
+              </div>
+
+              <header class="app-header">
+                <div>
+                  <p class="eyebrow">Mo, 3. Aug.</p>
+                  <h2>Stundenzettel</h2>
+                </div>
+                <button class="icon-button" aria-label="Einstellungen">&#9776;</button>
+              </header>
+
+              <section class="hero-ledger" aria-label="Aktueller Status">
+                <div class="ledger-entry-head">
+                  <span class="ledger-col-label">Eintrag Nr. 148</span>
+                  <span class="stamp">Am Arbeiten</span>
+                </div>
+
+                <div class="ledger-figures">
+                  <div class="ledger-figure">
+                    <span class="fig-label">Restzeit</span>
+                    <strong class="fig-value">2:48</strong>
+                  </div>
+                  <div class="ledger-figure">
+                    <span class="fig-label">Feierabend ca.</span>
+                    <strong class="fig-value">17:34</strong>
+                  </div>
+                </div>
+
+                <div class="ledger-bar" aria-label="65 Prozent erledigt">
+                  <div class="ledger-bar-fill" style="width: 65%"></div>
+                  <span class="ledger-bar-mark" style="left: 45px"></span>
+                </div>
+                <p class="ledger-caption">65% des Solls · Pflichtpause 45 min</p>
+
+                <div class="actions">
+                  <button class="btn-primary">Pause eintragen</button>
+                  <button class="btn-secondary">Feierabend</button>
+                </div>
+              </section>
+
+              <section class="stats" aria-label="Tageswerte">
+                <div class="stat">
+                  <span class="stat-label">Kommen</span>
+                  <strong>08:42</strong>
+                  <span class="stat-note">puenktlich</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Pause</span>
+                  <strong>32m</strong>
+                  <span class="stat-note">13m fehlen</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Woche</span>
+                  <strong>21:40</strong>
+                  <span class="stat-note">+20m Saldo</span>
+                </div>
+              </section>
+
+              <section class="timeline" aria-label="Buchungen heute">
+                <div class="timeline-head">
+                  <span>Buchungen</span>
+                  <span>Beleg 3.8.</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">08:42</span>
+                  <span class="t-label">Arbeitsbeginn</span>
+                  <span class="t-tag done">gebucht</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">12:02</span>
+                  <span class="t-label">Pause gestartet</span>
+                  <span class="t-tag done">gebucht</span>
+                </div>
+                <div class="timeline-row">
+                  <span class="t-time">12:26</span>
+                  <span class="t-label">Weitergearbeitet</span>
+                  <span class="t-tag done">gebucht</span>
+                </div>
+                <div class="timeline-row is-next">
+                  <span class="t-time">17:34</span>
+                  <span class="t-label">Ziel erreicht</span>
+                  <span class="t-tag next">offen</span>
+                </div>
+              </section>
+
+              <nav class="tabbar">
+                <button class="is-active">Heute</button>
+                <button>Kalender</button>
+                <button>Einstellungen</button>
+              </nav>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>2 · Ledger</h3>
+            <p>Gruenes Kolumnenpapier, Tintenfarben und ein Eintragsstempel — der Tag wird wie ein
+              gebuchter Stundenzettel dargestellt, jede Zeile ein Beleg.</p>
+          </div>
+        </article>
+
+        <!-- ================= DIRECTION 3: DIAL ================= -->
+        <article class="phone-card">
+          <div class="phone-frame frame-dial">
+            <div class="phone-screen style-dial">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span class="status-icons">5G&nbsp;&nbsp;84%</span>
+              </div>
+
+              <header class="app-header">
+                <div>
+                  <p class="eyebrow">MO 03.08</p>
+                  <h2>Instrument</h2>
+                </div>
+                <button class="icon-button" aria-label="Einstellungen">&#9881;</button>
+              </header>
+
+              <section class="hero-dial" aria-label="Aktueller Status">
+                <div class="dial" style="--progress: 0.65" aria-label="65 Prozent, noch 2 Stunden 48 Minuten">
+                  <div class="dial-ticks">
+                    <i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i>
+                    <i style="--n:4"></i><i style="--n:5"></i><i style="--n:6"></i><i style="--n:7"></i>
+                    <i style="--n:8"></i><i style="--n:9"></i><i style="--n:10"></i><i style="--n:11"></i>
+                  </div>
+                  <div class="dial-arc"></div>
+                  <div class="dial-face">
+                    <span class="dial-state">AM ARBEITEN</span>
+                    <strong class="dial-time">2:48</strong>
+                    <span class="dial-sub">bis 17:34</span>
+                  </div>
+                  <span class="dial-needle-dot"></span>
+                </div>
+
+                <div class="actions">
+                  <button class="btn-primary">Pause</button>
+                  <button class="btn-secondary">Beenden</button>
+                </div>
+              </section>
+
+              <section class="gauges" aria-label="Tageswerte">
+                <div class="gauge" style="--g: 1">
+                  <svg viewBox="0 0 44 26"><path d="M4 24 A20 20 0 0 1 40 24" /></svg>
+                  <span class="gauge-label">START</span>
+                  <strong>08:42</strong>
+                </div>
+                <div class="gauge" style="--g: 0.71">
+                  <svg viewBox="0 0 44 26"><path d="M4 24 A20 20 0 0 1 40 24" /></svg>
+                  <span class="gauge-label">PAUSE</span>
+                  <strong>32m</strong>
+                </div>
+                <div class="gauge" style="--g: 0.54">
+                  <svg viewBox="0 0 44 26"><path d="M4 24 A20 20 0 0 1 40 24" /></svg>
+                  <span class="gauge-label">WOCHE</span>
+                  <strong>21:40</strong>
+                </div>
+              </section>
+
+              <section class="ruler" aria-label="Zeitstrahl heute">
+                <div class="ruler-head">
+                  <span>ZEITSTRAHL</span>
+                  <span>08 — 18 UHR</span>
+                </div>
+                <div class="ruler-track">
+                  <div class="ruler-fill" style="width: 65%"></div>
+                  <span class="ruler-pin" style="left: 4%"><em>08:42</em></span>
+                  <span class="ruler-pin" style="left: 40%"><em class="label-left">12:02</em></span>
+                  <span class="ruler-pin" style="left: 44%"><em class="label-right">12:26</em></span>
+                  <span class="ruler-pin is-target" style="left: 96%"><em>17:34</em></span>
+                </div>
+              </section>
+
+              <nav class="tabbar">
+                <button class="is-active">Heute</button>
+                <button>Kalender</button>
+                <button>Einstellungen</button>
+              </nav>
+            </div>
+          </div>
+          <div class="card-caption">
+            <h3>3 · Instrument</h3>
+            <p>Ein Stoppuhr-Zifferblatt mit Skalenstrichen und Bogenanzeige, kleine Halbrund-Gauges statt
+              Kacheln, der Tagesverlauf als Massband mit Pins.</p>
+          </div>
+        </article>
+      </section>
+
+      <footer class="board-footer">
+        <p>Alle drei sind bewusst als eigenstaendige Welt gestaltet (kein gemeinsames Hell/Dunkel-Schema) —
+          das Ziel ist, eine Richtung oder eine Mischung ihrer Ideen fuer das produktive Theme auszuwaehlen.</p>
+      </footer>
+    </main>
+  </body>
+</html>

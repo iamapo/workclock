@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
@@ -30,7 +30,7 @@ object EndTimeCard {
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Blue.copy(alpha = 0.10f),
             border = BorderStroke(AppDimensions.size1, AppColors.Blue.copy(alpha = 0.35f)),
-            shape = RoundedCornerShape(AppDimensions.size8)
+            shape = LedgerShapes.CardSmall
         ) {
             Row(
                 modifier = Modifier.padding(AppDimensions.size14),

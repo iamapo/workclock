@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object PrimaryActionsRow {
@@ -55,9 +55,10 @@ object PrimaryActionsRow {
                     modifier = Modifier
                         .weight(1f)
                         .heightIn(min = AppDimensions.size50),
-                    contentColor = AppColors.Ink,
-                    containerColor = AppColors.Lemon,
-                    borderColor = AppColors.Lemon
+                    contentColor = AppColors.Rose,
+                    containerColor = Color.Transparent,
+                    borderColor = AppColors.Rose,
+                    borderAlpha = 1f
                 )
             }
         }
@@ -70,13 +71,14 @@ object PrimaryActionsRow {
         modifier: Modifier,
         contentColor: Color,
         containerColor: Color,
-        borderColor: Color
+        borderColor: Color,
+        borderAlpha: Float = 0.28f
     ) {
-        val shape = RoundedCornerShape(AppDimensions.size14)
+        val shape = LedgerShapes.CardSmall
         Surface(
             modifier = modifier.clip(shape).clickable(onClick = onClick),
             color = containerColor,
-            border = BorderStroke(AppDimensions.size1, borderColor.copy(alpha = 0.28f)),
+            border = BorderStroke(AppDimensions.size1, borderColor.copy(alpha = borderAlpha)),
             shape = shape
         ) {
             Box(contentAlignment = Alignment.Center) {

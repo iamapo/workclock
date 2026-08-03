@@ -22,6 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -35,10 +38,10 @@ object WatchCompanionCard {
         modifier: Modifier = Modifier
     ) {
         Surface(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth().ledgerMargin(),
             color = AppColors.PanelRaised,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Row(
                 modifier = Modifier.padding(AppDimensions.size16),
@@ -51,7 +54,7 @@ object WatchCompanionCard {
                         .height(AppDimensions.size62),
                     color = androidx.compose.ui.graphics.Color.Black,
                     border = BorderStroke(AppDimensions.size1, AppColors.LineStrong.copy(alpha = 0.65f)),
-                    shape = RoundedCornerShape(AppDimensions.size15)
+                    shape = LedgerShapes.CardSmall
                 ) {
                     Column(
                         modifier = Modifier.padding(horizontal = AppDimensions.size4, vertical = AppDimensions.size8),
@@ -63,6 +66,7 @@ object WatchCompanionCard {
                             color = stateColor(state),
                             fontSize = AppFontSizes.size6,
                             fontWeight = FontWeight.Bold,
+                            fontFamily = LedgerMonospace,
                             letterSpacing = AppFontSizes.size0_5
                         )
                         Text(

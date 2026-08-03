@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.MetricUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -34,7 +35,7 @@ object MetricCard {
                 .height(AppDimensions.size112),
             color = tone.background,
             border = BorderStroke(AppDimensions.size1, tone.border),
-            shape = RoundedCornerShape(AppDimensions.size14)
+            shape = LedgerShapes.CardSmall
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = AppDimensions.size14, vertical = AppDimensions.size12),
@@ -45,6 +46,7 @@ object MetricCard {
                     color = tone.content.copy(alpha = 0.70f),
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Text(

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +19,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
@@ -35,12 +37,13 @@ object CalendarPanel {
         modifier: Modifier = Modifier,
         onOpenCalendar: (() -> Unit)? = null
     ) {
-        val shape = RoundedCornerShape(AppDimensions.size18)
+        val shape = LedgerShapes.Card
         Surface(
             modifier = modifier
                 .fillMaxWidth()
                 .clip(shape)
-                .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier),
+                .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier)
+                .ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = shape
@@ -54,6 +57,7 @@ object CalendarPanel {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Text(

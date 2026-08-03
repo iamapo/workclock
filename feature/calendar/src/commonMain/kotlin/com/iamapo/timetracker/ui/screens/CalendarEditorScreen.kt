@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -45,6 +44,10 @@ import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.presentation.state.CalendarUiState
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
+import com.iamapo.timetracker.ui.theme.ledgerMargin
+import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
@@ -78,7 +81,8 @@ object CalendarEditorScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background),
+                .background(AppColors.Background)
+                .ledgerRuledPaper(),
             contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
             verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
         ) {
@@ -144,6 +148,7 @@ object CalendarEditorScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size12,
                     fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_4
                 )
                 Text(
@@ -157,7 +162,7 @@ object CalendarEditorScreen {
             if (onBack != null) {
                 Button(
                     onClick = onBack,
-                    shape = RoundedCornerShape(AppDimensions.size10),
+                    shape = LedgerShapes.CardSmall,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = AppColors.PanelRaised,
                         contentColor = AppColors.Muted
@@ -200,10 +205,11 @@ object CalendarEditorScreen {
                         },
                         onDragCancel = { horizontalDrag = 0f }
                     )
-                },
+                }
+                .ledgerMargin(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -267,19 +273,19 @@ object CalendarEditorScreen {
             Surface(
                 color = AppColors.Panel,
                 border = BorderStroke(AppDimensions.size1, AppColors.Line),
-                shape = RoundedCornerShape(AppDimensions.size18)
+                shape = LedgerShapes.Card
             ) {
                 Column(
                     modifier = Modifier.padding(AppDimensions.size20),
                     verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
                 ) {
                     Text(stringResource(Res.string.edit_workday), color = AppColors.Ink, fontSize = AppFontSizes.size24, fontWeight = FontWeight.Black)
-                    Text(selectedDayTitle(day), color = AppColors.Muted, fontSize = AppFontSizes.size13)
-                    Text(stringResource(Res.string.adjust_day_times), color = AppColors.Subtle, fontSize = AppFontSizes.size12)
+                    Text(selectedDayTitle(day), color = AppColors.Muted, fontSize = AppFontSizes.size13, fontFamily = LedgerMonospace)
+                    Text(stringResource(Res.string.adjust_day_times), color = AppColors.Subtle, fontSize = AppFontSizes.size12, fontFamily = LedgerMonospace)
                     TimeInput(stringResource(Res.string.work_start), start) { start = normalizeTimeInput(it) }
                     TimeInput(stringResource(Res.string.break_label), pause) { pause = normalizeTimeInput(it) }
                     TimeInput(stringResource(Res.string.work_end), end) { end = normalizeTimeInput(it) }
-                    Surface(color = AppColors.Blue.copy(alpha = 0.08f), shape = RoundedCornerShape(AppDimensions.size10)) {
+                    Surface(color = AppColors.Blue.copy(alpha = 0.08f), shape = LedgerShapes.CardSmall) {
                         Column(Modifier.fillMaxWidth().padding(AppDimensions.size14)) {
                             Text(stringResource(Res.string.working_time), color = AppColors.Blue, fontWeight = FontWeight.Bold)
                             Text(worked?.let(::formatDuration) ?: "–", color = AppColors.Ink, fontSize = AppFontSizes.size24, fontWeight = FontWeight.Black)
@@ -293,7 +299,7 @@ object CalendarEditorScreen {
                             onClick = { onSave(startMinute!!, pauseMinutes!!, endMinute!!) },
                             enabled = worked != null,
                             colors = ButtonDefaults.buttonColors(containerColor = AppColors.Blue),
-                            shape = RoundedCornerShape(AppDimensions.size10)
+                            shape = LedgerShapes.CardSmall
                         ) { Text(stringResource(Res.string.save), fontWeight = FontWeight.Bold) }
                     }
                 }
@@ -310,7 +316,7 @@ object CalendarEditorScreen {
             label = { Text(label) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            shape = RoundedCornerShape(AppDimensions.size10),
+            shape = LedgerShapes.CardSmall,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = AppColors.Blue,
                 focusedLabelColor = AppColors.Blue,
@@ -330,10 +336,10 @@ object CalendarEditorScreen {
         onClear: (LocalDate) -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().ledgerMargin(AppColors.Blue),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
-            shape = RoundedCornerShape(AppDimensions.size18)
+            shape = LedgerShapes.Card
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
@@ -349,6 +355,7 @@ object CalendarEditorScreen {
                     text = selectedDaySubtitle(day),
                     color = AppColors.Muted,
                     fontSize = AppFontSizes.size13,
+                    fontFamily = LedgerMonospace,
                     fontWeight = FontWeight.Normal
                 )
                 if (day.style == CalendarDayStyle.Holiday) {
@@ -430,7 +437,7 @@ object CalendarEditorScreen {
         Button(
             onClick = onClick,
             modifier = modifier.heightIn(min = AppDimensions.size48),
-            shape = RoundedCornerShape(AppDimensions.size8),
+            shape = LedgerShapes.CardSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor.copy(alpha = 0.16f),
                 contentColor = containerColor

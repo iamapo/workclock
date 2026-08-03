@@ -17,7 +17,9 @@ Kotlin Multiplatform work time tracker with a shared Compose UI, MVVM state, and
 - `core/resources`: localized Compose resources and text formatting
 - `iosApp`: SwiftUI host app with Xcode scheme and iOS preview
 - `mockups/time-tracker`: original HTML/CSS mockup
-- `mockups/workclock-playful`: newer colorful V2 mockup concept with Apple Watch interface
+- `mockups/workclock-playful`: colorful V2 mockup concept with Apple Watch interface
+- `mockups/workclock-fresh`: V3 exploration with three distinct visual directions (departure board, ledger, instrument dial)
+- `mockups/workclock-ledger`: chosen "Ledger" direction worked out across Today, Calendar, Settings, Apple Watch, and key dialogs
 
 ## Architecture
 
