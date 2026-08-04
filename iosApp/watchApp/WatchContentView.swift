@@ -7,8 +7,8 @@ struct WatchContentView: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.118, green: 0.165, blue: 0.239),
-                    Color(red: 0.055, green: 0.086, blue: 0.129)
+                    Color(red: 0.10, green: 0.09, blue: 0.08),
+                    Color(red: 0.02, green: 0.02, blue: 0.04)
                 ],
                 startPoint: .top,
                 endPoint: .bottom
@@ -116,15 +116,15 @@ struct WatchContentView: View {
         }
     }
 
-    // Ledger palette — mirrors core/design AppColors.kt so the watch reads as the same book.
+    // Original WorkClock palette — mirrors core/design AppColors.kt.
     private var paper: Color { Self.paper }
     private var ink: Color { Self.ink }
-    private static let paper = Color(red: 0.918, green: 0.941, blue: 0.898)
-    private static let ink = Color(red: 0.118, green: 0.165, blue: 0.239)
-    private static let green = Color(red: 0.290, green: 0.420, blue: 0.243)
-    private static let ochre = Color(red: 0.659, green: 0.471, blue: 0.122)
-    private static let plum = Color(red: 0.478, green: 0.310, blue: 0.561)
-    private static let blue = Color(red: 0.184, green: 0.353, blue: 0.659)
+    private static let paper = Color(red: 1.00, green: 1.00, blue: 1.00)
+    private static let ink = Color(red: 0.090, green: 0.082, blue: 0.122)
+    private static let green = Color(red: 0.400, green: 0.867, blue: 0.714)
+    private static let ochre = Color(red: 1.00, green: 0.847, blue: 0.302)
+    private static let plum = Color(red: 0.612, green: 0.439, blue: 1.00)
+    private static let blue = Color(red: 0.345, green: 0.655, blue: 1.00)
 }
 
 private extension Comparable {

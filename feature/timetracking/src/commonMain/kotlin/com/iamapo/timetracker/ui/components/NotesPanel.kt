@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
-import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -25,7 +24,7 @@ object NotesPanel {
     @Composable
     operator fun invoke(modifier: Modifier = Modifier) {
         Surface(
-            modifier = modifier.fillMaxWidth().ledgerMargin(),
+            modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card

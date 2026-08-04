@@ -21,7 +21,6 @@ import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
-import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
@@ -42,8 +41,7 @@ object CalendarPanel {
             modifier = modifier
                 .fillMaxWidth()
                 .clip(shape)
-                .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier)
-                .ledgerMargin(),
+                .then(if (onOpenCalendar != null) Modifier.clickable(onClick = onOpenCalendar) else Modifier),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = shape

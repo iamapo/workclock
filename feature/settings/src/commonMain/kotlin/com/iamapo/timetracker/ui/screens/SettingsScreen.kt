@@ -43,7 +43,6 @@ import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
-import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
@@ -160,7 +159,7 @@ object SettingsScreen {
         onIncrease: (Int) -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth().ledgerMargin(),
+            modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -204,7 +203,7 @@ object SettingsScreen {
         onChooseFederalState: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth().ledgerMargin(),
+            modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -372,7 +371,7 @@ object SettingsScreen {
         onUndoImport: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth().ledgerMargin(),
+            modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -531,7 +530,7 @@ object SettingsScreen {
         onConfirm: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth().ledgerMargin(),
+            modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card

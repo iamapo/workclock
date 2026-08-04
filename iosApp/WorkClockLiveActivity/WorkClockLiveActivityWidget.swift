@@ -186,15 +186,15 @@ private struct WorkBreakProgressView: View {
     }
 }
 
-/// Ledger palette: green columnar paper, ink-navy text, a red margin accent — mirrors AppColors.kt.
+/// Original WorkClock palette, mirrors AppColors.kt — kept alongside the Ledger layout/typography.
 private enum WorkClockPalette {
-    static let background = Color(red: 0.918, green: 0.941, blue: 0.898)
-    static let panel = Color(red: 0.957, green: 0.973, blue: 0.941)
-    static let paper = Color(red: 0.918, green: 0.941, blue: 0.898)
-    static let ink = Color(red: 0.118, green: 0.165, blue: 0.239)
-    static let muted = Color(red: 0.357, green: 0.420, blue: 0.373)
-    static let green = Color(red: 0.290, green: 0.420, blue: 0.243)
-    static let ochre = Color(red: 0.659, green: 0.471, blue: 0.122)
-    static let plum = Color(red: 0.478, green: 0.310, blue: 0.561)
-    static let margin = Color(red: 0.698, green: 0.227, blue: 0.180)
+    static let background = Color(red: 1.00, green: 0.98, blue: 0.949)
+    static let panel = Color(red: 1.00, green: 1.00, blue: 1.00)
+    static let paper = Color(red: 1.00, green: 1.00, blue: 1.00)
+    static let ink = Color(red: 0.090, green: 0.082, blue: 0.122)
+    static let muted = Color(red: 0.318, green: 0.298, blue: 0.373)
+    static let green = Color(red: 0.400, green: 0.867, blue: 0.714)
+    static let ochre = Color(red: 1.00, green: 0.847, blue: 0.302)
+    static let plum = Color(red: 0.612, green: 0.439, blue: 1.00)
+    static let margin = Color(red: 1.00, green: 0.420, blue: 0.561)
 }

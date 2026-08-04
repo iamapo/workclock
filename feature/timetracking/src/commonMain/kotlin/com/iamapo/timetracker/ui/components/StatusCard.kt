@@ -34,7 +34,6 @@ import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
-import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.ui.ComposePreviewContext
 import androidx.compose.ui.graphics.graphicsLayer
@@ -57,7 +56,6 @@ object StatusCard {
                 .fillMaxWidth()
                 .background(color = AppColors.Panel, shape = shape)
                 .border(BorderStroke(AppDimensions.size1, AppColors.Line), shape)
-                .ledgerMargin(tone.color)
         ) {
             Column(
                 modifier = Modifier

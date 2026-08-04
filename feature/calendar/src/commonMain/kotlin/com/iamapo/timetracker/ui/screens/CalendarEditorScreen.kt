@@ -46,7 +46,6 @@ import com.iamapo.timetracker.presentation.state.CalendarUiState
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
-import com.iamapo.timetracker.ui.theme.ledgerMargin
 import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import kotlinx.datetime.LocalDate
@@ -205,8 +204,7 @@ object CalendarEditorScreen {
                         },
                         onDragCancel = { horizontalDrag = 0f }
                     )
-                }
-                .ledgerMargin(),
+                },
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -336,7 +334,7 @@ object CalendarEditorScreen {
         onClear: (LocalDate) -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth().ledgerMargin(AppColors.Blue),
+            modifier = Modifier.fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
