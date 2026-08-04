@@ -28,7 +28,7 @@ fun Modifier.ledgerRuledPaper(
     var y = step
     while (y < size.height) {
         drawLine(
-            color = lineColor.copy(alpha = 0.4f),
+            color = lineColor.copy(alpha = 0.9f),
             start = Offset(0f, y),
             end = Offset(size.width, y),
             strokeWidth = 1f

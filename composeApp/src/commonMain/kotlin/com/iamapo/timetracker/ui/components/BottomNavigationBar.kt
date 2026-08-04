@@ -43,13 +43,11 @@ object BottomNavigationBar {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(AppColors.Background)
-                .padding(horizontal = AppDimensions.size20, vertical = AppDimensions.size10)
         ) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = AppColors.Soft.copy(alpha = 0.78f),
                 border = BorderStroke(AppDimensions.size1, AppColors.Line.copy(alpha = 0.72f)),
-                shape = LedgerShapes.Card
             ) {
                 Row(
                     modifier = Modifier
@@ -81,7 +79,7 @@ object BottomNavigationBar {
         Surface(
             onClick = onClick,
             modifier = modifier
-                .heightIn(min = AppDimensions.size50),
+                .heightIn(min = AppDimensions.size40),
             color = if (selected) AppColors.Panel else Color.Transparent,
             shape = LedgerShapes.CardSmall
         ) {
@@ -90,13 +88,6 @@ object BottomNavigationBar {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = tab.icon,
-                    color = if (selected) AppColors.Ink else AppColors.Subtle,
-                    fontSize = AppFontSizes.size16,
-                    lineHeight = AppFontSizes.size17,
-                    fontWeight = FontWeight.Black
-                )
                 Text(
                     text = stringResource(when (tab) {
                         MainTab.Today -> Res.string.nav_today

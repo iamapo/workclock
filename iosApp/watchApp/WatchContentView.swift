@@ -7,8 +7,8 @@ struct WatchContentView: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.10, green: 0.09, blue: 0.08),
-                    Color(red: 0.02, green: 0.02, blue: 0.04)
+                    Color(red: 0.118, green: 0.165, blue: 0.239),
+                    Color(red: 0.055, green: 0.086, blue: 0.129)
                 ],
                 startPoint: .top,
                 endPoint: .bottom
@@ -20,15 +20,16 @@ struct WatchContentView: View {
                     Circle()
                         .fill(accentColor)
                         .frame(width: 7, height: 7)
-                    Text("WorkClock")
-                        .font(.caption2)
+                    Text("WORKCLOCK")
+                        .font(.system(.caption2, design: .monospaced))
                         .fontWeight(.black)
-                        .foregroundStyle(.white.opacity(0.8))
+                        .tracking(0.6)
+                        .foregroundStyle(paper.opacity(0.75))
                 }
 
                 ZStack {
                     Circle()
-                        .stroke(.white.opacity(0.10), lineWidth: 11)
+                        .stroke(paper.opacity(0.12), lineWidth: 11)
                     Circle()
                         .trim(from: 0, to: session.progress.clamped(to: 0...1))
                         .stroke(accentColor, style: StrokeStyle(lineWidth: 11, lineCap: .round))
@@ -36,20 +37,20 @@ struct WatchContentView: View {
 
                     VStack(spacing: 2) {
                         if isPaused {
-                            Text("Pause")
-                                .font(.caption2)
+                            Text("PAUSE")
+                                .font(.system(.caption2, design: .monospaced))
                                 .fontWeight(.bold)
-                                .foregroundStyle(.white.opacity(0.65))
+                                .foregroundStyle(paper.opacity(0.65))
                             TimelineView(.periodic(from: .now, by: 1)) { context in
                                 Text(session.breakDuration(at: context.date))
-                                    .font(.system(size: 27, weight: .black, design: .rounded))
-                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27, weight: .black, design: .serif))
+                                    .foregroundStyle(paper)
                                     .monospacedDigit()
                             }
                         } else {
                             Text(session.remaining)
-                                .font(.system(size: 15, weight: .black, design: .rounded))
-                                .foregroundStyle(.white)
+                                .font(.system(size: 15, weight: .black, design: .serif))
+                                .foregroundStyle(paper)
                                 .minimumScaleFactor(0.6)
                                 .lineLimit(2)
                                 .multilineTextAlignment(.center)
@@ -69,7 +70,7 @@ struct WatchContentView: View {
                     }
                     .buttonStyle(.plain)
                     .background(accentColor, in: Circle())
-                    .foregroundStyle(Color(red: 0.09, green: 0.08, blue: 0.12))
+                    .foregroundStyle(ink)
                     .accessibilityLabel(session.primaryAction)
 
                     if !session.secondaryAction.isEmpty {
@@ -81,8 +82,8 @@ struct WatchContentView: View {
                                 .frame(width: 42, height: 42)
                         }
                         .buttonStyle(.plain)
-                        .background(.white.opacity(0.13), in: Circle())
-                        .foregroundStyle(.white)
+                        .background(paper.opacity(0.14), in: Circle())
+                        .foregroundStyle(paper)
                         .accessibilityLabel(session.secondaryAction)
                     }
                 }
@@ -105,20 +106,25 @@ struct WatchContentView: View {
     private var accentColor: Color {
         switch session.state {
         case "Aktiv":
-            return Self.purple
+            return Self.plum
         case "Pause":
-            return Self.lemon
+            return Self.ochre
         case "Fertig":
             return Self.blue
         default:
-            return Self.mint
+            return Self.green
         }
     }
 
-    private static let mint = Color(red: 0.40, green: 0.87, blue: 0.71)
-    private static let lemon = Color(red: 1.0, green: 0.85, blue: 0.30)
-    private static let purple = Color(red: 0.61, green: 0.44, blue: 1.0)
-    private static let blue = Color(red: 0.35, green: 0.65, blue: 1.0)
+    // Ledger palette — mirrors core/design AppColors.kt so the watch reads as the same book.
+    private var paper: Color { Self.paper }
+    private var ink: Color { Self.ink }
+    private static let paper = Color(red: 0.918, green: 0.941, blue: 0.898)
+    private static let ink = Color(red: 0.118, green: 0.165, blue: 0.239)
+    private static let green = Color(red: 0.290, green: 0.420, blue: 0.243)
+    private static let ochre = Color(red: 0.659, green: 0.471, blue: 0.122)
+    private static let plum = Color(red: 0.478, green: 0.310, blue: 0.561)
+    private static let blue = Color(red: 0.184, green: 0.353, blue: 0.659)
 }
 
 private extension Comparable {

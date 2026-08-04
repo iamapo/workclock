@@ -26,23 +26,24 @@ struct WorkClockLiveActivityWidget: Widget {
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(context.attributes.title)
-                            .font(.caption)
-                            .foregroundStyle(WorkClockPalette.mint)
+                        Text(context.attributes.title.uppercased())
+                            .font(.system(.caption, design: .monospaced))
+                            .tracking(0.6)
+                            .foregroundStyle(WorkClockPalette.paper.opacity(0.7))
                         Text(context.state.phaseLabel)
-                            .font(.headline)
+                            .font(.system(.headline, design: .serif))
                             .foregroundStyle(WorkClockPalette.paper)
                     }
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Text(context.state.startedAt, style: .timer)
-                        .font(.title3.monospacedDigit().bold())
+                        .font(.system(.title3, design: .serif).monospacedDigit().bold())
                         .foregroundStyle(WorkClockPalette.paper)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(context.state.subtitle)
-                            .font(.caption)
+                            .font(.system(.caption, design: .monospaced))
                             .foregroundStyle(WorkClockPalette.paper.opacity(0.72))
                         WorkBreakProgressView(state: context.state)
                             .frame(height: 4)
@@ -50,7 +51,7 @@ struct WorkClockLiveActivityWidget: Widget {
                 }
             } compactLeading: {
                 Image(systemName: context.state.phase == "paused" ? "pause.fill" : "clock.fill")
-                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple)
+                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.ochre : WorkClockPalette.plum)
             } compactTrailing: {
                 Text(context.state.startedAt, style: .timer)
                     .monospacedDigit()
@@ -58,9 +59,9 @@ struct WorkClockLiveActivityWidget: Widget {
                     .frame(maxWidth: 54)
             } minimal: {
                 Image(systemName: context.state.phase == "paused" ? "pause.fill" : "clock.fill")
-                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple)
+                    .foregroundStyle(context.state.phase == "paused" ? WorkClockPalette.ochre : WorkClockPalette.plum)
             }
-            .keylineTint(context.state.phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple)
+            .keylineTint(context.state.phase == "paused" ? WorkClockPalette.ochre : WorkClockPalette.plum)
         }
     }
 }
@@ -76,15 +77,15 @@ private struct WorkClockLiveActivityView: View {
                 PhaseIcon(phase: state.phase)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    PhaseBadge(phase: state.phase)
+                    PhaseStamp(phase: state.phase)
 
                     Text(state.phaseLabel)
-                        .font(.headline)
+                        .font(.system(.headline, design: .serif))
                         .foregroundStyle(WorkClockPalette.ink)
                         .lineLimit(1)
 
                     Text(state.subtitle)
-                        .font(.subheadline)
+                        .font(.system(.subheadline, design: .serif))
                         .foregroundStyle(WorkClockPalette.muted)
                         .lineLimit(1)
                 }
@@ -92,7 +93,7 @@ private struct WorkClockLiveActivityView: View {
                 Spacer(minLength: 8)
 
                 Text(state.startedAt, style: .timer)
-                    .font(.system(size: 27, weight: .bold, design: .rounded).monospacedDigit())
+                    .font(.system(size: 27, weight: .bold, design: .serif).monospacedDigit())
                     .foregroundStyle(WorkClockPalette.ink)
                     .minimumScaleFactor(0.72)
                     .lineLimit(1)
@@ -114,48 +115,45 @@ private struct PhaseIcon: View {
     let phase: String
 
     private var accent: Color {
-        phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple
+        phase == "paused" ? WorkClockPalette.ochre : WorkClockPalette.plum
     }
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(accent.opacity(0.16))
+                .fill(WorkClockPalette.panel)
             Circle()
-                .stroke(accent, lineWidth: 5)
+                .stroke(accent, lineWidth: 2)
             Image(systemName: phase == "paused" ? "pause.fill" : "clock")
-                .font(.system(size: 21, weight: .bold))
-                .foregroundStyle(WorkClockPalette.ink)
+                .font(.system(size: 19, weight: .bold))
+                .foregroundStyle(accent)
         }
-        .frame(width: 48, height: 48)
+        .frame(width: 46, height: 46)
         .accessibilityHidden(true)
     }
 }
 
+/// A rotated, bordered tag — the ledger's rubber stamp — instead of a filled pill.
 @available(iOSApplicationExtension 16.1, *)
-private struct PhaseBadge: View {
+private struct PhaseStamp: View {
     let phase: String
 
     private var accent: Color {
-        phase == "paused" ? WorkClockPalette.lemon : WorkClockPalette.purple
-    }
-
-    private var foreground: Color {
-        phase == "paused" ? WorkClockPalette.lemonInk : WorkClockPalette.purpleInk
+        phase == "paused" ? WorkClockPalette.ochre : WorkClockPalette.plum
     }
 
     var body: some View {
         Text(phase == "paused" ? "PAUSE" : "ARBEITSZEIT")
-            .font(.system(size: 11, weight: .bold, design: .rounded))
-            .tracking(0.7)
-            .foregroundStyle(foreground)
-            .padding(.horizontal, 9)
-            .padding(.vertical, 4)
-            .background(accent.opacity(0.12), in: Capsule())
+            .font(.system(size: 11, weight: .bold, design: .monospaced))
+            .tracking(0.6)
+            .foregroundStyle(accent)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
             .overlay {
-                Capsule()
-                    .stroke(accent.opacity(0.48), lineWidth: 1)
+                RoundedRectangle(cornerRadius: 3)
+                    .stroke(accent, lineWidth: 1.5)
             }
+            .rotationEffect(.degrees(-3))
     }
 }
 
@@ -177,10 +175,10 @@ private struct WorkBreakProgressView: View {
 
             HStack(spacing: spacing) {
                 Capsule()
-                    .fill(WorkClockPalette.purple)
+                    .fill(WorkClockPalette.green)
                     .frame(width: availableWidth * workedShare)
                 Capsule()
-                    .fill(WorkClockPalette.lemon)
+                    .fill(WorkClockPalette.ochre)
                     .frame(width: availableWidth * (1 - workedShare))
             }
         }
@@ -188,14 +186,15 @@ private struct WorkBreakProgressView: View {
     }
 }
 
+/// Ledger palette: green columnar paper, ink-navy text, a red margin accent — mirrors AppColors.kt.
 private enum WorkClockPalette {
-    static let background = Color(red: 1.00, green: 0.98, blue: 0.95)
-    static let paper = Color.white
-    static let ink = Color(red: 0.09, green: 0.08, blue: 0.12)
-    static let muted = Color(red: 0.32, green: 0.30, blue: 0.37)
-    static let mint = Color(red: 0.40, green: 0.87, blue: 0.71)
-    static let lemon = Color(red: 1.00, green: 0.85, blue: 0.30)
-    static let lemonInk = Color(red: 0.42, green: 0.29, blue: 0.00)
-    static let purple = Color(red: 0.61, green: 0.44, blue: 1.00)
-    static let purpleInk = Color(red: 0.29, green: 0.18, blue: 0.62)
+    static let background = Color(red: 0.918, green: 0.941, blue: 0.898)
+    static let panel = Color(red: 0.957, green: 0.973, blue: 0.941)
+    static let paper = Color(red: 0.918, green: 0.941, blue: 0.898)
+    static let ink = Color(red: 0.118, green: 0.165, blue: 0.239)
+    static let muted = Color(red: 0.357, green: 0.420, blue: 0.373)
+    static let green = Color(red: 0.290, green: 0.420, blue: 0.243)
+    static let ochre = Color(red: 0.659, green: 0.471, blue: 0.122)
+    static let plum = Color(red: 0.478, green: 0.310, blue: 0.561)
+    static let margin = Color(red: 0.698, green: 0.227, blue: 0.180)
 }
