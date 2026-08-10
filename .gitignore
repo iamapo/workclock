@@ -1,6 +1,9 @@
 .gradle/
 .kotlin/
 build/
+dist/
+node_modules/
+.pnpm-store/
 local.properties
 captures/
 *.iml
