@@ -3,15 +3,14 @@ package com.iamapo.timetracker.ui.components
 import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.AppFontSizes
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,11 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.Res
 import com.iamapo.timetracker.resources.nav_settings
 import com.iamapo.timetracker.resources.nav_today
 import com.iamapo.timetracker.resources.nav_week
+import com.iamapo.timetracker.ui.theme.AppDimensions.size8
 
 enum class MainTab(val icon: String) {
     Today("⌂"), Calendar("▦"), Settings("⚙")
@@ -39,31 +40,23 @@ object BottomNavigationBar {
         selectedTab: MainTab,
         onSelectTab: (MainTab) -> Unit
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(AppColors.Background)
         ) {
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = AppColors.Soft.copy(alpha = 0.78f),
-                border = BorderStroke(AppDimensions.size1, AppColors.Line.copy(alpha = 0.72f)),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth().padding(bottom = size8),
+                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(AppDimensions.size8),
-                    horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    MainTab.entries.forEach { tab ->
-                        BottomNavigationItem(
-                            tab = tab,
-                            selected = selectedTab == tab,
-                            onClick = { onSelectTab(tab) },
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
+                MainTab.entries.forEach { tab ->
+                    BottomNavigationItem(
+                        tab = tab,
+                        selected = selectedTab == tab,
+                        onClick = { onSelectTab(tab) },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }
