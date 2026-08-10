@@ -2,12 +2,16 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
-## [1.4] - 2026-08-03
+## [1.4] - 2026-08-10
 
 ### Geändert
-- Neues "Ledger"-Erscheinungsbild für Heute-, Kalender- und Einstellungen-Screen: grünes Kolumnenpapier, tintenblaue Serifenschrift und ein roter Eintragsstempel/Randstrich ersetzen das bisherige warme Kartendesign
+- Neues "Ledger"-Erscheinungsbild für Heute-, Kalender- und Einstellungen-Screen: liniertes Papier als Hintergrund, Serifenschrift für Überschriften und Zahlen, Monospace für Bereichslabels und Zeitstempel sowie ein roter Randstrich als Akzent
 - Statusanzeige auf dem Heute-Screen erscheint jetzt als gestempeltes Etikett statt als gefüllte Pille
 - Kleinere, fast eckige Kartenradien anstelle der bisherigen groß abgerundeten Karten
+- Untere Navigationsleiste vereinfacht: nur noch Textlabels ohne Symbole, kompaktere Höhe und eine Trennlinie statt der umrandeten Fläche
+- Live Activity in der gleichen Handschrift: Serifen-/Monospace-Typografie, gedrehter Stempel für die aktuelle Phase statt gefüllter Pille, schlankerer Phasenring und Monospace-Versalien im Dynamic Island
+- Apple-Watch-Ansicht an dieselbe Typografie angeglichen: Serifenziffern für Zeiten, Monospace-Versalien für Labels
+- Die bestehende warme Farbwelt bleibt erhalten; das Ledger-Redesign betrifft Layout, Formen und Typografie
 
 ## [1.3] - 2026-08-02
 
