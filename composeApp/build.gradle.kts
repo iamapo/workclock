@@ -36,7 +36,7 @@ kotlin {
             implementation(project(":feature:timetracking"))
             implementation(project(":feature:settings"))
             api(project(":feature:report"))
-            implementation(project(":core:domain"))
+            api(project(":core:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:design"))
             implementation(project(":core:resources"))

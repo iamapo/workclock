@@ -9,7 +9,14 @@ captures/
 *.iml
 .idea/
 DerivedData/
+**/.build/
+**/.swiftpm/
 .DS_Store
 iosApp/Pods/
 iosApp/iosApp.xcworkspace/
 **/xcuserdata/
+
+# Local agent skills
+.agents/
+skills/
+skills-lock.json

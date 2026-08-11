@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     androidTarget { compilerOptions.jvmTarget.set(JvmTarget.JVM_11) }
-    listOf(iosX64(), iosArm64(), iosSimulatorArm64())
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64(), macosX64(), macosArm64())
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)

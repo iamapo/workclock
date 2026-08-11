@@ -176,7 +176,7 @@ object WorkHistorySerializer {
 
     private fun String.decodeNullableInt(): Int? = if (this == NullValue) null else toInt()
 
-    private fun escape(value: String): String = buildString {
+    internal fun escape(value: String): String = buildString {
         value.forEach { char ->
             when (char) {
                 '%' -> append("%25")
@@ -188,7 +188,7 @@ object WorkHistorySerializer {
         }
     }
 
-    private fun unescape(value: String): String = buildString {
+    internal fun unescape(value: String): String = buildString {
         var index = 0
         while (index < value.length) {
             if (value[index] == '%' && index + 2 < value.length) {

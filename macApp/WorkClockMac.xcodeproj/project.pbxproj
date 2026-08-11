@@ -1,0 +1,164 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		100000000000000000000101 /* WorkClockMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000201 /* WorkClockMacApp.swift */; };
+		100000000000000000000102 /* WorkClockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000202 /* WorkClockModel.swift */; };
+		100000000000000000000103 /* cloudKitDayReplica.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000203 /* cloudKitDayReplica.swift */; };
+		100000000000000000000105 /* WorkClockCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 100000000000000000000207 /* WorkClockCore.xcframework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		100000000000000000000201 /* WorkClockMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkClockMacApp.swift; sourceTree = "<group>"; };
+		100000000000000000000202 /* WorkClockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkClockModel.swift; sourceTree = "<group>"; };
+		100000000000000000000203 /* cloudKitDayReplica.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cloudKitDayReplica.swift; sourceTree = "<group>"; };
+		100000000000000000000206 /* WorkClockMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkClockMac.entitlements; sourceTree = "<group>"; };
+		100000000000000000000207 /* WorkClockCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WorkClockCore.xcframework; path = ../core/data/build/XCFrameworks/debug/WorkClockCore.xcframework; sourceTree = "<group>"; };
+		100000000000000000000208 /* WorkClockMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkClockMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		100000000000000000000301 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (100000000000000000000105 /* WorkClockCore.xcframework in Frameworks */,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		100000000000000000000401 = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000402 /* Sources */,
+				100000000000000000000206 /* WorkClockMac.entitlements */,
+				100000000000000000000207 /* WorkClockCore.xcframework */,
+				100000000000000000000404 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		100000000000000000000402 /* Sources */ = {isa = PBXGroup; path = Sources; sourceTree = "<group>"; children = (100000000000000000000201, 100000000000000000000202, 100000000000000000000203,); };
+		100000000000000000000404 /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (100000000000000000000208 /* WorkClockMac.app */,); };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		100000000000000000000501 /* WorkClockMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 100000000000000000000601;
+			buildPhases = (100000000000000000000302 /* Build KMP Core */, 100000000000000000000303 /* Sources */, 100000000000000000000301 /* Frameworks */, 100000000000000000000304 /* Resources */,);
+			buildRules = ();
+			dependencies = ();
+			name = WorkClockMac;
+			productName = WorkClockMac;
+			productReference = 100000000000000000000208 /* WorkClockMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		100000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 2650; LastUpgradeCheck = 2650; TargetAttributes = {100000000000000000000501 = {CreatedOnToolsVersion = 26.5; SystemCapabilities = {com.apple.Push = {enabled = 1;}; com.apple.iCloud = {enabled = 1;}; com.apple.Sandbox = {enabled = 1;};};};};};
+			buildConfigurationList = 100000000000000000000602;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base,);
+			mainGroup = 100000000000000000000401;
+			productRefGroup = 100000000000000000000404;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (100000000000000000000501 /* WorkClockMac */,);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		100000000000000000000304 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		100000000000000000000302 /* Build KMP Core */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = ();
+			inputPaths = ();
+			name = "Build KMP Core";
+			outputPaths = ();
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :core:data:assembleWorkClockCoreDebugXCFramework\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		100000000000000000000303 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (100000000000000000000101, 100000000000000000000102, 100000000000000000000103,); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		100000000000000000000701 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_STRICT_OBJC_MSGSEND = YES; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_OPTIMIZATION_LEVEL = 0; GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)",); MACOSX_DEPLOYMENT_TARGET = 14.0; ONLY_ACTIVE_ARCH = YES; SDKROOT = macosx; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; };
+			name = Debug;
+		};
+		100000000000000000000702 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; ENABLE_STRICT_OBJC_MSGSEND = YES; GCC_C_LANGUAGE_STANDARD = gnu17; MACOSX_DEPLOYMENT_TARGET = 14.0; SDKROOT = macosx; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; };
+			name = Release;
+		};
+		100000000000000000000703 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WorkClockMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T4DCMMU488;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "WorkClock DEBUG";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks",);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.macApp.debug;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		100000000000000000000704 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WorkClockMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T4DCMMU488;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = WorkClock;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks",);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.macApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		100000000000000000000601 = {isa = XCConfigurationList; buildConfigurations = (100000000000000000000703, 100000000000000000000704,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		100000000000000000000602 = {isa = XCConfigurationList; buildConfigurations = (100000000000000000000701, 100000000000000000000702,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = 100000000000000000000001 /* Project object */;
+}

@@ -39,8 +39,12 @@
     </array>
     <key>UILaunchScreen</key>
     <dict/>
-    <key>NSSupportsLiveActivities</key>
-    <true/>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
