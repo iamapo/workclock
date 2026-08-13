@@ -100,6 +100,7 @@ object TimeTrackerRoute {
                             state = state,
                             onPrimaryAction = resolvedViewModel::onPrimaryAction,
                             onSecondaryAction = resolvedViewModel::onSecondaryAction,
+                            onEventTimeChanged = resolvedViewModel::onTimelineEventTimeChanged,
                             calendarContent = {
                                 CalendarPanel(
                                     monthTitle = calendarState.monthTitle,

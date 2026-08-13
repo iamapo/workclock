@@ -85,4 +85,30 @@ class WorkDayReducerTest {
         assertEquals(7 * 60, day.workedMinutes)
         assertEquals("Arbeitstag beendet", day.events.single().title)
     }
+
+    @Test
+    fun changeEventTimeCorrectsARunningDay() {
+        val runningDay = WorkDay(
+            status = WorkStatus.Paused,
+            startMinute = 9 * 60,
+            pauseStartedMinute = 13 * 60,
+            workedMinutes = 4 * 60,
+            events = listOf(
+                WorkEvent(9 * 60, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(13 * 60, "Pause gestartet", WorkEventKind.Break)
+            )
+        )
+
+        val day = reducer.reduce(
+            day = runningDay,
+            action = TimeTrackerAction.ChangeEventTime(eventIndex = 1, minuteOfDay = 12 * 60 + 30),
+            nowMinute = 13 * 60 + 45,
+            defaultConfig = WorkDayConfig()
+        )
+
+        assertEquals(WorkStatus.Paused, day.status)
+        assertEquals(12 * 60 + 30, day.pauseStartedMinute)
+        assertEquals(3 * 60 + 30, day.workedMinutes)
+        assertEquals(12 * 60 + 30, day.events[1].minuteOfDay)
+    }
 }

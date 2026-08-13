@@ -275,6 +275,35 @@ class TimeTrackerUiStateMapperTest {
         assertEquals("Arbeitstag beendet", state.timeline.last().title)
         assertEquals("17:00", state.timeline.last().time)
         assertEquals(false, state.timeline.any { it.title == "Geplanter Feierabend" })
+        assertEquals(false, state.timeline.any { it.edit != null })
+    }
+
+    @Test
+    fun runningDayOffersEditableTimelineEventsWithinTheirNeighbourhood() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                status = WorkStatus.Working,
+                startMinute = 8 * 60 + 30,
+                activeSessionStartMinute = 12 * 60 + 30,
+                workedMinutes = 3 * 60 + 30,
+                breakMinutes = 30,
+                events = listOf(
+                    WorkEvent(8 * 60 + 30, "Arbeitsbeginn", WorkEventKind.Work),
+                    WorkEvent(12 * 60, "Pause gestartet", WorkEventKind.Break),
+                    WorkEvent(12 * 60 + 30, "Weitergearbeitet", WorkEventKind.Work)
+                )
+            ),
+            snapshot = TimeTrackerPreviewData.snapshot.copy(minuteOfDay = 14 * 60)
+        )
+
+        val breakStart = state.timeline[1].edit
+        assertEquals(1, breakStart?.eventIndex)
+        assertEquals(12 * 60, breakStart?.minuteOfDay)
+        assertEquals(8 * 60 + 30, breakStart?.earliestMinute)
+        assertEquals(12 * 60 + 30, breakStart?.latestMinute)
+
+        assertEquals(14 * 60, state.timeline[2].edit?.latestMinute)
+        assertEquals(null, state.timeline.last().edit)
     }
 
     private fun calendarState(day: WorkDay, snapshot: TimeSnapshot): com.iamapo.timetracker.presentation.state.CalendarUiState {

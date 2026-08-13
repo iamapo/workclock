@@ -27,7 +27,11 @@ import com.iamapo.timetracker.resources.timeline
 
 object TimelineSection {
     @Composable
-    operator fun invoke(items: List<TimelineItemUiModel>, modifier: Modifier = Modifier) {
+    operator fun invoke(
+        items: List<TimelineItemUiModel>,
+        modifier: Modifier = Modifier,
+        onEditItem: ((TimelineItemUiModel) -> Unit)? = null
+    ) {
         Surface(
             modifier = modifier.fillMaxWidth(),
             color = AppColors.Panel,
@@ -36,7 +40,7 @@ object TimelineSection {
         ) {
             Column(
                 modifier = Modifier.padding(AppDimensions.size18),
-                verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size8)
             ) {
                 Text(
                     text = stringResource(Res.string.timeline),
@@ -47,7 +51,14 @@ object TimelineSection {
                     letterSpacing = AppFontSizes.size0_2
                 )
                 items.forEach { item ->
-                    TimelineRow(item)
+                    TimelineRow(
+                        item = item,
+                        onEdit = if (item.edit != null && onEditItem != null) {
+                            { onEditItem(item) }
+                        } else {
+                            null
+                        }
+                    )
                 }
             }
         }

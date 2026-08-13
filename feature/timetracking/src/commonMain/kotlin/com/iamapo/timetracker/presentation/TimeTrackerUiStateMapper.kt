@@ -72,7 +72,7 @@ object TimeTrackerUiStateMapper {
                     hint = localized(Res.string.balance_suffix, balanceLabel(weeklyBalance.balanceMinutes))
                 )
             ),
-            timeline = timelineMapper.map(day, summary.endMinute),
+            timeline = timelineMapper.map(day, summary.endMinute, snapshot.minuteOfDay),
             watchState = watchState(day.status),
             watchProgress = summary.progress,
             watchRemaining = if (day.status == WorkStatus.Finished) {

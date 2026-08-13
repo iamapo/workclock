@@ -12,6 +12,12 @@ class WorkDayReducer {
         TimeTrackerAction.ResumeWork -> day.resume(nowMinute)
         TimeTrackerAction.EndDay -> day.finish(nowMinute)
         TimeTrackerAction.StartNewDay -> WorkDay(config = defaultConfig).start(nowMinute)
+        is TimeTrackerAction.ChangeEventTime -> WorkDayEventEditor.changeEventTime(
+            day = day,
+            eventIndex = action.eventIndex,
+            minuteOfDay = action.minuteOfDay,
+            nowMinute = nowMinute
+        )
     }
 
     private fun WorkDay.start(now: Int): WorkDay = copy(

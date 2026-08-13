@@ -59,6 +59,10 @@ class TimeTrackerViewModel(
         onAction(TimeTrackerAction.EndDay)
     }
 
+    fun onTimelineEventTimeChanged(eventIndex: Int, minuteOfDay: Int) {
+        onAction(TimeTrackerAction.ChangeEventTime(eventIndex, minuteOfDay))
+    }
+
     fun onWatchCommand(command: TimeTrackingCommand) {
         handleTimeTrackingCommand(command)
     }

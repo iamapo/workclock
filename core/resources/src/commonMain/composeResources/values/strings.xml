@@ -66,6 +66,9 @@
     <string name="calendar_vacation_duration">Vacation %1$s</string><string name="calendar_sick_duration">Sick %1$s</string>
     <string name="lock_work_today">Working time today</string><string name="lock_break_since">Break since</string><string name="lock_break_value">Break: %1$s</string><string name="lock_worked_value">Worked: %1$s</string>
     <string name="status_working">Working</string>
+    <string name="edit_time">Change time</string>
+    <string name="edit_time_action">edit</string>
+    <string name="edit_time_range">Possible between %1$s and %2$s</string>
     <string name="edit_workday">Edit workday</string>
     <string name="adjust_day_times">Adjust times for this day</string>
     <string name="work_start">Work start</string>

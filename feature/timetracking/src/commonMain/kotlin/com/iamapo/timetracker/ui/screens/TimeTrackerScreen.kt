@@ -6,13 +6,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.components.MetricGrid
 import com.iamapo.timetracker.ui.components.StatusCard
+import com.iamapo.timetracker.ui.components.TimelineEventTimeDialog
 import com.iamapo.timetracker.ui.components.TimelineSection
 import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.ui.theme.AppColors
@@ -27,9 +31,14 @@ object TimeTrackerScreen {
         state: TimeTrackerUiState,
         onPrimaryAction: () -> Unit,
         onSecondaryAction: () -> Unit,
+        onEventTimeChanged: ((Int, Int) -> Unit)? = null,
         calendarContent: @Composable () -> Unit = {},
         modifier: Modifier = Modifier
     ) {
+        // Kept as an index so the open dialog follows the live state: its editable
+        // range grows with the clock and it closes when the event stops being editable.
+        var editEventIndex by remember { mutableStateOf<Int?>(null) }
+
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
@@ -41,8 +50,33 @@ object TimeTrackerScreen {
             item { TopBarSection(state.dateLabel, state.title) }
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }
             item { MetricGrid(state.metrics) }
-            item { TimelineSection(state.timeline) }
+            item {
+                TimelineSection(
+                    items = state.timeline,
+                    onEditItem = if (onEventTimeChanged != null) {
+                        { item -> editEventIndex = item.edit?.eventIndex }
+                    } else {
+                        null
+                    }
+                )
+            }
             item { calendarContent() }
+        }
+
+        val editItem = editEventIndex?.let { index ->
+            state.timeline.firstOrNull { it.edit?.eventIndex == index }
+        }
+        val edit = editItem?.edit
+        if (editItem != null && edit != null && onEventTimeChanged != null) {
+            TimelineEventTimeDialog(
+                item = editItem,
+                edit = edit,
+                onDismiss = { editEventIndex = null },
+                onSave = { minuteOfDay ->
+                    onEventTimeChanged(edit.eventIndex, minuteOfDay)
+                    editEventIndex = null
+                }
+            )
         }
     }
 }
@@ -110,6 +144,7 @@ private fun TimeTrackerScreenPreviewContent(state: () -> TimeTrackerUiState) {
             state = remember { state() },
             onPrimaryAction = {},
             onSecondaryAction = {},
+            onEventTimeChanged = { _, _ -> },
         )
     }
 }

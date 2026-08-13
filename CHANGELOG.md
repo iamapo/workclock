@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.5] - 2026-08-13
+
+### Hinzugefügt
+- Zeiten eines laufenden Arbeitstags lassen sich direkt in der Timeline des Heute-Screens korrigieren: Arbeitsbeginn, Pausenbeginn und Pausenende antippen und Uhrzeit ändern; Arbeits-, Pausen- und Wochenwerte werden aus den Einträgen neu berechnet
+
 ## [1.4] - 2026-08-10
 
 ### Geändert

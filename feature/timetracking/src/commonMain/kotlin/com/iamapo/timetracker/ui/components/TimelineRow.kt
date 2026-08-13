@@ -4,9 +4,13 @@ import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.AppFontSizes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -20,19 +24,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.iamapo.timetracker.presentation.state.TimelineEditUiModel
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
 
 object TimelineRow {
     @Composable
-    operator fun invoke(item: TimelineItemUiModel, modifier: Modifier = Modifier) {
+    operator fun invoke(
+        item: TimelineItemUiModel,
+        modifier: Modifier = Modifier,
+        onEdit: (() -> Unit)? = null
+    ) {
+        val editable = item.edit != null && onEdit != null
         Row(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth()
+                .clip(LedgerShapes.CardSmall)
+                .then(
+                    if (editable) {
+                        Modifier.clickable { onEdit?.invoke() }
+                    } else {
+                        Modifier
+                    }
+                )
+                .heightIn(min = AppDimensions.size28),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(AppDimensions.size12)
         ) {
@@ -66,20 +87,21 @@ object TimelineRow {
                 fontSize = AppFontSizes.size14,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
             )
+            if (editable) {
+                Text(
+                    text = stringResource(Res.string.edit_time_action),
+                    color = AppColors.Subtle,
+                    fontSize = AppFontSizes.size11,
+                    fontWeight = FontWeight.Black,
+                    fontFamily = LedgerMonospace,
+                    letterSpacing = AppFontSizes.size0_4,
+                    modifier = Modifier.padding(start = AppDimensions.size4)
+                )
+            }
         }
-    }
-
-    @Composable
-    private fun localizedEventTitle(title: String): String = when (title) {
-        "Arbeitsbeginn" -> stringResource(Res.string.event_work_started)
-        "Pause gestartet" -> stringResource(Res.string.event_break_started)
-        "Weitergearbeitet" -> stringResource(Res.string.event_work_resumed)
-        "Arbeitstag beendet" -> stringResource(Res.string.event_workday_finished)
-        "Manueller Eintrag" -> stringResource(Res.string.event_manual_entry)
-        "Geplanter Feierabend" -> stringResource(Res.string.event_planned_end)
-        else -> title
     }
 
     private fun colorFor(kind: TimelineKind): Color = when (kind) {
@@ -97,8 +119,15 @@ private fun TimelineRowPreview() {
             TimelineItemUiModel(
                 time = "12:26",
                 title = "Weitergearbeitet",
-                kind = TimelineKind.Work
-            )
+                kind = TimelineKind.Work,
+                edit = TimelineEditUiModel(
+                    eventIndex = 2,
+                    minuteOfDay = 12 * 60 + 26,
+                    earliestMinute = 12 * 60 + 2,
+                    latestMinute = 14 * 60 + 33
+                )
+            ),
+            onEdit = {}
         )
     }
 }
