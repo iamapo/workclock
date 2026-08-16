@@ -74,12 +74,31 @@ object AppCalendarStateMapper : CalendarStateMapper {
         return WeekOverviewUiModel(
             reached = TimeTextFormatter.clockLikeDuration(weeklyBalance.workedMinutes),
             balance = balanceLabel(weeklyBalance.balanceMinutes),
+            balanceMinutes = weeklyBalance.balanceMinutes,
             isPositiveBalance = weeklyBalance.balanceMinutes >= 0,
             carry = balanceLabel(weeklyBalance.carryMinutes),
+            carryMinutes = weeklyBalance.carryMinutes,
             isPositiveCarry = weeklyBalance.carryMinutes >= 0,
+            weekNumber = isoWeekNumber(snapshot.date),
             days = days
         )
     }
+
+    private fun isoWeekNumber(date: LocalDate): Int {
+        val week = (date.dayOfYear - date.dayOfWeek.isoDayNumber + 10) / 7
+        return when {
+            week < 1 -> isoWeeksInYear(date.year - 1)
+            week > isoWeeksInYear(date.year) -> 1
+            else -> week
+        }
+    }
+
+    private fun isoWeeksInYear(year: Int): Int {
+        val januaryFirst = LocalDate(year, 1, 1).dayOfWeek.isoDayNumber
+        return if (januaryFirst == 4 || (januaryFirst == 3 && isLeapYear(year))) 53 else 52
+    }
+
+    private fun isLeapYear(year: Int): Boolean = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
 
     private fun balanceLabel(minutes: Int): String {
         val prefix = when {

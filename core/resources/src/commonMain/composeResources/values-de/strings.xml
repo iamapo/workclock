@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WorkClock</string>
-    <string name="nav_today">Heute</string><string name="nav_week">Woche</string><string name="nav_settings">Einstellungen</string>
-    <string name="calendar">KALENDER</string><string name="timeline">TIMELINE</string>
+    <string name="nav_today">Heute</string><string name="nav_week">Woche</string><string name="nav_calendar">Kalender</string><string name="nav_settings">Einstellungen</string>
+    <string name="calendar">KALENDER</string><string name="calendar_title">Kalender</string><string name="week_balance">WOCHENSALDO</string><string name="week_summary">%1$d. Woche · %2$s von %3$s</string><string name="edit_day">Tag bearbeiten</string><string name="timeline">TIMELINE</string>
     <string name="quick_targets">VORGABEN</string><string name="daily">Täglich</string><string name="break_label">Pause</string><string name="week">Woche</string>
     <string name="this_week">DIESE WOCHE</string><string name="planned_this_week">Diese Woche geplant</string><string name="currently_reached">Aktuell erreicht</string>
     <string name="remaining_time">Restzeit</string><string name="end_of_workday">FEIERABEND</string><string name="worked_suffix">%1$s gearbeitet</string>

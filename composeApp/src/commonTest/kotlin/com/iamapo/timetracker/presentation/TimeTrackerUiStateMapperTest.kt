@@ -105,6 +105,8 @@ class TimeTrackerUiStateMapperTest {
 
         assertEquals("8:10 h", state.weekOverview.reached)
         assertEquals("+10 min", state.weekOverview.balance)
+        assertEquals(10, state.weekOverview.balanceMinutes)
+        assertEquals(28, state.weekOverview.weekNumber)
         assertEquals(true, state.weekOverview.isPositiveBalance)
     }
 

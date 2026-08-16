@@ -2,8 +2,13 @@
     <string name="app_name">WorkClock</string>
     <string name="nav_today">Today</string>
     <string name="nav_week">Week</string>
+    <string name="nav_calendar">Calendar</string>
     <string name="nav_settings">Settings</string>
     <string name="calendar">CALENDAR</string>
+    <string name="calendar_title">Calendar</string>
+    <string name="week_balance">WEEK BALANCE</string>
+    <string name="week_summary">Week %1$d · %2$s of %3$s</string>
+    <string name="edit_day">Edit day</string>
     <string name="timeline">TIMELINE</string>
     <string name="quick_targets">DEFAULTS</string>
     <string name="daily">Daily</string>
