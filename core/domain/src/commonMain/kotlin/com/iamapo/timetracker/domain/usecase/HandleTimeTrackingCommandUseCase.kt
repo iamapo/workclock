@@ -44,7 +44,7 @@ class HandleTimeTrackingCommandUseCase(
         TimeTrackerAction.StartBreak -> status == WorkStatus.Working
         TimeTrackerAction.ResumeWork -> status == WorkStatus.Paused
         TimeTrackerAction.EndDay -> status == WorkStatus.Working || status == WorkStatus.Paused
-        TimeTrackerAction.ReopenDay -> status == WorkStatus.Finished
+        TimeTrackerAction.ReopenDay -> false
         TimeTrackerAction.StartNewDay -> status == WorkStatus.Finished
         is TimeTrackerAction.ChangeEventTime -> false
     }

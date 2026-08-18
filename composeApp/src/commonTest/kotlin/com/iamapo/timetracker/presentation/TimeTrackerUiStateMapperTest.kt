@@ -282,6 +282,21 @@ class TimeTrackerUiStateMapperTest {
     }
 
     @Test
+    fun finishedVacationDayOffersNoContinueAction() {
+        val state = TimeTrackerUiStateMapper.map(
+            day = WorkDay(
+                kind = WorkDayKind.Vacation,
+                status = WorkStatus.Finished,
+                workedMinutes = 8 * 60,
+                events = listOf(WorkEvent(0, "Urlaub", WorkEventKind.Target))
+            ),
+            snapshot = TimeTrackerPreviewData.snapshot
+        )
+
+        assertEquals(null, state.secondaryActionLabel)
+    }
+
+    @Test
     fun runningDayOffersEditableTimelineEventsWithinTheirNeighbourhood() {
         val state = TimeTrackerUiStateMapper.map(
             day = WorkDay(

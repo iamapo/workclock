@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -130,7 +131,8 @@ object TimeTrackerRoute {
                                                 TimeTextFormatter.clock(finishedMinute)
                                             ),
                                             actionLabel = undoLabel,
-                                            withDismissAction = true
+                                            withDismissAction = true,
+                                            duration = SnackbarDuration.Long
                                         )
                                         if (result == SnackbarResult.ActionPerformed) {
                                             resolvedViewModel.onReopenDay()

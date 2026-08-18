@@ -900,7 +900,6 @@ object CalendarEditorScreen {
         return if (hour >= 0 && minute in 0..59) hour * 60 + minute else null
     }
 
-
     private fun Int?.orDefault(default: Int): Int = this ?: default
 
     private const val SwipeThreshold = 80f

@@ -7,6 +7,7 @@ import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.domain.TimeTrackerAction
 import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.domain.WorkHistory
+import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
 import com.iamapo.timetracker.domain.usecase.ObserveWorkHistoryUseCase
 import com.iamapo.timetracker.domain.usecase.TrackWorkDayUseCase
@@ -58,7 +59,7 @@ class TimeTrackerViewModel(
     fun onSecondaryAction(): Int? {
         val snapshot = timeProvider.now()
         val action = when (repository.history.value.dayFor(snapshot.date).status) {
-            com.iamapo.timetracker.domain.WorkStatus.Finished -> TimeTrackerAction.ReopenDay
+            WorkStatus.Finished -> TimeTrackerAction.ReopenDay
             else -> TimeTrackerAction.EndDay
         }
         trackWorkDay(action, snapshot.date, snapshot.minuteOfDay)

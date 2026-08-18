@@ -4,6 +4,7 @@ import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.domain.WeeklyBalance
 import com.iamapo.timetracker.domain.WeeklyBalanceCalculator
 import com.iamapo.timetracker.domain.WorkDay
+import com.iamapo.timetracker.domain.WorkDayKind
 import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.domain.WorkDaySummaryCalculator
 import com.iamapo.timetracker.domain.TimeTrackingCommand
@@ -50,7 +51,7 @@ object TimeTrackerUiStateMapper {
             weeklyBalance = balanceLabel(weeklyBalance.balanceMinutes),
             primaryActionLabel = primaryActionLabel(day.status),
             primaryCommand = primaryCommand(day.status),
-            secondaryActionLabel = secondaryActionLabel(day.status),
+            secondaryActionLabel = secondaryActionLabel(day.status, day.kind),
             targets = listOf(
                 TargetItemUiModel(localized(Res.string.target_daily), TimeTextFormatter.shortDuration(day.config.dailyTargetMinutes)),
                 TargetItemUiModel(localized(Res.string.break_label), TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
@@ -117,10 +118,10 @@ object TimeTrackerUiStateMapper {
         WorkStatus.Finished -> TimeTrackingCommand.StartNewDay
     }
 
-    private fun secondaryActionLabel(status: WorkStatus): String? = when (status) {
+    private fun secondaryActionLabel(status: WorkStatus, kind: WorkDayKind): String? = when (status) {
         WorkStatus.Working,
         WorkStatus.Paused -> localized(Res.string.action_finish)
-        WorkStatus.Finished -> localized(Res.string.action_continue_day)
+        WorkStatus.Finished -> localized(Res.string.action_continue_day).takeIf { kind == WorkDayKind.Work }
         WorkStatus.NotStarted -> null
     }
 
