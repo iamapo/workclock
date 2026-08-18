@@ -9,14 +9,15 @@ data class LockScreenStatus(
     val startedAtEpochMillis: Long,
     val elapsedMinutes: Int,
     val workedMinutes: Int,
-    val breakMinutes: Int
+    val breakMinutes: Int,
+    val targetMinutes: Int
 ) {
     companion object {
         const val PhaseHidden = "hidden"
         const val PhaseWorking = "working"
         const val PhasePaused = "paused"
 
-        val Hidden = LockScreenStatus(false, PhaseHidden, "WorkClock", "", "", 0L, 0, 0, 0)
+        val Hidden = LockScreenStatus(false, PhaseHidden, "WorkClock", "", "", 0L, 0, 0, 0, 0)
     }
 }
 

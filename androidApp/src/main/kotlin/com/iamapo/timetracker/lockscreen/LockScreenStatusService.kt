@@ -116,7 +116,8 @@ class LockScreenStatusService : Service() {
             startedAtEpochMillis = getLongExtra(ExtraStartedAtEpochMillis, 0L),
             elapsedMinutes = max(getIntExtra(ExtraElapsedMinutes, 0), 0),
             workedMinutes = max(getIntExtra(ExtraWorkedMinutes, 0), 0),
-            breakMinutes = max(getIntExtra(ExtraBreakMinutes, 0), 0)
+            breakMinutes = max(getIntExtra(ExtraBreakMinutes, 0), 0),
+            targetMinutes = max(getIntExtra(ExtraTargetMinutes, 0), 0)
         )
     }
 
@@ -134,6 +135,7 @@ class LockScreenStatusService : Service() {
         private const val ExtraElapsedMinutes = "elapsedMinutes"
         private const val ExtraWorkedMinutes = "workedMinutes"
         private const val ExtraBreakMinutes = "breakMinutes"
+        private const val ExtraTargetMinutes = "targetMinutes"
 
         fun start(context: Context, status: LockScreenStatus) {
             val intent = Intent(context, LockScreenStatusService::class.java).apply {
@@ -146,6 +148,7 @@ class LockScreenStatusService : Service() {
                 putExtra(ExtraElapsedMinutes, status.elapsedMinutes)
                 putExtra(ExtraWorkedMinutes, status.workedMinutes)
                 putExtra(ExtraBreakMinutes, status.breakMinutes)
+                putExtra(ExtraTargetMinutes, status.targetMinutes)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

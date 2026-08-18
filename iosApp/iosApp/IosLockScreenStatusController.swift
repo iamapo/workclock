@@ -24,7 +24,8 @@ final class IosLockScreenStatusController: NSObject, LockScreenStatusController 
             subtitle: status.subtitle,
             startedAt: startedAtDate(status: status),
             workedMinutes: Int(status.workedMinutes),
-            breakMinutes: Int(status.breakMinutes)
+            breakMinutes: Int(status.breakMinutes),
+            targetMinutes: Int(status.targetMinutes)
         )
 
         if let activity = Activity<WorkClockLiveActivityAttributes>.activities.first {

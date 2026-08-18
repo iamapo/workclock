@@ -48,7 +48,8 @@ object LockScreenStatusMapper {
                 startedAtEpochMillis = startedAtEpochMillis,
                 elapsedMinutes = elapsedMinutes,
                 workedMinutes = summary.workedMinutes,
-                breakMinutes = summary.breakMinutes
+                breakMinutes = summary.breakMinutes,
+                targetMinutes = day.config.dailyTargetMinutes
             )
             WorkStatus.Paused -> LockScreenStatus(
                 visible = true,
@@ -59,7 +60,8 @@ object LockScreenStatusMapper {
                 startedAtEpochMillis = startedAtEpochMillis,
                 elapsedMinutes = elapsedMinutes,
                 workedMinutes = summary.workedMinutes,
-                breakMinutes = summary.breakMinutes
+                breakMinutes = summary.breakMinutes,
+                targetMinutes = day.config.dailyTargetMinutes
             )
             WorkStatus.NotStarted,
             WorkStatus.Finished -> LockScreenStatus.Hidden

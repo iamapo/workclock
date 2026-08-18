@@ -2,6 +2,7 @@ package com.iamapo.timetracker.lockscreen
 
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.domain.WorkDay
+import com.iamapo.timetracker.domain.WorkDayConfig
 import com.iamapo.timetracker.domain.WorkStatus
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
@@ -16,7 +17,8 @@ class LockScreenStatusMapperTest {
                 status = WorkStatus.Working,
                 activeSessionStartMinute = 13 * 60,
                 workedMinutes = 3 * 60,
-                breakMinutes = 30
+                breakMinutes = 30,
+                config = WorkDayConfig(dailyTargetMinutes = 6 * 60)
             ),
             snapshot = TimeSnapshot(
                 date = LocalDate(2026, 7, 9),
@@ -31,6 +33,7 @@ class LockScreenStatusMapperTest {
         assertEquals(4 * 60, status.elapsedMinutes)
         assertEquals(now - 4 * 60 * 60_000L, status.startedAtEpochMillis)
         assertEquals(4 * 60, status.workedMinutes)
+        assertEquals(6 * 60, status.targetMinutes)
     }
 
     @Test

@@ -9,6 +9,11 @@ Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokument
 - Neuer linearer Tagesfortschritt mit Arbeits-, Pausen- und Restzeit sowie überarbeitete Buchungs-Timeline
 - Statusleiste und iPhone-Notch übernehmen die jeweilige Hero-Farbe
 - Einstellungen verwenden modernisierte Panels, Stepper, Schalter und konsistente Abstände
+- Watch-App, Live Activity und Dynamic Island verwenden ebenfalls die Dayflow-Farben, Sans-Serif-Typografie, Status-Pills und lineare Fortschrittsanzeigen
+
+### Behoben
+- Touchflächen der unteren Navigation entsprechen wieder vollständig den sichtbaren Today-, Calendar- und Settings-Elementen
+- Fortschrittsleiste der Live Activity zeigt Arbeits- und Pausenzeit jetzt relativ zum Tagesziel statt stets vollständig gefüllt
 
 ## [1.5] - 2026-08-13
 

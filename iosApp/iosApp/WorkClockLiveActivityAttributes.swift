@@ -10,6 +10,7 @@ struct WorkClockLiveActivityAttributes: ActivityAttributes {
         var startedAt: Date
         var workedMinutes: Int
         var breakMinutes: Int
+        var targetMinutes: Int
     }
 
     var title: String
