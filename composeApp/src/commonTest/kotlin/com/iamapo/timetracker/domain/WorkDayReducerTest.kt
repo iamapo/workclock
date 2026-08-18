@@ -87,6 +87,62 @@ class WorkDayReducerTest {
     }
 
     @Test
+    fun reopenFinishedWorkingDayContinuesFromItsRecordedEnd() {
+        val finishedDay = WorkDay(
+            status = WorkStatus.Finished,
+            startMinute = 9 * 60,
+            workedMinutes = 7 * 60 + 30,
+            breakMinutes = 30,
+            events = listOf(
+                WorkEvent(9 * 60, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(12 * 60, "Pause gestartet", WorkEventKind.Break),
+                WorkEvent(12 * 60 + 30, "Weitergearbeitet", WorkEventKind.Work),
+                WorkEvent(17 * 60, "Arbeitstag beendet", WorkEventKind.Target)
+            )
+        )
+
+        val reopened = reducer.reduce(
+            day = finishedDay,
+            action = TimeTrackerAction.ReopenDay,
+            nowMinute = 17 * 60 + 5,
+            defaultConfig = WorkDayConfig()
+        )
+
+        assertEquals(WorkStatus.Working, reopened.status)
+        assertEquals(17 * 60, reopened.activeSessionStartMinute)
+        assertEquals(7 * 60 + 30, reopened.workedMinutes)
+        assertEquals(3, reopened.events.size)
+    }
+
+    @Test
+    fun reopenFinishedPausedDayContinuesItsBreakFromTheRecordedEnd() {
+        val finishedDay = WorkDay(
+            status = WorkStatus.Finished,
+            startMinute = 9 * 60,
+            workedMinutes = 3 * 60,
+            breakMinutes = 30,
+            lastBreakMinutes = 30,
+            events = listOf(
+                WorkEvent(9 * 60, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(12 * 60, "Pause gestartet", WorkEventKind.Break),
+                WorkEvent(12 * 60 + 30, "Arbeitstag beendet", WorkEventKind.Target)
+            )
+        )
+
+        val reopened = reducer.reduce(
+            day = finishedDay,
+            action = TimeTrackerAction.ReopenDay,
+            nowMinute = 12 * 60 + 35,
+            defaultConfig = WorkDayConfig()
+        )
+
+        assertEquals(WorkStatus.Paused, reopened.status)
+        assertEquals(12 * 60 + 30, reopened.pauseStartedMinute)
+        assertEquals(30, reopened.breakMinutes)
+        assertEquals(2, reopened.events.size)
+    }
+
+    @Test
     fun changeEventTimeCorrectsARunningDay() {
         val runningDay = WorkDay(
             status = WorkStatus.Paused,

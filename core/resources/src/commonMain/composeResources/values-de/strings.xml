@@ -29,7 +29,7 @@
     <string name="target_daily">Tagesziel</string><string name="target_weekly">Wochenziel</string><string name="worked">Gearbeitet</string>
     <string name="not_started_yet">noch nicht gestartet</string><string name="recorded_today">heute erfasst</string><string name="break_met">Pause erfüllt</string><string name="missing_minutes">%1$s fehlen</string><string name="balance_suffix">%1$s Saldo</string>
     <string name="ready_to_start">Bereit zum Start</string><string name="working_since">Arbeite seit %1$s</string><string name="working">Arbeite</string><string name="break_running">Pause läuft</string><string name="workday_finished">Arbeitstag beendet</string>
-    <string name="action_start">Tag starten</string><string name="action_break">Pause starten</string><string name="action_resume">Arbeit fortsetzen</string><string name="action_new_day">Neuen Tag starten</string><string name="action_finish">Tag beenden</string>
+    <string name="action_start">Tag starten</string><string name="action_break">Pause starten</string><string name="action_resume">Arbeit fortsetzen</string><string name="action_new_day">Neuen Tag starten</string><string name="action_finish">Tag beenden</string><string name="action_continue_day">Tag fortsetzen</string>
     <string name="state_ready">Bereit</string><string name="state_active">Aktiv</string><string name="state_break">Pause</string><string name="state_finished">Fertig</string>
     <string name="watch_ready">bereit zum Start</string><string name="watch_finished">beendet um %1$s</string><string name="watch_until">noch bis %1$s</string>
     <string name="calendar_vacation_duration">Urlaub %1$s</string><string name="calendar_sick_duration">Krank %1$s</string>
@@ -44,6 +44,8 @@
     <string name="work_end">Arbeitsende</string>
     <string name="working_time">Arbeitszeit</string>
     <string name="save">Speichern</string>
+    <string name="workday_finished_at_message">Tag um %1$s beendet.</string>
+    <string name="undo">Rückgängig</string>
     <string name="backup_label">BACKUP</string>
     <string name="backup_title">Daten exportieren oder wiederherstellen</string>
     <string name="backup_description">Im Systemdialog wählst du den Speicherort, zum Beispiel dieses Gerät, iCloud Drive oder Google Drive.</string>

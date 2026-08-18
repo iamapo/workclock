@@ -274,6 +274,7 @@ class TimeTrackerUiStateMapperTest {
         )
 
         assertEquals("17:00 Uhr", state.endTime)
+        assertEquals("Tag fortsetzen", state.secondaryActionLabel)
         assertEquals("Arbeitstag beendet", state.timeline.last().title)
         assertEquals("17:00", state.timeline.last().time)
         assertEquals(false, state.timeline.any { it.title == "Geplanter Feierabend" })

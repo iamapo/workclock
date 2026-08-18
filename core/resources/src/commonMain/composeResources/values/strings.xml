@@ -70,7 +70,7 @@
     <string name="target_daily">Daily target</string><string name="target_weekly">Weekly target</string><string name="worked">Worked</string>
     <string name="not_started_yet">not started yet</string><string name="recorded_today">recorded today</string><string name="break_met">Break completed</string><string name="missing_minutes">%1$s missing</string><string name="balance_suffix">%1$s balance</string>
     <string name="ready_to_start">Ready to start</string><string name="working_since">Working since %1$s</string><string name="working">Working</string><string name="break_running">Break running</string><string name="workday_finished">Workday finished</string>
-    <string name="action_start">Start day</string><string name="action_break">Start break</string><string name="action_resume">Resume work</string><string name="action_new_day">Start new day</string><string name="action_finish">Finish day</string>
+    <string name="action_start">Start day</string><string name="action_break">Start break</string><string name="action_resume">Resume work</string><string name="action_new_day">Start new day</string><string name="action_finish">Finish day</string><string name="action_continue_day">Continue day</string>
     <string name="state_ready">Ready</string><string name="state_active">Active</string><string name="state_break">Break</string><string name="state_finished">Finished</string>
     <string name="watch_ready">ready to start</string><string name="watch_finished">finished at %1$s</string><string name="watch_until">until %1$s</string>
     <string name="calendar_vacation_duration">Vacation %1$s</string><string name="calendar_sick_duration">Sick %1$s</string>
@@ -85,6 +85,8 @@
     <string name="work_end">Work end</string>
     <string name="working_time">Working time</string>
     <string name="save">Save</string>
+    <string name="workday_finished_at_message">Day finished at %1$s.</string>
+    <string name="undo">Undo</string>
     <string name="backup_label">BACKUP</string>
     <string name="backup_title">Export or restore data</string>
     <string name="backup_description">The system file dialog lets you choose the location, for example this device, iCloud Drive or Google Drive.</string>

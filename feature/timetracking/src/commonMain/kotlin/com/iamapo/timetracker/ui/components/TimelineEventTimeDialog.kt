@@ -30,6 +30,7 @@ import androidx.compose.ui.window.Dialog
 import com.iamapo.timetracker.presentation.state.TimelineEditUiModel
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.presentation.state.TimelineKind
+import com.iamapo.timetracker.presentation.TimeInputFormatter
 import com.iamapo.timetracker.ui.ComposePreviewContext
 import com.iamapo.timetracker.ui.theme.AppColors
 import com.iamapo.timetracker.ui.theme.AppDimensions
@@ -90,7 +91,7 @@ object TimelineEventTimeDialog {
                     )
                     OutlinedTextField(
                         value = value,
-                        onValueChange = { value = normalizeTimeInput(it) },
+                        onValueChange = { value = TimeInputFormatter.normalize(it) },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(localizedEventTitle(item.title)) },
                         singleLine = true,
@@ -139,9 +140,6 @@ object TimelineEventTimeDialog {
         val minute = parts.getOrNull(1)?.toIntOrNull() ?: return null
         return if (hour in 0..23 && minute in 0..59) hour * 60 + minute else null
     }
-
-    private fun normalizeTimeInput(value: String): String =
-        value.filter { it.isDigit() || it == ':' }.take(5)
 }
 
 @Preview

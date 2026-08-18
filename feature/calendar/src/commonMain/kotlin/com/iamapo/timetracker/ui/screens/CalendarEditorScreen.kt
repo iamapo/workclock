@@ -59,6 +59,7 @@ import androidx.compose.ui.window.Dialog
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.presentation.state.CalendarUiState
+import com.iamapo.timetracker.presentation.TimeInputFormatter
 import com.iamapo.timetracker.resources.*
 import com.iamapo.timetracker.ui.theme.AppColors
 import kotlinx.datetime.LocalDate
@@ -669,9 +670,9 @@ object CalendarEditorScreen {
                             fontSize = 13.sp
                         )
                     }
-                    item { TimeInput(stringResource(Res.string.work_start), start) { start = normalizeTimeInput(it) } }
-                    item { TimeInput(stringResource(Res.string.break_label), pause) { pause = normalizeTimeInput(it) } }
-                    item { TimeInput(stringResource(Res.string.work_end), end) { end = normalizeTimeInput(it) } }
+                    item { TimeInput(stringResource(Res.string.work_start), start) { start = TimeInputFormatter.normalize(it) } }
+                    item { TimeInput(stringResource(Res.string.break_label), pause) { pause = TimeInputFormatter.normalize(it) } }
+                    item { TimeInput(stringResource(Res.string.work_end), end) { end = TimeInputFormatter.normalize(it) } }
                     item {
                         Surface(color = AppColors.Green.copy(alpha = 0.14f), shape = RoundedCornerShape(12.dp)) {
                             Row(
@@ -753,7 +754,10 @@ object CalendarEditorScreen {
                             Button(
                                 onClick = { onSave(startMinute!!, pauseMinutes!!, endMinute!!) },
                                 enabled = worked != null,
-                                colors = ButtonDefaults.buttonColors(containerColor = AppColors.Navy),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppColors.Navy,
+                                    contentColor = Color.White
+                                ),
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Text(
@@ -896,7 +900,6 @@ object CalendarEditorScreen {
         return if (hour >= 0 && minute in 0..59) hour * 60 + minute else null
     }
 
-    private fun normalizeTimeInput(value: String): String = value.filter { it.isDigit() || it == ':' }.take(5)
 
     private fun Int?.orDefault(default: Int): Int = this ?: default
 

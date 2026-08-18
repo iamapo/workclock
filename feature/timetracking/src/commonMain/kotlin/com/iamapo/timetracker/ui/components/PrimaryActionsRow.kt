@@ -30,7 +30,8 @@ object PrimaryActionsRow {
         onSecondaryAction: () -> Unit,
         modifier: Modifier = Modifier,
         primaryColor: Color = Color.White,
-        primaryContainerColor: Color = AppColors.Navy
+        primaryContainerColor: Color = AppColors.Navy,
+        secondaryColor: Color = AppColors.Coral
     ) {
         Column(
             modifier = modifier.fillMaxWidth(),
@@ -53,8 +54,8 @@ object PrimaryActionsRow {
                     onClick = onSecondaryAction,
                     modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = AppColors.Coral),
-                    border = BorderStroke(1.5.dp, AppColors.Coral),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = secondaryColor),
+                    border = BorderStroke(1.5.dp, secondaryColor),
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 11.dp)
                 ) {
                     Text(secondaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Black)

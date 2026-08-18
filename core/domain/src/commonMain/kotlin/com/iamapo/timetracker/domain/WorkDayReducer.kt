@@ -11,6 +11,7 @@ class WorkDayReducer {
         TimeTrackerAction.StartBreak -> day.startBreak(nowMinute)
         TimeTrackerAction.ResumeWork -> day.resume(nowMinute)
         TimeTrackerAction.EndDay -> day.finish(nowMinute)
+        TimeTrackerAction.ReopenDay -> day.reopen()
         TimeTrackerAction.StartNewDay -> WorkDay(config = defaultConfig).start(nowMinute)
         is TimeTrackerAction.ChangeEventTime -> WorkDayEventEditor.changeEventTime(
             day = day,
@@ -79,6 +80,28 @@ class WorkDayReducer {
         }
         WorkStatus.NotStarted,
         WorkStatus.Finished -> this
+    }
+
+    private fun WorkDay.reopen(): WorkDay {
+        if (status != WorkStatus.Finished || kind != WorkDayKind.Work) return this
+        val finishEvent = events.lastOrNull()?.takeIf { it.kind == WorkEventKind.Target } ?: return this
+        val reopenedEvents = events.dropLast(1)
+        return when (reopenedEvents.lastOrNull()?.kind) {
+            WorkEventKind.Work -> copy(
+                status = WorkStatus.Working,
+                activeSessionStartMinute = finishEvent.minuteOfDay,
+                pauseStartedMinute = null,
+                events = reopenedEvents
+            )
+            WorkEventKind.Break -> copy(
+                status = WorkStatus.Paused,
+                activeSessionStartMinute = null,
+                pauseStartedMinute = finishEvent.minuteOfDay,
+                events = reopenedEvents
+            )
+            WorkEventKind.Target,
+            null -> this
+        }
     }
 
     private fun elapsedMinutes(startMinute: Int, endMinute: Int): Int =

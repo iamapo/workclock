@@ -59,6 +59,11 @@ object StatusCard {
                 secondaryLabel = state.secondaryActionLabel,
                 onPrimaryAction = onPrimaryAction,
                 onSecondaryAction = onSecondaryAction,
+                secondaryColor = if (state.primaryCommand == TimeTrackingCommand.StartNewDay) {
+                    AppColors.Success
+                } else {
+                    AppColors.Coral
+                },
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
             )
         }

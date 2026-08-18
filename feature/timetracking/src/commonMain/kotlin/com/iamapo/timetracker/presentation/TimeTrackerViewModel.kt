@@ -55,8 +55,18 @@ class TimeTrackerViewModel(
         handleTimeTrackingCommand(TimeTrackingCommand.Primary)
     }
 
-    fun onSecondaryAction() {
-        onAction(TimeTrackerAction.EndDay)
+    fun onSecondaryAction(): Int? {
+        val snapshot = timeProvider.now()
+        val action = when (repository.history.value.dayFor(snapshot.date).status) {
+            com.iamapo.timetracker.domain.WorkStatus.Finished -> TimeTrackerAction.ReopenDay
+            else -> TimeTrackerAction.EndDay
+        }
+        trackWorkDay(action, snapshot.date, snapshot.minuteOfDay)
+        return snapshot.minuteOfDay.takeIf { action == TimeTrackerAction.EndDay }
+    }
+
+    fun onReopenDay() {
+        onAction(TimeTrackerAction.ReopenDay)
     }
 
     fun onTimelineEventTimeChanged(eventIndex: Int, minuteOfDay: Int) {

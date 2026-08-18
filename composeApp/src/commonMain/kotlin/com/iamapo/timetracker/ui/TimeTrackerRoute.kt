@@ -6,11 +6,15 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.iamapo.timetracker.app.WorkClockDependencies
@@ -20,14 +24,21 @@ import com.iamapo.timetracker.presentation.TimeTrackerViewModel
 import com.iamapo.timetracker.presentation.CalendarViewModel
 import com.iamapo.timetracker.presentation.SettingsViewModel
 import com.iamapo.timetracker.presentation.AppCalendarStateMapper
+import com.iamapo.timetracker.presentation.TimeTextFormatter
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.reminders.ReminderScheduleCoordinator
+import com.iamapo.timetracker.resources.Res
+import com.iamapo.timetracker.resources.undo
+import com.iamapo.timetracker.resources.workday_finished_at_message
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
 import com.iamapo.timetracker.ui.components.MainTab
 import com.iamapo.timetracker.ui.screens.CalendarEditorScreen
 import com.iamapo.timetracker.ui.screens.SettingsScreen
 import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 object TimeTrackerRoute {
     @Composable
@@ -56,6 +67,9 @@ object TimeTrackerRoute {
         var activeTab by remember { mutableStateOf(MainTab.Today) }
         val requestedTabEvent by DeepLinkRouter.requestedTabEvent.collectAsState()
         var selectedCalendarDate by remember { mutableStateOf(calendarState.days.firstOrNull { it.isToday }?.date) }
+        val snackbarHostState = remember { SnackbarHostState() }
+        val coroutineScope = rememberCoroutineScope()
+        val undoLabel = stringResource(Res.string.undo)
         val backupStateHolder = rememberBackupStateHolder(
             workDayStore = dependencies.workDayStore,
             repository = repository,
@@ -84,6 +98,7 @@ object TimeTrackerRoute {
         TimeTrackerTheme {
             Scaffold(
                 containerColor = com.iamapo.timetracker.ui.theme.AppColors.Background,
+                snackbarHost = { SnackbarHost(snackbarHostState) },
                 contentWindowInsets = WindowInsets.safeDrawing.only(
                     WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
                 ),
@@ -105,7 +120,24 @@ object TimeTrackerRoute {
                         TimeTrackerScreen(
                             state = state,
                             onPrimaryAction = resolvedViewModel::onPrimaryAction,
-                            onSecondaryAction = resolvedViewModel::onSecondaryAction,
+                            onSecondaryAction = {
+                                val finishedMinute = resolvedViewModel.onSecondaryAction()
+                                if (finishedMinute != null) {
+                                    coroutineScope.launch {
+                                        val result = snackbarHostState.showSnackbar(
+                                            message = getString(
+                                                Res.string.workday_finished_at_message,
+                                                TimeTextFormatter.clock(finishedMinute)
+                                            ),
+                                            actionLabel = undoLabel,
+                                            withDismissAction = true
+                                        )
+                                        if (result == SnackbarResult.ActionPerformed) {
+                                            resolvedViewModel.onReopenDay()
+                                        }
+                                    }
+                                }
+                            },
                             onEventTimeChanged = resolvedViewModel::onTimelineEventTimeChanged,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )

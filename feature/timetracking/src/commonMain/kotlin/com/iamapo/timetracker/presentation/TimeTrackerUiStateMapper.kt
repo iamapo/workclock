@@ -120,8 +120,8 @@ object TimeTrackerUiStateMapper {
     private fun secondaryActionLabel(status: WorkStatus): String? = when (status) {
         WorkStatus.Working,
         WorkStatus.Paused -> localized(Res.string.action_finish)
-        WorkStatus.NotStarted,
-        WorkStatus.Finished -> null
+        WorkStatus.Finished -> localized(Res.string.action_continue_day)
+        WorkStatus.NotStarted -> null
     }
 
     private fun watchState(status: WorkStatus): String = when (status) {
