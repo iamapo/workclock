@@ -1,6 +1,10 @@
 package com.iamapo.timetracker.ui
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,7 +23,6 @@ import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.reminders.ReminderScheduleCoordinator
 import com.iamapo.timetracker.ui.components.BottomNavigationBar
-import com.iamapo.timetracker.ui.components.CalendarPanel
 import com.iamapo.timetracker.ui.components.MainTab
 import com.iamapo.timetracker.ui.screens.CalendarEditorScreen
 import com.iamapo.timetracker.ui.screens.SettingsScreen
@@ -81,6 +84,9 @@ object TimeTrackerRoute {
         TimeTrackerTheme {
             Scaffold(
                 containerColor = com.iamapo.timetracker.ui.theme.AppColors.Background,
+                contentWindowInsets = WindowInsets.safeDrawing.only(
+                    WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
+                ),
                 bottomBar = {
                     BottomNavigationBar(
                         selectedTab = activeTab,
@@ -101,19 +107,6 @@ object TimeTrackerRoute {
                             onPrimaryAction = resolvedViewModel::onPrimaryAction,
                             onSecondaryAction = resolvedViewModel::onSecondaryAction,
                             onEventTimeChanged = resolvedViewModel::onTimelineEventTimeChanged,
-                            calendarContent = {
-                                CalendarPanel(
-                                    monthTitle = calendarState.monthTitle,
-                                    days = calendarState.previewDays,
-                                    plannedWeek = calendarState.plannedWeek,
-                                    reachedWeek = calendarState.reachedWeek,
-                                    onOpenCalendar = {
-                                        selectedCalendarDate = calendarState.days.firstOrNull { it.isToday }?.date
-                                            ?: calendarState.days.firstOrNull()?.date
-                                        activeTab = MainTab.Calendar
-                                    }
-                                )
-                            },
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }

@@ -2,11 +2,7 @@ package com.iamapo.timetracker.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-/**
- * Original WorkClock palette, kept alongside the Ledger layout (paper, stamps, ruled lines,
- * serif/monospace typography) so the structural redesign can be reviewed with the warmer,
- * pre-Ledger colors instead of the ink/paper accents.
- */
+/** Shared Dayflow palette used by every WorkClock surface. */
 object AppColors {
     val Background = Color(0xFFFFFAF2)
     val Panel = Color(0xFFFFFFFF)
@@ -21,14 +17,14 @@ object AppColors {
     val Night = Color(0xFF181721)
     val Paper = Color(0xFFFFFFFF)
     val Margin = Color(0xFFFF6B8F)
-    val Coral = Color(0xFFFF6B5E)
+    val Coral = Color(0xFFFF5D50)
     val Navy = Color(0xFF102544)
     val Success = Color(0xFF3F7B58)
     val Sand = Color(0xFFF4D7A4)
     val CalendarLine = Color(0xFFE2DED6)
     val Lemon = Color(0xFFFFD84D)
     val Blue = Color(0xFF58A7FF)
-    val Green = Color(0xFF66DDB6)
+    val Green = Color(0xFF66D8B7)
     val Rose = Color(0xFFFF6B8F)
     val Purple = Color(0xFF9C70FF)
     val Cyan = Color(0xFF28C7D8)

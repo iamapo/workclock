@@ -2,6 +2,14 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.6] - 2026-08-18
+
+### Geändert
+- Einheitliches Dayflow-Design für Heute-, Kalender- und Einstellungen-Screen mit Coral-Hero, Sans-Serif-Typografie und kompakteren Bedienelementen
+- Neuer linearer Tagesfortschritt mit Arbeits-, Pausen- und Restzeit sowie überarbeitete Buchungs-Timeline
+- Statusleiste und iPhone-Notch übernehmen die jeweilige Hero-Farbe
+- Einstellungen verwenden modernisierte Panels, Stepper, Schalter und konsistente Abstände
+
 ## [1.5] - 2026-08-13
 
 ### Hinzugefügt

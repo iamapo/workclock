@@ -17,10 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
-import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
@@ -51,7 +51,7 @@ object SettingsPanel {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
+                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 SettingsRow(
@@ -133,7 +133,7 @@ object SettingsPanel {
                 onCheckedChange = onEnabledChange,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = AppColors.Paper,
-                    checkedTrackColor = AppColors.Green,
+                    checkedTrackColor = AppColors.Coral,
                     uncheckedThumbColor = AppColors.Paper,
                     uncheckedTrackColor = AppColors.SoftMuted,
                     uncheckedBorderColor = AppColors.LineStrong

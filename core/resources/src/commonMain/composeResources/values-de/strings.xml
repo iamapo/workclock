@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WorkClock</string>
     <string name="nav_today">Heute</string><string name="nav_week">Woche</string><string name="nav_calendar">Kalender</string><string name="nav_settings">Einstellungen</string>
-    <string name="calendar">KALENDER</string><string name="calendar_title">Kalender</string><string name="week_balance">WOCHENSALDO</string><string name="week_summary">%1$d. Woche · %2$s von %3$s</string><string name="edit_day">Tag bearbeiten</string><string name="timeline">TIMELINE</string>
+    <string name="calendar">KALENDER</string><string name="calendar_title">Kalender</string><string name="week_balance">WOCHENSALDO</string><string name="week_summary">%1$d. Woche · %2$s von %3$s</string><string name="edit_day">Tag bearbeiten</string><string name="timeline">TIMELINE</string><string name="booked_today">Heute gebucht</string><string name="now_time">Jetzt %1$s</string><string name="progress_target">des Solls</string><string name="remaining_prefix">noch %1$s</string><string name="finished_at">Beendet %1$s</string>
     <string name="quick_targets">VORGABEN</string><string name="daily">Täglich</string><string name="break_label">Pause</string><string name="week">Woche</string>
     <string name="this_week">DIESE WOCHE</string><string name="planned_this_week">Diese Woche geplant</string><string name="currently_reached">Aktuell erreicht</string>
     <string name="remaining_time">Restzeit</string><string name="end_of_workday">FEIERABEND</string><string name="worked_suffix">%1$s gearbeitet</string>
@@ -29,7 +29,7 @@
     <string name="target_daily">Tagesziel</string><string name="target_weekly">Wochenziel</string><string name="worked">Gearbeitet</string>
     <string name="not_started_yet">noch nicht gestartet</string><string name="recorded_today">heute erfasst</string><string name="break_met">Pause erfüllt</string><string name="missing_minutes">%1$s fehlen</string><string name="balance_suffix">%1$s Saldo</string>
     <string name="ready_to_start">Bereit zum Start</string><string name="working_since">Arbeite seit %1$s</string><string name="working">Arbeite</string><string name="break_running">Pause läuft</string><string name="workday_finished">Arbeitstag beendet</string>
-    <string name="action_start">Start</string><string name="action_break">Pause</string><string name="action_resume">Weiterarbeiten</string><string name="action_new_day">Neuen Tag starten</string><string name="action_finish">Beenden</string>
+    <string name="action_start">Tag starten</string><string name="action_break">Pause starten</string><string name="action_resume">Arbeit fortsetzen</string><string name="action_new_day">Neuen Tag starten</string><string name="action_finish">Tag beenden</string>
     <string name="state_ready">Bereit</string><string name="state_active">Aktiv</string><string name="state_break">Pause</string><string name="state_finished">Fertig</string>
     <string name="watch_ready">bereit zum Start</string><string name="watch_finished">beendet um %1$s</string><string name="watch_until">noch bis %1$s</string>
     <string name="calendar_vacation_duration">Urlaub %1$s</string><string name="calendar_sick_duration">Krank %1$s</string>

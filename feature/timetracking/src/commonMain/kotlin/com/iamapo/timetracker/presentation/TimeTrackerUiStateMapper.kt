@@ -32,6 +32,7 @@ object TimeTrackerUiStateMapper {
             todayWorkedMinutes = summary.workedMinutes
         )
         val displayedBreakMinutes = maxOf(day.config.requiredBreakMinutes, summary.breakMinutes)
+        val scheduledDayMinutes = (day.config.dailyTargetMinutes + displayedBreakMinutes).coerceAtLeast(1)
 
         return TimeTrackerUiState(
             dateLabel = TimeTextFormatter.dateLabel(snapshot.date),
@@ -40,8 +41,13 @@ object TimeTrackerUiStateMapper {
             workedTime = TimeTextFormatter.duration(summary.workedMinutes),
             remainingTime = TimeTextFormatter.duration(summary.remainingWorkMinutes),
             endTime = localized(Res.string.time_with_clock, TimeTextFormatter.clock(summary.endMinute)),
+            startTime = day.startMinute?.let(TimeTextFormatter::clock) ?: "--:--",
+            currentTime = TimeTextFormatter.clock(snapshot.minuteOfDay),
             breakRequirementLabel = localized(Res.string.including_break, TimeTextFormatter.duration(displayedBreakMinutes)),
             progress = summary.progress,
+            workdayProgress = (summary.workedMinutes.toFloat() / scheduledDayMinutes).coerceIn(0f, 1f),
+            breakProgress = (summary.breakMinutes.toFloat() / scheduledDayMinutes).coerceIn(0f, 1f),
+            weeklyBalance = balanceLabel(weeklyBalance.balanceMinutes),
             primaryActionLabel = primaryActionLabel(day.status),
             primaryCommand = primaryCommand(day.status),
             secondaryActionLabel = secondaryActionLabel(day.status),

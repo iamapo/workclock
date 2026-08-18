@@ -4,16 +4,23 @@ import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.AppFontSizes
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,12 +46,9 @@ import com.iamapo.timetracker.backup.PendingBackupImport
 import com.iamapo.timetracker.domain.GermanFederalState
 import com.iamapo.timetracker.ui.components.SettingsRow
 import com.iamapo.timetracker.ui.components.SettingsPanel
-import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
 import com.iamapo.timetracker.ui.theme.AppColors
-import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.LedgerShapes
-import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import com.iamapo.timetracker.resources.*
@@ -77,24 +82,19 @@ object SettingsScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background)
-                .ledgerRuledPaper(),
-            contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
-            verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
+                .background(AppColors.Background),
+            contentPadding = PaddingValues(bottom = AppDimensions.size28),
+            verticalArrangement = Arrangement.spacedBy(AppDimensions.size12)
         ) {
-            item {
-                TopBarSection(
-                    dateLabel = stringResource(Res.string.settings_subtitle),
-                    title = stringResource(Res.string.settings_title)
-                )
-            }
+            item { SettingsHero() }
             item {
                 SettingsPanel(
                     settings = state,
                     onDecreaseRequiredBreak = onDecreaseRequiredBreak,
                     onIncreaseRequiredBreak = onIncreaseRequiredBreak,
                     onLockScreenStatusChanged = onLockScreenStatusChanged,
-                    onRemindersChanged = onRemindersChanged
+                    onRemindersChanged = onRemindersChanged,
+                    modifier = Modifier.padding(horizontal = AppDimensions.size20)
                 )
             }
             item {
@@ -153,13 +153,64 @@ object SettingsScreen {
     }
 
     @Composable
+    private fun SettingsHero() {
+        val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(178.dp + statusBarHeight)
+        ) {
+            Canvas(Modifier.fillMaxSize()) {
+                val path = androidx.compose.ui.graphics.Path().apply {
+                    moveTo(0f, 0f)
+                    lineTo(size.width, 0f)
+                    lineTo(size.width, size.height - 34.dp.toPx())
+                    cubicTo(
+                        size.width * 0.74f,
+                        size.height - 13.dp.toPx(),
+                        size.width * 0.34f,
+                        size.height,
+                        0f,
+                        size.height
+                    )
+                    close()
+                }
+                drawPath(path, AppColors.Coral)
+            }
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(start = 26.dp, top = 24.dp, end = 26.dp, bottom = 34.dp)
+            ) {
+                Text(
+                    text = stringResource(Res.string.settings_title),
+                    color = AppColors.Navy,
+                    fontFamily = FontFamily.SansSerif,
+                    fontSize = AppFontSizes.size42,
+                    lineHeight = AppFontSizes.size44,
+                    fontWeight = FontWeight.Black
+                )
+                Text(
+                    text = stringResource(Res.string.settings_subtitle),
+                    color = AppColors.Navy.copy(alpha = 0.68f),
+                    fontFamily = FontFamily.SansSerif,
+                    fontSize = AppFontSizes.size18,
+                    lineHeight = AppFontSizes.size22,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(top = AppDimensions.size6)
+                )
+            }
+        }
+    }
+
+    @Composable
     private fun WorkSchedulePanel(
         state: SettingsUiModel,
         onDecrease: (Int) -> Unit,
         onIncrease: (Int) -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -173,7 +224,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
+                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 state.workdays.forEach { workday ->
@@ -203,7 +254,7 @@ object SettingsScreen {
         onChooseFederalState: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -217,7 +268,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
+                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Row(
@@ -243,7 +294,7 @@ object SettingsScreen {
                         enabled = state.holidayFederalState != null,
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = AppColors.Paper,
-                            checkedTrackColor = AppColors.Green,
+                            checkedTrackColor = AppColors.Coral,
                             uncheckedThumbColor = AppColors.Paper,
                             uncheckedTrackColor = AppColors.SoftMuted,
                             uncheckedBorderColor = AppColors.LineStrong
@@ -263,7 +314,7 @@ object SettingsScreen {
                             text = stringResource(Res.string.workplace_federal_state),
                             color = AppColors.Muted,
                             fontSize = AppFontSizes.size12,
-                            fontFamily = LedgerMonospace
+                            fontFamily = FontFamily.SansSerif
                         )
                         Text(
                             text = state.holidayFederalState?.let { federalState -> federalStateName(federalState) }
@@ -311,7 +362,7 @@ object SettingsScreen {
                                 selected = federalState == selected,
                                 onClick = { onSelect(federalState) },
                                 colors = RadioButtonDefaults.colors(
-                                    selectedColor = AppColors.Green,
+                                    selectedColor = AppColors.Coral,
                                     unselectedColor = AppColors.LineStrong,
                                     disabledSelectedColor = AppColors.Green.copy(alpha = 0.38f),
                                     disabledUnselectedColor = AppColors.LineStrong.copy(alpha = 0.38f)
@@ -371,7 +422,7 @@ object SettingsScreen {
         onUndoImport: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -385,7 +436,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
+                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Text(
@@ -530,7 +581,7 @@ object SettingsScreen {
         onConfirm: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -544,7 +595,7 @@ object SettingsScreen {
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
                     fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
+                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
                 Text(

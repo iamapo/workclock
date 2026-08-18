@@ -9,10 +9,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 
-/** Small, mostly-square corners used for every ledger card and button — a page, not a bubble. */
+/** Shared Dayflow corners. The legacy name is kept to avoid churn in feature modules. */
 object LedgerShapes {
-    val Card = RoundedCornerShape(AppDimensions.size4)
-    val CardSmall = RoundedCornerShape(AppDimensions.size3)
+    val Card = RoundedCornerShape(AppDimensions.size16)
+    val CardSmall = RoundedCornerShape(AppDimensions.size11)
 }
 
 /**

@@ -1,9 +1,9 @@
 package com.iamapo.timetracker.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,17 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
-import com.iamapo.timetracker.ui.components.MetricGrid
+import com.iamapo.timetracker.ui.ComposePreviewContext
 import com.iamapo.timetracker.ui.components.StatusCard
 import com.iamapo.timetracker.ui.components.TimelineEventTimeDialog
 import com.iamapo.timetracker.ui.components.TimelineSection
-import com.iamapo.timetracker.ui.components.TopBarSection
 import com.iamapo.timetracker.ui.theme.AppColors
-import com.iamapo.timetracker.ui.theme.AppDimensions
-import com.iamapo.timetracker.ui.theme.ledgerRuledPaper
-import com.iamapo.timetracker.ui.ComposePreviewContext
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object TimeTrackerScreen {
@@ -32,7 +29,6 @@ object TimeTrackerScreen {
         onPrimaryAction: () -> Unit,
         onSecondaryAction: () -> Unit,
         onEventTimeChanged: ((Int, Int) -> Unit)? = null,
-        calendarContent: @Composable () -> Unit = {},
         modifier: Modifier = Modifier
     ) {
         // Kept as an index so the open dialog follows the live state: its editable
@@ -42,17 +38,15 @@ object TimeTrackerScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background)
-                .ledgerRuledPaper(),
-            contentPadding = PaddingValues(start = AppDimensions.size20, top = AppDimensions.size18, end = AppDimensions.size20, bottom = AppDimensions.size28),
-            verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
+                .background(AppColors.Background),
+            contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-            item { TopBarSection(state.dateLabel, state.title) }
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }
-            item { MetricGrid(state.metrics) }
             item {
                 TimelineSection(
                     items = state.timeline,
+                    weeklyBalance = state.weeklyBalance,
+                    modifier = Modifier.padding(horizontal = 24.dp),
                     onEditItem = if (onEventTimeChanged != null) {
                         { item -> editEventIndex = item.edit?.eventIndex }
                     } else {
@@ -60,7 +54,6 @@ object TimeTrackerScreen {
                     }
                 )
             }
-            item { calendarContent() }
         }
 
         val editItem = editEventIndex?.let { index ->
@@ -144,7 +137,7 @@ private fun TimeTrackerScreenPreviewContent(state: () -> TimeTrackerUiState) {
             state = remember { state() },
             onPrimaryAction = {},
             onSecondaryAction = {},
-            onEventTimeChanged = { _, _ -> },
+            onEventTimeChanged = { _, _ -> }
         )
     }
 }

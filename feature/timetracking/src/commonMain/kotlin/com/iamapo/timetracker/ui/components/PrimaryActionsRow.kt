@@ -1,26 +1,24 @@
 package com.iamapo.timetracker.ui.components
 
-import com.iamapo.timetracker.ui.theme.AppDimensions
-import com.iamapo.timetracker.ui.theme.AppFontSizes
-
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
-import com.iamapo.timetracker.ui.theme.LedgerShapes
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object PrimaryActionsRow {
@@ -31,63 +29,36 @@ object PrimaryActionsRow {
         onPrimaryAction: () -> Unit,
         onSecondaryAction: () -> Unit,
         modifier: Modifier = Modifier,
-        primaryColor: Color = AppColors.Paper,
-        primaryContainerColor: Color = AppColors.Night
+        primaryColor: Color = Color.White,
+        primaryContainerColor: Color = AppColors.Navy
     ) {
-        Row(
+        Column(
             modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            ActionSurface(
-                label = primaryLabel,
+            Button(
                 onClick = onPrimaryAction,
-                modifier = Modifier
-                    .weight(if (secondaryLabel == null) 1f else 1.7f)
-                    .heightIn(min = AppDimensions.size52),
-                contentColor = primaryColor,
-                containerColor = primaryContainerColor,
-                borderColor = primaryColor
-            )
-            if (secondaryLabel != null) {
-                ActionSurface(
-                    label = secondaryLabel,
-                    onClick = onSecondaryAction,
-                    modifier = Modifier
-                        .weight(1f)
-                        .heightIn(min = AppDimensions.size50),
-                    contentColor = AppColors.Rose,
-                    containerColor = Color.Transparent,
-                    borderColor = AppColors.Rose,
-                    borderAlpha = 1f
-                )
+                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = primaryContainerColor,
+                    contentColor = primaryColor
+                ),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                Text(primaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Black)
             }
-        }
-    }
-
-    @Composable
-    private fun ActionSurface(
-        label: String,
-        onClick: () -> Unit,
-        modifier: Modifier,
-        contentColor: Color,
-        containerColor: Color,
-        borderColor: Color,
-        borderAlpha: Float = 0.28f
-    ) {
-        val shape = LedgerShapes.CardSmall
-        Surface(
-            modifier = modifier.clip(shape).clickable(onClick = onClick),
-            color = containerColor,
-            border = BorderStroke(AppDimensions.size1, borderColor.copy(alpha = borderAlpha)),
-            shape = shape
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Text(
-                    text = label,
-                    color = contentColor,
-                    fontSize = AppFontSizes.size15,
-                    fontWeight = FontWeight.Bold
-                )
+            if (secondaryLabel != null) {
+                OutlinedButton(
+                    onClick = onSecondaryAction,
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = AppColors.Coral),
+                    border = BorderStroke(1.5.dp, AppColors.Coral),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 11.dp)
+                ) {
+                    Text(secondaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Black)
+                }
             }
         }
     }
@@ -97,11 +68,6 @@ object PrimaryActionsRow {
 @Composable
 private fun PrimaryActionsRowPreview() {
     TimeTrackerTheme {
-        PrimaryActionsRow(
-            primaryLabel = "Pause starten",
-            secondaryLabel = "Tag beenden",
-            onPrimaryAction = {},
-            onSecondaryAction = {}
-        )
+        PrimaryActionsRow("Pause starten", "Tag beenden", {}, {})
     }
 }

@@ -55,7 +55,7 @@ object SettingsRow {
                 }
                 Surface(
                     modifier = Modifier.width(AppDimensions.size88),
-                    color = AppColors.Lemon.copy(alpha = 0.28f),
+                    color = AppColors.Green.copy(alpha = 0.16f),
                     shape = LedgerShapes.CardSmall
                 ) {
                     Text(
@@ -93,8 +93,8 @@ object SettingsRow {
                 .widthIn(min = AppDimensions.size40),
             shape = LedgerShapes.CardSmall,
             colors = ButtonDefaults.buttonColors(
-                containerColor = AppColors.PanelRaised,
-                contentColor = AppColors.Ink,
+                containerColor = AppColors.Navy,
+                contentColor = AppColors.Paper,
                 disabledContainerColor = AppColors.Panel,
                 disabledContentColor = AppColors.Subtle
             ),

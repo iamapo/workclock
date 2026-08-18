@@ -7,24 +7,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 
-/** Ledger typography: serif body/display text throughout, like entries in a bound book. */
-private val LedgerTypography = Typography().let { base ->
+/** Dayflow typography: a compact sans-serif hierarchy across all screens. */
+private val DayflowTypography = Typography().let { base ->
     base.copy(
-        displayLarge = base.displayLarge.copy(fontFamily = FontFamily.Serif),
-        displayMedium = base.displayMedium.copy(fontFamily = FontFamily.Serif),
-        displaySmall = base.displaySmall.copy(fontFamily = FontFamily.Serif),
-        headlineLarge = base.headlineLarge.copy(fontFamily = FontFamily.Serif),
-        headlineMedium = base.headlineMedium.copy(fontFamily = FontFamily.Serif),
-        headlineSmall = base.headlineSmall.copy(fontFamily = FontFamily.Serif),
-        titleLarge = base.titleLarge.copy(fontFamily = FontFamily.Serif),
-        titleMedium = base.titleMedium.copy(fontFamily = FontFamily.Serif),
-        titleSmall = base.titleSmall.copy(fontFamily = FontFamily.Serif),
-        bodyLarge = base.bodyLarge.copy(fontFamily = FontFamily.Serif),
-        bodyMedium = base.bodyMedium.copy(fontFamily = FontFamily.Serif),
-        bodySmall = base.bodySmall.copy(fontFamily = FontFamily.Serif),
-        labelLarge = base.labelLarge.copy(fontFamily = FontFamily.Serif),
-        labelMedium = base.labelMedium.copy(fontFamily = FontFamily.Serif),
-        labelSmall = base.labelSmall.copy(fontFamily = FontFamily.Serif)
+        displayLarge = base.displayLarge.copy(fontFamily = FontFamily.SansSerif),
+        displayMedium = base.displayMedium.copy(fontFamily = FontFamily.SansSerif),
+        displaySmall = base.displaySmall.copy(fontFamily = FontFamily.SansSerif),
+        headlineLarge = base.headlineLarge.copy(fontFamily = FontFamily.SansSerif),
+        headlineMedium = base.headlineMedium.copy(fontFamily = FontFamily.SansSerif),
+        headlineSmall = base.headlineSmall.copy(fontFamily = FontFamily.SansSerif),
+        titleLarge = base.titleLarge.copy(fontFamily = FontFamily.SansSerif),
+        titleMedium = base.titleMedium.copy(fontFamily = FontFamily.SansSerif),
+        titleSmall = base.titleSmall.copy(fontFamily = FontFamily.SansSerif),
+        bodyLarge = base.bodyLarge.copy(fontFamily = FontFamily.SansSerif),
+        bodyMedium = base.bodyMedium.copy(fontFamily = FontFamily.SansSerif),
+        bodySmall = base.bodySmall.copy(fontFamily = FontFamily.SansSerif),
+        labelLarge = base.labelLarge.copy(fontFamily = FontFamily.SansSerif),
+        labelMedium = base.labelMedium.copy(fontFamily = FontFamily.SansSerif),
+        labelSmall = base.labelSmall.copy(fontFamily = FontFamily.SansSerif)
     )
 }
 
@@ -50,7 +50,7 @@ object TimeTrackerTheme {
                 error = AppColors.Rose,
                 scrim = Color.Black
             ),
-            typography = LedgerTypography,
+            typography = DayflowTypography,
             content = content
         )
     }

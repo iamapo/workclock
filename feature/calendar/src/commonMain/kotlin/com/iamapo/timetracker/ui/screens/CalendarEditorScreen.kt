@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +21,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -168,10 +172,11 @@ object CalendarEditorScreen {
         onNextMonth: () -> Unit,
         canNavigateToNextMonth: Boolean
     ) {
+        val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(304.dp)
+                .height(304.dp + statusBarHeight)
         ) {
             Canvas(Modifier.fillMaxSize()) {
                 val path = Path().apply {
@@ -194,6 +199,7 @@ object CalendarEditorScreen {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .statusBarsPadding()
                     .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 30.dp)
             ) {
                 Text(
