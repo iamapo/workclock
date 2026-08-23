@@ -17,17 +17,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.iamapo.timetracker.app.WorkClockDependencies
+import com.iamapo.timetracker.backup.BackupFileController
 import com.iamapo.timetracker.backup.rememberBackupStateHolder
+import com.iamapo.timetracker.data.WorkDayStore
+import com.iamapo.timetracker.domain.TimeProvider
+import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
 import com.iamapo.timetracker.lockscreen.LockScreenStatusCoordinator
-import com.iamapo.timetracker.presentation.TimeTrackerViewModel
+import com.iamapo.timetracker.lockscreen.LockScreenStatusController
 import com.iamapo.timetracker.presentation.CalendarViewModel
 import com.iamapo.timetracker.presentation.SettingsViewModel
-import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.presentation.TimeTextFormatter
+import com.iamapo.timetracker.presentation.TimeTrackerViewModel
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.reminders.ReminderScheduleCoordinator
+import com.iamapo.timetracker.reminders.ReminderScheduler
 import com.iamapo.timetracker.resources.Res
 import com.iamapo.timetracker.resources.undo
 import com.iamapo.timetracker.resources.workday_finished_at_message
@@ -40,31 +43,27 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 object TimeTrackerRoute {
     @Composable
     operator fun invoke(
-        dependencies: WorkClockDependencies,
         onViewModelReady: (TimeTrackerViewModel) -> Unit = {},
-        onStateChanged: (TimeTrackerUiState) -> Unit = {}
+        onStateChanged: (TimeTrackerUiState) -> Unit = {},
+        timeProvider: TimeProvider = koinInject(),
+        repository: WorkHistoryRepository = koinInject(),
+        workDayStore: WorkDayStore = koinInject(),
+        backupFileController: BackupFileController = koinInject(),
+        lockScreenStatusController: LockScreenStatusController = koinInject(),
+        reminderScheduler: ReminderScheduler = koinInject(),
+        timeTrackerViewModel: TimeTrackerViewModel = koinViewModel(),
+        calendarViewModel: CalendarViewModel = koinViewModel(),
+        settingsViewModel: SettingsViewModel = koinViewModel()
     ) {
-        val timeProvider = dependencies.timeProvider
-        val repository = dependencies.repository
-        val resolvedViewModel = viewModel {
-            TimeTrackerViewModel(
-                timeProvider = timeProvider,
-                repository = repository
-            )
-        }
-        val resolvedCalendarViewModel = viewModel {
-            CalendarViewModel(repository, timeProvider, AppCalendarStateMapper)
-        }
-        val resolvedSettingsViewModel = viewModel {
-            SettingsViewModel(repository, timeProvider)
-        }
-        val state by resolvedViewModel.uiState.collectAsState()
-        val calendarState by resolvedCalendarViewModel.uiState.collectAsState()
-        val settingsState by resolvedSettingsViewModel.uiState.collectAsState()
+        val state by timeTrackerViewModel.uiState.collectAsState()
+        val calendarState by calendarViewModel.uiState.collectAsState()
+        val settingsState by settingsViewModel.uiState.collectAsState()
         var activeTab by remember { mutableStateOf(MainTab.Today) }
         val requestedTabEvent by DeepLinkRouter.requestedTabEvent.collectAsState()
         var selectedCalendarDate by remember { mutableStateOf(calendarState.days.firstOrNull { it.isToday }?.date) }
@@ -72,10 +71,10 @@ object TimeTrackerRoute {
         val coroutineScope = rememberCoroutineScope()
         val undoLabel = stringResource(Res.string.undo)
         val backupStateHolder = rememberBackupStateHolder(
-            workDayStore = dependencies.workDayStore,
+            workDayStore = workDayStore,
             repository = repository,
             timeProvider = timeProvider,
-            backupFileController = dependencies.backupFileController
+            backupFileController = backupFileController
         )
 
         androidx.compose.runtime.LaunchedEffect(requestedTabEvent) {
@@ -86,14 +85,14 @@ object TimeTrackerRoute {
         androidx.compose.runtime.LaunchedEffect(state) {
             onStateChanged(state)
         }
-        androidx.compose.runtime.LaunchedEffect(resolvedViewModel) {
-            onViewModelReady(resolvedViewModel)
+        androidx.compose.runtime.LaunchedEffect(timeTrackerViewModel) {
+            onViewModelReady(timeTrackerViewModel)
         }
-        androidx.compose.runtime.LaunchedEffect(repository, dependencies.lockScreenStatusController) {
-            LockScreenStatusCoordinator(repository, timeProvider, dependencies.lockScreenStatusController).run()
+        androidx.compose.runtime.LaunchedEffect(repository, lockScreenStatusController) {
+            LockScreenStatusCoordinator(repository, timeProvider, lockScreenStatusController).run()
         }
-        androidx.compose.runtime.LaunchedEffect(repository, dependencies.reminderScheduler) {
-            ReminderScheduleCoordinator(repository, timeProvider, dependencies.reminderScheduler).run()
+        androidx.compose.runtime.LaunchedEffect(repository, reminderScheduler) {
+            ReminderScheduleCoordinator(repository, timeProvider, reminderScheduler).run()
         }
 
         TimeTrackerTheme {
@@ -120,9 +119,9 @@ object TimeTrackerRoute {
                     MainTab.Today -> {
                         TimeTrackerScreen(
                             state = state,
-                            onPrimaryAction = resolvedViewModel::onPrimaryAction,
+                            onPrimaryAction = timeTrackerViewModel::onPrimaryAction,
                             onSecondaryAction = {
-                                val finishedMinute = resolvedViewModel.onSecondaryAction()
+                                val finishedMinute = timeTrackerViewModel.onSecondaryAction()
                                 if (finishedMinute != null) {
                                     coroutineScope.launch {
                                         val result = snackbarHostState.showSnackbar(
@@ -135,12 +134,12 @@ object TimeTrackerRoute {
                                             duration = SnackbarDuration.Long
                                         )
                                         if (result == SnackbarResult.ActionPerformed) {
-                                            resolvedViewModel.onReopenDay()
+                                            timeTrackerViewModel.onReopenDay()
                                         }
                                     }
                                 }
                             },
-                            onEventTimeChanged = resolvedViewModel::onTimelineEventTimeChanged,
+                            onEventTimeChanged = timeTrackerViewModel::onTimelineEventTimeChanged,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }
@@ -151,37 +150,37 @@ object TimeTrackerRoute {
                                 ?: calendarState.days.firstOrNull { it.isToday }?.date
                                 ?: calendarState.days.first().date,
                             onSelectDate = { selectedCalendarDate = it },
-                            onPreviousMonth = resolvedCalendarViewModel::showPreviousMonth,
-                            onNextMonth = resolvedCalendarViewModel::showNextMonth,
-                            onIncreaseDay = resolvedCalendarViewModel::increaseDay,
-                            onDecreaseDay = resolvedCalendarViewModel::decreaseDay,
-                            onVacation = resolvedCalendarViewModel::setVacation,
-                            onSick = resolvedCalendarViewModel::setSick,
-                            onForgottenWorkDay = resolvedCalendarViewModel::setForgottenWorkDay,
-                            onClear = resolvedCalendarViewModel::clearDay,
-                            onSetWorkTimes = resolvedCalendarViewModel::setWorkTimes,
+                            onPreviousMonth = calendarViewModel::showPreviousMonth,
+                            onNextMonth = calendarViewModel::showNextMonth,
+                            onIncreaseDay = calendarViewModel::increaseDay,
+                            onDecreaseDay = calendarViewModel::decreaseDay,
+                            onVacation = calendarViewModel::setVacation,
+                            onSick = calendarViewModel::setSick,
+                            onForgottenWorkDay = calendarViewModel::setForgottenWorkDay,
+                            onClear = calendarViewModel::clearDay,
+                            onSetWorkTimes = calendarViewModel::setWorkTimes,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }
                     MainTab.Settings -> {
                         SettingsScreen(
                             state = settingsState,
-                            onDecreaseRequiredBreak = resolvedSettingsViewModel::decreaseRequiredBreak,
-                            onIncreaseRequiredBreak = resolvedSettingsViewModel::increaseRequiredBreak,
-                            onLockScreenStatusChanged = resolvedSettingsViewModel::setLockScreenStatusEnabled,
+                            onDecreaseRequiredBreak = settingsViewModel::decreaseRequiredBreak,
+                            onIncreaseRequiredBreak = settingsViewModel::increaseRequiredBreak,
+                            onLockScreenStatusChanged = settingsViewModel::setLockScreenStatusEnabled,
                             onRemindersChanged = { enabled ->
                                 if (enabled) {
-                                    dependencies.reminderScheduler.requestAuthorization { authorized ->
-                                        resolvedSettingsViewModel.setRemindersEnabled(authorized)
+                                    reminderScheduler.requestAuthorization { authorized ->
+                                        settingsViewModel.setRemindersEnabled(authorized)
                                     }
                                 } else {
-                                    resolvedSettingsViewModel.setRemindersEnabled(false)
+                                    settingsViewModel.setRemindersEnabled(false)
                                 }
                             },
-                            onDecreaseWeekdayTarget = resolvedSettingsViewModel::decreaseWeekdayTarget,
-                            onIncreaseWeekdayTarget = resolvedSettingsViewModel::increaseWeekdayTarget,
-                            onAutomaticHolidaysChanged = resolvedSettingsViewModel::setAutomaticHolidaysEnabled,
-                            onHolidayFederalStateChanged = resolvedSettingsViewModel::setHolidayFederalState,
+                            onDecreaseWeekdayTarget = settingsViewModel::decreaseWeekdayTarget,
+                            onIncreaseWeekdayTarget = settingsViewModel::increaseWeekdayTarget,
+                            onAutomaticHolidaysChanged = settingsViewModel::setAutomaticHolidaysEnabled,
+                            onHolidayFederalStateChanged = settingsViewModel::setHolidayFederalState,
                             backupStatus = backupStateHolder.status,
                             pendingBackupImport = backupStateHolder.pendingImport,
                             canUndoImport = backupStateHolder.canUndoImport,
@@ -190,7 +189,7 @@ object TimeTrackerRoute {
                             onCancelImport = backupStateHolder::cancelImport,
                             onConfirmImport = backupStateHolder::confirmImport,
                             onUndoImport = backupStateHolder::undoImport,
-                            onDeleteAllEntries = resolvedSettingsViewModel::deleteAllEntries,
+                            onDeleteAllEntries = settingsViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )
                     }

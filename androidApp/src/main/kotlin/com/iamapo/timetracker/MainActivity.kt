@@ -7,12 +7,12 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.iamapo.timetracker.app.WorkClockApplication
+import com.iamapo.timetracker.app.WorkClockPlatformDependencies
 import com.iamapo.timetracker.backup.AndroidBackupFileController
 import com.iamapo.timetracker.data.AndroidWorkDayStore
 import com.iamapo.timetracker.lockscreen.AndroidLockScreenStatusController
 import com.iamapo.timetracker.reminders.AndroidReminderScheduler
-import com.iamapo.timetracker.ui.TimeTrackerRoute
-import com.iamapo.timetracker.app.createWorkClockDependencies
 
 class MainActivity : ComponentActivity() {
     private val backupFileController = AndroidBackupFileController(this)
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestNotificationPermissionIfNeeded()
-        val dependencies = createWorkClockDependencies(
+        val platformDependencies = WorkClockPlatformDependencies(
             workDayStore = AndroidWorkDayStore(applicationContext),
             backupFileController = backupFileController,
             lockScreenStatusController = AndroidLockScreenStatusController(applicationContext),
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
-            TimeTrackerRoute(dependencies = dependencies)
+            WorkClockApplication(platformDependencies = platformDependencies)
         }
     }
 

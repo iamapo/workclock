@@ -27,10 +27,9 @@ class TimeTrackerViewModel(
     private val timeProvider: TimeProvider,
     private val repository: WorkHistoryRepository,
     initialSnapshot: TimeSnapshot = timeProvider.now(),
-    observeWorkHistory: ObserveWorkHistoryUseCase = ObserveWorkHistoryUseCase(repository),
-    private val trackWorkDay: TrackWorkDayUseCase = TrackWorkDayUseCase(repository, timeProvider),
-    private val handleTimeTrackingCommand: HandleTimeTrackingCommandUseCase =
-        HandleTimeTrackingCommandUseCase(repository, timeProvider, trackWorkDay)
+    observeWorkHistory: ObserveWorkHistoryUseCase,
+    private val trackWorkDay: TrackWorkDayUseCase,
+    private val handleTimeTrackingCommand: HandleTimeTrackingCommandUseCase
 ) : ViewModel() {
     private val history = observeWorkHistory()
     private val ticker = MutableStateFlow(0)

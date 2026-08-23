@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.stateIn
 class SettingsViewModel(
     private val repository: WorkHistoryRepository,
     private val timeProvider: TimeProvider,
-    private val updateSettings: UpdateWorkSettingsUseCase = UpdateWorkSettingsUseCase(repository, timeProvider),
-    private val deleteWorkEntries: DeleteWorkEntriesUseCase = DeleteWorkEntriesUseCase(repository)
+    private val updateSettings: UpdateWorkSettingsUseCase,
+    private val deleteWorkEntries: DeleteWorkEntriesUseCase
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiModel> = repository.history
         .map(::mapState)

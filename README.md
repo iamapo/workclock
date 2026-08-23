@@ -4,7 +4,7 @@ Kotlin Multiplatform work time tracker with a shared Compose UI, MVVM state, and
 
 ## Structure
 
-- `composeApp`: app shell, navigation, composition root, and platform-specific iOS entry point
+- `composeApp`: app shell, navigation, Koin composition root, and platform-specific iOS entry point
 - `androidApp`: Android host and Android-specific integrations
 - `feature/timetracking`: time tracking, timeline, and Today UI
 - `feature/calendar`: calendar state, editing, and calendar UI
@@ -37,10 +37,26 @@ androidApp / iosApp
 
 - `core:domain` knows nothing about UI or platform code. Domain actions such as start, pause, and stop are passed to use cases as typed `TimeTrackingCommand`s.
 - Each feature owns its own UI state, mapper, view model, and Compose surface. That keeps tracking, calendar, and settings independently evolvable and testable.
-- `composeApp` wires the features together, manages tab navigation, and injects the `WorkClockDependencies` created by the platform hosts.
+- `composeApp` owns the Koin composition root and groups bindings into platform, data, domain, and presentation modules.
+- Android and iOS provide only their platform implementations (`WorkDayStore`, backup, lock-screen status, and reminders). Koin wires those implementations to the shared repository, use cases, and lifecycle-aware view models.
+- Domain and presentation classes continue to use explicit constructor injection. Koin is restricted to the app boundary, so feature code remains independently constructible and testable.
 - External side effects sit behind interfaces or coordinators. For example, `LockScreenStatusCoordinator` publishes lock screen state independently of the tracking view model.
 - Data flow is unidirectional: UI action -> ViewModel -> Use case/repository -> StateFlow -> UI state.
 - Feature modules do not rely on implementation details from other features. Cross-feature presentation is composed by the app shell; stable shared building blocks belong in an appropriate `core:*` module.
+
+## Dependency injection
+
+```text
+Android / iOS platform services
+              |
+       platformModule
+              |
+ dataModule -> domainModule -> presentationModule
+              |
+     Compose Multiplatform UI
+```
+
+Koin manages application singletons, use-case factories, and ViewModel lifecycles. The app shell exposes injected values as default parameters, keeping explicit overrides available for previews and focused tests. A shared graph test resolves the platform, data, and domain bindings on Kotlin/Native.
 
 ## Previews
 

@@ -23,7 +23,7 @@ class CalendarViewModel(
     private val repository: WorkHistoryRepository,
     private val timeProvider: TimeProvider,
     private val stateMapper: CalendarStateMapper,
-    private val editDay: EditCalendarDayUseCase = EditCalendarDayUseCase(repository)
+    private val editDay: EditCalendarDayUseCase
 ) : ViewModel() {
     private val ticker = MutableStateFlow(0)
     private val displayedMonth = MutableStateFlow(firstOfMonth(timeProvider.now().date))
