@@ -3,6 +3,10 @@ import SwiftUI
 
 @main
 struct iOSApp: App {
+    init() {
+        MainViewControllerKt.activateWatchSession()
+    }
+
     var body: some Scene {
         WindowGroup {
             ComposeRootView()

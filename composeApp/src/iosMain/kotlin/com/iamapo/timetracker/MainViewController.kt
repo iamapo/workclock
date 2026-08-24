@@ -1,9 +1,5 @@
 package com.iamapo.timetracker
 
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
 import com.iamapo.timetracker.backup.IosBackupFileController
 import com.iamapo.timetracker.data.IosWorkDayStore
@@ -19,6 +15,12 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.watch.IosWatchSessionController
 import com.iamapo.timetracker.app.createWorkClockDependencies
 import platform.UIKit.UIViewController
+
+private val watchSessionController = IosWatchSessionController()
+
+fun activateWatchSession() {
+    watchSessionController.activate()
+}
 
 fun MainViewController(): UIViewController =
     MainViewController(NoOpLockScreenStatusController, NoOpReminderScheduler)
@@ -41,19 +43,15 @@ fun MainViewController(
     )
 
     rootController = ComposeUIViewController {
-        var watchSession by remember { mutableStateOf<IosWatchSessionController?>(null) }
-
         TimeTrackerRoute(
             dependencies = dependencies,
             onViewModelReady = { viewModel ->
-                if (watchSession == null) {
-                    watchSession = IosWatchSessionController(
-                        onCommand = viewModel::onWatchCommand,
-                        onEvent = viewModel::onWatchEvent
-                    ).also { it.activate() }
-                }
+                watchSessionController.attachHandlers(
+                    onCommand = viewModel::onWatchCommand,
+                    onEvent = viewModel::onWatchEvent
+                )
             },
-            onStateChanged = { state -> watchSession?.publish(state) }
+            onStateChanged = watchSessionController::publish
         )
     }
     return rootController

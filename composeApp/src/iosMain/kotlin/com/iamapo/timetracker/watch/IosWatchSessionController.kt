@@ -38,12 +38,22 @@ private const val WatchCommandEndDay = "endDay"
 
 @OptIn(ExperimentalForeignApi::class)
 class IosWatchSessionController(
-    private val onCommand: (TimeTrackingCommand) -> Unit,
-    private val onEvent: (TimeTrackingCommand, LocalDate, Int) -> Boolean
+    private var onCommand: ((TimeTrackingCommand) -> Unit)? = null
 ) : NSObject(), WCSessionDelegateProtocol {
     private val session: WCSession? =
         if (WCSession.isSupported()) WCSession.defaultSession else null
     private val processedEvents = ProcessedWatchEventStore()
+    private val deferredEvents = DeferredWatchEventHandler<WatchEvent>()
+
+    fun attachHandlers(
+        onCommand: (TimeTrackingCommand) -> Unit,
+        onEvent: (TimeTrackingCommand, LocalDate, Int) -> Boolean
+    ) {
+        this.onCommand = onCommand
+        deferredEvents.attach { event ->
+            onEvent(event.command, event.date, event.minuteOfDay)
+        }
+    }
 
     fun activate() {
         session?.delegate = this
@@ -108,15 +118,21 @@ class IosWatchSessionController(
 
     private fun handleIncoming(payload: Map<Any?, *>): String? {
         parseWatchEvent(payload)?.let { event ->
-            if (!processedEvents.contains(event.id)) {
-                onEvent(event.command, event.date, event.minuteOfDay)
-                processedEvents.add(event.id)
+            if (processedEvents.contains(event.id)) {
+                return event.id
             }
-            return event.id
+
+            var acceptedEventId: String? = null
+            deferredEvents.submit(event) { accepted ->
+                processedEvents.add(accepted.id)
+                acceptedEventId = accepted.id
+                sendEventAck(accepted.id)
+            }
+            return acceptedEventId
         }
 
         val command = (payload[KeyCommand] as? String)?.toTimeTrackingCommand() ?: return null
-        onCommand(command)
+        onCommand?.invoke(command)
         return null
     }
 
