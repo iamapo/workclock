@@ -2,6 +2,18 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.7] - 2026-08-24
+
+### Hinzugefügt
+- Eigene Darstellung für arbeitsfreie Tage mit klarer Statusanzeige und der Option, trotzdem zu arbeiten
+
+### Geändert
+- App-Icons auf das überarbeitete Workclock-Design aktualisiert
+
+### Behoben
+- Apple-Watch-Aktionen erreichen die iPhone-App nun auch nach einem Kaltstart zuverlässig
+- Watch-Ereignisse werden erst nach erfolgreicher Verarbeitung bestätigt
+
 ## [1.6] - 2026-08-18
 
 ### Geändert
