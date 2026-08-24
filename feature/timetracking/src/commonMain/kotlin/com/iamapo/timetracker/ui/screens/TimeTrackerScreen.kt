@@ -129,6 +129,17 @@ private fun TimeTrackerScreenFinishedPreview() {
     TimeTrackerScreenPreviewContent { TimeTrackerPreviewData.uiStateFinished() }
 }
 
+@Preview(
+    name = "Screen - Arbeitsfreier Samstag",
+    showBackground = true,
+    backgroundColor = 0xFFFFFAF2,
+    device = "spec:width=411dp,height=891dp,dpi=420"
+)
+@Composable
+private fun TimeTrackerScreenWeekendPreview() {
+    TimeTrackerScreenPreviewContent { TimeTrackerPreviewData.uiStateWeekend() }
+}
+
 @Composable
 private fun TimeTrackerScreenPreviewContent(state: () -> TimeTrackerUiState) {
     ComposePreviewContext()

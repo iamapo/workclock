@@ -3,6 +3,7 @@ package com.iamapo.timetracker.presentation.state
 import com.iamapo.timetracker.domain.TimeTrackingCommand
 
 data class TimeTrackerUiState(
+    val dayScheduleKind: DayScheduleUiKind,
     val dateLabel: String,
     val title: String,
     val statusLabel: String,
@@ -28,3 +29,8 @@ data class TimeTrackerUiState(
     val watchCaption: String,
     val watchBreakStartedMinute: Int?
 )
+
+enum class DayScheduleUiKind {
+    Workday,
+    DayOff
+}

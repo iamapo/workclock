@@ -10,6 +10,7 @@ import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.domain.WorkSchedule
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
+import com.iamapo.timetracker.presentation.state.DayScheduleUiKind
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.isoDayNumber
@@ -18,6 +19,19 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TimeTrackerUiStateMapperTest {
+    @Test
+    fun unscheduledDayUsesDayOffPresentationWithoutFakeEndTime() {
+        val state = TimeTrackerPreviewData.uiStateWeekend()
+
+        assertEquals(DayScheduleUiKind.DayOff, state.dayScheduleKind)
+        assertEquals("Trotzdem arbeiten", state.primaryActionLabel)
+        assertEquals("Kein Soll", state.targets.first().value)
+        assertEquals(2, state.metrics.size)
+        assertEquals(emptyList(), state.timeline)
+        assertEquals("–", state.watchRemaining)
+        assertEquals("Kein Arbeitstag geplant", state.watchCaption)
+    }
+
     @Test
     fun calendarPreviewShowsPreviousAndCurrentWeek() {
         val state = calendarState(WorkDay(), TimeSnapshot(LocalDate(2026, 7, 13), 9 * 60))

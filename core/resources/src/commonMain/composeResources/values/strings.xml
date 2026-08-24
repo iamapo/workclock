@@ -71,6 +71,7 @@
     <string name="not_started_yet">not started yet</string><string name="recorded_today">recorded today</string><string name="break_met">Break completed</string><string name="missing_minutes">%1$s missing</string><string name="balance_suffix">%1$s balance</string>
     <string name="ready_to_start">Ready to start</string><string name="working_since">Working since %1$s</string><string name="working">Working</string><string name="break_running">Break running</string><string name="workday_finished">Workday finished</string>
     <string name="action_start">Start day</string><string name="action_break">Start break</string><string name="action_resume">Resume work</string><string name="action_new_day">Start new day</string><string name="action_finish">Finish day</string><string name="action_continue_day">Continue day</string>
+    <string name="today_day_off">TODAY IS A DAY OFF</string><string name="day_off">Day off</string><string name="no_workday_scheduled">No workday scheduled</string><string name="action_work_anyway">Work anyway</string><string name="no_target">No target</string>
     <string name="state_ready">Ready</string><string name="state_active">Active</string><string name="state_break">Break</string><string name="state_finished">Finished</string>
     <string name="watch_ready">ready to start</string><string name="watch_finished">finished at %1$s</string><string name="watch_until">until %1$s</string>
     <string name="calendar_vacation_duration">Vacation %1$s</string><string name="calendar_sick_duration">Sick %1$s</string>

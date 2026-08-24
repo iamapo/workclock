@@ -9,6 +9,7 @@ import com.iamapo.timetracker.domain.WorkStatus
 import com.iamapo.timetracker.domain.WorkDaySummaryCalculator
 import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.presentation.state.MetricUiModel
+import com.iamapo.timetracker.presentation.state.DayScheduleUiKind
 import com.iamapo.timetracker.presentation.state.TargetItemUiModel
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import kotlinx.datetime.LocalDate
@@ -34,8 +35,11 @@ object TimeTrackerUiStateMapper {
         )
         val displayedBreakMinutes = maxOf(day.config.requiredBreakMinutes, summary.breakMinutes)
         val scheduledDayMinutes = (day.config.dailyTargetMinutes + displayedBreakMinutes).coerceAtLeast(1)
+        val isDayOff = day.status == WorkStatus.NotStarted && day.config.dailyTargetMinutes == 0
+        val dayScheduleKind = if (isDayOff) DayScheduleUiKind.DayOff else DayScheduleUiKind.Workday
 
         return TimeTrackerUiState(
+            dayScheduleKind = dayScheduleKind,
             dateLabel = TimeTextFormatter.dateLabel(snapshot.date),
             title = localized(Res.string.app_name),
             statusLabel = statusLabel(day),
@@ -49,15 +53,22 @@ object TimeTrackerUiStateMapper {
             workdayProgress = (summary.workedMinutes.toFloat() / scheduledDayMinutes).coerceIn(0f, 1f),
             breakProgress = (summary.breakMinutes.toFloat() / scheduledDayMinutes).coerceIn(0f, 1f),
             weeklyBalance = balanceLabel(weeklyBalance.balanceMinutes),
-            primaryActionLabel = primaryActionLabel(day.status),
+            primaryActionLabel = if (isDayOff) localized(Res.string.action_work_anyway) else primaryActionLabel(day.status),
             primaryCommand = primaryCommand(day.status),
             secondaryActionLabel = secondaryActionLabel(day.status, day.kind),
-            targets = listOf(
-                TargetItemUiModel(localized(Res.string.target_daily), TimeTextFormatter.shortDuration(day.config.dailyTargetMinutes)),
-                TargetItemUiModel(localized(Res.string.break_label), TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
-                TargetItemUiModel(localized(Res.string.target_weekly), TimeTextFormatter.shortDuration(day.config.weeklyTargetMinutes))
-            ),
-            metrics = listOf(
+            targets = if (isDayOff) {
+                listOf(
+                    TargetItemUiModel(localized(Res.string.target_daily), localized(Res.string.no_target)),
+                    TargetItemUiModel(localized(Res.string.target_weekly), TimeTextFormatter.shortDuration(day.config.weeklyTargetMinutes))
+                )
+            } else {
+                listOf(
+                    TargetItemUiModel(localized(Res.string.target_daily), TimeTextFormatter.shortDuration(day.config.dailyTargetMinutes)),
+                    TargetItemUiModel(localized(Res.string.break_label), TimeTextFormatter.duration(day.config.requiredBreakMinutes)),
+                    TargetItemUiModel(localized(Res.string.target_weekly), TimeTextFormatter.shortDuration(day.config.weeklyTargetMinutes))
+                )
+            },
+            metrics = listOfNotNull(
                 MetricUiModel(
                     label = localized(Res.string.worked),
                     value = TimeTextFormatter.compactDuration(summary.workedMinutes),
@@ -72,22 +83,26 @@ object TimeTrackerUiStateMapper {
                     } else {
                         localized(Res.string.missing_minutes, TimeTextFormatter.duration(summary.missingBreakMinutes))
                     }
-                ),
+                ).takeUnless { isDayOff },
                 MetricUiModel(
                     label = localized(Res.string.week),
                     value = TimeTextFormatter.compactDuration(weeklyBalance.workedMinutes),
                     hint = localized(Res.string.balance_suffix, balanceLabel(weeklyBalance.balanceMinutes))
                 )
             ),
-            timeline = timelineMapper.map(day, summary.endMinute, snapshot.minuteOfDay),
+            timeline = if (isDayOff) emptyList() else timelineMapper.map(day, summary.endMinute, snapshot.minuteOfDay),
             watchState = watchState(day.status),
             watchProgress = summary.progress,
-            watchRemaining = if (day.status == WorkStatus.Finished) {
+            watchRemaining = if (isDayOff) {
+                "–"
+            } else if (day.status == WorkStatus.Finished) {
                 "0:00"
             } else {
                 TimeTextFormatter.watchDuration(summary.remainingWorkMinutes)
             },
-            watchCaption = when (day.status) {
+            watchCaption = if (isDayOff) {
+                localized(Res.string.no_workday_scheduled)
+            } else when (day.status) {
                 WorkStatus.NotStarted -> localized(Res.string.watch_ready)
                 WorkStatus.Finished -> localized(Res.string.watch_finished, TimeTextFormatter.clock(summary.endMinute))
                 WorkStatus.Working,

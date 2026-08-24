@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.presentation.state.DayScheduleUiKind
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.resources.*
 import com.iamapo.timetracker.ui.ComposePreviewContext
@@ -53,7 +54,9 @@ object StatusCard {
     ) {
         Column(modifier = modifier.fillMaxWidth()) {
             Hero(state)
-            DayProgress(state)
+            if (state.dayScheduleKind == DayScheduleUiKind.Workday) {
+                DayProgress(state)
+            }
             PrimaryActionsRow(
                 primaryLabel = state.primaryActionLabel,
                 secondaryLabel = state.secondaryActionLabel,
@@ -71,7 +74,7 @@ object StatusCard {
 
     @Composable
     private fun Hero(state: TimeTrackerUiState) {
-        val tone = heroTone(state.primaryCommand)
+        val tone = heroTone(state)
         val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
         Box(
             modifier = Modifier
@@ -289,6 +292,11 @@ object StatusCard {
 
     @Composable
     private fun heroKicker(state: TimeTrackerUiState): String = when (state.primaryCommand) {
+        TimeTrackingCommand.StartDay -> if (state.dayScheduleKind == DayScheduleUiKind.DayOff) {
+            stringResource(Res.string.today_day_off)
+        } else {
+            stringResource(Res.string.end_of_workday)
+        }
         TimeTrackingCommand.ResumeWork -> state.statusLabel
         TimeTrackingCommand.StartNewDay -> stringResource(Res.string.worked)
         else -> stringResource(Res.string.end_of_workday)
@@ -296,34 +304,51 @@ object StatusCard {
 
     @Composable
     private fun heroValue(state: TimeTrackerUiState): String = when (state.primaryCommand) {
+        TimeTrackingCommand.StartDay -> if (state.dayScheduleKind == DayScheduleUiKind.DayOff) {
+            stringResource(Res.string.day_off)
+        } else {
+            state.endTime.removeSuffix(" Uhr")
+        }
         TimeTrackingCommand.StartNewDay -> state.workedTime
         else -> state.endTime.removeSuffix(" Uhr")
     }
 
     @Composable
     private fun heroSupportingText(state: TimeTrackerUiState): String = when (state.primaryCommand) {
+        TimeTrackingCommand.StartDay -> if (state.dayScheduleKind == DayScheduleUiKind.DayOff) {
+            stringResource(Res.string.no_workday_scheduled)
+        } else {
+            stringResource(Res.string.remaining_prefix, state.remainingTime)
+        }
         TimeTrackingCommand.StartNewDay -> state.statusLabel
         TimeTrackingCommand.ResumeWork -> state.breakRequirementLabel
         else -> stringResource(Res.string.remaining_prefix, state.remainingTime)
     }
 
     @Composable
-    private fun heroTone(command: TimeTrackingCommand): HeroTone = when (command) {
-        TimeTrackingCommand.ResumeWork -> HeroTone(
+    private fun heroTone(state: TimeTrackerUiState): HeroTone = when {
+        state.dayScheduleKind == DayScheduleUiKind.DayOff -> HeroTone(
+            label = stringResource(Res.string.day_off),
+            background = AppColors.Green,
+            heroContent = AppColors.Navy,
+            pillBackground = AppColors.Background.copy(alpha = 0.78f),
+            pillContent = AppColors.Success
+        )
+        state.primaryCommand == TimeTrackingCommand.ResumeWork -> HeroTone(
             label = stringResource(Res.string.state_break),
             background = AppColors.Sand,
             heroContent = AppColors.Navy,
             pillBackground = AppColors.Background.copy(alpha = 0.78f),
             pillContent = AppColors.Navy
         )
-        TimeTrackingCommand.StartNewDay -> HeroTone(
+        state.primaryCommand == TimeTrackingCommand.StartNewDay -> HeroTone(
             label = stringResource(Res.string.state_finished),
             background = AppColors.Green,
             heroContent = AppColors.Navy,
             pillBackground = AppColors.Background.copy(alpha = 0.78f),
             pillContent = AppColors.Success
         )
-        TimeTrackingCommand.StartBreak -> HeroTone(
+        state.primaryCommand == TimeTrackingCommand.StartBreak -> HeroTone(
             label = stringResource(Res.string.status_working),
             background = AppColors.Coral,
             pillBackground = Color(0xFFDFF6E9),
