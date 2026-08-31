@@ -16,7 +16,10 @@ import com.iamapo.timetracker.report.IosReportFileController
 import com.iamapo.timetracker.report.ReportFileController
 import platform.UIKit.UIViewController
 
-class IosWorkClockContainer : WorkClockContainer {
+class IosWorkClockContainer(
+    override val lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController,
+    override val reminderScheduler: ReminderScheduler = NoOpReminderScheduler
+) : WorkClockContainer {
 
     private val _timeProvider: TimeProvider = SystemTimeProvider()
     override val timeProvider: TimeProvider = _timeProvider
@@ -35,11 +38,6 @@ class IosWorkClockContainer : WorkClockContainer {
     override val reportFileController: ReportFileController = IosReportFileController {
         _presenterHolder.presenter?.invoke()
     }
-
-    private val _lockScreenStatusController: LockScreenStatusController = NoOpLockScreenStatusController
-    override val lockScreenStatusController: LockScreenStatusController = _lockScreenStatusController
-
-    override val reminderScheduler: ReminderScheduler = NoOpReminderScheduler
 
     private val _presenterHolder = PresenterHolder()
 
