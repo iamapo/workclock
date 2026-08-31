@@ -18,7 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.iamapo.timetracker.app.WorkClockDependencies
+import com.iamapo.timetracker.app.WorkClockContainer
 import com.iamapo.timetracker.backup.rememberBackupStateHolder
 import com.iamapo.timetracker.lockscreen.LockScreenStatusCoordinator
 import com.iamapo.timetracker.presentation.TimeTrackerViewModel
@@ -28,6 +28,7 @@ import com.iamapo.timetracker.presentation.AppCalendarStateMapper
 import com.iamapo.timetracker.presentation.TimeTextFormatter
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.reminders.ReminderScheduleCoordinator
+import com.iamapo.timetracker.report.rememberReportStateHolder
 import com.iamapo.timetracker.resources.Res
 import com.iamapo.timetracker.resources.undo
 import com.iamapo.timetracker.resources.workday_finished_at_message
@@ -44,12 +45,12 @@ import org.jetbrains.compose.resources.stringResource
 object TimeTrackerRoute {
     @Composable
     operator fun invoke(
-        dependencies: WorkClockDependencies,
+        container: WorkClockContainer,
         onViewModelReady: (TimeTrackerViewModel) -> Unit = {},
         onStateChanged: (TimeTrackerUiState) -> Unit = {}
     ) {
-        val timeProvider = dependencies.timeProvider
-        val repository = dependencies.repository
+        val timeProvider = container.timeProvider
+        val repository = container.repository
         val resolvedViewModel = viewModel {
             TimeTrackerViewModel(
                 timeProvider = timeProvider,
@@ -72,10 +73,15 @@ object TimeTrackerRoute {
         val coroutineScope = rememberCoroutineScope()
         val undoLabel = stringResource(Res.string.undo)
         val backupStateHolder = rememberBackupStateHolder(
-            workDayStore = dependencies.workDayStore,
+            workDayStore = container.workDayStore,
             repository = repository,
             timeProvider = timeProvider,
-            backupFileController = dependencies.backupFileController
+            backupFileController = container.backupFileController
+        )
+        val reportStateHolder = rememberReportStateHolder(
+            repository = repository,
+            timeProvider = timeProvider,
+            fileController = container.reportFileController
         )
 
         androidx.compose.runtime.LaunchedEffect(requestedTabEvent) {
@@ -89,11 +95,11 @@ object TimeTrackerRoute {
         androidx.compose.runtime.LaunchedEffect(resolvedViewModel) {
             onViewModelReady(resolvedViewModel)
         }
-        androidx.compose.runtime.LaunchedEffect(repository, dependencies.lockScreenStatusController) {
-            LockScreenStatusCoordinator(repository, timeProvider, dependencies.lockScreenStatusController).run()
+        androidx.compose.runtime.LaunchedEffect(repository, container.lockScreenStatusController) {
+            LockScreenStatusCoordinator(repository, timeProvider, container.lockScreenStatusController).run()
         }
-        androidx.compose.runtime.LaunchedEffect(repository, dependencies.reminderScheduler) {
-            ReminderScheduleCoordinator(repository, timeProvider, dependencies.reminderScheduler).run()
+        androidx.compose.runtime.LaunchedEffect(repository, container.reminderScheduler) {
+            ReminderScheduleCoordinator(repository, timeProvider, container.reminderScheduler).run()
         }
 
         TimeTrackerTheme {
@@ -171,7 +177,7 @@ object TimeTrackerRoute {
                             onLockScreenStatusChanged = resolvedSettingsViewModel::setLockScreenStatusEnabled,
                             onRemindersChanged = { enabled ->
                                 if (enabled) {
-                                    dependencies.reminderScheduler.requestAuthorization { authorized ->
+                                    container.reminderScheduler.requestAuthorization { authorized ->
                                         resolvedSettingsViewModel.setRemindersEnabled(authorized)
                                     }
                                 } else {
@@ -190,6 +196,13 @@ object TimeTrackerRoute {
                             onCancelImport = backupStateHolder::cancelImport,
                             onConfirmImport = backupStateHolder::confirmImport,
                             onUndoImport = backupStateHolder::undoImport,
+                            reportPeriod = reportStateHolder.period,
+                            reportStatus = reportStateHolder.status,
+                            canNavigateToNextReportPeriod = reportStateHolder.canNavigateNext,
+                            onReportPeriodTypeChanged = reportStateHolder::selectPeriodType,
+                            onPreviousReportPeriod = reportStateHolder::showPreviousPeriod,
+                            onNextReportPeriod = reportStateHolder::showNextPeriod,
+                            onExportReport = reportStateHolder::exportPdf,
                             onDeleteAllEntries = resolvedSettingsViewModel::deleteAllEntries,
                             modifier = androidx.compose.ui.Modifier.padding(paddingValues)
                         )

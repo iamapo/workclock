@@ -47,6 +47,14 @@
     <string name="save">Speichern</string>
     <string name="workday_finished_at_message">Tag um %1$s beendet.</string>
     <string name="undo">Rückgängig</string>
+    <string name="report_label">PDF-EXPORT</string>
+    <string name="report_title">Arbeitszeitnachweis</string>
+    <string name="report_description">Wähle eine Woche oder einen Monat. Der Systemdialog öffnet sich anschließend zum Speichern der PDF-Datei.</string>
+    <string name="report_week">Woche</string>
+    <string name="report_month">Monat</string>
+    <string name="save_report_pdf">PDF speichern</string>
+    <string name="report_export_success">Der Arbeitszeitnachweis wurde erfolgreich gespeichert.</string>
+    <string name="report_export_failure">Die PDF-Datei konnte nicht gespeichert werden.</string>
     <string name="backup_label">BACKUP</string>
     <string name="backup_title">Daten exportieren oder wiederherstellen</string>
     <string name="backup_description">Im Systemdialog wählst du den Speicherort, zum Beispiel dieses Gerät, iCloud Drive oder Google Drive.</string>

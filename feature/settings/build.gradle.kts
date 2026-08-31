@@ -16,6 +16,7 @@ kotlin {
             implementation(project(":core:design"))
             implementation(project(":core:resources"))
             implementation(project(":feature:backup"))
+            implementation(project(":feature:report"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

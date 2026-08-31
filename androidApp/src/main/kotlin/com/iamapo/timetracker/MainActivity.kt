@@ -7,16 +7,12 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.iamapo.timetracker.backup.AndroidBackupFileController
-import com.iamapo.timetracker.data.AndroidWorkDayStore
-import com.iamapo.timetracker.lockscreen.AndroidLockScreenStatusController
-import com.iamapo.timetracker.reminders.AndroidReminderScheduler
+import com.iamapo.timetracker.app.AndroidWorkClockContainer
 import com.iamapo.timetracker.ui.TimeTrackerRoute
-import com.iamapo.timetracker.app.createWorkClockDependencies
 
 class MainActivity : ComponentActivity() {
-    private val backupFileController = AndroidBackupFileController(this)
     private var notificationPermissionResult: ((Boolean) -> Unit)? = null
+    private lateinit var container: AndroidWorkClockContainer
 
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -27,26 +23,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        container = AndroidWorkClockContainer(application, this) { onResult ->
+            requestNotificationPermission(onResult)
+        }
         requestNotificationPermissionIfNeeded()
-        val dependencies = createWorkClockDependencies(
-            workDayStore = AndroidWorkDayStore(applicationContext),
-            backupFileController = backupFileController,
-            lockScreenStatusController = AndroidLockScreenStatusController(applicationContext),
-            reminderScheduler = AndroidReminderScheduler(
-                context = applicationContext,
-                permissionRequester = ::requestNotificationPermission
-            )
-        )
         setContent {
-            TimeTrackerRoute(dependencies = dependencies)
+            TimeTrackerRoute(container = container)
         }
     }
 
     private fun requestNotificationPermissionIfNeeded() {
-        requestNotificationPermission {}
+        container.reminderScheduler.requestAuthorization { _ -> }
     }
 
-    private fun requestNotificationPermission(onResult: (Boolean) -> Unit) {
+    internal fun requestNotificationPermission(onResult: (Boolean) -> Unit) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
             checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
         ) {

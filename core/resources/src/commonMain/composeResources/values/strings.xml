@@ -88,6 +88,14 @@
     <string name="save">Save</string>
     <string name="workday_finished_at_message">Day finished at %1$s.</string>
     <string name="undo">Undo</string>
+    <string name="report_label">PDF EXPORT</string>
+    <string name="report_title">Working time report</string>
+    <string name="report_description">Choose a week or month. The system dialog then opens so you can save the PDF file.</string>
+    <string name="report_week">Week</string>
+    <string name="report_month">Month</string>
+    <string name="save_report_pdf">Save PDF</string>
+    <string name="report_export_success">The working time report was saved successfully.</string>
+    <string name="report_export_failure">The PDF file could not be saved.</string>
     <string name="backup_label">BACKUP</string>
     <string name="backup_title">Export or restore data</string>
     <string name="backup_description">The system file dialog lets you choose the location, for example this device, iCloud Drive or Google Drive.</string>

@@ -44,6 +44,9 @@ import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.backup.BackupUiStatus
 import com.iamapo.timetracker.backup.PendingBackupImport
 import com.iamapo.timetracker.domain.GermanFederalState
+import com.iamapo.timetracker.report.ReportPeriod
+import com.iamapo.timetracker.report.ReportPeriodType
+import com.iamapo.timetracker.report.ReportUiStatus
 import com.iamapo.timetracker.ui.components.SettingsRow
 import com.iamapo.timetracker.ui.components.SettingsPanel
 import com.iamapo.timetracker.presentation.state.SettingsUiModel
@@ -73,6 +76,13 @@ object SettingsScreen {
         onCancelImport: () -> Unit,
         onConfirmImport: () -> Unit,
         onUndoImport: () -> Unit,
+        reportPeriod: ReportPeriod,
+        reportStatus: ReportUiStatus,
+        canNavigateToNextReportPeriod: Boolean,
+        onReportPeriodTypeChanged: (ReportPeriodType) -> Unit,
+        onPreviousReportPeriod: () -> Unit,
+        onNextReportPeriod: () -> Unit,
+        onExportReport: () -> Unit,
         onDeleteAllEntries: () -> Unit,
         modifier: Modifier = Modifier
     ) {
@@ -109,6 +119,17 @@ object SettingsScreen {
                     state = state,
                     onEnabledChanged = onAutomaticHolidaysChanged,
                     onChooseFederalState = { showFederalStateDialog = true }
+                )
+            }
+            item {
+                ReportPanel(
+                    period = reportPeriod,
+                    status = reportStatus,
+                    canNavigateNext = canNavigateToNextReportPeriod,
+                    onPeriodTypeChanged = onReportPeriodTypeChanged,
+                    onPreviousPeriod = onPreviousReportPeriod,
+                    onNextPeriod = onNextReportPeriod,
+                    onExport = onExportReport
                 )
             }
             item {
@@ -412,6 +433,169 @@ object SettingsScreen {
         GermanFederalState.SchleswigHolstein -> Res.string.state_schleswig_holstein
         GermanFederalState.Thuringia -> Res.string.state_thuringia
     })
+
+    @Composable
+    private fun ReportPanel(
+        period: ReportPeriod,
+        status: ReportUiStatus,
+        canNavigateNext: Boolean,
+        onPeriodTypeChanged: (ReportPeriodType) -> Unit,
+        onPreviousPeriod: () -> Unit,
+        onNextPeriod: () -> Unit,
+        onExport: () -> Unit
+    ) {
+        Surface(
+            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
+            color = AppColors.Panel,
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = LedgerShapes.Card
+        ) {
+            Column(
+                modifier = Modifier.padding(AppDimensions.size18),
+                verticalArrangement = Arrangement.spacedBy(AppDimensions.size14)
+            ) {
+                Text(
+                    text = stringResource(Res.string.report_label),
+                    color = AppColors.Subtle,
+                    fontSize = AppFontSizes.size10,
+                    fontWeight = FontWeight.Black,
+                    fontFamily = FontFamily.SansSerif,
+                    letterSpacing = AppFontSizes.size0_2
+                )
+                Text(
+                    text = stringResource(Res.string.report_title),
+                    color = AppColors.Ink,
+                    fontSize = AppFontSizes.size18,
+                    lineHeight = AppFontSizes.size22,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = stringResource(Res.string.report_description),
+                    color = AppColors.Muted,
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size18
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
+                ) {
+                    ReportPeriodButton(
+                        label = stringResource(Res.string.report_week),
+                        selected = period.type == ReportPeriodType.Week,
+                        onClick = { onPeriodTypeChanged(ReportPeriodType.Week) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    ReportPeriodButton(
+                        label = stringResource(Res.string.report_month),
+                        selected = period.type == ReportPeriodType.Month,
+                        onClick = { onPeriodTypeChanged(ReportPeriodType.Month) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                ) {
+                    ReportNavigationButton(
+                        label = "‹",
+                        enabled = true,
+                        onClick = onPreviousPeriod
+                    )
+                    Text(
+                        text = reportPeriodLabel(period),
+                        color = AppColors.Ink,
+                        fontSize = AppFontSizes.size15,
+                        fontWeight = FontWeight.Bold
+                    )
+                    ReportNavigationButton(
+                        label = "›",
+                        enabled = canNavigateNext,
+                        onClick = onNextPeriod
+                    )
+                }
+                BackupButton(
+                    label = stringResource(Res.string.save_report_pdf),
+                    color = AppColors.Coral,
+                    onClick = onExport,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                when (status) {
+                    ReportUiStatus.None -> Unit
+                    ReportUiStatus.Exported -> Text(
+                        text = stringResource(Res.string.report_export_success),
+                        color = AppColors.Muted,
+                        fontSize = AppFontSizes.size13,
+                        lineHeight = AppFontSizes.size18
+                    )
+                    ReportUiStatus.Failure -> Text(
+                        text = stringResource(Res.string.report_export_failure),
+                        color = AppColors.Rose,
+                        fontSize = AppFontSizes.size13,
+                        lineHeight = AppFontSizes.size18
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ReportPeriodButton(
+        label: String,
+        selected: Boolean,
+        onClick: () -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        val shape = LedgerShapes.CardSmall
+        Surface(
+            modifier = modifier.clip(shape).clickable(onClick = onClick),
+            color = if (selected) AppColors.Coral.copy(alpha = 0.14f) else AppColors.PanelRaised,
+            border = BorderStroke(
+                AppDimensions.size1,
+                if (selected) AppColors.Coral.copy(alpha = 0.55f) else AppColors.Line
+            ),
+            shape = shape
+        ) {
+            Text(
+                text = label,
+                color = if (selected) AppColors.Coral else AppColors.Muted,
+                fontSize = AppFontSizes.size14,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size12)
+            )
+        }
+    }
+
+    @Composable
+    private fun ReportNavigationButton(
+        label: String,
+        enabled: Boolean,
+        onClick: () -> Unit
+    ) {
+        val shape = LedgerShapes.CardSmall
+        Surface(
+            modifier = Modifier
+                .clip(shape)
+                .clickable(enabled = enabled, onClick = onClick),
+            color = AppColors.PanelRaised,
+            border = BorderStroke(AppDimensions.size1, AppColors.Line),
+            shape = shape
+        ) {
+            Text(
+                text = label,
+                color = if (enabled) AppColors.Ink else AppColors.SoftMuted,
+                fontSize = AppFontSizes.size22,
+                modifier = Modifier.padding(horizontal = AppDimensions.size16, vertical = AppDimensions.size6)
+            )
+        }
+    }
+
+    private fun reportPeriodLabel(period: ReportPeriod): String =
+        formatReportDate(period.startDate) + " - " + formatReportDate(period.endDate)
+
+    private fun formatReportDate(date: kotlinx.datetime.LocalDate): String =
+        date.day.toString().padStart(2, '0') + "." +
+            (date.month.ordinal + 1).toString().padStart(2, '0') + "." + date.year
 
     @Composable
     private fun BackupPanel(

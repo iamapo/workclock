@@ -1,50 +1,29 @@
 package com.iamapo.timetracker
 
 import androidx.compose.ui.window.ComposeUIViewController
-import com.iamapo.timetracker.backup.IosBackupFileController
-import com.iamapo.timetracker.data.IosWorkDayStore
-import com.iamapo.timetracker.lockscreen.LockScreenStatusController
-import com.iamapo.timetracker.lockscreen.NoOpLockScreenStatusController
+import com.iamapo.timetracker.app.IosWorkClockContainer
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
-import com.iamapo.timetracker.reminders.NoOpReminderScheduler
-import com.iamapo.timetracker.reminders.ReminderScheduler
 import com.iamapo.timetracker.ui.DeepLinkRouter
 import com.iamapo.timetracker.ui.TimeTrackerRoute
 import com.iamapo.timetracker.ui.screens.TimeTrackerScreen
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import com.iamapo.timetracker.watch.IosWatchSessionController
-import com.iamapo.timetracker.app.createWorkClockDependencies
 import platform.UIKit.UIViewController
 
 private val watchSessionController = IosWatchSessionController()
+private val container = IosWorkClockContainer()
 
 fun activateWatchSession() {
     watchSessionController.activate()
 }
 
-fun MainViewController(): UIViewController =
-    MainViewController(NoOpLockScreenStatusController, NoOpReminderScheduler)
-
-fun requestTimeTrackerTab() {
-    DeepLinkRouter.requestTimeTrackerTab()
-}
-
-fun MainViewController(
-    lockScreenStatusController: LockScreenStatusController,
-    reminderScheduler: ReminderScheduler
-): UIViewController {
+fun MainViewController(): UIViewController {
     var rootController: UIViewController? = null
-    val backupFileController = IosBackupFileController { rootController }
-    val dependencies = createWorkClockDependencies(
-        workDayStore = IosWorkDayStore(),
-        backupFileController = backupFileController,
-        lockScreenStatusController = lockScreenStatusController,
-        reminderScheduler = reminderScheduler
-    )
+    container.setPresenter { rootController }
 
     rootController = ComposeUIViewController {
         TimeTrackerRoute(
-            dependencies = dependencies,
+            container = container,
             onViewModelReady = { viewModel ->
                 watchSessionController.attachHandlers(
                     onCommand = viewModel::onWatchCommand,
@@ -54,7 +33,11 @@ fun MainViewController(
             onStateChanged = watchSessionController::publish
         )
     }
-    return rootController
+    return rootController!!
+}
+
+fun requestTimeTrackerTab() {
+    DeepLinkRouter.requestTimeTrackerTab()
 }
 
 fun PreviewViewController(): UIViewController = ComposeUIViewController {

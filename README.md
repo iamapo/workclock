@@ -10,6 +10,7 @@ Kotlin Multiplatform work time tracker with a shared Compose UI, MVVM state, and
 - `feature/calendar`: calendar state, editing, and calendar UI
 - `feature/settings`: settings state and settings UI
 - `feature/backup`: backup import/export
+- `feature/report`: weekly/monthly working-time reports and PDF generation
 - `feature/lockscreen`: cross-platform lock screen coordination
 - `core/domain`: domain model, repository contracts, calculations, and use cases
 - `core/data`: persistence and platform-specific data infrastructure

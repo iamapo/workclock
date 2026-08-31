@@ -25,6 +25,8 @@ kotlin {
             export(project(":feature:backup"))
             export(project(":feature:lockscreen"))
             export(project(":feature:reminders"))
+            export(project(":feature:report"))
+            export(project(":core:domain"))
         }
     }
 
@@ -33,6 +35,7 @@ kotlin {
             implementation(project(":feature:calendar"))
             implementation(project(":feature:timetracking"))
             implementation(project(":feature:settings"))
+            implementation(project(":feature:report"))
             implementation(project(":core:domain"))
             implementation(project(":core:data"))
             implementation(project(":core:design"))
@@ -59,6 +62,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+        }
+
+        iosMain.dependencies {
+            implementation(project(":core:domain"))
         }
     }
 }
