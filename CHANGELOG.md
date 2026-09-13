@@ -2,6 +2,17 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.9] - 2026-09-13
+
+### Geändert
+- Der Kalender lässt sich jetzt auch in zukünftige Monate blättern
+- Urlaub und Krankheit lassen sich per langem Tastendruck auch für zukünftige Tage eintragen, nicht mehr nur für vergangene
+
+## [1.8] - 2026-08-31
+
+### Hinzugefügt
+- PDF-Export des Arbeitszeitberichts für Woche oder Monat über die Einstellungen
+
 ## [1.7] - 2026-08-24
 
 ### Hinzugefügt

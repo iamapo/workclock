@@ -358,7 +358,7 @@ object CalendarEditorScreen {
                             day = day,
                             selected = day.date == selectedDate,
                             onClick = { onSelectDate(day.date) },
-                            onLongClick = if (day.isCurrentMonth && day.style != CalendarDayStyle.Planned) {
+                            onLongClick = if (day.isCurrentMonth) {
                                 { onEditDate(day) }
                             } else {
                                 null

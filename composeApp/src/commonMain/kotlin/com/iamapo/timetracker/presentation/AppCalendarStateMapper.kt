@@ -28,7 +28,7 @@ object AppCalendarStateMapper : CalendarStateMapper {
 
         return CalendarUiState(
             displayedMonth = displayedMonth,
-            canNavigateToNextMonth = displayedMonth < LocalDate(snapshot.date.year, snapshot.date.month, 1),
+            canNavigateToNextMonth = true,
             monthTitle = TimeTextFormatter.monthTitle(displayedMonth),
             days = monthMapper.map(
                 displayedMonth,

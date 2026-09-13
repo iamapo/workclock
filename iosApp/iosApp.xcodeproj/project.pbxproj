@@ -487,7 +487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				APP_DISPLAY_NAME = "WorkClock DEBUG";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = T4DCMMU488;
 				ENABLE_PREVIEWS = YES;
@@ -502,7 +502,7 @@
 					"@executable_path/Frameworks",
 				);
 				IOS_APP_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.debug;
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -521,7 +521,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				APP_DISPLAY_NAME = WorkClock;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = T4DCMMU488;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -535,7 +535,7 @@
 					"@executable_path/Frameworks",
 				);
 				IOS_APP_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp;
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -554,7 +554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				APP_DISPLAY_NAME = "WorkClock DEBUG";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = T4DCMMU488;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -564,7 +564,7 @@
 					"@executable_path/Frameworks",
 				);
 				IOS_APP_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.debug;
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.debug.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -582,7 +582,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				APP_DISPLAY_NAME = WorkClock;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = T4DCMMU488;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -592,7 +592,7 @@
 					"@executable_path/Frameworks",
 				);
 				IOS_APP_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp;
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -609,7 +609,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = T4DCMMU488;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -621,7 +621,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LIVE_ACTIVITY_DISPLAY_NAME = "WorkClock DEBUG Live Activity";
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.debug.WorkClockLiveActivity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -636,7 +636,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = T4DCMMU488;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -648,7 +648,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LIVE_ACTIVITY_DISPLAY_NAME = "WorkClock Live Activity";
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iamapo.timetracker.iosApp.WorkClockLiveActivity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

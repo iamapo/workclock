@@ -60,9 +60,8 @@ class CalendarViewModel(
     }
 
     fun showNextMonth() {
-        val currentMonth = firstOfMonth(timeProvider.now().date)
         displayedMonth.update { month ->
-            (month + DatePeriod(months = 1)).coerceAtMost(currentMonth)
+            month + DatePeriod(months = 1)
         }
     }
 
