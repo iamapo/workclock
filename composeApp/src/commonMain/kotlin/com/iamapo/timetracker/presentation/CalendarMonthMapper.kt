@@ -54,9 +54,9 @@ internal class CalendarMonthMapper {
             val isOutsideMonth = current.month != displayedMonth.month
             val isToday = current == today
             val style = when {
-                muteOutsideMonth && isOutsideMonth -> CalendarDayStyle.Muted
                 calendarDay?.kind == WorkDayKind.Vacation -> CalendarDayStyle.Vacation
                 calendarDay?.kind == WorkDayKind.Sick -> CalendarDayStyle.Sick
+                muteOutsideMonth && isOutsideMonth -> CalendarDayStyle.Muted
                 calendarDay == null && holiday != null -> CalendarDayStyle.Holiday
                 isToday -> CalendarDayStyle.Today
                 isWeekend -> CalendarDayStyle.Weekend

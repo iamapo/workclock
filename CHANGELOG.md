@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.10] - 2026-10-07
+
+### Behoben
+- Urlaub und Krankheit werden auch an sichtbaren Tagen des Vor- und Folgemonats korrekt markiert, statt als gearbeitete Zeit zu erscheinen
+
 ## [1.9] - 2026-09-13
 
 ### Geändert
