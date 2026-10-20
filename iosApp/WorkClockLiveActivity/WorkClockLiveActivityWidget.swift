@@ -20,8 +20,8 @@ struct WorkClockLiveActivityWidget: Widget {
                 title: context.attributes.title,
                 state: context.state
             )
-            .activityBackgroundTint(DayflowLivePalette.background)
-            .activitySystemActionForegroundColor(DayflowLivePalette.navy)
+            .activityBackgroundTint(.white)
+            .activitySystemActionForegroundColor(.black)
             .widgetURL(URL(string: "workclock://timetracker"))
         } dynamicIsland: { context in
             let tone = DayflowLiveTone.forPhase(context.state.phase)
@@ -104,12 +104,12 @@ private struct WorkClockLiveActivityView: View {
                 HStack(spacing: 8) {
                     Image(systemName: state.phase == "paused" ? "pause.fill" : "clock.fill")
                         .font(.caption.weight(.black))
-                        .foregroundStyle(tone.content)
+                        .foregroundStyle(Color.black)
 
                     Text(title.uppercased())
                         .font(.caption2.weight(.black))
                         .tracking(0.7)
-                        .foregroundStyle(tone.content.opacity(0.78))
+                        .foregroundStyle(Color.black)
 
                     Spacer()
 
@@ -120,12 +120,12 @@ private struct WorkClockLiveActivityView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(state.phaseLabel)
                             .font(.headline.weight(.black))
-                            .foregroundStyle(tone.content)
+                            .foregroundStyle(Color.black)
                             .lineLimit(1)
 
                         Text(state.subtitle)
                             .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(tone.content.opacity(0.76))
+                            .foregroundStyle(Color.black)
                             .lineLimit(1)
                     }
 
@@ -134,7 +134,7 @@ private struct WorkClockLiveActivityView: View {
                     Text(state.startedAt, style: .timer)
                         .font(.system(size: 30, weight: .black, design: .default))
                         .monospacedDigit()
-                        .foregroundStyle(tone.content)
+                        .foregroundStyle(Color.black)
                         .minimumScaleFactor(0.72)
                         .lineLimit(1)
                         .frame(minWidth: 108, alignment: .trailing)
@@ -142,7 +142,6 @@ private struct WorkClockLiveActivityView: View {
             }
             .padding(.horizontal, 15)
             .padding(.vertical, 12)
-            .background(tone.background, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
 
             VStack(spacing: 6) {
                 WorkBreakProgressView(state: state)
@@ -153,14 +152,14 @@ private struct WorkClockLiveActivityView: View {
                         label: "Arbeit",
                         minutes: state.workedMinutes,
                         color: DayflowLivePalette.green,
-                        contentColor: DayflowLivePalette.navy.opacity(0.78)
+                        contentColor: .black
                     )
                     Spacer()
                     LiveDurationLabel(
                         label: "Pause",
                         minutes: state.breakMinutes,
                         color: DayflowLivePalette.sand,
-                        contentColor: DayflowLivePalette.navy.opacity(0.78)
+                        contentColor: .black
                     )
                 }
             }
@@ -168,6 +167,7 @@ private struct WorkClockLiveActivityView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
+        .background(Color.white)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title), \(state.phaseLabel), \(state.subtitle)")
     }
@@ -259,7 +259,6 @@ private struct WorkBreakProgressView: View {
 
 private struct DayflowLiveTone {
     let background: Color
-    let content: Color
     let pillBackground: Color
     let pillContent: Color
 
@@ -267,7 +266,6 @@ private struct DayflowLiveTone {
         if phase == "paused" {
             return DayflowLiveTone(
                 background: DayflowLivePalette.sand,
-                content: DayflowLivePalette.navy,
                 pillBackground: DayflowLivePalette.background.opacity(0.84),
                 pillContent: DayflowLivePalette.navy
             )
@@ -275,7 +273,6 @@ private struct DayflowLiveTone {
 
         return DayflowLiveTone(
             background: DayflowLivePalette.coral,
-            content: .white,
             pillBackground: DayflowLivePalette.successSoft,
             pillContent: DayflowLivePalette.success
         )

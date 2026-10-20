@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.10.1] - 2026-10-20
+
+### Geändert
+- Live Activity auf dem iOS-Sperrbildschirm mit durchgehend weißem Hintergrund und schwarzer Schrift; Statusanzeige und Fortschrittsbalken bleiben farbig
+
 ## [1.10] - 2026-10-07
 
 ### Behoben

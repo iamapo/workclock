@@ -20,8 +20,8 @@ android {
         applicationId = "com.iamapo.timetracker"
         minSdk = libs.versions.min.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
-        versionCode = 11
-        versionName = "1.10"
+        versionCode = 12
+        versionName = "1.10.1"
         manifestPlaceholders["appLabel"] = "WorkClock"
     }
 
