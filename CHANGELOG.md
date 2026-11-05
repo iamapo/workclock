@@ -2,6 +2,14 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.10.2] - 2026-11-05
+
+### Behoben
+- Der Cursor springt beim Bearbeiten von Arbeitszeiten nicht mehr im Eingabefeld hin und her
+
+### Geändert
+- Abhängigkeiten aktualisiert (AGP, Kotlin, Compose, Lifecycle, Gradle)
+
 ## [1.10.1] - 2026-10-20
 
 ### Geändert
