@@ -6,6 +6,8 @@ Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokument
 
 ### Hinzugefügt
 - Automatisches Backup: Sichert einmal täglich in einen selbst gewählten Ordner, z. B. iCloud Drive oder Google Drive, und behält die letzten 14 Backups
+- iCloud-Sync: Arbeitstage werden automatisch zwischen iPhone, iPad und Mac abgeglichen, inklusive Bearbeitungen und Löschungen
+- Mac-App: Tag starten, pausieren, fortsetzen, beenden, wieder öffnen und die Zeiten des heutigen Tages bearbeiten
 
 ### Geändert
 - Schlichtere Überschriften in den Screens; die Phasen des Tages werden in ihrer Reihenfolge angezeigt
