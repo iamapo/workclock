@@ -101,6 +101,9 @@ object TimeTrackerRoute {
         androidx.compose.runtime.LaunchedEffect(repository, container.reminderScheduler) {
             ReminderScheduleCoordinator(repository, timeProvider, container.reminderScheduler).run()
         }
+        androidx.compose.runtime.LaunchedEffect(backupStateHolder, backupStateHolder.autoBackupEnabled) {
+            backupStateHolder.runAutoBackups()
+        }
 
         TimeTrackerTheme {
             Scaffold(
@@ -196,6 +199,10 @@ object TimeTrackerRoute {
                             onCancelImport = backupStateHolder::cancelImport,
                             onConfirmImport = backupStateHolder::confirmImport,
                             onUndoImport = backupStateHolder::undoImport,
+                            autoBackupEnabled = backupStateHolder.autoBackupEnabled,
+                            autoBackupFailed = backupStateHolder.autoBackupFailed,
+                            lastAutoBackupDate = backupStateHolder.lastAutoBackupDate,
+                            onAutoBackupChanged = backupStateHolder::changeAutoBackup,
                             reportPeriod = reportStateHolder.period,
                             reportStatus = reportStateHolder.status,
                             canNavigateToNextReportPeriod = reportStateHolder.canNavigateNext,

@@ -111,6 +111,10 @@
     <string name="import_confirm_description">The backup contains %1$d saved days (%2$s). Your current data will be replaced; WorkClock keeps it so the import can be undone.</string>
     <string name="backup_period">%1$s to %2$s</string>
     <string name="backup_no_days">no recorded days</string>
+    <string name="auto_backup_title">Automatic backup</string>
+    <string name="auto_backup_description">Saves a backup to a folder of your choice once a day and keeps the latest 14.</string>
+    <string name="auto_backup_last">Last backup: %1$s</string>
+    <string name="auto_backup_failed">The last automatic backup failed. Turn it off and on again to choose the folder anew.</string>
     <string name="work_schedule">WORK SCHEDULE</string>
     <string name="work_schedule_total">Weekly target: %1$s</string>
     <string name="holidays">PUBLIC HOLIDAYS</string>

@@ -8,7 +8,12 @@ import androidx.compose.runtime.setValue
 import com.iamapo.timetracker.data.WorkClockBackupSerializer
 import com.iamapo.timetracker.data.WorkDayStore
 import com.iamapo.timetracker.domain.TimeProvider
+import com.iamapo.timetracker.domain.TimeSnapshot
+import com.iamapo.timetracker.domain.WorkHistory
 import com.iamapo.timetracker.domain.repository.WorkHistoryRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDate
 
 class BackupStateHolder(
     private val workDayStore: WorkDayStore,
@@ -24,6 +29,56 @@ class BackupStateHolder(
 
     var canUndoImport by mutableStateOf(workDayStore.loadPreImportHistory() != null)
         private set
+
+    var autoBackupEnabled by mutableStateOf(backupFileController.hasAutoBackupFolder())
+        private set
+
+    var autoBackupFailed by mutableStateOf(false)
+        private set
+
+    var lastAutoBackupDate by mutableStateOf<LocalDate?>(null)
+        private set
+
+    fun changeAutoBackup(enabled: Boolean) {
+        status = BackupUiStatus.None
+        if (enabled) {
+            backupFileController.chooseAutoBackupFolder(::onAutoBackupFolderChosen)
+            return
+        }
+
+        backupFileController.clearAutoBackupFolder()
+        autoBackupEnabled = false
+        autoBackupFailed = false
+        lastAutoBackupDate = null
+    }
+
+    /** Runs until cancelled and backs up on start and whenever the history changes. */
+    suspend fun runAutoBackups() {
+        if (!autoBackupEnabled) return
+        repository.history.collect(::backUpIfDue)
+    }
+
+    private fun onAutoBackupFolderChosen(result: BackupFileResult) {
+        when (result) {
+            BackupFileResult.Success -> autoBackupEnabled = true
+            BackupFileResult.Failure -> status = BackupUiStatus.Failure
+            BackupFileResult.Cancelled -> Unit
+        }
+    }
+
+    private suspend fun backUpIfDue(history: WorkHistory) {
+        val snapshot = timeProvider.now()
+        if (lastAutoBackupDate == snapshot.date) return
+
+        // Cloud folders can block for a while, so never touch them on the main thread.
+        val result = withContext(Dispatchers.Default) {
+            AutoBackup.run(backupFileController, history, snapshot)
+        }
+        autoBackupFailed = result == AutoBackupResult.Failed
+        if (result == AutoBackupResult.Saved) {
+            lastAutoBackupDate = snapshot.date
+        }
+    }
 
     fun exportBackup() {
         status = BackupUiStatus.None
@@ -107,6 +162,53 @@ class BackupStateHolder(
             firstDate = dates.minOrNull()?.toString(),
             lastDate = dates.maxOrNull()?.toString()
         )
+    }
+}
+
+enum class AutoBackupResult {
+    Saved,
+    NothingToSave,
+    Failed
+}
+
+object AutoBackup {
+    const val KEEP_COUNT = 14
+
+    private const val FILE_PREFIX = "workclock-auto-"
+    private val fileNameRegex = Regex(
+        "$FILE_PREFIX\\d{4}-\\d{2}-\\d{2}\\.${WorkClockBackupSerializer.FileExtension}"
+    )
+
+    fun fileName(date: LocalDate): String =
+        "$FILE_PREFIX$date.${WorkClockBackupSerializer.FileExtension}"
+
+    /** Only ever selects our own dated files, so other files in the folder stay untouched. */
+    fun obsoleteFiles(fileNames: List<String>): List<String> =
+        fileNames
+            .filter(fileNameRegex::matches)
+            .sortedDescending()
+            .drop(KEEP_COUNT)
+
+    fun run(
+        controller: BackupFileController,
+        history: WorkHistory,
+        snapshot: TimeSnapshot
+    ): AutoBackupResult {
+        // An empty history must not rotate the good backups out of the folder.
+        if (history.days.isEmpty()) return AutoBackupResult.NothingToSave
+
+        val existingFiles = controller.listAutoBackupFiles() ?: return AutoBackupResult.Failed
+        val fileName = fileName(snapshot.date)
+        if (fileName in existingFiles) return AutoBackupResult.Saved
+
+        val content = WorkClockBackupSerializer.encode(
+            history = history,
+            createdAtEpochMillis = snapshot.epochMillis
+        )
+        if (!controller.writeAutoBackup(fileName, content)) return AutoBackupResult.Failed
+
+        obsoleteFiles(existingFiles + fileName).forEach(controller::deleteAutoBackupFile)
+        return AutoBackupResult.Saved
     }
 }
 

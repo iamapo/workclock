@@ -17,6 +17,7 @@ kotlin {
         implementation(project(":core:data"))
         implementation(project(":core:domain"))
         implementation(libs.compose.runtime)
+        implementation(libs.kotlinx.coroutines.core)
         implementation(libs.kotlinx.datetime)
     }
 }

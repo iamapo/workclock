@@ -70,6 +70,10 @@
     <string name="import_confirm_description">Das Backup enthält %1$d gespeicherte Tage (%2$s). Deine aktuellen Daten werden ersetzt; WorkClock bewahrt sie auf, damit der Import rückgängig gemacht werden kann.</string>
     <string name="backup_period">%1$s bis %2$s</string>
     <string name="backup_no_days">keine erfassten Tage</string>
+    <string name="auto_backup_title">Automatisches Backup</string>
+    <string name="auto_backup_description">Sichert einmal täglich in einen Ordner deiner Wahl und behält die letzten 14 Backups.</string>
+    <string name="auto_backup_last">Letztes Backup: %1$s</string>
+    <string name="auto_backup_failed">Das letzte automatische Backup ist fehlgeschlagen. Schalte es aus und wieder ein, um den Ordner neu zu wählen.</string>
     <string name="work_schedule">ARBEITSPLAN</string>
     <string name="work_schedule_total">Wochenziel: %1$s</string>
     <string name="holidays">FEIERTAGE</string>

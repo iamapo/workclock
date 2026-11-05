@@ -70,6 +70,10 @@ object SettingsScreen {
         onCancelImport: () -> Unit,
         onConfirmImport: () -> Unit,
         onUndoImport: () -> Unit,
+        autoBackupEnabled: Boolean,
+        autoBackupFailed: Boolean,
+        lastAutoBackupDate: kotlinx.datetime.LocalDate?,
+        onAutoBackupChanged: (Boolean) -> Unit,
         reportPeriod: ReportPeriod,
         reportStatus: ReportUiStatus,
         canNavigateToNextReportPeriod: Boolean,
@@ -133,7 +137,11 @@ object SettingsScreen {
                     canUndoImport = canUndoImport,
                     onExportBackup = onExportBackup,
                     onImportBackup = onImportBackup,
-                    onUndoImport = onUndoImport
+                    onUndoImport = onUndoImport,
+                    autoBackupEnabled = autoBackupEnabled,
+                    autoBackupFailed = autoBackupFailed,
+                    lastAutoBackupDate = lastAutoBackupDate,
+                    onAutoBackupChanged = onAutoBackupChanged
                 )
             }
             item {
@@ -572,7 +580,11 @@ object SettingsScreen {
         canUndoImport: Boolean,
         onExportBackup: () -> Unit,
         onImportBackup: () -> Unit,
-        onUndoImport: () -> Unit
+        onUndoImport: () -> Unit,
+        autoBackupEnabled: Boolean,
+        autoBackupFailed: Boolean,
+        lastAutoBackupDate: kotlinx.datetime.LocalDate?,
+        onAutoBackupChanged: (Boolean) -> Unit
     ) {
         Surface(
             modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
@@ -644,7 +656,61 @@ object SettingsScreen {
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
+
+                AutoBackupRow(
+                    enabled = autoBackupEnabled,
+                    failed = autoBackupFailed,
+                    lastBackupDate = lastAutoBackupDate,
+                    onChanged = onAutoBackupChanged
+                )
             }
+        }
+    }
+
+    @Composable
+    private fun AutoBackupRow(
+        enabled: Boolean,
+        failed: Boolean,
+        lastBackupDate: kotlinx.datetime.LocalDate?,
+        onChanged: (Boolean) -> Unit
+    ) {
+        val caption = when {
+            failed -> stringResource(Res.string.auto_backup_failed)
+            lastBackupDate != null -> stringResource(
+                Res.string.auto_backup_last,
+                formatReportDate(lastBackupDate)
+            )
+            else -> stringResource(Res.string.auto_backup_description)
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size10)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(Res.string.auto_backup_title),
+                    color = AppColors.Ink,
+                    fontSize = AppFontSizes.size15,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = caption,
+                    color = if (failed) AppColors.Rose else AppColors.Muted,
+                    fontSize = AppFontSizes.size13,
+                    lineHeight = AppFontSizes.size18
+                )
+            }
+            Switch(
+                checked = enabled,
+                onCheckedChange = onChanged,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = AppColors.Paper,
+                    checkedTrackColor = AppColors.Coral,
+                    uncheckedThumbColor = AppColors.Paper,
+                    uncheckedTrackColor = AppColors.SoftMuted
+                )
+            )
         }
     }
 
