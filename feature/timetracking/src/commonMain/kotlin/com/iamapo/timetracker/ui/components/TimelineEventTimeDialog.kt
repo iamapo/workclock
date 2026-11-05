@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.iamapo.timetracker.presentation.state.TimelineEditUiModel
@@ -53,8 +54,8 @@ object TimelineEventTimeDialog {
         onDismiss: () -> Unit,
         onSave: (Int) -> Unit
     ) {
-        var value by remember(edit.eventIndex) { mutableStateOf(formatClock(edit.minuteOfDay)) }
-        val minute = parseClock(value)
+        var value by remember(edit.eventIndex) { mutableStateOf(TextFieldValue(formatClock(edit.minuteOfDay))) }
+        val minute = parseClock(value.text)
         val valid = minute != null && minute in edit.earliestMinute..edit.latestMinute
 
         Dialog(onDismissRequest = onDismiss) {

@@ -15,6 +15,7 @@ kotlin {
         commonMain.dependencies {
             api(libs.compose.components.resources)
             implementation(libs.compose.runtime)
+            implementation(libs.compose.ui)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
         }

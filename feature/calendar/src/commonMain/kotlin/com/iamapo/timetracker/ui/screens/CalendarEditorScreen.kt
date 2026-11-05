@@ -52,6 +52,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -622,12 +623,12 @@ object CalendarEditorScreen {
         val initialEnd = day.endMinute
             ?: (initialStart + day.workedMinutes.takeIf { it > 0 }.orDefault(8 * 60) + initialPause)
                 .coerceAtMost(23 * 60 + 59)
-        var start by remember(day.date) { mutableStateOf(formatClock(initialStart)) }
-        var pause by remember(day.date) { mutableStateOf(formatClock(initialPause)) }
-        var end by remember(day.date) { mutableStateOf(formatClock(initialEnd)) }
-        val startMinute = parseClock(start)
-        val pauseMinutes = parseDuration(pause)
-        val endMinute = parseClock(end)
+        var start by remember(day.date) { mutableStateOf(TextFieldValue(formatClock(initialStart))) }
+        var pause by remember(day.date) { mutableStateOf(TextFieldValue(formatClock(initialPause))) }
+        var end by remember(day.date) { mutableStateOf(TextFieldValue(formatClock(initialEnd))) }
+        val startMinute = parseClock(start.text)
+        val pauseMinutes = parseDuration(pause.text)
+        val endMinute = parseClock(end.text)
         val elapsed = if (startMinute != null && endMinute != null) {
             if (endMinute >= startMinute) endMinute - startMinute else 24 * 60 - startMinute + endMinute
         } else {
@@ -774,7 +775,11 @@ object CalendarEditorScreen {
     }
 
     @Composable
-    private fun TimeInput(label: String, value: String, onValueChange: (String) -> Unit) {
+    private fun TimeInput(
+        label: String,
+        value: TextFieldValue,
+        onValueChange: (TextFieldValue) -> Unit
+    ) {
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
