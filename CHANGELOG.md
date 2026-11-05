@@ -2,6 +2,14 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.11.0] - 2026-11-05
+
+### Hinzugefügt
+- Automatisches Backup: Sichert einmal täglich in einen selbst gewählten Ordner, z. B. iCloud Drive oder Google Drive, und behält die letzten 14 Backups
+
+### Geändert
+- Schlichtere Überschriften in den Screens; die Phasen des Tages werden in ihrer Reihenfolge angezeigt
+
 ## [1.10.2] - 2026-11-05
 
 ### Behoben
