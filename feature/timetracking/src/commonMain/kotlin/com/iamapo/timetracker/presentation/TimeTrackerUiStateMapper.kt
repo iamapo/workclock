@@ -50,8 +50,12 @@ object TimeTrackerUiStateMapper {
             currentTime = TimeTextFormatter.clock(snapshot.minuteOfDay),
             breakRequirementLabel = localized(Res.string.including_break, TimeTextFormatter.duration(displayedBreakMinutes)),
             progress = summary.progress,
-            workdayProgress = (summary.workedMinutes.toFloat() / scheduledDayMinutes).coerceIn(0f, 1f),
-            breakProgress = (summary.breakMinutes.toFloat() / scheduledDayMinutes).coerceIn(0f, 1f),
+            dayProgressSegments = timelineMapper.progressSegments(
+                day = day,
+                summary = summary,
+                nowMinute = snapshot.minuteOfDay,
+                scheduledDayMinutes = scheduledDayMinutes
+            ),
             weeklyBalance = balanceLabel(weeklyBalance.balanceMinutes),
             primaryActionLabel = if (isDayOff) localized(Res.string.action_work_anyway) else primaryActionLabel(day.status),
             primaryCommand = primaryCommand(day.status),

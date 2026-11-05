@@ -4,22 +4,16 @@ import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.AppFontSizes
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
@@ -92,7 +86,8 @@ object SettingsScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background),
+                .background(AppColors.Background)
+                .statusBarsPadding(),
             contentPadding = PaddingValues(bottom = AppDimensions.size28),
             verticalArrangement = Arrangement.spacedBy(AppDimensions.size12)
         ) {
@@ -175,52 +170,26 @@ object SettingsScreen {
 
     @Composable
     private fun SettingsHero() {
-        val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(178.dp + statusBarHeight)
+        Column(
+            modifier = Modifier.padding(start = 26.dp, top = 24.dp, end = 26.dp, bottom = 12.dp)
         ) {
-            Canvas(Modifier.fillMaxSize()) {
-                val path = androidx.compose.ui.graphics.Path().apply {
-                    moveTo(0f, 0f)
-                    lineTo(size.width, 0f)
-                    lineTo(size.width, size.height - 34.dp.toPx())
-                    cubicTo(
-                        size.width * 0.74f,
-                        size.height - 13.dp.toPx(),
-                        size.width * 0.34f,
-                        size.height,
-                        0f,
-                        size.height
-                    )
-                    close()
-                }
-                drawPath(path, AppColors.Coral)
-            }
-            Column(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .padding(start = 26.dp, top = 24.dp, end = 26.dp, bottom = 34.dp)
-            ) {
-                Text(
-                    text = stringResource(Res.string.settings_title),
-                    color = AppColors.Navy,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = AppFontSizes.size42,
-                    lineHeight = AppFontSizes.size44,
-                    fontWeight = FontWeight.Black
-                )
-                Text(
-                    text = stringResource(Res.string.settings_subtitle),
-                    color = AppColors.Navy.copy(alpha = 0.68f),
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = AppFontSizes.size18,
-                    lineHeight = AppFontSizes.size22,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(top = AppDimensions.size6)
-                )
-            }
+            Text(
+                text = stringResource(Res.string.settings_title),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = AppFontSizes.size42,
+                lineHeight = AppFontSizes.size44,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                text = stringResource(Res.string.settings_subtitle),
+                color = AppColors.Navy.copy(alpha = 0.68f),
+                fontFamily = FontFamily.SansSerif,
+                fontSize = AppFontSizes.size18,
+                lineHeight = AppFontSizes.size22,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(top = AppDimensions.size6)
+            )
         }
     }
 

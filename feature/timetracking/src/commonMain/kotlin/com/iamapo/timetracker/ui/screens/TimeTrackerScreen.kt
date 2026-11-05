@@ -2,6 +2,7 @@ package com.iamapo.timetracker.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,7 +39,8 @@ object TimeTrackerScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background),
+                .background(AppColors.Background)
+                .statusBarsPadding(),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }

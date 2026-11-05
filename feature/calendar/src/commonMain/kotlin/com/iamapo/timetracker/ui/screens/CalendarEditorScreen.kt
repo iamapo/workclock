@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +19,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -46,7 +43,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
@@ -95,7 +91,8 @@ object CalendarEditorScreen {
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.Background),
+                .background(AppColors.Background)
+                .statusBarsPadding(),
             contentPadding = PaddingValues(bottom = 20.dp)
         ) {
             item {
@@ -174,97 +171,71 @@ object CalendarEditorScreen {
         onNextMonth: () -> Unit,
         canNavigateToNextMonth: Boolean
     ) {
-        val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(304.dp + statusBarHeight)
+                .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 12.dp)
         ) {
-            Canvas(Modifier.fillMaxSize()) {
-                val path = Path().apply {
-                    moveTo(0f, 0f)
-                    lineTo(size.width, 0f)
-                    lineTo(size.width, size.height - 42.dp.toPx())
-                    cubicTo(
-                        size.width * 0.72f,
-                        size.height - 18.dp.toPx(),
-                        size.width * 0.34f,
-                        size.height - 2.dp.toPx(),
-                        0f,
-                        size.height
-                    )
-                    close()
-                }
-                drawPath(path, AppColors.Coral)
-            }
+            Text(
+                text = stringResource(Res.string.calendar_title),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 44.sp,
+                lineHeight = 48.sp,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                text = state.monthTitle,
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 22.sp,
+                lineHeight = 28.sp,
+                fontWeight = FontWeight.Normal,
+                modifier = Modifier.padding(top = 2.dp)
+            )
 
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding()
-                    .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 30.dp)
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = stringResource(Res.string.calendar_title),
-                    color = AppColors.Navy,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 44.sp,
-                    lineHeight = 48.sp,
-                    fontWeight = FontWeight.Black
-                )
-                Text(
-                    text = state.monthTitle,
-                    color = AppColors.Navy,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 22.sp,
-                    lineHeight = 28.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    MonthArrowButton(false, true, onPreviousMonth)
-                    MonthArrowButton(true, canNavigateToNextMonth, onNextMonth)
-                }
-
-                Text(
-                    text = stringResource(Res.string.week_balance),
-                    color = Color.White,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 13.sp,
-                    lineHeight = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.8.sp,
-                    modifier = Modifier.padding(top = 12.dp)
-                )
-                Text(
-                    text = formatBalance(state.weekOverview.balanceMinutes),
-                    color = Color.White,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 50.sp,
-                    lineHeight = 54.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = stringResource(
-                        Res.string.week_summary,
-                        state.weekOverview.weekNumber,
-                        state.weekOverview.reached,
-                        state.plannedWeek
-                    ),
-                    color = Color.White,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 16.sp,
-                    lineHeight = 20.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
+                MonthArrowButton(false, true, onPreviousMonth)
+                MonthArrowButton(true, canNavigateToNextMonth, onNextMonth)
             }
+
+            Text(
+                text = stringResource(Res.string.week_balance),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 13.sp,
+                lineHeight = 16.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.8.sp,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+            Text(
+                text = formatBalance(state.weekOverview.balanceMinutes),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 50.sp,
+                lineHeight = 54.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = stringResource(
+                    Res.string.week_summary,
+                    state.weekOverview.weekNumber,
+                    state.weekOverview.reached,
+                    state.plannedWeek
+                ),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 

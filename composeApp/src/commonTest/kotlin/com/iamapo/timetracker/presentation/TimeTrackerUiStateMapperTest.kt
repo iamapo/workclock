@@ -11,11 +11,13 @@ import com.iamapo.timetracker.domain.WorkSchedule
 import com.iamapo.timetracker.domain.TimeSnapshot
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.DayScheduleUiKind
+import com.iamapo.timetracker.presentation.state.TimelineKind
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlin.test.Test
+import kotlin.math.roundToInt
 import kotlin.test.assertEquals
 
 class TimeTrackerUiStateMapperTest {
@@ -30,6 +32,70 @@ class TimeTrackerUiStateMapperTest {
         assertEquals(emptyList(), state.timeline)
         assertEquals("–", state.watchRemaining)
         assertEquals("Kein Arbeitstag geplant", state.watchCaption)
+    }
+
+    @Test
+    fun progressSegmentsFollowTheBookingOrder() {
+        val day = WorkDay(
+            status = WorkStatus.Working,
+            startMinute = 8 * 60,
+            activeSessionStartMinute = 12 * 60 + 15,
+            workedMinutes = 3 * 60 + 30,
+            breakMinutes = 45,
+            events = listOf(
+                WorkEvent(8 * 60, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(10 * 60, "Pause gestartet", WorkEventKind.Break),
+                WorkEvent(10 * 60 + 30, "Weitergearbeitet", WorkEventKind.Work),
+                WorkEvent(12 * 60, "Pause gestartet", WorkEventKind.Break),
+                WorkEvent(12 * 60 + 15, "Weitergearbeitet", WorkEventKind.Work)
+            ),
+            config = WorkDayConfig(dailyTargetMinutes = 8 * 60, requiredBreakMinutes = 30)
+        )
+
+        val segments = progressSegments(day, nowMinute = 13 * 60)
+
+        assertEquals(
+            listOf(
+                TimelineKind.Work,
+                TimelineKind.Break,
+                TimelineKind.Work,
+                TimelineKind.Break,
+                TimelineKind.Work
+            ),
+            segments.map { it.kind }
+        )
+        assertEquals(listOf(120, 30, 90, 15, 45), segments.map { (it.fraction * 525).roundToInt() })
+    }
+
+    @Test
+    fun finishedDayEndsItsProgressAtTheFinishEvent() {
+        val day = WorkDay(
+            status = WorkStatus.Finished,
+            workedMinutes = 60,
+            events = listOf(
+                WorkEvent(8 * 60, "Arbeitsbeginn", WorkEventKind.Work),
+                WorkEvent(9 * 60, "Arbeitstag beendet", WorkEventKind.Target)
+            ),
+            config = WorkDayConfig(dailyTargetMinutes = 60, requiredBreakMinutes = 0)
+        )
+
+        val segments = progressSegments(day, nowMinute = 20 * 60)
+
+        assertEquals(listOf(TimelineKind.Work to 1f), segments.map { it.kind to it.fraction })
+    }
+
+    @Test
+    fun manualEntryWithoutPhasesFallsBackToItsTotals() {
+        val day = WorkDay(
+            status = WorkStatus.Finished,
+            workedMinutes = 60,
+            events = listOf(WorkEvent(0, "Manueller Eintrag", WorkEventKind.Target)),
+            config = WorkDayConfig(dailyTargetMinutes = 60, requiredBreakMinutes = 0)
+        )
+
+        val segments = progressSegments(day, nowMinute = 20 * 60)
+
+        assertEquals(listOf(TimelineKind.Work to 1f), segments.map { it.kind to it.fraction })
     }
 
     @Test
@@ -357,4 +423,9 @@ class TimeTrackerUiStateMapperTest {
         }
         return AppCalendarStateMapper.map(WorkHistory(defaultConfig = day.config, days = days), snapshot)
     }
+
+    private fun progressSegments(day: WorkDay, nowMinute: Int) = TimeTrackerUiStateMapper.map(
+        day = day,
+        snapshot = TimeSnapshot(LocalDate(2026, 7, 13), nowMinute)
+    ).dayProgressSegments
 }

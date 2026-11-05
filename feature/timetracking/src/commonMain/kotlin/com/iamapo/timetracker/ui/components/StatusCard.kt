@@ -3,18 +3,13 @@ package com.iamapo.timetracker.ui.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -25,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
+import com.iamapo.timetracker.presentation.state.DayProgressSegmentUiModel
 import com.iamapo.timetracker.presentation.state.DayScheduleUiKind
+import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.resources.*
 import com.iamapo.timetracker.ui.ComposePreviewContext
@@ -43,7 +39,7 @@ import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
-/** The Dayflow summary: expressive state hero, linear day progress and the two core actions. */
+/** The Dayflow summary: state hero, linear day progress and the two core actions. */
 object StatusCard {
     @Composable
     operator fun invoke(
@@ -75,81 +71,55 @@ object StatusCard {
     @Composable
     private fun Hero(state: TimeTrackerUiState) {
         val tone = heroTone(state)
-        val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(304.dp + statusBarHeight)
+                .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 12.dp)
         ) {
-            Canvas(Modifier.fillMaxSize()) {
-                val path = Path().apply {
-                    moveTo(0f, 0f)
-                    lineTo(size.width, 0f)
-                    lineTo(size.width, size.height - 42.dp.toPx())
-                    cubicTo(
-                        size.width * 0.72f,
-                        size.height - 18.dp.toPx(),
-                        size.width * 0.34f,
-                        size.height - 2.dp.toPx(),
-                        0f,
-                        size.height
-                    )
-                    close()
-                }
-                drawPath(path, tone.background)
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding()
-                    .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 32.dp)
-            ) {
-                Text(
-                    text = stringResource(Res.string.nav_today),
-                    color = AppColors.Navy,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 44.sp,
-                    lineHeight = 46.sp,
-                    fontWeight = FontWeight.Black
-                )
-                Text(
-                    text = state.dateLabel,
-                    color = AppColors.Navy.copy(alpha = 0.66f),
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 18.sp,
-                    lineHeight = 22.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-                StatusPill(tone)
-                Text(
-                    text = heroKicker(state).uppercase(),
-                    color = tone.heroContent,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 12.sp,
-                    lineHeight = 15.sp,
-                    fontWeight = FontWeight.Black,
-                    letterSpacing = 0.9.sp,
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                Text(
-                    text = heroValue(state),
-                    color = tone.heroContent,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 64.sp,
-                    lineHeight = 66.sp,
-                    fontWeight = FontWeight.Black
-                )
-                Text(
-                    text = heroSupportingText(state),
-                    color = tone.heroContent,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 18.sp,
-                    lineHeight = 22.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            Text(
+                text = stringResource(Res.string.nav_today),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 44.sp,
+                lineHeight = 46.sp,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                text = state.dateLabel,
+                color = AppColors.Navy.copy(alpha = 0.66f),
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 18.sp,
+                lineHeight = 22.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            StatusPill(tone)
+            Text(
+                text = heroKicker(state).uppercase(),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 12.sp,
+                lineHeight = 15.sp,
+                fontWeight = FontWeight.Black,
+                letterSpacing = 0.9.sp,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Text(
+                text = heroValue(state),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 64.sp,
+                lineHeight = 66.sp,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                text = heroSupportingText(state),
+                color = AppColors.Navy,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 18.sp,
+                lineHeight = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 
@@ -217,8 +187,7 @@ object StatusCard {
                 )
             }
             SegmentedProgress(
-                worked = state.workdayProgress,
-                paused = state.breakProgress,
+                segments = state.dayProgressSegments,
                 modifier = Modifier.padding(top = 9.dp)
             )
             Row(
@@ -249,9 +218,7 @@ object StatusCard {
     }
 
     @Composable
-    private fun SegmentedProgress(worked: Float, paused: Float, modifier: Modifier = Modifier) {
-        val workedWidth = worked.coerceIn(0f, 1f)
-        val pauseWidth = paused.coerceIn(0f, 1f - workedWidth)
+    private fun SegmentedProgress(segments: List<DayProgressSegmentUiModel>, modifier: Modifier = Modifier) {
         Canvas(
             modifier = modifier
                 .fillMaxWidth()
@@ -259,13 +226,29 @@ object StatusCard {
                 .clip(RoundedCornerShape(99.dp))
         ) {
             drawRoundRect(AppColors.SoftMuted, cornerRadius = androidx.compose.ui.geometry.CornerRadius(size.height / 2f))
-            drawRect(AppColors.Green, size = androidx.compose.ui.geometry.Size(size.width * workedWidth, size.height))
-            drawRect(
-                AppColors.Sand,
-                topLeft = Offset(size.width * workedWidth, 0f),
-                size = androidx.compose.ui.geometry.Size(size.width * pauseWidth, size.height)
-            )
-            val markerX = size.width * (workedWidth + pauseWidth).coerceIn(0f, 1f)
+            val separator = 2.dp.toPx()
+            val minimumBreakWidth = 4.dp.toPx()
+            fun drawSegments(kind: TimelineKind, color: Color, minimumWidth: Float) {
+                var left = 0f
+                segments.forEach { segment ->
+                    val width = size.width * segment.fraction
+                    if (segment.kind == kind) {
+                        drawRect(
+                            color,
+                            topLeft = Offset(left, 0f),
+                            size = androidx.compose.ui.geometry.Size(
+                                maxOf(width - separator, minimumWidth),
+                                size.height
+                            )
+                        )
+                    }
+                    left += width
+                }
+            }
+            drawSegments(TimelineKind.Work, AppColors.Green, 0f)
+            // Drawn last so that a short break stays visible on top of the work next to it.
+            drawSegments(TimelineKind.Break, AppColors.Sand, minimumBreakWidth)
+            val markerX = size.width * segments.sumOf { it.fraction.toDouble() }.toFloat().coerceIn(0f, 1f)
             drawRect(
                 AppColors.Navy,
                 topLeft = Offset((markerX - 1.dp.toPx()).coerceAtLeast(0f), 0f),
@@ -329,43 +312,35 @@ object StatusCard {
     private fun heroTone(state: TimeTrackerUiState): HeroTone = when {
         state.dayScheduleKind == DayScheduleUiKind.DayOff -> HeroTone(
             label = stringResource(Res.string.day_off),
-            background = AppColors.Green,
-            heroContent = AppColors.Navy,
-            pillBackground = AppColors.Background.copy(alpha = 0.78f),
+            pillBackground = SuccessPillBackground,
             pillContent = AppColors.Success
         )
         state.primaryCommand == TimeTrackingCommand.ResumeWork -> HeroTone(
             label = stringResource(Res.string.state_break),
-            background = AppColors.Sand,
-            heroContent = AppColors.Navy,
-            pillBackground = AppColors.Background.copy(alpha = 0.78f),
+            pillBackground = AppColors.Sand,
             pillContent = AppColors.Navy
         )
         state.primaryCommand == TimeTrackingCommand.StartNewDay -> HeroTone(
             label = stringResource(Res.string.state_finished),
-            background = AppColors.Green,
-            heroContent = AppColors.Navy,
-            pillBackground = AppColors.Background.copy(alpha = 0.78f),
+            pillBackground = SuccessPillBackground,
             pillContent = AppColors.Success
         )
         state.primaryCommand == TimeTrackingCommand.StartBreak -> HeroTone(
             label = stringResource(Res.string.status_working),
-            background = AppColors.Coral,
-            pillBackground = Color(0xFFDFF6E9),
+            pillBackground = SuccessPillBackground,
             pillContent = AppColors.Success
         )
         else -> HeroTone(
             label = stringResource(Res.string.state_ready),
-            background = AppColors.Coral,
-            pillBackground = AppColors.Background.copy(alpha = 0.84f),
+            pillBackground = AppColors.SoftMuted,
             pillContent = AppColors.Navy
         )
     }
 
+    private val SuccessPillBackground = Color(0xFFDFF6E9)
+
     private data class HeroTone(
         val label: String,
-        val background: Color,
-        val heroContent: Color = Color.White,
         val pillBackground: Color,
         val pillContent: Color
     )
