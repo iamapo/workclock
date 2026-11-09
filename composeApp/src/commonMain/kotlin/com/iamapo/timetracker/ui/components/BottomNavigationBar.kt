@@ -28,12 +28,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.resources.Res
 import com.iamapo.timetracker.resources.nav_calendar
 import com.iamapo.timetracker.resources.nav_settings
 import com.iamapo.timetracker.resources.nav_today
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.PI
 import kotlin.math.cos
@@ -54,17 +55,17 @@ object BottomNavigationBar {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(72.dp)
+                .height(AppDimensions.size72)
                 .background(AppColors.Background)
                 .drawBehind {
                     drawLine(
                         color = AppColors.CalendarLine,
                         start = Offset(0f, 0f),
                         end = Offset(size.width, 0f),
-                        strokeWidth = 1.dp.toPx()
+                        strokeWidth = AppDimensions.size1.toPx()
                     )
                 }
-                .padding(horizontal = 10.dp, vertical = 5.dp),
+                .padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size4),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -92,24 +93,24 @@ object BottomNavigationBar {
         ) {
             Column(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(AppDimensions.size12))
                     .clickable(onClick = onClick),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .width(98.dp)
-                        .height(32.dp)
+                        .width(AppDimensions.size96)
+                        .height(AppDimensions.size32)
                         .background(
-                            color = if (selected) AppColors.Green.copy(alpha = 0.17f) else Color.Transparent,
-                            shape = RoundedCornerShape(99.dp)
+                            color = if (selected) AppColors.Soft else Color.Transparent,
+                            shape = RoundedCornerShape(AppDimensions.size99)
                         ),
                     contentAlignment = Alignment.Center
                 ) {
                     NavigationIcon(
                         tab = tab,
-                        color = if (selected) AppColors.Coral else AppColors.Navy
+                        color = if (selected) AppColors.Ink else AppColors.Subtle
                     )
                 }
                 Text(
@@ -120,12 +121,12 @@ object BottomNavigationBar {
                             MainTab.Settings -> Res.string.nav_settings
                         }
                     ),
-                    color = if (selected) AppColors.Coral else AppColors.Navy,
+                    color = if (selected) AppColors.Ink else AppColors.Subtle,
                     fontFamily = FontFamily.SansSerif,
-                    fontSize = 11.sp,
-                    lineHeight = 14.sp,
-                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
-                    modifier = Modifier.padding(top = 2.dp)
+                    fontSize = AppFontSizes.size11,
+                    lineHeight = AppFontSizes.size14,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(top = AppDimensions.size4)
                 )
             }
         }
@@ -133,7 +134,7 @@ object BottomNavigationBar {
 
     @Composable
     private fun NavigationIcon(tab: MainTab, color: Color) {
-        Canvas(Modifier.size(24.dp)) {
+        Canvas(Modifier.size(AppDimensions.size24)) {
             val strokeWidth = 1.8.dp.toPx()
             when (tab) {
                 MainTab.Today -> {

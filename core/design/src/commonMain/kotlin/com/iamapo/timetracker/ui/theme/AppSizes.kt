@@ -22,19 +22,24 @@ object AppDimensions {
     val size16 = 16.dp
     val size18 = 18.dp
     val size20 = 20.dp
+    val size24 = 24.dp
     val size28 = 28.dp
+    val size32 = 32.dp
     val size36 = 36.dp
     val size38 = 38.dp
     val size40 = 40.dp
+    val size44 = 44.dp
     val size48 = 48.dp
     val size50 = 50.dp
     val size52 = 52.dp
     val size54 = 54.dp
+    val size56 = 56.dp
     val size58 = 58.dp
     val size62 = 62.dp
     val size72 = 72.dp
     val size82 = 82.dp
     val size88 = 88.dp
+    val size96 = 96.dp
     val size99 = 99.dp
     val size112 = 112.dp
     val size136 = 136.dp
@@ -42,6 +47,8 @@ object AppDimensions {
     val size300 = 300.dp
     val size310 = 310.dp
     val size330 = 330.dp
+    val size420 = 420.dp
+    val size680 = 680.dp
 }
 
 object AppFontSizes {
@@ -74,4 +81,6 @@ object AppFontSizes {
     val size40 = 40.sp
     val size42 = 42.sp
     val size44 = 44.sp
+    val size48 = 48.sp
+    val size52 = 52.sp
 }

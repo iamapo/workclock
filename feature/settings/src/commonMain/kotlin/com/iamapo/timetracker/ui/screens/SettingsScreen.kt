@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.backup.BackupUiStatus
 import com.iamapo.timetracker.backup.PendingBackupImport
 import com.iamapo.timetracker.domain.GermanFederalState
@@ -103,7 +102,7 @@ object SettingsScreen {
                     onIncreaseRequiredBreak = onIncreaseRequiredBreak,
                     onLockScreenStatusChanged = onLockScreenStatusChanged,
                     onRemindersChanged = onRemindersChanged,
-                    modifier = Modifier.padding(horizontal = AppDimensions.size20)
+                    modifier = Modifier.padding(horizontal = AppDimensions.size24)
                 )
             }
             item {
@@ -179,24 +178,28 @@ object SettingsScreen {
     @Composable
     private fun SettingsHero() {
         Column(
-            modifier = Modifier.padding(start = 26.dp, top = 24.dp, end = 26.dp, bottom = 12.dp)
+            modifier = Modifier.padding(
+                start = AppDimensions.size24,
+                top = AppDimensions.size24,
+                end = AppDimensions.size24,
+                bottom = AppDimensions.size12
+            )
         ) {
             Text(
                 text = stringResource(Res.string.settings_title),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = AppFontSizes.size42,
+                fontSize = AppFontSizes.size40,
                 lineHeight = AppFontSizes.size44,
                 fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(Res.string.settings_subtitle),
-                color = AppColors.Navy.copy(alpha = 0.68f),
+                color = AppColors.Subtle,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = AppFontSizes.size18,
-                lineHeight = AppFontSizes.size22,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(top = AppDimensions.size6)
+                fontSize = AppFontSizes.size16,
+                lineHeight = AppFontSizes.size20,
+                modifier = Modifier.padding(top = AppDimensions.size4)
             )
         }
     }
@@ -208,7 +211,7 @@ object SettingsScreen {
         onIncrease: (Int) -> Unit
     ) {
         Surface(
-            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size24).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -220,7 +223,7 @@ object SettingsScreen {
                 Text(
                     text = stringResource(Res.string.work_schedule),
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size10,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
@@ -252,7 +255,7 @@ object SettingsScreen {
         onChooseFederalState: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size24).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -264,7 +267,7 @@ object SettingsScreen {
                 Text(
                     text = stringResource(Res.string.holidays),
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size10,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
@@ -292,7 +295,7 @@ object SettingsScreen {
                         enabled = state.holidayFederalState != null,
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = AppColors.Paper,
-                            checkedTrackColor = AppColors.Coral,
+                            checkedTrackColor = AppColors.Ink,
                             uncheckedThumbColor = AppColors.Paper,
                             uncheckedTrackColor = AppColors.SoftMuted,
                             uncheckedBorderColor = AppColors.LineStrong
@@ -346,7 +349,7 @@ object SettingsScreen {
             textContentColor = AppColors.Muted,
             title = { Text(stringResource(Res.string.workplace_federal_state)) },
             text = {
-                LazyColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp)) {
+                LazyColumn(Modifier.fillMaxWidth().heightIn(max = AppDimensions.size420)) {
                     items(GermanFederalState.entries.size) { index ->
                         val federalState = GermanFederalState.entries[index]
                         Row(
@@ -422,7 +425,7 @@ object SettingsScreen {
         onExport: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size24).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -434,7 +437,7 @@ object SettingsScreen {
                 Text(
                     text = stringResource(Res.string.report_label),
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size10,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
@@ -587,7 +590,7 @@ object SettingsScreen {
         onAutoBackupChanged: (Boolean) -> Unit
     ) {
         Surface(
-            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size24).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -599,7 +602,7 @@ object SettingsScreen {
                 Text(
                     text = stringResource(Res.string.backup_label),
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size10,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
@@ -706,7 +709,7 @@ object SettingsScreen {
                 onCheckedChange = onChanged,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = AppColors.Paper,
-                    checkedTrackColor = AppColors.Coral,
+                    checkedTrackColor = AppColors.Ink,
                     uncheckedThumbColor = AppColors.Paper,
                     uncheckedTrackColor = AppColors.SoftMuted
                 )
@@ -800,7 +803,7 @@ object SettingsScreen {
         onConfirm: () -> Unit
     ) {
         Surface(
-            modifier = Modifier.padding(horizontal = AppDimensions.size20).fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = AppDimensions.size24).fillMaxWidth(),
             color = AppColors.Panel,
             border = BorderStroke(AppDimensions.size1, AppColors.Line),
             shape = LedgerShapes.Card
@@ -812,7 +815,7 @@ object SettingsScreen {
                 Text(
                     text = stringResource(Res.string.data),
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size10,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2

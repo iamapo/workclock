@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.ui.ComposePreviewContext
@@ -21,6 +20,7 @@ import com.iamapo.timetracker.ui.components.StatusCard
 import com.iamapo.timetracker.ui.components.TimelineEventTimeDialog
 import com.iamapo.timetracker.ui.components.TimelineSection
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object TimeTrackerScreen {
@@ -41,14 +41,14 @@ object TimeTrackerScreen {
                 .fillMaxSize()
                 .background(AppColors.Background)
                 .statusBarsPadding(),
-            contentPadding = PaddingValues(bottom = 24.dp)
+            contentPadding = PaddingValues(bottom = AppDimensions.size24)
         ) {
             item { StatusCard(state, onPrimaryAction, onSecondaryAction) }
             item {
                 TimelineSection(
                     items = state.timeline,
                     weeklyBalance = state.weeklyBalance,
-                    modifier = Modifier.padding(horizontal = 24.dp),
+                    modifier = Modifier.padding(horizontal = AppDimensions.size24),
                     onEditItem = if (onEventTimeChanged != null) {
                         { item -> editEventIndex = item.edit?.eventIndex }
                     } else {

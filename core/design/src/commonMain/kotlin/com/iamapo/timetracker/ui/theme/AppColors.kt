@@ -11,14 +11,20 @@ object AppColors {
     val SoftMuted = Color(0xFFECE1D3)
     val Line = Color(0xFFEADFCC)
     val LineStrong = Color(0xFFD8C8B2)
-    val Ink = Color(0xFF17151F)
-    val Muted = Color(0xFF514C5F)
-    val Subtle = Color(0xFF837A8F)
-    val Night = Color(0xFF181721)
+
+    // Four ink roles on Background, one navy ramp. Every piece of text picks one of
+    // these instead of fading the ink with an alpha, so the same role reads the same
+    // on every screen. Contrast on Background: Ink 14.5:1, Muted 8.3:1, Subtle 5.1:1.
+    // Disabled is below 4.5:1 by intent and only marks what cannot be read or used,
+    // never content.
+    val Ink = Color(0xFF102544)
+    val Muted = Color(0xFF3C4C62)
+    val Subtle = Color(0xFF5E6E82)
+    val Disabled = Color(0xFFA8B0BC)
+
     val Paper = Color(0xFFFFFFFF)
     val Margin = Color(0xFFFF6B8F)
     val Coral = Color(0xFFFF5D50)
-    val Navy = Color(0xFF102544)
     val Success = Color(0xFF3F7B58)
     val Sand = Color(0xFFF4D7A4)
     val CalendarLine = Color(0xFFE2DED6)

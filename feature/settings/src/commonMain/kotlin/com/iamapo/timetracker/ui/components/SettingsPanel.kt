@@ -49,7 +49,7 @@ object SettingsPanel {
                 Text(
                     text = stringResource(Res.string.quick_targets),
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size10,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
@@ -133,7 +133,7 @@ object SettingsPanel {
                 onCheckedChange = onEnabledChange,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = AppColors.Paper,
-                    checkedTrackColor = AppColors.Coral,
+                    checkedTrackColor = AppColors.Ink,
                     uncheckedThumbColor = AppColors.Paper,
                     uncheckedTrackColor = AppColors.SoftMuted,
                     uncheckedBorderColor = AppColors.LineStrong

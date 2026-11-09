@@ -89,7 +89,7 @@ object SettingsRow {
             shape = LedgerShapes.CardSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = AppColors.SoftMuted,
-                contentColor = AppColors.Navy,
+                contentColor = AppColors.Ink,
                 disabledContainerColor = AppColors.Soft,
                 disabledContentColor = AppColors.Subtle
             ),

@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.resources.Res
@@ -27,6 +26,8 @@ import com.iamapo.timetracker.resources.booked_today
 import com.iamapo.timetracker.resources.week
 import com.iamapo.timetracker.ui.ComposePreviewContext
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 
@@ -40,19 +41,19 @@ object TimelineSection {
     ) {
         Column(modifier = modifier.fillMaxWidth()) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = AppDimensions.size8),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(AppDimensions.size24),
                         contentAlignment = Alignment.Center
                     ) {
-                        Canvas(Modifier.size(24.dp)) {
+                        Canvas(Modifier.size(AppDimensions.size24)) {
                             drawCircle(AppColors.Green.copy(alpha = 0.18f))
                             repeat(3) { index ->
                                 val y = size.height * (0.32f + index * 0.18f)
@@ -69,20 +70,20 @@ object TimelineSection {
                     }
                     Text(
                         text = stringResource(Res.string.booked_today),
-                        color = AppColors.Navy,
-                        fontSize = 16.sp,
-                        lineHeight = 19.sp,
+                        color = AppColors.Ink,
+                        fontSize = AppFontSizes.size16,
+                        lineHeight = AppFontSizes.size20,
                         fontWeight = FontWeight.Medium
                     )
                 }
                 Text(
                     text = "${stringResource(Res.string.week)} $weeklyBalance",
                     color = balanceColor(weeklyBalance),
-                    fontSize = 13.sp,
+                    fontSize = AppFontSizes.size13,
                     fontWeight = FontWeight.Medium
                 )
             }
-            HorizontalDivider(color = AppColors.CalendarLine, thickness = 1.dp)
+            HorizontalDivider(color = AppColors.CalendarLine, thickness = AppDimensions.size1)
             items.forEachIndexed { index, item ->
                 TimelineRow(
                     item = item,
@@ -94,9 +95,9 @@ object TimelineSection {
                 )
                 if (index < items.lastIndex) {
                     HorizontalDivider(
-                        modifier = Modifier.padding(start = 24.dp),
+                        modifier = Modifier.padding(start = AppDimensions.size24),
                         color = AppColors.CalendarLine,
-                        thickness = 1.dp
+                        thickness = AppDimensions.size1
                     )
                 }
             }
@@ -107,7 +108,7 @@ object TimelineSection {
     private fun balanceColor(balance: String): Color = when {
         balance.startsWith('−') -> AppColors.Coral
         balance.startsWith('+') -> AppColors.Success
-        else -> AppColors.Navy.copy(alpha = 0.66f)
+        else -> AppColors.Subtle
     }
 }
 

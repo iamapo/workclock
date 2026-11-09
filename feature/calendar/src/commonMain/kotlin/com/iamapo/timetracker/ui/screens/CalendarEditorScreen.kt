@@ -40,7 +40,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -50,8 +49,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
@@ -60,6 +57,8 @@ import com.iamapo.timetracker.presentation.TimeInputFormatter
 import com.iamapo.timetracker.presentation.TimeTextFormatter
 import com.iamapo.timetracker.resources.*
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
@@ -93,7 +92,7 @@ object CalendarEditorScreen {
                 .fillMaxSize()
                 .background(AppColors.Background)
                 .statusBarsPadding(),
-            contentPadding = PaddingValues(bottom = 20.dp)
+            contentPadding = PaddingValues(bottom = AppDimensions.size24)
         ) {
             item {
                 CalendarHero(
@@ -174,30 +173,33 @@ object CalendarEditorScreen {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 12.dp)
+                .padding(start = AppDimensions.size24,
+                    top = AppDimensions.size24,
+                    end = AppDimensions.size24,
+                    bottom = AppDimensions.size12)
         ) {
             Text(
                 text = stringResource(Res.string.calendar_title),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 44.sp,
-                lineHeight = 48.sp,
+                fontSize = AppFontSizes.size40,
+                lineHeight = AppFontSizes.size44,
                 fontWeight = FontWeight.Medium
             )
             Text(
                 text = state.monthTitle,
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 22.sp,
-                lineHeight = 28.sp,
-                fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(top = 2.dp)
+                fontSize = AppFontSizes.size16,
+                lineHeight = AppFontSizes.size20,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(top = AppDimensions.size4)
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp),
+                    .padding(top = AppDimensions.size12),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -207,20 +209,19 @@ object CalendarEditorScreen {
 
             Text(
                 text = stringResource(Res.string.week_balance),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 13.sp,
-                lineHeight = 16.sp,
+                fontSize = AppFontSizes.size13,
+                lineHeight = AppFontSizes.size16,
                 fontWeight = FontWeight.Medium,
-                letterSpacing = 0.8.sp,
-                modifier = Modifier.padding(top = 12.dp)
+                modifier = Modifier.padding(top = AppDimensions.size12)
             )
             Text(
                 text = formatBalance(state.weekOverview.balanceMinutes),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 50.sp,
-                lineHeight = 54.sp,
+                fontSize = AppFontSizes.size48,
+                lineHeight = AppFontSizes.size52,
                 fontWeight = FontWeight.Medium
             )
             Text(
@@ -230,10 +231,10 @@ object CalendarEditorScreen {
                     state.weekOverview.reached,
                     state.plannedWeek
                 ),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 16.sp,
-                lineHeight = 20.sp,
+                fontSize = AppFontSizes.size16,
+                lineHeight = AppFontSizes.size20,
                 fontWeight = FontWeight.Medium
             )
         }
@@ -247,28 +248,27 @@ object CalendarEditorScreen {
     ) {
         Surface(
             modifier = Modifier
-                .size(36.dp)
-                .shadow(5.dp, CircleShape)
+                .size(AppDimensions.size36)
                 .clip(CircleShape)
                 .clickable(enabled = enabled, onClick = onClick),
             shape = CircleShape,
             color = AppColors.Background.copy(alpha = if (enabled) 0.96f else 0.52f)
         ) {
-            Canvas(Modifier.padding(11.dp)) {
+            Canvas(Modifier.padding(AppDimensions.size12)) {
                 val xStart = if (pointsRight) size.width * 0.34f else size.width * 0.66f
                 val xEnd = if (pointsRight) size.width * 0.68f else size.width * 0.32f
                 drawLine(
-                    color = AppColors.Navy.copy(alpha = if (enabled) 1f else 0.36f),
+                    color = if (enabled) AppColors.Ink else AppColors.Disabled,
                     start = Offset(xStart, size.height * 0.12f),
                     end = Offset(xEnd, size.height * 0.5f),
-                    strokeWidth = 2.2.dp.toPx(),
+                    strokeWidth = AppDimensions.size2.toPx(),
                     cap = StrokeCap.Round
                 )
                 drawLine(
-                    color = AppColors.Navy.copy(alpha = if (enabled) 1f else 0.36f),
+                    color = if (enabled) AppColors.Ink else AppColors.Disabled,
                     start = Offset(xEnd, size.height * 0.5f),
                     end = Offset(xStart, size.height * 0.88f),
-                    strokeWidth = 2.2.dp.toPx(),
+                    strokeWidth = AppDimensions.size2.toPx(),
                     cap = StrokeCap.Round
                 )
             }
@@ -308,7 +308,7 @@ object CalendarEditorScreen {
                     )
                 }
                 .background(AppColors.Background)
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = AppDimensions.size20)
         ) {
             CalendarWeekdayHeader()
             days.chunked(7).forEach { week ->
@@ -320,7 +320,7 @@ object CalendarEditorScreen {
                                 color = AppColors.CalendarLine,
                                 start = Offset(0f, size.height),
                                 end = Offset(size.width, size.height),
-                                strokeWidth = 1.dp.toPx()
+                                strokeWidth = AppDimensions.size1.toPx()
                             )
                         },
                     verticalAlignment = Alignment.CenterVertically
@@ -348,13 +348,13 @@ object CalendarEditorScreen {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(44.dp)
+                .height(AppDimensions.size44)
                 .drawBehind {
                     drawLine(
                         color = AppColors.CalendarLine,
                         start = Offset(0f, size.height),
                         end = Offset(size.width, size.height),
-                        strokeWidth = 1.dp.toPx()
+                        strokeWidth = AppDimensions.size1.toPx()
                     )
                 },
             verticalAlignment = Alignment.CenterVertically
@@ -371,9 +371,9 @@ object CalendarEditorScreen {
                 Text(
                     text = stringResource(label),
                     modifier = Modifier.weight(1f),
-                    color = AppColors.Navy,
+                    color = AppColors.Ink,
                     fontFamily = FontFamily.SansSerif,
-                    fontSize = 13.sp,
+                    fontSize = AppFontSizes.size13,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center
                 )
@@ -389,14 +389,14 @@ object CalendarEditorScreen {
         onLongClick: (() -> Unit)?,
         modifier: Modifier = Modifier
     ) {
-        val shape = RoundedCornerShape(12.dp)
+        val shape = RoundedCornerShape(AppDimensions.size12)
         val isMuted = !day.isCurrentMonth || day.style == CalendarDayStyle.Weekend
-        val border = if (day.isToday) BorderStroke(1.5.dp, AppColors.Coral) else null
+        val border = if (day.isToday) BorderStroke(AppDimensions.size2, AppColors.Coral) else null
 
         Surface(
             modifier = modifier
-                .height(58.dp)
-                .padding(horizontal = 2.dp, vertical = 3.dp)
+                .height(AppDimensions.size58)
+                .padding(horizontal = AppDimensions.size4, vertical = AppDimensions.size4)
                 .clip(shape)
                 .combinedClickable(onClick = onClick, onLongClick = onLongClick),
             shape = shape,
@@ -412,12 +412,12 @@ object CalendarEditorScreen {
                     text = day.day,
                     color = when {
                         day.isToday -> AppColors.Coral
-                        isMuted -> AppColors.Navy.copy(alpha = 0.35f)
-                        else -> AppColors.Navy
+                        isMuted -> AppColors.Disabled
+                        else -> AppColors.Ink
                     },
                     fontFamily = FontFamily.SansSerif,
-                    fontSize = 17.sp,
-                    lineHeight = 19.sp,
+                    fontSize = AppFontSizes.size16,
+                    lineHeight = AppFontSizes.size20,
                     fontWeight = if (selected || day.isToday) FontWeight.Medium else FontWeight.Normal
                 )
                 if (day.isToday) {
@@ -425,12 +425,12 @@ object CalendarEditorScreen {
                         text = stringResource(Res.string.nav_today),
                         color = AppColors.Coral,
                         fontFamily = FontFamily.SansSerif,
-                        fontSize = 10.sp,
-                        lineHeight = 11.sp,
+                        fontSize = AppFontSizes.size11,
+                        lineHeight = AppFontSizes.size14,
                         fontWeight = FontWeight.Medium
                     )
                 } else {
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(AppDimensions.size4))
                     CalendarDayMarker(day)
                 }
             }
@@ -441,10 +441,10 @@ object CalendarEditorScreen {
     private fun CalendarDayMarker(day: CalendarDayUiModel) {
         when {
             day.style == CalendarDayStyle.Vacation -> StatusBar(AppColors.Sand)
-            day.style == CalendarDayStyle.Sick -> StatusDot(AppColors.Navy.copy(alpha = 0.72f))
+            day.style == CalendarDayStyle.Sick -> StatusDot(AppColors.Subtle)
             day.style == CalendarDayStyle.Holiday -> StatusDot(AppColors.Coral.copy(alpha = 0.76f))
             day.workedMinutes > 0 -> StatusBar(AppColors.Green.copy(alpha = 0.88f))
-            else -> Spacer(Modifier.height(5.dp))
+            else -> Spacer(Modifier.height(AppDimensions.size4))
         }
     }
 
@@ -452,9 +452,9 @@ object CalendarEditorScreen {
     private fun StatusBar(color: Color) {
         Box(
             Modifier
-                .width(17.dp)
-                .height(5.dp)
-                .clip(RoundedCornerShape(99.dp))
+                .width(AppDimensions.size16)
+                .height(AppDimensions.size4)
+                .clip(RoundedCornerShape(AppDimensions.size99))
                 .background(color)
         )
     }
@@ -463,7 +463,7 @@ object CalendarEditorScreen {
     private fun StatusDot(color: Color) {
         Box(
             Modifier
-                .size(7.dp)
+                .size(AppDimensions.size8)
                 .clip(CircleShape)
                 .background(color)
         )
@@ -474,29 +474,29 @@ object CalendarEditorScreen {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 12.dp),
+                .padding(horizontal = AppDimensions.size24, vertical = AppDimensions.size12),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             LegendItem(stringResource(Res.string.worked), AppColors.Green, isDot = false)
             LegendItem(stringResource(Res.string.vacation), AppColors.Sand, isDot = false)
-            LegendItem(stringResource(Res.string.sick), AppColors.Navy.copy(alpha = 0.72f), isDot = true)
+            LegendItem(stringResource(Res.string.sick), AppColors.Subtle, isDot = true)
         }
     }
 
     @Composable
     private fun LegendItem(label: String, color: Color, isDot: Boolean) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (isDot) StatusDot(color) else StatusBar(color)
             Text(
                 text = label,
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 12.sp,
-                lineHeight = 14.sp
+                fontSize = AppFontSizes.size12,
+                lineHeight = AppFontSizes.size14
             )
         }
     }
@@ -514,10 +514,10 @@ object CalendarEditorScreen {
                         color = AppColors.CalendarLine,
                         start = Offset(0f, 0f),
                         end = Offset(size.width, 0f),
-                        strokeWidth = 1.dp.toPx()
+                        strokeWidth = AppDimensions.size1.toPx()
                     )
                 }
-                .padding(horizontal = 24.dp, vertical = 14.dp)
+                .padding(horizontal = AppDimensions.size24, vertical = AppDimensions.size16)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -527,19 +527,19 @@ object CalendarEditorScreen {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = selectedDayTitle(day),
-                        color = AppColors.Navy,
+                        color = AppColors.Ink,
                         fontFamily = FontFamily.SansSerif,
-                        fontSize = 18.sp,
-                        lineHeight = 22.sp,
+                        fontSize = AppFontSizes.size18,
+                        lineHeight = AppFontSizes.size22,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
                         text = selectedDaySubtitle(day),
-                        color = AppColors.Navy,
+                        color = AppColors.Ink,
                         fontFamily = FontFamily.SansSerif,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        modifier = Modifier.padding(top = 4.dp)
+                        fontSize = AppFontSizes.size15,
+                        lineHeight = AppFontSizes.size20,
+                        modifier = Modifier.padding(top = AppDimensions.size4)
                     )
                 }
                 if (day.scheduledTargetMinutes > 0 && day.workedMinutes > 0) {
@@ -547,10 +547,10 @@ object CalendarEditorScreen {
                         text = formatBalance(day.workedMinutes - day.scheduledTargetMinutes),
                         color = if (day.workedMinutes >= day.scheduledTargetMinutes) AppColors.Success else AppColors.Coral,
                         fontFamily = FontFamily.SansSerif,
-                        fontSize = 18.sp,
-                        lineHeight = 22.sp,
+                        fontSize = AppFontSizes.size18,
+                        lineHeight = AppFontSizes.size22,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(start = 12.dp)
+                        modifier = Modifier.padding(start = AppDimensions.size12)
                     )
                 }
             }
@@ -559,18 +559,18 @@ object CalendarEditorScreen {
                 onClick = onEdit,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(52.dp)
-                    .padding(top = 12.dp),
-                shape = RoundedCornerShape(11.dp),
+                    .height(AppDimensions.size52)
+                    .padding(top = AppDimensions.size12),
+                shape = RoundedCornerShape(AppDimensions.size10),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColors.Navy,
-                    contentColor = Color.White
+                    containerColor = AppColors.Ink,
+                    contentColor = AppColors.Paper
                 )
             ) {
                 Text(
                     text = stringResource(Res.string.edit_day),
                     fontFamily = FontFamily.SansSerif,
-                    fontSize = 15.sp,
+                    fontSize = AppFontSizes.size15,
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -614,43 +614,43 @@ object CalendarEditorScreen {
         Dialog(onDismissRequest = onDismiss) {
             Surface(
                 color = AppColors.Background,
-                border = BorderStroke(1.dp, AppColors.CalendarLine),
-                shape = RoundedCornerShape(22.dp)
+                border = BorderStroke(AppDimensions.size1, AppColors.CalendarLine),
+                shape = RoundedCornerShape(AppDimensions.size20)
             ) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 680.dp)
-                        .padding(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                        .heightIn(max = AppDimensions.size680)
+                        .padding(AppDimensions.size20),
+                    verticalArrangement = Arrangement.spacedBy(AppDimensions.size12)
                 ) {
                     item {
                         Text(
                             text = stringResource(Res.string.edit_workday),
-                            color = AppColors.Navy,
+                            color = AppColors.Ink,
                             fontFamily = FontFamily.SansSerif,
-                            fontSize = 24.sp,
-                            lineHeight = 28.sp,
+                            fontSize = AppFontSizes.size24,
+                            lineHeight = AppFontSizes.size28,
                             fontWeight = FontWeight.Medium
                         )
                     }
                     item {
                         Text(
                             text = selectedDayTitle(day),
-                            color = AppColors.Navy.copy(alpha = 0.68f),
+                            color = AppColors.Subtle,
                             fontFamily = FontFamily.SansSerif,
-                            fontSize = 13.sp
+                            fontSize = AppFontSizes.size13
                         )
                     }
                     item { TimeInput(stringResource(Res.string.work_start), start) { start = TimeInputFormatter.normalize(it) } }
                     item { TimeInput(stringResource(Res.string.break_label), pause) { pause = TimeInputFormatter.normalize(it) } }
                     item { TimeInput(stringResource(Res.string.work_end), end) { end = TimeInputFormatter.normalize(it) } }
                     item {
-                        Surface(color = AppColors.Green.copy(alpha = 0.14f), shape = RoundedCornerShape(12.dp)) {
+                        Surface(color = AppColors.Green.copy(alpha = 0.14f), shape = RoundedCornerShape(AppDimensions.size12)) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                                    .padding(horizontal = AppDimensions.size16, vertical = AppDimensions.size12),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -662,9 +662,9 @@ object CalendarEditorScreen {
                                 )
                                 Text(
                                     text = worked?.let(::formatClockDuration) ?: "–",
-                                    color = AppColors.Navy,
+                                    color = AppColors.Ink,
                                     fontFamily = FontFamily.SansSerif,
-                                    fontSize = 20.sp,
+                                    fontSize = AppFontSizes.size20,
                                     fontWeight = FontWeight.Medium
                                 )
                             }
@@ -673,7 +673,7 @@ object CalendarEditorScreen {
                     item {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
                         ) {
                             ActionButton("-15 min", onDecreaseDay, Modifier.weight(1f))
                             ActionButton("+15 min", onIncreaseDay, Modifier.weight(1f))
@@ -682,7 +682,7 @@ object CalendarEditorScreen {
                     item {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
                         ) {
                             ActionButton(stringResource(Res.string.vacation), onVacation, Modifier.weight(1f), AppColors.Sand)
                             ActionButton(stringResource(Res.string.sick), onSick, Modifier.weight(1f), AppColors.Coral)
@@ -717,20 +717,20 @@ object CalendarEditorScreen {
                             TextButton(onClick = onDismiss) {
                                 Text(
                                     text = stringResource(Res.string.cancel),
-                                    color = AppColors.Navy,
+                                    color = AppColors.Ink,
                                     fontFamily = FontFamily.SansSerif,
                                     fontWeight = FontWeight.Medium
                                 )
                             }
-                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.width(AppDimensions.size8))
                             Button(
                                 onClick = { onSave(startMinute!!, pauseMinutes!!, endMinute!!) },
                                 enabled = worked != null,
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = AppColors.Navy,
-                                    contentColor = Color.White
+                                    containerColor = AppColors.Ink,
+                                    contentColor = AppColors.Paper
                                 ),
-                                shape = RoundedCornerShape(10.dp)
+                                shape = RoundedCornerShape(AppDimensions.size10)
                             ) {
                                 Text(
                                     text = stringResource(Res.string.save),
@@ -758,11 +758,11 @@ object CalendarEditorScreen {
             label = { Text(label, fontFamily = FontFamily.SansSerif) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            shape = RoundedCornerShape(11.dp),
+            shape = RoundedCornerShape(AppDimensions.size10),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = AppColors.Navy,
-                focusedLabelColor = AppColors.Navy,
-                cursorColor = AppColors.Navy
+                focusedBorderColor = AppColors.Ink,
+                focusedLabelColor = AppColors.Ink,
+                cursorColor = AppColors.Ink
             )
         )
     }
@@ -772,23 +772,31 @@ object CalendarEditorScreen {
         label: String,
         onClick: () -> Unit,
         modifier: Modifier = Modifier,
-        containerColor: Color = AppColors.Navy
+        containerColor: Color = AppColors.Ink
     ) {
-        val contentColor = if (containerColor == AppColors.Sand) AppColors.Navy else containerColor
+        // A quiet tint of the button's own colour. The neutral default would be ink at
+        // 16%, which reads as a cold grey next to the coloured ones, so it takes the
+        // same warm surface step as the steppers in Settings.
+        val background = when (containerColor) {
+            AppColors.Ink -> AppColors.Soft
+            AppColors.Sand -> AppColors.Sand.copy(alpha = 0.72f)
+            else -> containerColor.copy(alpha = 0.16f)
+        }
+        val contentColor = if (containerColor == AppColors.Sand) AppColors.Ink else containerColor
         Button(
             onClick = onClick,
-            modifier = modifier.heightIn(min = 44.dp),
-            shape = RoundedCornerShape(10.dp),
+            modifier = modifier.heightIn(min = AppDimensions.size44),
+            shape = RoundedCornerShape(AppDimensions.size10),
             colors = ButtonDefaults.buttonColors(
-                containerColor = containerColor.copy(alpha = if (containerColor == AppColors.Sand) 0.72f else 0.16f),
+                containerColor = background,
                 contentColor = contentColor
             ),
-            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
+            contentPadding = PaddingValues(horizontal = AppDimensions.size12, vertical = AppDimensions.size8)
         ) {
             Text(
                 text = label,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 12.sp,
+                fontSize = AppFontSizes.size12,
                 fontWeight = FontWeight.Medium
             )
         }

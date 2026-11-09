@@ -18,14 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.presentation.state.TimelineEditUiModel
 import com.iamapo.timetracker.presentation.state.TimelineItemUiModel
 import com.iamapo.timetracker.presentation.state.TimelineKind
 import com.iamapo.timetracker.resources.Res
 import com.iamapo.timetracker.resources.edit_time_action
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 
@@ -41,22 +42,23 @@ object TimelineRow {
             modifier = modifier
                 .fillMaxWidth()
                 .then(if (editable) Modifier.clickable { onEdit?.invoke() } else Modifier)
-                .padding(vertical = 8.dp),
+                .padding(vertical = AppDimensions.size8),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
         ) {
-            Box(Modifier.size(8.dp).background(colorFor(item.kind), CircleShape))
+            Box(Modifier.size(AppDimensions.size8).background(colorFor(item.kind), CircleShape))
             Text(
                 text = item.time,
-                color = AppColors.Navy,
-                fontSize = 13.sp,
+                color = AppColors.Ink,
+                fontFamily = LedgerMonospace,
+                fontSize = AppFontSizes.size13,
                 fontWeight = FontWeight.Medium,
-                modifier = Modifier.width(56.dp)
+                modifier = Modifier.width(AppDimensions.size56)
             )
             Text(
                 text = localizedEventTitle(item.title),
-                color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Navy,
-                fontSize = 13.sp,
+                color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Ink,
+                fontSize = AppFontSizes.size13,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
@@ -65,7 +67,7 @@ object TimelineRow {
                 Text(
                     text = stringResource(Res.string.edit_time_action),
                     color = AppColors.Subtle,
-                    fontSize = 11.sp,
+                    fontSize = AppFontSizes.size11,
                     fontWeight = FontWeight.Medium
                 )
             }

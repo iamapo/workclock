@@ -24,8 +24,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.domain.TimeTrackingCommand
 import com.iamapo.timetracker.presentation.TimeTrackerPreviewData
 import com.iamapo.timetracker.presentation.state.DayProgressSegmentUiModel
@@ -35,6 +33,9 @@ import com.iamapo.timetracker.presentation.state.TimeTrackerUiState
 import com.iamapo.timetracker.resources.*
 import com.iamapo.timetracker.ui.ComposePreviewContext
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.AppDimensions
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+import com.iamapo.timetracker.ui.theme.LedgerMonospace
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
@@ -63,7 +64,7 @@ object StatusCard {
                 } else {
                     AppColors.Coral
                 },
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+                modifier = Modifier.padding(horizontal = AppDimensions.size24, vertical = AppDimensions.size16)
             )
         }
     }
@@ -74,47 +75,52 @@ object StatusCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, top = 24.dp, end = 24.dp, bottom = 16.dp)
+                .padding(
+                    start = AppDimensions.size24,
+                    top = AppDimensions.size24,
+                    end = AppDimensions.size24,
+                    bottom = AppDimensions.size16
+                )
         ) {
             Text(
                 text = stringResource(Res.string.nav_today),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 40.sp,
-                lineHeight = 44.sp,
+                fontSize = AppFontSizes.size40,
+                lineHeight = AppFontSizes.size44,
                 fontWeight = FontWeight.Medium
             )
             Text(
                 text = state.dateLabel,
-                color = AppColors.Navy.copy(alpha = 0.66f),
+                color = AppColors.Subtle,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 16.sp,
-                lineHeight = 20.sp,
-                modifier = Modifier.padding(top = 4.dp)
+                fontSize = AppFontSizes.size16,
+                lineHeight = AppFontSizes.size20,
+                modifier = Modifier.padding(top = AppDimensions.size4)
             )
             StatusPill(tone)
             Text(
                 text = heroKicker(state),
-                color = AppColors.Navy.copy(alpha = 0.66f),
+                color = AppColors.Subtle,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 13.sp,
-                lineHeight = 16.sp,
-                modifier = Modifier.padding(top = 16.dp)
+                fontSize = AppFontSizes.size13,
+                lineHeight = AppFontSizes.size16,
+                modifier = Modifier.padding(top = AppDimensions.size16)
             )
             Text(
                 text = heroValue(state),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 56.sp,
-                lineHeight = 60.sp,
+                fontSize = AppFontSizes.size48,
+                lineHeight = AppFontSizes.size52,
                 fontWeight = FontWeight.Medium
             )
             Text(
                 text = heroSupportingText(state),
-                color = AppColors.Navy,
+                color = AppColors.Ink,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 16.sp,
-                lineHeight = 20.sp
+                fontSize = AppFontSizes.size16,
+                lineHeight = AppFontSizes.size20
             )
         }
     }
@@ -123,27 +129,26 @@ object StatusCard {
     private fun StatusPill(tone: HeroTone) {
         Surface(
             color = tone.pillBackground,
-            shape = RoundedCornerShape(99.dp),
-            modifier = Modifier.padding(top = 8.dp)
+            shape = RoundedCornerShape(AppDimensions.size99),
+            modifier = Modifier.padding(top = AppDimensions.size8)
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size6),
+                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
                     Modifier
-                        .size(8.dp)
+                        .size(AppDimensions.size8)
                         .background(tone.pillContent, CircleShape)
                 )
                 Text(
-                    text = tone.label.uppercase(),
+                    text = tone.label,
                     color = tone.pillContent,
                     fontFamily = FontFamily.SansSerif,
-                    fontSize = 12.sp,
-                    lineHeight = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 0.8.sp
+                    fontSize = AppFontSizes.size12,
+                    lineHeight = AppFontSizes.size14,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -153,14 +158,15 @@ object StatusCard {
     private fun DayProgress(state: TimeTrackerUiState) {
         val finished = state.primaryCommand == TimeTrackingCommand.StartNewDay
         Column(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = AppDimensions.size24, vertical = AppDimensions.size12),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
                 Text(
                     text = state.startTime,
-                    color = AppColors.Navy,
-                    fontSize = 13.sp,
+                    color = AppColors.Ink,
+                    fontFamily = LedgerMonospace,
+                    fontSize = AppFontSizes.size13,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
@@ -168,47 +174,57 @@ object StatusCard {
                         if (finished) Res.string.finished_at else Res.string.now_time,
                         state.currentTime
                     ),
-                    color = AppColors.Navy,
-                    fontSize = 14.sp,
+                    color = AppColors.Ink,
+                    fontFamily = LedgerMonospace,
+                    fontSize = AppFontSizes.size14,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(1.35f)
                 )
                 Text(
                     text = state.endTime.removeSuffix(" Uhr"),
-                    color = AppColors.Navy,
-                    fontSize = 13.sp,
+                    color = AppColors.Ink,
+                    fontFamily = LedgerMonospace,
+                    fontSize = AppFontSizes.size13,
                     textAlign = TextAlign.End,
                     modifier = Modifier.weight(1f)
                 )
             }
             SegmentedProgress(
                 segments = state.dayProgressSegments,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = AppDimensions.size8)
             )
+            // Three equal columns with a fixed gap. SpaceBetween let the long German
+            // labels run into the next entry's dot once they no longer fit.
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(top = AppDimensions.size8),
+                horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8)
             ) {
-                Legend(stringResource(Res.string.worked), state.workedTime, AppColors.Green)
-                Legend(stringResource(Res.string.break_label), state.metrics.getOrNull(1)?.value.orEmpty(), AppColors.Sand)
-                Legend(stringResource(Res.string.remaining), state.remainingTime, AppColors.CalendarLine)
+                Legend(stringResource(Res.string.worked), state.workedTime, AppColors.Green, Modifier.weight(1f))
+                Legend(
+                    stringResource(Res.string.break_label),
+                    state.metrics.getOrNull(1)?.value.orEmpty(),
+                    AppColors.Sand,
+                    Modifier.weight(1f)
+                )
+                Legend(stringResource(Res.string.remaining), state.remainingTime, AppColors.CalendarLine, Modifier.weight(1f))
             }
             Text(
                 text = "${(state.progress.coerceIn(0f, 1f) * 100).roundToInt()} %",
-                color = AppColors.Navy,
-                fontSize = 24.sp,
-                lineHeight = 28.sp,
+                color = AppColors.Ink,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = AppFontSizes.size24,
+                lineHeight = AppFontSizes.size28,
                 fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = AppDimensions.size8)
             )
             Text(
                 text = stringResource(Res.string.progress_target),
-                color = AppColors.Navy.copy(alpha = 0.66f),
-                fontSize = 14.sp,
-                lineHeight = 18.sp
+                color = AppColors.Subtle,
+                fontSize = AppFontSizes.size14,
+                lineHeight = AppFontSizes.size18
             )
         }
     }
@@ -218,12 +234,12 @@ object StatusCard {
         Canvas(
             modifier = modifier
                 .fillMaxWidth()
-                .height(30.dp)
-                .clip(RoundedCornerShape(99.dp))
+                .height(AppDimensions.size32)
+                .clip(RoundedCornerShape(AppDimensions.size99))
         ) {
             drawRoundRect(AppColors.SoftMuted, cornerRadius = androidx.compose.ui.geometry.CornerRadius(size.height / 2f))
-            val separator = 2.dp.toPx()
-            val minimumBreakWidth = 4.dp.toPx()
+            val separator = AppDimensions.size2.toPx()
+            val minimumBreakWidth = AppDimensions.size4.toPx()
             fun drawSegments(kind: TimelineKind, color: Color, minimumWidth: Float) {
                 var left = 0f
                 segments.forEach { segment ->
@@ -248,26 +264,33 @@ object StatusCard {
             // An empty day has nothing to mark; drawing it anyway leaves a stray bar at the left edge.
             if (progress > 0f) {
                 drawRect(
-                    AppColors.Navy,
-                    topLeft = Offset((size.width * progress - 1.dp.toPx()).coerceAtLeast(0f), 0f),
-                    size = androidx.compose.ui.geometry.Size(2.dp.toPx(), size.height)
+                    AppColors.Ink,
+                    topLeft = Offset((size.width * progress - AppDimensions.size1.toPx()).coerceAtLeast(0f), 0f),
+                    size = androidx.compose.ui.geometry.Size(AppDimensions.size2.toPx(), size.height)
                 )
             }
         }
     }
 
     @Composable
-    private fun Legend(label: String, value: String, color: Color) {
+    private fun Legend(label: String, value: String, color: Color, modifier: Modifier = Modifier) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.size4),
+            verticalAlignment = Alignment.Top
         ) {
-            Box(Modifier.size(8.dp).background(color, CircleShape))
+            // Centred on the first line, so the dot keeps its place when the label wraps.
+            Box(
+                Modifier
+                    .padding(top = AppDimensions.size3)
+                    .size(AppDimensions.size8)
+                    .background(color, CircleShape)
+            )
             Text(
                 text = "$label $value",
-                color = AppColors.Navy.copy(alpha = 0.78f),
-                fontSize = 10.sp,
-                lineHeight = 12.sp
+                color = AppColors.Muted,
+                fontSize = AppFontSizes.size11,
+                lineHeight = AppFontSizes.size14
             )
         }
     }
@@ -317,7 +340,7 @@ object StatusCard {
         state.primaryCommand == TimeTrackingCommand.ResumeWork -> HeroTone(
             label = stringResource(Res.string.state_break),
             pillBackground = AppColors.Sand,
-            pillContent = AppColors.Navy
+            pillContent = AppColors.Ink
         )
         state.primaryCommand == TimeTrackingCommand.StartNewDay -> HeroTone(
             label = stringResource(Res.string.state_finished),
@@ -332,7 +355,7 @@ object StatusCard {
         else -> HeroTone(
             label = stringResource(Res.string.state_ready),
             pillBackground = AppColors.SoftMuted,
-            pillContent = AppColors.Navy
+            pillContent = AppColors.Ink
         )
     }
 

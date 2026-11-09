@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iamapo.timetracker.ui.theme.AppColors
+import com.iamapo.timetracker.ui.theme.AppFontSizes
+import com.iamapo.timetracker.ui.theme.AppDimensions
 import com.iamapo.timetracker.ui.theme.TimeTrackerTheme
 
 object PrimaryActionsRow {
@@ -30,35 +30,35 @@ object PrimaryActionsRow {
         onSecondaryAction: () -> Unit,
         modifier: Modifier = Modifier,
         primaryColor: Color = Color.White,
-        primaryContainerColor: Color = AppColors.Navy,
+        primaryContainerColor: Color = AppColors.Ink,
         secondaryColor: Color = AppColors.Coral
     ) {
         Column(
             modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(AppDimensions.size8)
         ) {
             Button(
                 onClick = onPrimaryAction,
-                modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
-                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(min = AppDimensions.size52),
+                shape = RoundedCornerShape(AppDimensions.size10),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = primaryContainerColor,
                     contentColor = primaryColor
                 ),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+                contentPadding = PaddingValues(horizontal = AppDimensions.size16, vertical = AppDimensions.size12)
             ) {
-                Text(primaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Text(primaryLabel, fontSize = AppFontSizes.size16, fontWeight = FontWeight.Medium)
             }
             if (secondaryLabel != null) {
                 OutlinedButton(
                     onClick = onSecondaryAction,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
-                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.fillMaxWidth().heightIn(min = AppDimensions.size52),
+                    shape = RoundedCornerShape(AppDimensions.size10),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = secondaryColor),
-                    border = BorderStroke(1.dp, secondaryColor),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+                    border = BorderStroke(AppDimensions.size1, secondaryColor),
+                    contentPadding = PaddingValues(horizontal = AppDimensions.size16, vertical = AppDimensions.size12)
                 ) {
-                    Text(secondaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                    Text(secondaryLabel, fontSize = AppFontSizes.size16, fontWeight = FontWeight.Medium)
                 }
             }
         }
