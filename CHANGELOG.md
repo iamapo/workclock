@@ -2,6 +2,18 @@
 
 Alle nennenswerten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## [1.12.0] - 2026-11-09
+
+### Geändert
+- Einheitliches Erscheinungsbild über alle Screens: eine Schriftfarbe, ein Seitenabstand und eine Titelgröße in Heute, Kalender und Einstellungen
+- Beschriftungen stehen durchgehend in normaler Schreibweise statt in Großbuchstaben
+- Der Schalter in den Einstellungen und die Auswahl in der Navigationsleiste sind ruhiger; Korallrot kennzeichnet nur noch den heutigen Tag und das Beenden des Arbeitstags
+- Der Wochensaldo wird in einem einheitlichen Vorzeichenformat angezeigt
+
+### Behoben
+- Die Beschriftungen unter dem Tagesfortschritt überlagern sich nicht mehr, wenn die Zeiten lang werden
+- Nebentexte haben einen ausreichenden Kontrast zum Hintergrund
+
 ## [1.11.0] - 2026-11-05
 
 ### Hinzugefügt
