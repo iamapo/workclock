@@ -47,18 +47,18 @@ object PrimaryActionsRow {
                 ),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
             ) {
-                Text(primaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Black)
+                Text(primaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Medium)
             }
             if (secondaryLabel != null) {
                 OutlinedButton(
                     onClick = onSecondaryAction,
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 50.dp),
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = secondaryColor),
-                    border = BorderStroke(1.5.dp, secondaryColor),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 11.dp)
+                    border = BorderStroke(1.dp, secondaryColor),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
                 ) {
-                    Text(secondaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Black)
+                    Text(secondaryLabel, fontSize = 16.sp, fontWeight = FontWeight.Medium)
                 }
             }
         }

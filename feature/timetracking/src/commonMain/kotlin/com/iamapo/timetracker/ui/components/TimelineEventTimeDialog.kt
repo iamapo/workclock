@@ -72,7 +72,7 @@ object TimelineEventTimeDialog {
                         text = stringResource(Res.string.edit_time),
                         color = AppColors.Ink,
                         fontSize = AppFontSizes.size24,
-                        fontWeight = FontWeight.Black
+                        fontWeight = FontWeight.Medium
                     )
                     Text(
                         text = localizedEventTitle(item.title),
@@ -114,7 +114,7 @@ object TimelineEventTimeDialog {
                             Text(
                                 text = stringResource(Res.string.cancel),
                                 color = AppColors.Blue,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Medium
                             )
                         }
                         Spacer(Modifier.width(AppDimensions.size10))
@@ -124,7 +124,7 @@ object TimelineEventTimeDialog {
                             colors = ButtonDefaults.buttonColors(containerColor = AppColors.Blue),
                             shape = LedgerShapes.CardSmall
                         ) {
-                            Text(stringResource(Res.string.save), fontWeight = FontWeight.Bold)
+                            Text(stringResource(Res.string.save), fontWeight = FontWeight.Medium)
                         }
                     }
                 }

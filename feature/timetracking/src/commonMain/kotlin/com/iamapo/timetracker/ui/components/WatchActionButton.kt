@@ -28,7 +28,7 @@ object WatchActionButton {
                 Text(
                     text = label,
                     color = AppColors.Muted,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
             }
         }

@@ -87,7 +87,7 @@ object WeekOverviewCard {
                 text = stringResource(Res.string.this_week),
                 color = AppColors.Muted,
                 fontSize = AppFontSizes.size11,
-                fontWeight = FontWeight.Black,
+                fontWeight = FontWeight.Medium,
                 fontFamily = LedgerMonospace,
                 letterSpacing = AppFontSizes.size0_2
             )
@@ -96,7 +96,7 @@ object WeekOverviewCard {
                 color = AppColors.Ink,
                 fontSize = AppFontSizes.size31,
                 lineHeight = AppFontSizes.size34,
-                fontWeight = FontWeight.Black,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(top = AppDimensions.size5)
             )
         }
@@ -123,7 +123,7 @@ object WeekOverviewCard {
                         color = AppColors.Ink,
                         fontSize = AppFontSizes.size13,
                         lineHeight = AppFontSizes.size15,
-                        fontWeight = FontWeight.Black
+                        fontWeight = FontWeight.Medium
                     )
                 }
             } else {
@@ -132,7 +132,7 @@ object WeekOverviewCard {
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size13,
                     lineHeight = AppFontSizes.size15,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size8)
                 )
             }

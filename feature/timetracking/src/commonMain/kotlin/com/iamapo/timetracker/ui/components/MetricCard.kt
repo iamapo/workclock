@@ -42,19 +42,17 @@ object MetricCard {
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = metric.label.uppercase(),
+                    text = metric.label,
                     color = tone.content.copy(alpha = 0.70f),
-                    fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
-                    letterSpacing = AppFontSizes.size0_2
+                    fontSize = AppFontSizes.size12,
+                    fontFamily = LedgerMonospace
                 )
                 Text(
                     text = metric.value,
                     color = tone.content,
                     fontSize = AppFontSizes.size22,
                     lineHeight = AppFontSizes.size24,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(top = AppDimensions.size8)
                 )
                 Text(
@@ -62,7 +60,7 @@ object MetricCard {
                     color = tone.content.copy(alpha = 0.72f),
                     fontSize = AppFontSizes.size11,
                     lineHeight = AppFontSizes.size13,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(top = AppDimensions.size5)

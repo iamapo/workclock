@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,19 +40,19 @@ object TimelineSection {
     ) {
         Column(modifier = modifier.fillMaxWidth()) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 7.dp),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(9.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
-                        modifier = Modifier.size(25.dp),
+                        modifier = Modifier.size(24.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Canvas(Modifier.size(25.dp)) {
+                        Canvas(Modifier.size(24.dp)) {
                             drawCircle(AppColors.Green.copy(alpha = 0.18f))
                             repeat(3) { index ->
                                 val y = size.height * (0.32f + index * 0.18f)
@@ -71,14 +72,14 @@ object TimelineSection {
                         color = AppColors.Navy,
                         fontSize = 16.sp,
                         lineHeight = 19.sp,
-                        fontWeight = FontWeight.Black
+                        fontWeight = FontWeight.Medium
                     )
                 }
                 Text(
                     text = "${stringResource(Res.string.week)} $weeklyBalance",
-                    color = AppColors.Success,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
+                    color = balanceColor(weeklyBalance),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium
                 )
             }
             HorizontalDivider(color = AppColors.CalendarLine, thickness = 1.dp)
@@ -100,6 +101,13 @@ object TimelineSection {
                 }
             }
         }
+    }
+
+    /** Reads the sign off the label TimeTextFormatter.signedClockDuration produced. */
+    private fun balanceColor(balance: String): Color = when {
+        balance.startsWith('−') -> AppColors.Coral
+        balance.startsWith('+') -> AppColors.Success
+        else -> AppColors.Navy.copy(alpha = 0.66f)
     }
 }
 

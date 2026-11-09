@@ -61,19 +61,18 @@ object WatchCompanionCard {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = state.uppercase(),
+                            text = state,
                             color = stateColor(state),
                             fontSize = AppFontSizes.size6,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = LedgerMonospace,
-                            letterSpacing = AppFontSizes.size0_5
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = LedgerMonospace
                         )
                         Text(
                             text = remaining,
                             color = AppColors.Ink,
                             fontSize = AppFontSizes.size13,
                             lineHeight = AppFontSizes.size15,
-                            fontWeight = FontWeight.Black,
+                            fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(top = AppDimensions.size3)
                         )
                         Text(
@@ -92,7 +91,7 @@ object WatchCompanionCard {
                         text = stringResource(Res.string.watch_companion),
                         color = AppColors.Ink,
                         fontSize = AppFontSizes.size12,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Medium
                     )
                     Text(
                         text = caption,

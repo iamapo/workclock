@@ -187,7 +187,7 @@ object SettingsScreen {
                 fontFamily = FontFamily.SansSerif,
                 fontSize = AppFontSizes.size42,
                 lineHeight = AppFontSizes.size44,
-                fontWeight = FontWeight.Black
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(Res.string.settings_subtitle),
@@ -221,7 +221,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.work_schedule),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -239,7 +239,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.work_schedule_total, state.weeklyTarget),
                     color = AppColors.Muted,
                     fontSize = AppFontSizes.size13,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -265,7 +265,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.holidays),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -278,7 +278,7 @@ object SettingsScreen {
                         Text(
                             text = stringResource(Res.string.automatic_holidays),
                             color = AppColors.Ink,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Medium
                         )
                         Text(
                             text = stringResource(Res.string.automatic_holidays_description),
@@ -318,7 +318,7 @@ object SettingsScreen {
                             text = state.holidayFederalState?.let { federalState -> federalStateName(federalState) }
                                 ?: stringResource(Res.string.select_federal_state),
                             color = AppColors.Ink,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Medium
                         )
                     }
                 }
@@ -435,7 +435,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.report_label),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -444,7 +444,7 @@ object SettingsScreen {
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size18,
                     lineHeight = AppFontSizes.size22,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = stringResource(Res.string.report_description),
@@ -483,7 +483,7 @@ object SettingsScreen {
                         text = reportPeriodLabel(period),
                         color = AppColors.Ink,
                         fontSize = AppFontSizes.size15,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Medium
                     )
                     ReportNavigationButton(
                         label = "›",
@@ -537,7 +537,7 @@ object SettingsScreen {
                 text = label,
                 color = if (selected) AppColors.Coral else AppColors.Muted,
                 fontSize = AppFontSizes.size14,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size12)
             )
         }
@@ -600,7 +600,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.backup_label),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -609,7 +609,7 @@ object SettingsScreen {
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size18,
                     lineHeight = AppFontSizes.size22,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = stringResource(Res.string.backup_description),
@@ -692,7 +692,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.auto_backup_title),
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size15,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = caption,
@@ -732,7 +732,7 @@ object SettingsScreen {
                 text = label,
                 color = color,
                 fontSize = AppFontSizes.size15,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = AppDimensions.size12, vertical = AppDimensions.size16)
             )
         }
@@ -813,7 +813,7 @@ object SettingsScreen {
                     text = stringResource(Res.string.data),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -826,7 +826,7 @@ object SettingsScreen {
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size18,
                     lineHeight = AppFontSizes.size22,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = if (confirmDelete) {
@@ -891,7 +891,7 @@ object SettingsScreen {
                 text = label,
                 color = color,
                 fontSize = AppFontSizes.size15,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(horizontal = AppDimensions.size16, vertical = AppDimensions.size16)
             )
         }

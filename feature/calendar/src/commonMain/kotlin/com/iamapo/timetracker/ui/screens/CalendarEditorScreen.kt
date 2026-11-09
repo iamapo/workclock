@@ -57,13 +57,13 @@ import com.iamapo.timetracker.presentation.state.CalendarDayStyle
 import com.iamapo.timetracker.presentation.state.CalendarDayUiModel
 import com.iamapo.timetracker.presentation.state.CalendarUiState
 import com.iamapo.timetracker.presentation.TimeInputFormatter
+import com.iamapo.timetracker.presentation.TimeTextFormatter
 import com.iamapo.timetracker.resources.*
 import com.iamapo.timetracker.ui.theme.AppColors
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.abs
 
 object CalendarEditorScreen {
     @Composable
@@ -182,7 +182,7 @@ object CalendarEditorScreen {
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 44.sp,
                 lineHeight = 48.sp,
-                fontWeight = FontWeight.Black
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = state.monthTitle,
@@ -211,7 +211,7 @@ object CalendarEditorScreen {
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 13.sp,
                 lineHeight = 16.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 letterSpacing = 0.8.sp,
                 modifier = Modifier.padding(top = 12.dp)
             )
@@ -221,7 +221,7 @@ object CalendarEditorScreen {
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 50.sp,
                 lineHeight = 54.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(
@@ -234,7 +234,7 @@ object CalendarEditorScreen {
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 16.sp,
                 lineHeight = 20.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Medium
             )
         }
     }
@@ -374,7 +374,7 @@ object CalendarEditorScreen {
                     color = AppColors.Navy,
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center
                 )
             }
@@ -418,7 +418,7 @@ object CalendarEditorScreen {
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 17.sp,
                     lineHeight = 19.sp,
-                    fontWeight = if (selected || day.isToday) FontWeight.Bold else FontWeight.Normal
+                    fontWeight = if (selected || day.isToday) FontWeight.Medium else FontWeight.Normal
                 )
                 if (day.isToday) {
                     Text(
@@ -427,7 +427,7 @@ object CalendarEditorScreen {
                         fontFamily = FontFamily.SansSerif,
                         fontSize = 10.sp,
                         lineHeight = 11.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Medium
                     )
                 } else {
                     Spacer(Modifier.height(4.dp))
@@ -474,7 +474,7 @@ object CalendarEditorScreen {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 26.dp, vertical = 12.dp),
+                .padding(horizontal = 24.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -487,7 +487,7 @@ object CalendarEditorScreen {
     @Composable
     private fun LegendItem(label: String, color: Color, isDot: Boolean) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(7.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (isDot) StatusDot(color) else StatusBar(color)
@@ -531,7 +531,7 @@ object CalendarEditorScreen {
                         fontFamily = FontFamily.SansSerif,
                         fontSize = 18.sp,
                         lineHeight = 22.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Medium
                     )
                     Text(
                         text = selectedDaySubtitle(day),
@@ -549,7 +549,7 @@ object CalendarEditorScreen {
                         fontFamily = FontFamily.SansSerif,
                         fontSize = 18.sp,
                         lineHeight = 22.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Medium,
                         modifier = Modifier.padding(start = 12.dp)
                     )
                 }
@@ -571,7 +571,7 @@ object CalendarEditorScreen {
                     text = stringResource(Res.string.edit_day),
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -631,7 +631,7 @@ object CalendarEditorScreen {
                             fontFamily = FontFamily.SansSerif,
                             fontSize = 24.sp,
                             lineHeight = 28.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Medium
                         )
                     }
                     item {
@@ -658,14 +658,14 @@ object CalendarEditorScreen {
                                     text = stringResource(Res.string.working_time),
                                     color = AppColors.Success,
                                     fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Medium
                                 )
                                 Text(
                                     text = worked?.let(::formatClockDuration) ?: "–",
                                     color = AppColors.Navy,
                                     fontFamily = FontFamily.SansSerif,
                                     fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Medium
                                 )
                             }
                         }
@@ -719,7 +719,7 @@ object CalendarEditorScreen {
                                     text = stringResource(Res.string.cancel),
                                     color = AppColors.Navy,
                                     fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Medium
                                 )
                             }
                             Spacer(Modifier.width(8.dp))
@@ -735,7 +735,7 @@ object CalendarEditorScreen {
                                 Text(
                                     text = stringResource(Res.string.save),
                                     fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Medium
                                 )
                             }
                         }
@@ -789,7 +789,7 @@ object CalendarEditorScreen {
                 text = label,
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Medium
             )
         }
     }
@@ -841,14 +841,7 @@ object CalendarEditorScreen {
         )[monthNumber - 1]
     )
 
-    private fun formatBalance(minutes: Int): String {
-        val prefix = when {
-            minutes > 0 -> "+"
-            minutes < 0 -> "−"
-            else -> ""
-        }
-        return prefix + formatClockDuration(abs(minutes))
-    }
+    private fun formatBalance(minutes: Int): String = TimeTextFormatter.signedClockDuration(minutes)
 
     private fun formatClockDuration(totalMinutes: Int): String =
         "${totalMinutes / 60}:${(totalMinutes % 60).toString().padStart(2, '0')} h"

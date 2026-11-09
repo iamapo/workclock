@@ -138,7 +138,7 @@ class TimeTrackerUiStateMapperTest {
         assertEquals("21:40 h", calendarState.reachedWeek)
         assertEquals("Woche", state.metrics[2].label)
         assertEquals("21h 40m", state.metrics[2].value)
-        assertEquals("+5 h 40 min Saldo", state.metrics[2].hint)
+        assertEquals("+5:40 h Saldo", state.metrics[2].hint)
     }
 
     @Test

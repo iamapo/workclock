@@ -50,7 +50,7 @@ object SettingsPanel {
                     text = stringResource(Res.string.quick_targets),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -119,7 +119,7 @@ object SettingsPanel {
                 Text(
                     text = title,
                     color = AppColors.Ink,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = description,

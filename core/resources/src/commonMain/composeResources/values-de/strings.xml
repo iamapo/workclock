@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">WorkClock</string>
     <string name="nav_today">Heute</string><string name="nav_week">Woche</string><string name="nav_calendar">Kalender</string><string name="nav_settings">Einstellungen</string>
-    <string name="calendar">KALENDER</string><string name="calendar_title">Kalender</string><string name="week_balance">WOCHENSALDO</string><string name="week_summary">%1$d. Woche · %2$s von %3$s</string><string name="edit_day">Tag bearbeiten</string><string name="timeline">TIMELINE</string><string name="booked_today">Heute gebucht</string><string name="now_time">Jetzt %1$s</string><string name="progress_target">des Solls</string><string name="remaining_prefix">noch %1$s</string><string name="finished_at">Beendet %1$s</string>
-    <string name="quick_targets">VORGABEN</string><string name="daily">Täglich</string><string name="break_label">Pause</string><string name="week">Woche</string>
-    <string name="this_week">DIESE WOCHE</string><string name="planned_this_week">Diese Woche geplant</string><string name="currently_reached">Aktuell erreicht</string>
-    <string name="remaining_time">Restzeit</string><string name="end_of_workday">FEIERABEND</string><string name="worked_suffix">%1$s gearbeitet</string>
+    <string name="calendar">Kalender</string><string name="calendar_title">Kalender</string><string name="week_balance">Wochensaldo</string><string name="week_summary">%1$d. Woche · %2$s von %3$s</string><string name="edit_day">Tag bearbeiten</string><string name="timeline">Timeline</string><string name="booked_today">Heute gebucht</string><string name="now_time">Jetzt %1$s</string><string name="progress_target">des Solls</string><string name="remaining_prefix">noch %1$s</string><string name="finished_at">Beendet %1$s</string>
+    <string name="quick_targets">Vorgaben</string><string name="daily">Täglich</string><string name="break_label">Pause</string><string name="week">Woche</string>
+    <string name="this_week">Diese Woche</string><string name="planned_this_week">Diese Woche geplant</string><string name="currently_reached">Aktuell erreicht</string>
+    <string name="remaining_time">Restzeit</string><string name="end_of_workday">Feierabend</string><string name="worked_suffix">%1$s gearbeitet</string>
     <string name="working_until">Du arbeitest bis</string><string name="including_break">inkl. %1$s Pause</string>
-    <string name="planning">PLANUNG</string><string name="back">Zurück</string><string name="vacation">Urlaub</string><string name="sick">Krank</string>
+    <string name="planning">Planung</string><string name="back">Zurück</string><string name="vacation">Urlaub</string><string name="sick">Krank</string>
     <string name="workday_value">Arbeitstag %1$s</string><string name="delete_entry">Eintrag löschen</string><string name="today_prefix">Heute, </string>
     <string name="vacation_with">Urlaub mit %1$s</string><string name="sick_with">Krank mit %1$s</string><string name="working_time_value">Arbeitszeit: %1$s</string><string name="no_entry">Kein Eintrag</string>
-    <string name="settings_subtitle">Vorgaben &amp; Daten</string><string name="settings_title">Einstellungen</string><string name="data">DATEN</string>
+    <string name="settings_subtitle">Vorgaben &amp; Daten</string><string name="settings_title">Einstellungen</string><string name="data">Daten</string>
     <string name="delete_confirm">Alle gespeicherten Zeiteinträge wirklich löschen?</string><string name="delete_entries">Gespeicherte Zeiteinträge löschen</string>
     <string name="delete_description">Setzt Historie, Kalender-Einträge und den aktuellen Arbeitstag zurück.</string>
     <string name="delete_description_confirm">Die schnellen Vorgaben bleiben erhalten. Kalender- und Arbeitszeitdaten werden zurückgesetzt.</string>
@@ -17,7 +17,7 @@
     <string name="lock_screen_status">Sperrbildschirm-Status</string><string name="lock_screen_description">Arbeitszeit und Pausen live anzeigen</string>
     <string name="reminders_enabled">Erinnerungen</string><string name="reminders_description">Benachrichtigung, wenn Pause, Tages- oder Wochenziel erreicht ist</string><string name="reminder_break_body">Deine Pause ist vorbei – Zeit weiterzuarbeiten.</string><string name="reminder_daily_target_body">Du hast dein Tagesziel erreicht.</string><string name="reminder_weekly_target_body">Du hast dein Wochenziel erreicht.</string>
     <string name="remaining">verbleibend</string><string name="watch_companion">Apple Watch Companion</string><string name="complication">Komplikation</string>
-    <string name="interaction_idea">INTERAKTIONSIDEE</string><string name="interaction_description">Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.</string>
+    <string name="interaction_idea">Interaktionsidee</string><string name="interaction_description">Die Hauptaktion wechselt kontextabhängig zwischen Tag starten, Pause starten und Weiterarbeiten. Änderungen von Zielzeit und Pause wirken sofort auf Restzeit, Ziel-Uhrzeit und Kalender-Summen.</string>
     <string name="monday_short">Mo</string><string name="tuesday_short">Di</string><string name="wednesday_short">Mi</string><string name="thursday_short">Do</string><string name="friday_short">Fr</string><string name="saturday_short">Sa</string><string name="sunday_short">So</string>
     <string name="monday">Montag</string><string name="tuesday">Dienstag</string><string name="wednesday">Mittwoch</string><string name="thursday">Donnerstag</string><string name="friday">Freitag</string><string name="saturday">Samstag</string><string name="sunday">Sonntag</string>
     <string name="january">Januar</string><string name="february">Februar</string><string name="march">März</string><string name="april">April</string><string name="may">Mai</string><string name="june">Juni</string><string name="july">Juli</string><string name="august">August</string><string name="september">September</string><string name="october">Oktober</string><string name="november">November</string><string name="december">Dezember</string>
@@ -30,7 +30,7 @@
     <string name="not_started_yet">noch nicht gestartet</string><string name="recorded_today">heute erfasst</string><string name="break_met">Pause erfüllt</string><string name="missing_minutes">%1$s fehlen</string><string name="balance_suffix">%1$s Saldo</string>
     <string name="ready_to_start">Bereit zum Start</string><string name="working_since">Arbeite seit %1$s</string><string name="working">Arbeite</string><string name="break_running">Pause läuft</string><string name="workday_finished">Arbeitstag beendet</string>
     <string name="action_start">Tag starten</string><string name="action_break">Pause starten</string><string name="action_resume">Arbeit fortsetzen</string><string name="action_new_day">Neuen Tag starten</string><string name="action_finish">Tag beenden</string><string name="action_continue_day">Tag fortsetzen</string>
-    <string name="today_day_off">HEUTE ARBEITSFREI</string><string name="day_off">Freier Tag</string><string name="no_workday_scheduled">Kein Arbeitstag geplant</string><string name="action_work_anyway">Trotzdem arbeiten</string><string name="no_target">Kein Soll</string>
+    <string name="today_day_off">Heute arbeitsfrei</string><string name="day_off">Freier Tag</string><string name="no_workday_scheduled">Kein Arbeitstag geplant</string><string name="action_work_anyway">Trotzdem arbeiten</string><string name="no_target">Kein Soll</string>
     <string name="state_ready">Bereit</string><string name="state_active">Aktiv</string><string name="state_break">Pause</string><string name="state_finished">Fertig</string>
     <string name="watch_ready">bereit zum Start</string><string name="watch_finished">beendet um %1$s</string><string name="watch_until">noch bis %1$s</string>
     <string name="calendar_vacation_duration">Urlaub %1$s</string><string name="calendar_sick_duration">Krank %1$s</string>
@@ -47,7 +47,7 @@
     <string name="save">Speichern</string>
     <string name="workday_finished_at_message">Tag um %1$s beendet.</string>
     <string name="undo">Rückgängig</string>
-    <string name="report_label">PDF-EXPORT</string>
+    <string name="report_label">PDF-Export</string>
     <string name="report_title">Arbeitszeitnachweis</string>
     <string name="report_description">Wähle eine Woche oder einen Monat. Der Systemdialog öffnet sich anschließend zum Speichern der PDF-Datei.</string>
     <string name="report_week">Woche</string>
@@ -55,7 +55,7 @@
     <string name="save_report_pdf">PDF speichern</string>
     <string name="report_export_success">Der Arbeitszeitnachweis wurde erfolgreich gespeichert.</string>
     <string name="report_export_failure">Die PDF-Datei konnte nicht gespeichert werden.</string>
-    <string name="backup_label">BACKUP</string>
+    <string name="backup_label">Backup</string>
     <string name="backup_title">Daten exportieren oder wiederherstellen</string>
     <string name="backup_description">Im Systemdialog wählst du den Speicherort, zum Beispiel dieses Gerät, iCloud Drive oder Google Drive.</string>
     <string name="export_backup">Exportieren</string>
@@ -74,9 +74,9 @@
     <string name="auto_backup_description">Sichert einmal täglich in einen Ordner deiner Wahl und behält die letzten 14 Backups.</string>
     <string name="auto_backup_last">Letztes Backup: %1$s</string>
     <string name="auto_backup_failed">Das letzte automatische Backup ist fehlgeschlagen. Schalte es aus und wieder ein, um den Ordner neu zu wählen.</string>
-    <string name="work_schedule">ARBEITSPLAN</string>
+    <string name="work_schedule">Arbeitsplan</string>
     <string name="work_schedule_total">Wochenziel: %1$s</string>
-    <string name="holidays">FEIERTAGE</string>
+    <string name="holidays">Feiertage</string>
     <string name="automatic_holidays">Automatisch berücksichtigen</string>
     <string name="automatic_holidays_description">Reduziert die Sollzeit an gesetzlichen Feiertagen</string>
     <string name="workplace_federal_state">Bundesland des Arbeitsortes</string>

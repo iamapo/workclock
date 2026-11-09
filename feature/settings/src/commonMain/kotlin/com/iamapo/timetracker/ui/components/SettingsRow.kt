@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,33 +40,29 @@ object SettingsRow {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(label, color = AppColors.Muted, fontWeight = FontWeight.Bold)
+            Text(label, color = AppColors.Muted, fontWeight = FontWeight.Medium)
             Row(
                 horizontalArrangement = Arrangement.spacedBy(AppDimensions.size8),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (onDecrease != null) {
                     StepButton(
-                        label = "-",
+                        label = "−",
                         onClick = onDecrease,
                         enabled = canDecrease
                     )
                 }
-                Surface(
-                    modifier = Modifier.width(AppDimensions.size88),
-                    color = AppColors.Green.copy(alpha = 0.16f),
-                    shape = LedgerShapes.CardSmall
-                ) {
-                    Text(
-                        text = value,
-                        color = AppColors.Ink,
-                        fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = AppDimensions.size8, vertical = AppDimensions.size8)
-                    )
-                }
+                // The value is what people read here, so it carries the weight and the controls stay quiet.
+                Text(
+                    text = value,
+                    color = AppColors.Ink,
+                    fontSize = AppFontSizes.size18,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .width(AppDimensions.size88)
+                        .padding(vertical = AppDimensions.size8)
+                )
                 if (onIncrease != null) {
                     StepButton(
                         label = "+",
@@ -93,14 +88,14 @@ object SettingsRow {
                 .widthIn(min = AppDimensions.size40),
             shape = LedgerShapes.CardSmall,
             colors = ButtonDefaults.buttonColors(
-                containerColor = AppColors.Navy,
-                contentColor = AppColors.Paper,
-                disabledContainerColor = AppColors.Panel,
+                containerColor = AppColors.SoftMuted,
+                contentColor = AppColors.Navy,
+                disabledContainerColor = AppColors.Soft,
                 disabledContentColor = AppColors.Subtle
             ),
             contentPadding = PaddingValues(horizontal = AppDimensions.size10, vertical = AppDimensions.size0)
         ) {
-            Text(label, fontWeight = FontWeight.Black)
+            Text(label, fontWeight = FontWeight.Medium)
         }
     }
 }

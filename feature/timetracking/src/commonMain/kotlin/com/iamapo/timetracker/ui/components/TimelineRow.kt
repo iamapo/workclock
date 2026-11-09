@@ -41,23 +41,22 @@ object TimelineRow {
             modifier = modifier
                 .fillMaxWidth()
                 .then(if (editable) Modifier.clickable { onEdit?.invoke() } else Modifier)
-                .padding(vertical = 7.dp),
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Box(Modifier.size(12.dp).background(colorFor(item.kind), CircleShape))
+            Box(Modifier.size(8.dp).background(colorFor(item.kind), CircleShape))
             Text(
                 text = item.time,
                 color = AppColors.Navy,
                 fontSize = 13.sp,
-                fontWeight = FontWeight.Black,
-                modifier = Modifier.width(54.dp)
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.width(56.dp)
             )
             Text(
                 text = localizedEventTitle(item.title),
                 color = if (item.kind == TimelineKind.Target) AppColors.Subtle else AppColors.Navy,
                 fontSize = 13.sp,
-                fontWeight = if (item.kind == TimelineKind.Target) FontWeight.Medium else FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
@@ -66,8 +65,8 @@ object TimelineRow {
                 Text(
                     text = stringResource(Res.string.edit_time_action),
                     color = AppColors.Subtle,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }

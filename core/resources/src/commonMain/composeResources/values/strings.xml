@@ -4,30 +4,30 @@
     <string name="nav_week">Week</string>
     <string name="nav_calendar">Calendar</string>
     <string name="nav_settings">Settings</string>
-    <string name="calendar">CALENDAR</string>
+    <string name="calendar">Calendar</string>
     <string name="calendar_title">Calendar</string>
-    <string name="week_balance">WEEK BALANCE</string>
+    <string name="week_balance">Week balance</string>
     <string name="week_summary">Week %1$d · %2$s of %3$s</string>
     <string name="edit_day">Edit day</string>
-    <string name="timeline">TIMELINE</string>
+    <string name="timeline">Timeline</string>
     <string name="booked_today">Booked today</string>
     <string name="now_time">Now %1$s</string>
     <string name="progress_target">of target</string>
     <string name="remaining_prefix">%1$s remaining</string>
     <string name="finished_at">Finished %1$s</string>
-    <string name="quick_targets">DEFAULTS</string>
+    <string name="quick_targets">Defaults</string>
     <string name="daily">Daily</string>
     <string name="break_label">Break</string>
     <string name="week">Week</string>
-    <string name="this_week">THIS WEEK</string>
+    <string name="this_week">This week</string>
     <string name="planned_this_week">Planned this week</string>
     <string name="currently_reached">Currently reached</string>
     <string name="remaining_time">Remaining</string>
-    <string name="end_of_workday">END OF WORKDAY</string>
+    <string name="end_of_workday">End of workday</string>
     <string name="worked_suffix">%1$s worked</string>
     <string name="working_until">You work until</string>
     <string name="including_break">incl. %1$s break</string>
-    <string name="planning">PLANNING</string>
+    <string name="planning">Planning</string>
     <string name="back">Back</string>
     <string name="vacation">Vacation</string>
     <string name="sick">Sick</string>
@@ -40,7 +40,7 @@
     <string name="no_entry">No entry</string>
     <string name="settings_subtitle">Targets &amp; data</string>
     <string name="settings_title">Settings</string>
-    <string name="data">DATA</string>
+    <string name="data">Data</string>
     <string name="delete_confirm">Really delete all saved time entries?</string>
     <string name="delete_entries">Delete saved time entries</string>
     <string name="delete_description">Resets history, calendar entries and the current workday.</string>
@@ -57,7 +57,7 @@
     <string name="remaining">remaining</string>
     <string name="watch_companion">Apple Watch Companion</string>
     <string name="complication">Complication</string>
-    <string name="interaction_idea">INTERACTION IDEA</string>
+    <string name="interaction_idea">Interaction idea</string>
     <string name="interaction_description">The primary action switches between starting the day, starting a break and resuming work. Changes to target time and break immediately affect remaining time, end time and calendar totals.</string>
     <string name="monday_short">Mon</string><string name="tuesday_short">Tue</string><string name="wednesday_short">Wed</string><string name="thursday_short">Thu</string><string name="friday_short">Fri</string><string name="saturday_short">Sat</string><string name="sunday_short">Sun</string>
     <string name="monday">Monday</string><string name="tuesday">Tuesday</string><string name="wednesday">Wednesday</string><string name="thursday">Thursday</string><string name="friday">Friday</string><string name="saturday">Saturday</string><string name="sunday">Sunday</string>
@@ -71,7 +71,7 @@
     <string name="not_started_yet">not started yet</string><string name="recorded_today">recorded today</string><string name="break_met">Break completed</string><string name="missing_minutes">%1$s missing</string><string name="balance_suffix">%1$s balance</string>
     <string name="ready_to_start">Ready to start</string><string name="working_since">Working since %1$s</string><string name="working">Working</string><string name="break_running">Break running</string><string name="workday_finished">Workday finished</string>
     <string name="action_start">Start day</string><string name="action_break">Start break</string><string name="action_resume">Resume work</string><string name="action_new_day">Start new day</string><string name="action_finish">Finish day</string><string name="action_continue_day">Continue day</string>
-    <string name="today_day_off">TODAY IS A DAY OFF</string><string name="day_off">Day off</string><string name="no_workday_scheduled">No workday scheduled</string><string name="action_work_anyway">Work anyway</string><string name="no_target">No target</string>
+    <string name="today_day_off">Day off today</string><string name="day_off">Day off</string><string name="no_workday_scheduled">No workday scheduled</string><string name="action_work_anyway">Work anyway</string><string name="no_target">No target</string>
     <string name="state_ready">Ready</string><string name="state_active">Active</string><string name="state_break">Break</string><string name="state_finished">Finished</string>
     <string name="watch_ready">ready to start</string><string name="watch_finished">finished at %1$s</string><string name="watch_until">until %1$s</string>
     <string name="calendar_vacation_duration">Vacation %1$s</string><string name="calendar_sick_duration">Sick %1$s</string>
@@ -88,7 +88,7 @@
     <string name="save">Save</string>
     <string name="workday_finished_at_message">Day finished at %1$s.</string>
     <string name="undo">Undo</string>
-    <string name="report_label">PDF EXPORT</string>
+    <string name="report_label">PDF export</string>
     <string name="report_title">Working time report</string>
     <string name="report_description">Choose a week or month. The system dialog then opens so you can save the PDF file.</string>
     <string name="report_week">Week</string>
@@ -96,7 +96,7 @@
     <string name="save_report_pdf">Save PDF</string>
     <string name="report_export_success">The working time report was saved successfully.</string>
     <string name="report_export_failure">The PDF file could not be saved.</string>
-    <string name="backup_label">BACKUP</string>
+    <string name="backup_label">Backup</string>
     <string name="backup_title">Export or restore data</string>
     <string name="backup_description">The system file dialog lets you choose the location, for example this device, iCloud Drive or Google Drive.</string>
     <string name="export_backup">Export</string>
@@ -115,9 +115,9 @@
     <string name="auto_backup_description">Saves a backup to a folder of your choice once a day and keeps the latest 14.</string>
     <string name="auto_backup_last">Last backup: %1$s</string>
     <string name="auto_backup_failed">The last automatic backup failed. Turn it off and on again to choose the folder anew.</string>
-    <string name="work_schedule">WORK SCHEDULE</string>
+    <string name="work_schedule">Work schedule</string>
     <string name="work_schedule_total">Weekly target: %1$s</string>
-    <string name="holidays">PUBLIC HOLIDAYS</string>
+    <string name="holidays">Public holidays</string>
     <string name="automatic_holidays">Apply automatically</string>
     <string name="automatic_holidays_description">Reduces target time on statutory public holidays</string>
     <string name="workplace_federal_state">Workplace federal state</string>

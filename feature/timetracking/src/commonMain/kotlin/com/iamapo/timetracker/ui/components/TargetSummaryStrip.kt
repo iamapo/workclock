@@ -41,13 +41,13 @@ object TargetSummaryStrip {
                             text = item.label,
                             color = AppColors.Muted,
                             fontSize = AppFontSizes.size14,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Medium
                         )
                         Text(
                             text = item.value,
                             color = AppColors.Ink,
                             fontSize = AppFontSizes.size15,
-                            fontWeight = FontWeight.Black
+                            fontWeight = FontWeight.Medium
                         )
                     }
                     if (index < items.lastIndex) {

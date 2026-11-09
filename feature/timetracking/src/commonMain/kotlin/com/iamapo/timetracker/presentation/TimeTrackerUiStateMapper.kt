@@ -46,7 +46,7 @@ object TimeTrackerUiStateMapper {
             workedTime = TimeTextFormatter.duration(summary.workedMinutes),
             remainingTime = TimeTextFormatter.duration(summary.remainingWorkMinutes),
             endTime = localized(Res.string.time_with_clock, TimeTextFormatter.clock(summary.endMinute)),
-            startTime = day.startMinute?.let(TimeTextFormatter::clock) ?: "--:--",
+            startTime = day.startMinute?.let(TimeTextFormatter::clock) ?: "–",
             currentTime = TimeTextFormatter.clock(snapshot.minuteOfDay),
             breakRequirementLabel = localized(Res.string.including_break, TimeTextFormatter.duration(displayedBreakMinutes)),
             progress = summary.progress,
@@ -151,13 +151,6 @@ object TimeTrackerUiStateMapper {
         WorkStatus.Finished -> localized(Res.string.state_finished)
     }
 
-    private fun balanceLabel(minutes: Int): String {
-        val prefix = when {
-            minutes > 0 -> "+"
-            minutes < 0 -> "-"
-            else -> ""
-        }
-        return prefix + TimeTextFormatter.duration(abs(minutes))
-    }
+    private fun balanceLabel(minutes: Int): String = TimeTextFormatter.signedClockDuration(minutes)
 
 }

@@ -25,19 +25,17 @@ object TopBarSection {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = dateLabel.uppercase(),
+                    text = dateLabel,
                     color = AppColors.Subtle,
-                    fontSize = AppFontSizes.size11,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = LedgerMonospace,
-                    letterSpacing = AppFontSizes.size0_4
+                    fontSize = AppFontSizes.size13,
+                    fontFamily = LedgerMonospace
                 )
                 Text(
                     text = title,
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size30,
                     lineHeight = AppFontSizes.size32,
-                    fontWeight = FontWeight.Black
+                    fontWeight = FontWeight.Medium
                 )
             }
         }

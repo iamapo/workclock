@@ -42,21 +42,21 @@ object EndTimeCard {
                         text = stringResource(Res.string.working_until),
                         color = AppColors.Muted,
                         fontSize = AppFontSizes.size12,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Medium
                     )
                     Text(
                         text = endTime,
                         color = AppColors.Ink,
                         fontSize = AppFontSizes.size28,
                         lineHeight = AppFontSizes.size30,
-                        fontWeight = FontWeight.Black
+                        fontWeight = FontWeight.Medium
                     )
                 }
                 Text(
                     text = breakRequirementLabel,
                     color = AppColors.Muted,
                     fontSize = AppFontSizes.size12,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
             }
         }

@@ -74,51 +74,47 @@ object StatusCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 26.dp, top = 22.dp, end = 26.dp, bottom = 12.dp)
+                .padding(start = 24.dp, top = 24.dp, end = 24.dp, bottom = 16.dp)
         ) {
             Text(
                 text = stringResource(Res.string.nav_today),
                 color = AppColors.Navy,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 44.sp,
-                lineHeight = 46.sp,
-                fontWeight = FontWeight.Black
+                fontSize = 40.sp,
+                lineHeight = 44.sp,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = state.dateLabel,
                 color = AppColors.Navy.copy(alpha = 0.66f),
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 18.sp,
-                lineHeight = 22.sp,
-                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
                 modifier = Modifier.padding(top = 4.dp)
             )
             StatusPill(tone)
             Text(
-                text = heroKicker(state).uppercase(),
-                color = AppColors.Navy,
+                text = heroKicker(state),
+                color = AppColors.Navy.copy(alpha = 0.66f),
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 12.sp,
-                lineHeight = 15.sp,
-                fontWeight = FontWeight.Black,
-                letterSpacing = 0.9.sp,
+                fontSize = 13.sp,
+                lineHeight = 16.sp,
                 modifier = Modifier.padding(top = 16.dp)
             )
             Text(
                 text = heroValue(state),
                 color = AppColors.Navy,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 64.sp,
-                lineHeight = 66.sp,
-                fontWeight = FontWeight.Black
+                fontSize = 56.sp,
+                lineHeight = 60.sp,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = heroSupportingText(state),
                 color = AppColors.Navy,
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 18.sp,
-                lineHeight = 22.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 16.sp,
+                lineHeight = 20.sp
             )
         }
     }
@@ -128,10 +124,10 @@ object StatusCard {
         Surface(
             color = tone.pillBackground,
             shape = RoundedCornerShape(99.dp),
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(top = 8.dp)
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 11.dp, vertical = 6.dp),
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -146,8 +142,8 @@ object StatusCard {
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 12.sp,
                     lineHeight = 14.sp,
-                    fontWeight = FontWeight.Black,
-                    letterSpacing = 0.7.sp
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 0.8.sp
                 )
             }
         }
@@ -174,7 +170,7 @@ object StatusCard {
                     ),
                     color = AppColors.Navy,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(1.35f)
                 )
@@ -188,7 +184,7 @@ object StatusCard {
             }
             SegmentedProgress(
                 segments = state.dayProgressSegments,
-                modifier = Modifier.padding(top = 9.dp)
+                modifier = Modifier.padding(top = 8.dp)
             )
             Row(
                 modifier = Modifier
@@ -202,17 +198,17 @@ object StatusCard {
             }
             Text(
                 text = "${(state.progress.coerceIn(0f, 1f) * 100).roundToInt()} %",
-                color = AppColors.Success,
-                fontSize = 27.sp,
-                lineHeight = 29.sp,
-                fontWeight = FontWeight.Black,
-                modifier = Modifier.padding(top = 10.dp)
+                color = AppColors.Navy,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(top = 8.dp)
             )
             Text(
                 text = stringResource(Res.string.progress_target),
-                color = AppColors.Success,
+                color = AppColors.Navy.copy(alpha = 0.66f),
                 fontSize = 14.sp,
-                lineHeight = 17.sp
+                lineHeight = 18.sp
             )
         }
     }
@@ -248,22 +244,25 @@ object StatusCard {
             drawSegments(TimelineKind.Work, AppColors.Green, 0f)
             // Drawn last so that a short break stays visible on top of the work next to it.
             drawSegments(TimelineKind.Break, AppColors.Sand, minimumBreakWidth)
-            val markerX = size.width * segments.sumOf { it.fraction.toDouble() }.toFloat().coerceIn(0f, 1f)
-            drawRect(
-                AppColors.Navy,
-                topLeft = Offset((markerX - 1.dp.toPx()).coerceAtLeast(0f), 0f),
-                size = androidx.compose.ui.geometry.Size(2.dp.toPx(), size.height)
-            )
+            val progress = segments.sumOf { it.fraction.toDouble() }.toFloat().coerceIn(0f, 1f)
+            // An empty day has nothing to mark; drawing it anyway leaves a stray bar at the left edge.
+            if (progress > 0f) {
+                drawRect(
+                    AppColors.Navy,
+                    topLeft = Offset((size.width * progress - 1.dp.toPx()).coerceAtLeast(0f), 0f),
+                    size = androidx.compose.ui.geometry.Size(2.dp.toPx(), size.height)
+                )
+            }
         }
     }
 
     @Composable
     private fun Legend(label: String, value: String, color: Color) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(Modifier.size(9.dp).background(color, CircleShape))
+            Box(Modifier.size(8.dp).background(color, CircleShape))
             Text(
                 text = "$label $value",
                 color = AppColors.Navy.copy(alpha = 0.78f),

@@ -54,7 +54,7 @@ object CalendarPanel {
                     text = stringResource(Res.string.calendar),
                     color = AppColors.Subtle,
                     fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
+                    fontWeight = FontWeight.Medium,
                     fontFamily = LedgerMonospace,
                     letterSpacing = AppFontSizes.size0_2
                 )
@@ -62,7 +62,7 @@ object CalendarPanel {
                     text = monthTitle,
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size24,
-                    fontWeight = FontWeight.Black
+                    fontWeight = FontWeight.Medium
                 )
                 CalendarWeekdays()
                 days.chunked(7).forEach { week ->

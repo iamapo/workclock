@@ -3,6 +3,7 @@ package com.iamapo.timetracker.presentation
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.number
+import kotlin.math.abs
 import kotlin.math.max
 import com.iamapo.timetracker.resources.*
 
@@ -44,6 +45,16 @@ object TimeTextFormatter {
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
         return hours.toString() + ":" + minutes.toString().padStart(2, '0') + " h"
+    }
+
+    /** One signed balance format for every screen, with a typographic minus. */
+    fun signedClockDuration(minutes: Int): String {
+        val prefix = when {
+            minutes > 0 -> "+"
+            minutes < 0 -> "−"
+            else -> ""
+        }
+        return prefix + clockLikeDuration(abs(minutes))
     }
 
     fun calendarDuration(totalMinutes: Int): String = digitalDuration(totalMinutes)

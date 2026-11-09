@@ -30,19 +30,17 @@ object WeekSummaryTile {
         ) {
             Column(modifier = Modifier.padding(AppDimensions.size12)) {
                 Text(
-                    text = label.uppercase(),
+                    text = label,
                     color = AppColors.Muted,
-                    fontSize = AppFontSizes.size10,
-                    fontWeight = FontWeight.Black,
-                    fontFamily = LedgerMonospace,
-                    letterSpacing = AppFontSizes.size0_2
+                    fontSize = AppFontSizes.size12,
+                    fontFamily = LedgerMonospace
                 )
                 Text(
                     text = value,
                     color = AppColors.Ink,
                     fontSize = AppFontSizes.size18,
-                    fontWeight = FontWeight.Black,
-                    modifier = Modifier.padding(top = AppDimensions.size6)
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(top = AppDimensions.size4)
                 )
             }
         }

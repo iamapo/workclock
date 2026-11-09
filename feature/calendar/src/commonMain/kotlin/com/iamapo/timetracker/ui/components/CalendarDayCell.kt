@@ -63,7 +63,7 @@ object CalendarDayCell {
                     color = if (selected) AppColors.Ink else textFor(day.style),
                     fontSize = AppFontSizes.size13,
                     lineHeight = AppFontSizes.size14,
-                    fontWeight = if (day.isToday || selected) FontWeight.Black else FontWeight.Bold,
+                    fontWeight = if (day.isToday || selected) FontWeight.Medium else FontWeight.Medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -74,7 +74,7 @@ object CalendarDayCell {
                         fontSize = AppFontSizes.size9,
                         lineHeight = AppFontSizes.size10,
                         fontFamily = LedgerMonospace,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Medium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(top = AppDimensions.size5)
